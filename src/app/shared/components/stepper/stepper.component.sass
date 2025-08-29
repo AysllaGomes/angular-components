@@ -16,28 +16,30 @@
   grid-template-columns: auto 1fr auto
   align-items: center
   position: relative
+  justify-items: center
 
   .stepper-button
     appearance: none
     background: transparent
     border: 0
-    text-align: left
-    display: inline-grid
-    grid-template-columns: auto 1fr
-    gap: .75rem
-    align-items: center
-    padding: .25rem 0
     cursor: pointer
+    padding: 0
     width: 100%
+    text-align: center
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: auto auto
+    justify-items: center
+    gap: .5rem
 
     &:disabled
       cursor: default
       opacity: .8
 
   .bullet
-    width: 28px
-    height: 28px
-    min-width: 28px
+    width: var(--stepper-bullet-size)
+    height: var(--stepper-bullet-size)
+    min-width: var(--stepper-bullet-size)
     border-radius: 9999px
     border: 2px solid var(--stepper-color-default)
     background: var(--stepper-bullet-bg)
@@ -61,26 +63,38 @@
       font-weight: 600
       font-size: .95rem
       white-space: nowrap
+      text-align: center
+
     .caption
       display: block
       color: var(--stepper-caption)
       font-size: .8rem
       white-space: nowrap
+      text-align: center
 
   .connector
+    position: absolute
+    top: calc(var(--stepper-bullet-size) / 2 - 1px)
+    left: calc(50% + var(--stepper-bullet-size) / 2)
+    right: -1rem
     height: 2px
     background: var(--stepper-connector)
-    margin-left: .75rem
-    margin-right: .5rem
+    pointer-events: none
+
+  &:last-child .connector
+    display: none
 
 .stepper-item.is-active
   .bullet
     border-color: var(--stepper-color-active)
     background-color: var(--stepper-color-active)
+
   .index
     color: var(--stepper-color-number-active)
+
   .label
     color: var(--stepper-color-active)
+
   .connector
     background: linear-gradient(90deg, var(--stepper-connector-active) 0 50%, var(--stepper-connector) 50%)
 
@@ -88,18 +102,23 @@
   .bullet
     border-color: var(--stepper-color-done)
     background: var(--stepper-bullet-bg)
+
   .index
     display: none
+
   .check
     display: inline
+
   .connector
     background: var(--stepper-connector-active)
 
 .stepper-item.is-disabled
   .bullet
     border-color: var(--stepper-color-disabled)
+
   .index
     color: var(--stepper-color-disabled)
+
   .label, .caption
     color: var(--stepper-color-disabled)
 
