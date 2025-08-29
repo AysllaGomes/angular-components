@@ -61,6 +61,14 @@ goTo(i: number) { this.current = i; }
 Tematização global (exemplo em `src/styles.sass`):
 ```sass
 :root
+  --bg: #ffffff
+  --surface: #ffffff
+  --surface-2: #f7f8f9
+  --fg: #14171a
+  --muted: #5f6a75
+  --border: #e6e9ed
+
+  /* Stepper (exemplo de defaults) */
   --stepper-connector: #A4A4A4
   --stepper-connector-active: var(--stepper-color-active)
   --stepper-bullet-bg: #FFFFFF
@@ -74,6 +82,27 @@ Tematização global (exemplo em `src/styles.sass`):
   --stepper-bullet-muted-bg: #eff1f3
 
   --stepper-bullet-size: 28px
+
+/* Tema escuro */
+:root[data-theme="dark"]
+  --bg: #0c0d10
+  --surface: #121319
+  --surface-2: #171924
+  --fg: #e7eaf0
+  --muted: #a2aab6
+  --border: #262a35
+
+  --stepper-text: var(--fg)
+  --stepper-caption: #96a0ad
+  --stepper-color-default: #3b3f4a
+  --stepper-connector: #262a35
+
+/* reset rápido */
+html, body
+  background: var(--bg)
+  color: var(--fg)
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif
+  margin: 0
 ```
 > As variáveis podem ser sobrescritas por página/área envolvendo o `<app-stepper>` em um container com novas CSS vars.
 

@@ -1,0 +1,38 @@
+.demo-header
+  position: sticky
+  top: 0
+  z-index: 20
+  backdrop-filter: blur(6px)
+  border-bottom: 1px solid var(--border)
+  background: color-mix(in oklab, var(--bg) 85%, transparent)
+
+  .container
+    max-width: 1120px
+    margin: 0 auto
+    padding: .75rem 1rem
+    display: grid
+    grid-template-columns: 1fr auto auto
+    align-items: center
+    gap: 1rem
+
+  .brand
+    font-weight: 700
+    text-decoration: none
+    color: var(--fg)
+
+  .nav
+    display: flex
+    gap: 1rem
+    a
+      color: var(--muted)
+      text-decoration: none
+      &:hover
+        color: var(--fg)
+
+  .theme-btn
+    border: 1px solid var(--border)
+    background: var(--surface)
+    color: var(--fg)
+    padding: .35rem .6rem
+    border-radius: .5rem
+    cursor: pointer

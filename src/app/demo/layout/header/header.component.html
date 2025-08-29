@@ -1,0 +1,14 @@
+<header class="demo-header">
+  <div class="container">
+    <a class="brand" routerLink="/">Angular Components</a>
+
+    <nav class="nav">
+      <a href="#stepper">Stepper</a>
+      <!-- futuramente: <a href="#badge">Badge</a> ... -->
+    </nav>
+
+    <button type="button" class="theme-btn" (click)="toggle()">
+      {{ current() === 'light' ? '🌙' : '☀️' }}
+    </button>
+  </div>
+</header>

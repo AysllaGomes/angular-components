@@ -1,0 +1,38 @@
+<section id="stepper" class="demo-section">
+  <h2>Stepper</h2>
+  <p class="lead">Componente de etapas horizontal, sem framework de UI. Tematizável por CSS vars.</p>
+
+  <article class="card">
+    <h3>1) Básico (clique habilitado)</h3>
+    <app-stepper
+      [steps]="steps"
+      [current]="current()"
+      [clickable]="true"
+      (stepChange)="goTo($event)"/>
+
+    <div class="actions">
+      <button type="button" (click)="prev()" [disabled]="current() === 0">← Voltar</button>
+      <button type="button" (click)="next()" [disabled]="current() === steps.length - 1">Avançar →</button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>2) Etapa desabilitada</h3>
+    <app-stepper
+      [steps]="stepsDisabled"
+      [current]="current2()"
+      [clickable]="true"
+      (stepChange)="current2.set($event)"/>
+  </article>
+
+  <article class="card">
+    <h3>3) Compacto (exemplo de tema local)</h3>
+    <div class="compact">
+      <app-stepper
+        [steps]="steps"
+        [current]="current()"
+        [clickable]="false"/>
+    </div>
+    <small>Wrapper aplica variáveis CSS para reduzir espaçamentos/tamanhos.</small>
+  </article>
+</section>
