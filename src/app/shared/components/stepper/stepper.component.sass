@@ -61,14 +61,18 @@
     .label
       color: var(--stepper-text)
       font-weight: 600
-      font-size: .95rem
+      font-size: 16px
+      line-height: 120%
+      letter-spacing: 0
       white-space: nowrap
       text-align: center
 
     .caption
       display: block
       color: var(--stepper-caption)
-      font-size: .8rem
+      font-weight: 300
+      font-size: 12px
+      line-height: 120%
       white-space: nowrap
       text-align: center
 
@@ -96,7 +100,7 @@
     color: var(--stepper-color-active)
 
   .connector
-    background: linear-gradient(90deg, var(--stepper-connector-active) 0 50%, var(--stepper-connector) 50%)
+    background: var(--stepper-connector)
 
 .stepper-item.is-done
   .bullet

@@ -69,8 +69,8 @@ Tematização global (exemplo em `src/styles.sass`):
   --stepper-color-done: #058075
   --stepper-color-default: #c8ccd2
   --stepper-color-disabled: #dcdfe4
-  --stepper-text: #1f2937
-  --stepper-caption: #6b7280
+  --stepper-text: #0A655E
+  --stepper-caption: #818181
   --stepper-bullet-muted-bg: #eff1f3
 
   --stepper-bullet-size: 28px
