@@ -1,127 +1,74 @@
 # Angular Components (Standalone, HTML + Sass)
 
-> **Objetivo do projeto:** criar **componentes reutilizáveis de UI** (ex.: Stepper) com **HTML + Sass** e **Angular Standalone**, **sem dependências de frameworks de UI** (Material, Bootstrap etc.). A ideia é ter uma base leve, acessível e fácil de portar/“desencapsular” quando necessário.
+> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: Stepper) com **HTML + Sass** e **Angular Standalone**, **sem depender de frameworks de UI**. A ideia é ter uma base leve, acessível e fácil de portar/“desencapsular” quando necessário.
 
----
-
-## Por que este projeto?
-
-- **Sem framework de UI**: componentes implementados do zero, mantendo controle visual/semântico.
-- **Standalone** (Angular 15+): importação direta do componente, sem módulos.
-- **Tematização** por **CSS Custom Properties** (variáveis CSS).
-- **Acessível**: marcadores ARIA, estrutura semântica, foco em teclado (quando aplicável).
-- **Reaproveitável**: componentes podem ser extraídos para libs internas ou usados como base em outros projetos.
+- Demo local: `http://localhost:4200/demo`
+- Stack: Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties para theming.
 
 ---
 
 ## Componentes
 
 ### ✅ Stepper
-Componente de etapas horizontal, leve e tematizável.
-
-- **Estados**: `pending`, `active`, `done`, `disabled`
-- **Inputs**: `steps`, `current`, `clickable`, `showIndex`, `showCaption`
-- **Output**: `stepChange` (emite o índice clicado quando permitido)
-- **Temas**: variáveis CSS globais em `src/styles.sass` (ex.: `--stepper-color-active`)
-
-Arquivos (por padrão):
+Componente de etapas horizontal, acessível e tematizável por CSS vars. Documentação completa em:
 ```
-src/app/shared/components/stepper/
-  ├─ stepper.component.ts
-  ├─ stepper.component.html
-  └─ stepper.component.sass
+src/app/shared/components/stepper/stepper.md
 ```
 
-Uso mínimo (exemplo):
-```html
-<app-stepper
-  [steps]="steps"
-  [current]="current"
-  [clickable]="true"
-  (stepChange)="goTo($event)">
-</app-stepper>
+> À medida que novos componentes surgirem, cada um deve ter sua própria pasta em
+> `src/app/shared/components/<nome>/` com um `README.md` descrevendo API, exemplos e tokens de tema.
+
+---
+
+## Estrutura sugerida
+
+```
+src/
+  app/
+    demo/                   # página de demonstração com header/footer/sections
+    shared/
+      components/
+        stepper/
+          stepper.component.ts
+          stepper.component.html
+          stepper.component.sass
+          stepper.md        # documentação do componente
+    app.routes.ts
+  styles.sass               # tokens e variáveis globais
 ```
 
-```ts
-type StepState = 'pending' | 'active' | 'done' | 'disabled';
-interface StepItem { label: string; caption?: string; state?: StepState; id?: string | number; }
+---
 
-steps: StepItem[] = [
-  { label: 'Entrega', caption: 'Confira o endereço' },
-  { label: 'Produto', caption: 'Defina o cartão' },
-  { label: 'Personalização', caption: 'Personalize o cartão' },
-  { label: 'Adicional', caption: 'Configure os adicionais' },
-  { label: 'Resumo', caption: 'Confira a solicitação' },
-];
+## Como rodar
 
-current = 0;
-goTo(i: number) { this.current = i; }
+### Dev server
+```bash
+  ng serve
 ```
+Abra `http://localhost:4200/demo`. A aplicação recarrega ao salvar.
 
-Tematização global (exemplo em `src/styles.sass`):
-```sass
-:root
-  --bg: #ffffff
-  --surface: #ffffff
-  --surface-2: #f7f8f9
-  --fg: #14171a
-  --muted: #5f6a75
-  --border: #e6e9ed
-
-  /* Stepper (exemplo de defaults) */
-  --stepper-connector: #A4A4A4
-  --stepper-connector-active: var(--stepper-color-active)
-  --stepper-bullet-bg: #FFFFFF
-  --stepper-color-number-active: #FFFFFF
-  --stepper-color-active: #058075
-  --stepper-color-done: #058075
-  --stepper-color-default: #c8ccd2
-  --stepper-color-disabled: #dcdfe4
-  --stepper-text: #0A655E
-  --stepper-caption: #818181
-  --stepper-bullet-muted-bg: #eff1f3
-
-  --stepper-bullet-size: 28px
-
-/* Tema escuro */
-:root[data-theme="dark"]
-  --bg: #0c0d10
-  --surface: #121319
-  --surface-2: #171924
-  --fg: #e7eaf0
-  --muted: #a2aab6
-  --border: #262a35
-
-  --stepper-text: var(--fg)
-  --stepper-caption: #96a0ad
-  --stepper-color-default: #3b3f4a
-  --stepper-connector: #262a35
-
-/* reset rápido */
-html, body
-  background: var(--bg)
-  color: var(--fg)
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif
-  margin: 0
+### Build
+```bash
+  ng build
 ```
-> As variáveis podem ser sobrescritas por página/área envolvendo o `<app-stepper>` em um container com novas CSS vars.
+Artefatos em `dist/` (modo server/SSR conforme `angular.json`).
+
+### Testes
+```bash
+  ng test
+```
 
 ---
 
 ## Padrão para novos componentes
 
-1. Crie a pasta em `src/app/shared/components/<nome>/` com **três arquivos**:
-  - `/<nome>.component.ts` (standalone, `ChangeDetectionStrategy.OnPush` quando possível)
-  - `/<nome>.component.html`
-  - `/<nome>.component.sass`
-2. Use **CSS Custom Properties** para cores/medidas, definindo **fallbacks** no Sass (ex.: `var(--minha-cor, #ccc)`).
-3. Garanta **acessibilidade** (roles ARIA, labels, foco navegável).
-4. Exporte apenas os **inputs/outputs** necessários (API pequena e intencional).
-5. Se houver pagina demo, crie em `src/app/pages/<page-name>/` e adicione rota em `app.routes.ts`.
+1. **Standalone**: crie `/<nome>.component.ts` com `standalone: true` e, quando viável, `ChangeDetectionStrategy.OnPush`.
+2. **Arquivos**: `html`, `sass` e `README.md` do componente na mesma pasta.
+3. **Theming**: use **CSS Custom Properties** com fallbacks, ex.: `color: var(--badge-fg, #1f2937)`.
+4. **Acessibilidade**: use marcação semântica e `role`/`aria-*` quando aplicável.
+5. **Demo**: adicione uma _section_ na página de demo para visualização/QA.
 
-> Dica: considere incluir um `README.md` dentro da pasta do componente detalhando API, exemplos e tokens de tema (ex.: `shared/components/<nome>/<nome>.md`).
-
-### Blueprint (sugestão)
+### Blueprint
 ```ts
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 
@@ -145,51 +92,45 @@ export class NomeComponent {
 ```
 
 ```sass
+/* nome.component.sass */
 .nome
-  /* use variáveis com fallback */
   color: var(--nome-text, #1f2937)
 ```
 
 ---
 
-## Como rodar
+## Theming global
 
-### Dev server
-```bash
-  ng serve
-```
-Abra `http://localhost:4200/`. O app recarrega ao salvar alterações.
+Defina no `styles.sass` (global) para padronizar em todo o app:
 
-### Build
-```bash
-  ng build
-```
-Artefatos em `dist/`. A configuração padrão visa performance.
-
-### Testes unitários
-```bash
-  ng test
+```sass
+:root
+  --stepper-color-active:   #00a39b
+  --stepper-color-done:     #2fbf71
+  --stepper-color-default:  #c8ccd2
+  --stepper-color-disabled: #dcdfe4
+  --stepper-text:           #1f2937
+  --stepper-caption:        #6b7280
+  --stepper-connector:      #e6e9ed
+  --stepper-bullet-bg:      #ffffff
+  --stepper-color-number-active: #ffffff
 ```
 
-> Se o projeto usar SSR: há script de `serve:ssr:*` no `package.json` quando aplicável.
+Você pode sobrescrever por página envolvendo o componente em um container que redefine essas variáveis.
+
+---
+
+## SSR (cuidados)
+
+Em serviços/utilitários que acessam `window`, `document` ou `localStorage`, cheque o ambiente com `isPlatformBrowser`. O `ThemeService` já está **SSR-safe**.
 
 ---
 
 ## Roadmap
 
-- [ ] Modo **vertical** para o Stepper
-- [ ] Suporte a **ícones** por etapa
-- [ ] **Atalhos de teclado** (setas) e `aria-controls` para associar painéis
-- [ ] Componentes adicionais (ex.: `Breadcrumb`, `Tag/Badge`, `Pagination`, `Toast`)
-
----
-
-## Filosofia
-
-- **Simplicidade primeiro**: HTML semântico + Sass, sem dependências pesadas.
-- **API explícita**: inputs/outputs previsíveis.
-- **Design tokens** via CSS vars.
-- **Portabilidade**: fácil de extrair para libs internas, web components ou outras stacks.
+- [ ] Novas seções na demo para cada componente
+- [ ] Stepper vertical / com ícones / navegação por teclado
+- [ ] Componentes adicionais (Badge, Pagination, Toast)
 
 ---
 
