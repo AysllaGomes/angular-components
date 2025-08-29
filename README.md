@@ -1,59 +1,169 @@
-# AngularComponents
+# Angular Components (Standalone, HTML + Sass)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+> **Objetivo do projeto:** criar **componentes reutilizáveis de UI** (ex.: Stepper) com **HTML + Sass** e **Angular Standalone**, **sem dependências de frameworks de UI** (Material, Bootstrap etc.). A ideia é ter uma base leve, acessível e fácil de portar/“desencapsular” quando necessário.
 
-## Development server
+---
 
-To start a local development server, run:
+## Por que este projeto?
 
-```bash
-ng serve
+- **Sem framework de UI**: componentes implementados do zero, mantendo controle visual/semântico.
+- **Standalone** (Angular 15+): importação direta do componente, sem módulos.
+- **Tematização** por **CSS Custom Properties** (variáveis CSS).
+- **Acessível**: marcadores ARIA, estrutura semântica, foco em teclado (quando aplicável).
+- **Reaproveitável**: componentes podem ser extraídos para libs internas ou usados como base em outros projetos.
+
+---
+
+## Componentes
+
+### ✅ Stepper
+Componente de etapas horizontal, leve e tematizável.
+
+- **Estados**: `pending`, `active`, `done`, `disabled`
+- **Inputs**: `steps`, `current`, `clickable`, `showIndex`, `showCaption`
+- **Output**: `stepChange` (emite o índice clicado quando permitido)
+- **Temas**: variáveis CSS globais em `src/styles.sass` (ex.: `--stepper-color-active`)
+
+Arquivos (por padrão):
+```
+src/app/shared/components/stepper/
+  ├─ stepper.component.ts
+  ├─ stepper.component.html
+  └─ stepper.component.sass
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Uso mínimo (exemplo):
+```html
+<app-stepper
+  [steps]="steps"
+  [current]="current"
+  [clickable]="true"
+  (stepChange)="goTo($event)">
+</app-stepper>
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+```ts
+type StepState = 'pending' | 'active' | 'done' | 'disabled';
+interface StepItem { label: string; caption?: string; state?: StepState; id?: string | number; }
 
-```bash
-ng generate --help
+steps: StepItem[] = [
+  { label: 'Entrega', caption: 'Confira o endereço' },
+  { label: 'Produto', caption: 'Defina o cartão' },
+  { label: 'Personalização', caption: 'Personalize o cartão' },
+  { label: 'Adicional', caption: 'Configure os adicionais' },
+  { label: 'Resumo', caption: 'Confira a solicitação' },
+];
+
+current = 0;
+goTo(i: number) { this.current = i; }
 ```
 
-## Building
+Tematização global (exemplo em `src/styles.sass`):
+```sass
+:root
+  --stepper-connector: #A4A4A4
+  --stepper-connector-active: var(--stepper-color-active)
+  --stepper-bullet-bg: #FFFFFF
+  --stepper-color-number-active: #FFFFFF
+  --stepper-color-active: #058075
+  --stepper-color-done: #058075
+  --stepper-color-default: #c8ccd2
+  --stepper-color-disabled: #dcdfe4
+  --stepper-text: #1f2937
+  --stepper-caption: #6b7280
+  --stepper-bullet-muted-bg: #eff1f3
 
-To build the project run:
+  --stepper-bullet-size: 28px
+```
+> As variáveis podem ser sobrescritas por página/área envolvendo o `<app-stepper>` em um container com novas CSS vars.
 
-```bash
-ng build
+---
+
+## Padrão para novos componentes
+
+1. Crie a pasta em `src/app/shared/components/<nome>/` com **três arquivos**:
+  - `/<nome>.component.ts` (standalone, `ChangeDetectionStrategy.OnPush` quando possível)
+  - `/<nome>.component.html`
+  - `/<nome>.component.sass`
+2. Use **CSS Custom Properties** para cores/medidas, definindo **fallbacks** no Sass (ex.: `var(--minha-cor, #ccc)`).
+3. Garanta **acessibilidade** (roles ARIA, labels, foco navegável).
+4. Exporte apenas os **inputs/outputs** necessários (API pequena e intencional).
+5. Se houver pagina demo, crie em `src/app/pages/<page-name>/` e adicione rota em `app.routes.ts`.
+
+> Dica: considere incluir um `README.md` dentro da pasta do componente detalhando API, exemplos e tokens de tema (ex.: `shared/components/<nome>/<nome>.md`).
+
+### Blueprint (sugestão)
+```ts
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-nome',
+  standalone: true,
+  templateUrl: './nome.component.html',
+  styleUrl: './nome.component.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class NomeComponent {
+  @Input() disabled = false;
+  @Output() action = new EventEmitter<void>();
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```html
+<section class="nome" [class.is-disabled]="disabled">
+  <!-- markup -->
+</section>
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```sass
+.nome
+  /* use variáveis com fallback */
+  color: var(--nome-text, #1f2937)
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## Como rodar
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Dev server
+```bash
+  ng serve
+```
+Abra `http://localhost:4200/`. O app recarrega ao salvar alterações.
+
+### Build
+```bash
+  ng build
+```
+Artefatos em `dist/`. A configuração padrão visa performance.
+
+### Testes unitários
+```bash
+  ng test
+```
+
+> Se o projeto usar SSR: há script de `serve:ssr:*` no `package.json` quando aplicável.
+
+---
+
+## Roadmap
+
+- [ ] Modo **vertical** para o Stepper
+- [ ] Suporte a **ícones** por etapa
+- [ ] **Atalhos de teclado** (setas) e `aria-controls` para associar painéis
+- [ ] Componentes adicionais (ex.: `Breadcrumb`, `Tag/Badge`, `Pagination`, `Toast`)
+
+---
+
+## Filosofia
+
+- **Simplicidade primeiro**: HTML semântico + Sass, sem dependências pesadas.
+- **API explícita**: inputs/outputs previsíveis.
+- **Design tokens** via CSS vars.
+- **Portabilidade**: fácil de extrair para libs internas, web components ou outras stacks.
+
+---
+
+## Licença
+
+MIT — use, adapte e contribua.
