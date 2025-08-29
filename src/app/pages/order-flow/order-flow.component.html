@@ -1,0 +1,15 @@
+<app-stepper
+  [steps]="steps"
+  [current]="current()"
+  [clickable]="true"
+  (stepChange)="goTo($event)"
+/>
+
+<div style="margin-top:16px; display:flex; gap:8px">
+  <button type="button" (click)="prev()" [disabled]="current() === 0">← Voltar</button>
+  <button type="button" (click)="next()" [disabled]="current() === steps.length - 1">Avançar →</button>
+</div>
+
+<section style="margin-top:12px">
+  Etapa atual: <b>{{ steps[current()].label }}</b>
+</section>
