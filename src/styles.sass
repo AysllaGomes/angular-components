@@ -35,9 +35,43 @@
   --stepper-color-default: #3b3f4a
   --stepper-connector: #262a35
 
+/* table */
+:root
+  --tbl-header-bg: #07363c
+  --tbl-header-fg: #ffffff
+  --tbl-row-bg: #ffffff
+  --tbl-row-gray-medium: #EBEDF1
+  --tbl-row-gray94: #F0F0F0
+  --tbl-row-alt: #f5f7f9
+  --tbl-row-border: #e6e9ed
+  --tbl-fg: #0f1720
+  --tbl-muted: #6b7280
+
+  /* chips */
+  --chip-radius: 9999px
+  --chip-h: 24px
+  --chip-pad-x: .6rem
+  --chip-fs: .8rem
+
+  /* variações de chip (ajuste as cores p/ seu design system) */
+  --chip-teal-border: #009688
+  --chip-teal-bg: #FFFFFF
+  --chip-teal-fg: #03857F
+
+  --chip-orange-border: #c76b2b
+  --chip-orange-bg: #FFFFFF
+  --chip-orange-fg: #DD5C02
+
+:root
+  --tbl-action: #058075   /* cor dos ícones de ação */
+
 /* reset rápido */
 html, body
   background: var(--bg)
   color: var(--fg)
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif
   margin: 0
+
+button
+  border: none !important
+  background: transparent

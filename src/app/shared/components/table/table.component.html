@@ -1,0 +1,85 @@
+<table class="tbl">
+  <thead>
+  <tr>
+    <th *ngIf="selectable" class="col-select">
+      <input type="checkbox"
+             [checked]="allSelected"
+             (change)="toggleAll($any($event.target).checked)"
+             aria-label="Selecionar tudo">
+    </th>
+
+    <th *ngFor="let col of columns"
+        [style.width]="col.width || null"
+        [class.align-center]="col.align==='center'"
+        [class.align-right]="col.align==='right'">
+      {{ col.header }}
+    </th>
+
+    <th *ngIf="showActions" class="col-actions"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let row of data; index as i; trackBy: trackByIndex">
+    <td *ngIf="selectable" class="col-select">
+      <input type="checkbox"
+             [checked]="isSelected(i)"
+             (change)="toggleRow(i, $any($event.target).checked)"
+             aria-label="Selecionar linha">
+    </td>
+
+    <td *ngFor="let col of columns"
+        [class.align-center]="col.align==='center'"
+        [class.align-right]="col.align==='right'">
+
+      <ng-container [ngSwitch]="col.type || 'text'">
+
+        <!-- CHIP -->
+        <span *ngSwitchCase="'chip'"
+              [class]="chipClass(col, $any(row)[$any(col).key])">
+          {{ chipLabel(col, $any(row)[$any(col).key]) }}
+        </span>
+
+        <!-- CUSTOM -->
+        <ng-container *ngSwitchCase="'custom'">
+          <ng-container
+            *ngIf="getTemplate(String(col.key)) as tpl; else defaultText"
+            [ngTemplateOutlet]="tpl"
+            [ngTemplateOutletContext]="{
+              $implicit: $any(row)[$any(col).key],
+              row: row,
+              value: $any(row)[$any(col).key],
+              index: i
+            }">
+          </ng-container>
+          <ng-template #defaultText>{{ $any(row)[$any(col).key] }}</ng-template>
+        </ng-container>
+
+        <!-- TEXT -->
+        <ng-container *ngSwitchDefault>
+          {{ $any(row)[$any(col).key] }}
+        </ng-container>
+
+      </ng-container>
+    </td>
+
+    <!-- AÇÕES -->
+    <td *ngIf="showActions" class="col-actions">
+      <ng-container *ngIf="actionsTpl?.tpl; else defaultActions"
+                    [ngTemplateOutlet]="actionsTpl?.tpl"
+                    [ngTemplateOutletContext]="{ row: row, index: i }">
+      </ng-container>
+
+      <ng-template #defaultActions>
+        <button class="icon-btn" type="button"
+                (click)="action.emit({ type: 'edit', row, index: i })"
+                aria-label="Editar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" fill="currentColor"/>
+          </svg>
+        </button>
+      </ng-template>
+    </td>
+  </tr>
+  </tbody>
+</table>
