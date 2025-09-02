@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from '@angular/core';
 
+import { ActionKind } from '../../model/type/action-kind.type';
+
 import { ColumnDef } from '../../model/interface/column-def.interface';
+import { TableAction } from '../../model/interface/table-action.interface';
 
 import { TableActionsTemplateDirective, TableCellTemplateDirective } from './table.directives';
 
@@ -15,6 +18,7 @@ import { TableActionsTemplateDirective, TableCellTemplateDirective } from './tab
 })
 export class TableComponent<T = any> implements AfterContentInit {
   @Input({ required: true }) data: T[] = [];
+  @Input() actions: (TableAction<T> | ActionKind)[] = [];
   @Input({ required: true }) columns: ColumnDef<T>[] = [];
 
   /** Mostra coluna de seleção por checkbox */
@@ -77,6 +81,26 @@ export class TableComponent<T = any> implements AfterContentInit {
     const entry = col.chipMap[String(value)];
     const variant = entry?.variant ? ` chip--${entry.variant}` : '';
     return `chip${variant}`;
+  }
+
+  get normalizedActions(): TableAction<T>[] {
+    return (this.actions ?? []).map(a => typeof a === 'string' ? ({ kind: a }) : a);
+  }
+
+  get hasActions(): boolean {
+    // renderiza a coluna se: showActions=true OU foram passadas actions OU existe template projetado
+    return !!(this.showActions || (this.actions && this.actions.length) || this.actionsTpl);
+  }
+
+  isActionVisible(a: TableAction<T>, row: T, index: number) {
+    return a.visible ? !!a.visible(row, index) : true;
+  }
+  isActionDisabled(a: TableAction<T>, row: T, index: number) {
+    return a.disabled ? !!a.disabled(row, index) : false;
+  }
+
+  emitAction(kind: ActionKind, row: T, index: number) {
+    this.action.emit({ type: kind, row, index });
   }
 
   trackByIndex = (_: number, __: unknown) => _;

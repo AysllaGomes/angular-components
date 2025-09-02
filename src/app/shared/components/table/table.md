@@ -6,12 +6,15 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 ## Recursos
 
-- **Colunas declarativas** via `ColumnDef` (texto, chip ou custom);
-- **Seleção**: checkbox por linha + “selecionar tudo”;
-- **Ações**: coluna de ações com *slot* (`appActions`) para seus botões/ícones;
-- **Células custom**: *slot* por coluna (`appCell="chave"`) com contexto (`value`, `row`, `index`);
-- **Chips**: mapeamento valor → rótulo + variante de cor (`chipMap`);
-- **Theming** por **CSS Custom Properties** (fácil de casar com seu DS);
+- **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
+- **Seleção**: checkbox por linha + “selecionar tudo”.
+- **Ações**:
+  - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
+  - **Customizadas** via *slot* `appActions` quando você precisa de controle total do markup.
+  - `appActions` **sobrepõe** `[actions]` quando ambos forem usados.
+- **Células custom**: *slot* por coluna (`appCell="chave"`) com contexto (`value`, `row`, `index`).
+- **Chips**: mapeamento valor → rótulo + variante de cor (`chipMap`).
+- **Theming** por **CSS Custom Properties** (fácil de casar com seu DS).
 - **Acessibilidade**: tabela semântica, `aria-label` nos checkboxes/ações, _header_ “sticky”.
 
 ---
@@ -28,61 +31,47 @@ src/app/shared/components/table/
 
 ---
 
-## Uso básico
+## Uso
 
-### 1) Template
+### Opção A — Ações **declarativas** (recomendado para casos simples)
 ```html
 <app-table
   [columns]="columns"
   [data]="rows"
   [selectable]="true"
-  [showActions]="true"
+  [actions]="['edit']"
   [selected]="selected()"
   (selectedChange)="selected.set($event)"
-  (action)="onEdit($event.row, $event.index)">
+  (action)="onAction($event)">
+</app-table>
+```
 
-  <!-- célula custom (opcional) -->
-  <!-- <ng-template appCell="documento" let-value>{{ value }}</ng-template> -->
+```ts
+// evento único para todas as ações declarativas
+onAction(e: { type: 'edit' | 'delete' | 'view' | 'download'; row: AdicionalRow; index: number }) {
+  if (e.type === 'edit') this.onEdit(e.row, e.index);
+}
+```
 
-  <!-- ações custom (substitui o padrão) -->
+> Quer usar um **asset** específico para um ícone?  
+> Passe um objeto em vez da string:
+```ts
+actions = [{ kind: 'edit', ariaLabel: 'Editar', iconUrl: '/icons/svg/pen-box.svg' }];
+```
+
+### Opção B — Ações **custom** (controle total)
+```html
+<app-table [columns]="columns" [data]="rows" [selectable]="true">
   <ng-template appActions let-row let-index="index">
-    <button class="icon-btn icon-btn--ghost"
-            type="button"
-            (click)="onEdit(row, index)"
-            aria-label="Editar">
-      <img src="/icons/svg/pen-box.svg" width="18" height="18" alt="Editar" />
+    <button class="icon-btn icon-btn--ghost" type="button"
+            (click)="onEdit(row, index)" aria-label="Editar">
+      <img src="/icons/svg/pen-box.svg" width="18" height="18" alt="" />
     </button>
   </ng-template>
 </app-table>
 ```
 
-### 2) Componente
-```ts
-type Tipo = 'Correntista' | 'Não correntista';
-
-interface AdicionalRow {
-  nome: string;
-  tipo: Tipo;
-  documento: string;
-  limite: string;
-  nomeImpresso: string;
-}
-
-columns: ColumnDef<AdicionalRow>[] = [
-  { key: 'nome', header: 'Nome do adicional' },
-  {
-    key: 'tipo', header: 'Tipo de adicional', type: 'chip', align: 'center', width: '180px',
-    chipMap: {
-      'Correntista':     { label: 'Correntista',     variant: 'orange' },
-      'Não correntista': { label: 'Não correntista', variant: 'teal'   },
-    }
-  },
-  { key: 'documento',   header: 'Documento',         width: '160px' },
-  { key: 'limite',      header: 'Limite atribuído',  width: '220px' },
-  { key: 'nomeImpresso',header: 'Nome impresso',     width: '180px' },
-];
-```
-> Dica: `rows` é um array de qualquer tipo; `key` das colunas deve bater com as chaves do objeto. Para célula custom, use `<ng-template appCell="nomeDaChave" ...>`.
+> Quando `appActions` é fornecido, `[actions]` é ignorado (o template **sempre** vence).
 
 ---
 
@@ -106,22 +95,34 @@ export interface ColumnDef<T = any> {
   align?: Align;
   chipMap?: Record<string, ChipMapEntry>; // para type='chip'
 }
+
+// Ações declarativas
+export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
+
+export interface TableAction<T = any> {
+  kind: ActionKind;
+  label?: string;               // tooltip ou texto auxiliar
+  ariaLabel?: string;           // acessibilidade
+  visible?: (row: T, index: number) => boolean;
+  disabled?: (row: T, index: number) => boolean;
+  iconUrl?: string;             // se fornecido, usa <img>; senão, ícone inline (currentColor)
+}
 ```
 
 ### Inputs
-| Propriedade   | Tipo              | Padrão | Descrição |
-|---------------|-------------------|:------:|-----------|
-| `data`        | `T[]`             |   —    | Linhas da tabela. |
-| `columns`     | `ColumnDef<T>[]`  |   —    | Colunas declarativas. |
-| `selectable`  | `boolean`         | `false`| Mostra checkbox por linha e “selecionar tudo”. |
-| `showActions` | `boolean`         | `false`| Mostra coluna de ações. |
-| `selected`    | `number[]`        | `[]`   | Índices selecionados (controlado). |
+| Propriedade   | Tipo                         | Padrão | Descrição |
+|---------------|------------------------------|:------:|-----------|
+| `data`        | `T[]`                        |   —    | Linhas da tabela. |
+| `columns`     | `ColumnDef<T>[]`             |   —    | Colunas declarativas. |
+| `selectable`  | `boolean`                    | `false`| Mostra checkbox por linha e “selecionar tudo”. |
+| `showActions` | `boolean`                    | `false`| (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
+| `actions`     | `(TableAction \| ActionKind)[]` | `[]`   | Define ações **declarativas** com ícones padrão ou por `iconUrl`. |
 
 ### Outputs
-| Evento             | Payload     | Quando dispara |
-|--------------------|-------------|----------------|
-| `selectedChange`   | `number[]`  | Alterou seleção (linha ou “selecionar tudo”). |
-| `action`           | `{ type: string; row: T; index: number }` | Clique em ação **padrão** (se você optar por usá-la). |
+| Evento             | Payload                                   | Quando dispara |
+|--------------------|-------------------------------------------|----------------|
+| `selectedChange`   | `number[]`                                 | Alterou seleção (linha ou “selecionar tudo”). |
+| `action`           | `{ type: ActionKind; row: T; index: number }` | Clique numa ação declarativa (quando usando `[actions]`). |
 
 ### Templates projetáveis
 - **Célula custom (`appCell`)**  
@@ -133,7 +134,7 @@ export interface ColumnDef<T = any> {
   ```
 
 - **Ações (`appActions`)**  
-  Contexto: `row`, `index`. Substitui a ação padrão.
+  Contexto: `row`, `index`. Substitui **completamente** o render de `[actions]`.
   ```html
   <ng-template appActions let-row let-index="index">
     <button class="icon-btn icon-btn--ghost" (click)="onEdit(row, index)">✏️</button>
@@ -144,7 +145,7 @@ export interface ColumnDef<T = any> {
 
 ## Theming (CSS Custom Properties)
 
-Defina/ajuste tokens no seu `styles.sass` ou wrapper da página:
+Declare/ajuste tokens no `styles.sass` (ou no wrapper da página):
 
 ```sass
 :root
@@ -173,7 +174,7 @@ Defina/ajuste tokens no seu `styles.sass` ou wrapper da página:
   --chip-orange-fg: #9f5313
 ```
 
-No Sass do componente (`table.component.sass`) essas variáveis já são usadas para header, linhas alternadas, bordas, chips e botões.
+No Sass do componente essas variáveis já são usadas em header, linhas, bordas, chips e botões.
 
 ---
 
@@ -205,34 +206,26 @@ Para evitar borda/fundo nativos e deixar “ghost”:
     outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
     outline-offset: 2px
 ```
-> **Evite** o reset global `button { border: none !important; background: transparent; }` — ele afeta o projeto inteiro (ex.: botões do Stepper). Prefira escopar no componente (`.icon-btn`) ou por container (`.tbl .icon-btn`).
+
+> Evite um reset **global** `button { border: none !important; background: transparent; }`. Prefira escopar (`.tbl .icon-btn`), para não interferir em outros componentes (ex.: Stepper).
 
 ---
 
 ## Dicas & Solução de problemas
 
-- **Asset 404**: se usa `public/` como assets no `angular.json`, coloque o SVG em `public/icons/svg/pen-box.svg` e referencie com caminho **absoluto** `/icons/svg/pen-box.svg`. Se preferir `src/assets`, inclua essa pasta na seção de `assets` do `angular.json` e use `/assets/...`.
-- **Cor do ícone**: se usar `<img>`, a cor vem do próprio arquivo. Para herdar do CSS, use **SVG inline** com `fill="currentColor"` ou use máscara CSS.
-- **Types no template**: use `$any(...)` em vez de casts TypeScript (ex.: `$any(row)[$any(col).key]`).
-
----
-
-## Acessibilidade
-
-- `aria-label` em **todos** os checkboxes e botões de ação;
-- Cabeçalho `<thead>` claro, `th` com texto curto;
-- Foco visível no botão (`:focus-visible`);
-- Evite usar `pointer-events: none` em célula desabilitada — prefira desabilitar o controle em si.
+- **Asset 404**: usando `public/` em `angular.json`, coloque o SVG em `public/icons/svg/pen-box.svg` e referencie com `/icons/svg/pen-box.svg`. Se preferir `src/assets`, inclua a pasta nos `assets` do `angular.json` e use `/assets/...`.
+- **Cor do ícone**: `<img>` usa a cor embutida no arquivo. Para herdar do CSS, use SVG **inline** com `fill="currentColor"`.
+- **Types no template**: use `$any(...)` em vez de casts TS (ex.: `$any(row)[$any(col).key]`).
 
 ---
 
 ## Roadmap
 
-- [ ] Ordenação por coluna;
-- [ ] Empty/Loading/Error states;
-- [ ] Paginação;
-- [ ] Ações em massa (com as linhas selecionadas);
-- [ ] Responsivo com colunas colapsáveis.
+- [ ] Ordenação por coluna
+- [ ] Empty/Loading/Error states
+- [ ] Paginação
+- [ ] Ações em massa (seleção)
+- [ ] Responsivo com colunas colapsáveis
 
 ---
 

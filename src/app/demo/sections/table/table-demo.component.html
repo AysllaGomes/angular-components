@@ -7,24 +7,10 @@
       [columns]="columns"
       [data]="rows"
       [selectable]="true"
-      [showActions]="true"
+      [actions]="actions"
       [selected]="selected()"
       (selectedChange)="selected.set($event)"
-      (action)="onEdit($event.row, $event.index)">
-
-      <!-- célula custom (opcional) -->
-      <!-- <ng-template appCell="documento" let-value>{{ value }}</ng-template> -->
-
-      <!-- ações custom (substitui padrão) -->
-      <ng-template appActions let-row let-index="index">
-        <button
-          class="icon-btn icon-btn--ghost"
-          type="button"
-          (click)="onEdit(row, index)"
-          aria-label="Editar">
-          <img src="/icons/svg/pen-box.svg" width="24" height="24" alt="Editar" />
-        </button>
-      </ng-template>
+      (action)="onAction($event)">
     </app-table>
   </article>
 </section>
