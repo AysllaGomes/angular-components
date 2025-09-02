@@ -1,22 +1,20 @@
 # Angular Components (Standalone, HTML + Sass)
 
-> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: Stepper) com **HTML + Sass** e **Angular Standalone**, **sem depender de frameworks de UI**. A ideia é ter uma base leve, acessível e fácil de portar/“desencapsular” quando necessário.
+> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: Stepper, Table) com **HTML + Sass** e **Angular Standalone**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
 
-- Demo local: `http://localhost:4200/demo`
-- Stack: Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties para theming.
+- **Demo local:** `http://localhost:4200/demo`
+- **Stack:** Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties (theming).
 
 ---
 
 ## Componentes
 
-### ✅ Stepper
-Componente de etapas horizontal, acessível e tematizável por CSS vars. Documentação completa em:
-```
-src/app/shared/components/stepper/stepper.md
-```
+| Componente | Descrição | Documentação | Demo |
+|-----------:|-----------|--------------|------|
+| **Stepper** | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema. | `src/app/shared/components/stepper/stepper.md` | `/demo#stepper` |
+| **Table** | Tabela flexível com checkbox, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | `src/app/shared/components/table/table.md` | `/demo#table` |
 
-> À medida que novos componentes surgirem, cada um deve ter sua própria pasta em
-> `src/app/shared/components/<nome>/` com um `README.md` descrevendo API, exemplos e tokens de tema.
+> Cada componente deve ter sua própria pasta em `src/app/shared/components/<nome>/` com um **README/MD** descrevendo: **API**, **exemplos**, **tokens de tema** e **boas práticas**.
 
 ---
 
@@ -25,16 +23,26 @@ src/app/shared/components/stepper/stepper.md
 ```
 src/
   app/
-    demo/                   # página de demonstração com header/footer/sections
+    demo/                     # página de demonstração (header/footer/sections)
+      demo-page.component.*
+      sections/
+        stepper-demo.component.*
+        table-demo.component.*
     shared/
       components/
         stepper/
           stepper.component.ts
           stepper.component.html
           stepper.component.sass
-          stepper.md        # documentação do componente
+          stepper.md
+        table/
+          table.component.ts
+          table.component.html
+          table.component.sass
+          table.directives.ts   # appCell / appActions
+          table.md
     app.routes.ts
-  styles.sass               # tokens e variáveis globais
+  styles.sass                  # tokens e variáveis globais
 ```
 
 ---
@@ -43,30 +51,30 @@ src/
 
 ### Dev server
 ```bash
-  ng serve
+ng serve
 ```
 Abra `http://localhost:4200/demo`. A aplicação recarrega ao salvar.
 
 ### Build
 ```bash
-  ng build
+ng build
 ```
 Artefatos em `dist/` (modo server/SSR conforme `angular.json`).
 
 ### Testes
 ```bash
-  ng test
+ng test
 ```
 
 ---
 
 ## Padrão para novos componentes
 
-1. **Standalone**: crie `/<nome>.component.ts` com `standalone: true` e, quando viável, `ChangeDetectionStrategy.OnPush`.
-2. **Arquivos**: `html`, `sass` e `README.md` do componente na mesma pasta.
-3. **Theming**: use **CSS Custom Properties** com fallbacks, ex.: `color: var(--badge-fg, #1f2937)`.
-4. **Acessibilidade**: use marcação semântica e `role`/`aria-*` quando aplicável.
-5. **Demo**: adicione uma _section_ na página de demo para visualização/QA.
+1. **Standalone**: `standalone: true` e, quando viável, `ChangeDetectionStrategy.OnPush`.
+2. **Arquivos**: `*.component.ts/html/sass` + `README.md` do componente na mesma pasta.
+3. **Theming**: use **CSS Custom Properties** com *fallbacks* (`var(--badge-fg, #1f2937)`).
+4. **Acessibilidade**: marcação semântica, `role`/`aria-*` e foco visível quando aplicável.
+5. **Demo**: adicione uma *section* na página de demo e um link no header.
 
 ### Blueprint
 ```ts
@@ -101,10 +109,11 @@ export class NomeComponent {
 
 ## Theming global
 
-Defina no `styles.sass` (global) para padronizar em todo o app:
+Defina no `styles.sass` tokens globais (ex.: cores do Stepper e Table) e sobrescreva por página quando necessário.
 
 ```sass
 :root
+  /* Stepper */
   --stepper-color-active:   #00a39b
   --stepper-color-done:     #2fbf71
   --stepper-color-default:  #c8ccd2
@@ -114,22 +123,40 @@ Defina no `styles.sass` (global) para padronizar em todo o app:
   --stepper-connector:      #e6e9ed
   --stepper-bullet-bg:      #ffffff
   --stepper-color-number-active: #ffffff
-```
 
-Você pode sobrescrever por página envolvendo o componente em um container que redefine essas variáveis.
+  /* Table */
+  --tbl-header-bg: #07363c
+  --tbl-header-fg: #ffffff
+  --tbl-row-bg: #f2f5f7
+  --tbl-row-gray-medium: #ffffff
+  --tbl-row-border: #e6e9ed
+  --tbl-fg: #0f1720
+  --tbl-muted: #6b7280
+  --tbl-action: #058075
+```
 
 ---
 
 ## SSR (cuidados)
 
-Em serviços/utilitários que acessam `window`, `document` ou `localStorage`, cheque o ambiente com `isPlatformBrowser`. O `ThemeService` já está **SSR-safe**.
+Em serviços/utilitários que acessam `window`, `document` ou `localStorage`, cheque o ambiente com `isPlatformBrowser`. O `ThemeService` está **SSR-safe** e serve como exemplo:
+
+```ts
+import { isPlatformBrowser } from '@angular/common';
+import { inject, PLATFORM_ID, effect, signal } from '@angular/core';
+// ...
+private platformId = inject(PLATFORM_ID);
+private isBrowser = isPlatformBrowser(this.platformId);
+// só usar localStorage/document se isBrowser === true
+```
 
 ---
 
 ## Roadmap
 
 - [ ] Novas seções na demo para cada componente
-- [ ] Stepper vertical / com ícones / navegação por teclado
+- [ ] Stepper vertical / ícones / navegação por teclado
+- [ ] Table: ordenação, empty/loading/error, paginação, ações em massa
 - [ ] Componentes adicionais (Badge, Pagination, Toast)
 
 ---
