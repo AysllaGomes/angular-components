@@ -1,0 +1,18 @@
+<section id="toast" class="demo-section">
+  <h2>Toast</h2>
+  <p class="lead">Exemplos de disparo de toasts (success, error, info, warning, com ação).</p>
+
+  <article class="card">
+    <!-- barra de ações responsiva -->
+    <div class="toast-toolbar">
+      <button class="btn btn--success" (click)="ok()">Success</button>
+      <button class="btn btn--error"   (click)="fail()">Error</button>
+      <button class="btn btn--info"    (click)="info()">Info</button>
+      <button class="btn btn--warn"    (click)="warn()">Warning</button>
+      <button class="btn btn--ghost"   (click)="withAction()">Com ação</button>
+      <!-- exemplos extras (opcional) -->
+      <button class="btn" (click)="many()">Vários de uma vez</button>
+      <button class="btn" (click)="sticky()">Ficar na tela (duration: 0)</button>
+    </div>
+  </article>
+</section>

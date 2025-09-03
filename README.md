@@ -2,7 +2,7 @@
 
 # Angular Components (Standalone, HTML + Sass)
 
-> **Purpose:** build **reusable UI components** (e.g., Stepper, Table, Pagination) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
+> **Purpose:** build **reusable UI components** (e.g., Stepper, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
 - **Local demo:** `http://localhost:4200/demo`
 - **Stack:** Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties (theming).
@@ -13,86 +13,14 @@
 
 | Component | Description | Docs | Demo |
 |---------:|-------------|------|------|
-| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT‑BR](src/app/shared/components/stepper/stepper.md) | `/demo#stepper` |
-| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | [EN](src/app/shared/components/table/table.en.md) · [PT‑BR](src/app/shared/components/table/table.md) | `/demo#table` |
-| **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT‑BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
-
-> Each component lives under `src/app/shared/components/<name>/` with its own **README/MD** covering **API**, **examples**, **theme tokens**, and **best practices**. English is the default; PT‑BR is kept in sync when possible.
-
----
-
-## Suggested structure
-
-```
-src/
-  app/
-    demo/                     # demo page (header/footer/sections)
-      demo-page.component.*
-      sections/
-        stepper-demo.component.*
-        table-demo.component.*
-        pagination-demo.component.*
-    shared/
-      components/
-        stepper/
-          stepper.component.ts
-          stepper.component.html
-          stepper.component.sass
-          stepper.md          # PT‑BR
-          stepper.en.md       # EN (default)
-        table/
-          table.component.ts
-          table.component.html
-          table.component.sass
-          table.directives.ts # appCell / appActions
-          table.md            # PT‑BR
-          table.en.md         # EN (default)
-        pagination/
-          pagination.component.ts
-          pagination.component.html
-          pagination.component.sass
-          pagination.md       # PT‑BR
-          pagination.en.md    # EN (default)
-    app.routes.ts
-  styles.sass                  # global tokens/variables
-```
-
----
-
-## How to run
-
-### Dev server
-```bash
-ng serve
-```
-Open `http://localhost:4200/demo`. Live reload on save.
-
-### Build
-```bash
-ng build
-```
-Artifacts in `dist/` (server/SSR per `angular.json`).
-
-### Tests
-```bash
-ng test
-```
-
----
-
-## Pattern for new components
-
-1. **Standalone:** set `standalone: true` and, when feasible, `ChangeDetectionStrategy.OnPush`.
-2. **Files:** keep `*.component.ts/html/sass` + a per-component `README.md` (EN) and optional `README.pt-BR.md`.
-3. **Theming:** use **CSS Custom Properties** with fallbacks, e.g. `var(--badge-fg, #1f2937)`.
-4. **Accessibility:** semantic markup and proper `role`/`aria-*`/focus where applicable.
-5. **Demo:** add a section to the demo page and a header link.
+| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT-BR](src/app/shared/components/stepper/stepper.md) | `/demo#stepper` |
+| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md) | `/demo#table` |
+| **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT-BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
+| **Toast** | Lightweight toast (service + container), accessible and themeable. | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md) | `/demo#toast` |
 
 ---
 
 ## Global theming
-
-Define global tokens in `styles.sass` (Stepper, Table, Pagination) and override per page as needed:
 
 ```sass
 :root
@@ -124,23 +52,11 @@ Define global tokens in `styles.sass` (Stepper, Table, Pagination) and override 
   --pg-ghost-bg: #eeeeee
   --pg-hover: color-mix(in oklab, var(--pg-active-bg) 12%, white)
   --pg-fg: #0f1720
+
+  /* Toast */
+  --toast-radius: .75rem
+  --toast-shadow: 0 6px 20px rgba(0,0,0,.12)
 ```
-
----
-
-## SSR notes
-
-For services/utilities touching `window`, `document`, or `localStorage`, guard with `isPlatformBrowser`. The current `ThemeService` is **SSR-safe** and can serve as an example.
-
----
-
-## Roadmap
-
-- [ ] New demo sections per component
-- [ ] Stepper: vertical / icons / keyboard navigation
-- [ ] Table: sorting, empty/loading/error states, pagination, bulk actions
-- [ ] Pagination: first/last buttons, keyboard shortcuts, compact variant
-- [ ] Additional components (Badge, Toast, page-size selector)
 
 ---
 
