@@ -1,22 +1,21 @@
-import { Component, signal } from '@angular/core';
-
-// import { ActionKind } from '../../../shared/model/type/action-kind.type';
+import { NgIf } from '@angular/common';
+import { Component, computed, signal } from '@angular/core';
 
 import { TableComponent } from '../../../shared/components/table/table.component';
 
 import { ColumnDef } from '../../../shared/model/interface/column-def.interface';
 import { TableAction } from '../../../shared/model/interface/table-action.interface';
 import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-table-demo',
   standalone: true,
-  imports: [TableComponent],
-  templateUrl: './table-demo.component.html'
+  imports: [NgIf, TableComponent, PaginationComponent],
+  templateUrl: './table-demo.component.html',
+  styleUrl: './table-demo.component.sass'
 })
 export class TableDemoComponent {
-
-  // actions: ActionKind[] = ['edit'];
 
   actions: TableAction[] = [
     { kind: 'edit', ariaLabel: 'Editar', iconUrl: '/icons/svg/pen-box.svg' }
@@ -26,6 +25,9 @@ export class TableDemoComponent {
     { nome: 'Nome Colaborador',   tipo: 'Correntista',     documento: '111.222.333-44', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO' },
     { nome: 'Nome Colaborador - Não correntista', tipo: 'Não correntista', documento: '555.666.777-88', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 2' },
     { nome: 'Nome Colaborador - Não correntista 2',tipo: 'Não correntista', documento: '012.345.678-90', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 3' },
+    { nome: 'Nome Colaborador - Não correntista 3',tipo: 'Não correntista', documento: '098.765.432-10', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 4' },
+    // { nome: 'Nome Colaborador - Não correntista 4',tipo: 'Não correntista', documento: '111.111.111-11', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 5' },
+    // { nome: 'Nome Colaborador - Não correntista 5',tipo: 'Não correntista', documento: '999.000.111-22', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 6' },
   ];
 
   selected = signal<number[]>([]);
@@ -47,6 +49,15 @@ export class TableDemoComponent {
     { key: 'limite',      header: 'Limite atribuído',  width: '220px' },
     { key: 'nomeImpresso',header: 'Nome impresso',     width: '180px' },
   ];
+
+  pageSize = 5;
+
+  pageIndex = signal(0);
+
+  pagedRows = computed(() => {
+    const start = this.pageIndex() * this.pageSize;
+    return this.rows.slice(start, start + this.pageSize);
+  });
 
   onEdit(row: AdicionalRow, index: number) {
     console.log('editar', index, row);
