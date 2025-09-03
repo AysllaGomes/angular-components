@@ -27,3 +27,17 @@
 
   </article>
 </section>
+
+<section id="table" class="demo-section">
+  <h2>Tabela</h2>
+  <p class="lead">Tabela sem dados.</p>
+
+  <article class="card">
+    <app-table
+      [columns]="columns"
+      [data]="[]"
+      [loading]="true"
+      [emptyMessage]="'Sem registros para exibir'">
+    </app-table>
+  </article>
+</section>

@@ -1,25 +1,26 @@
 <table class="tbl">
   <thead>
-  <tr>
-    <th *ngIf="selectable" class="col-select">
-      <input type="checkbox"
-             [checked]="allSelected"
-             (change)="toggleAll($any($event.target).checked)"
-             aria-label="Selecionar tudo">
-    </th>
+    <tr>
+      <th *ngIf="selectable" class="col-select">
+        <input type="checkbox"
+               [checked]="allSelected"
+               (change)="toggleAll($any($event.target).checked)"
+               aria-label="Selecionar tudo">
+      </th>
 
-    <th *ngFor="let col of columns"
-        [style.width]="col.width || null"
-        [class.align-center]="col.align==='center'"
-        [class.align-right]="col.align==='right'">
-      {{ col.header }}
-    </th>
+      <th *ngFor="let col of columns"
+          [style.width]="col.width || null"
+          [class.align-center]="col.align==='center'"
+          [class.align-right]="col.align==='right'">
+        {{ col.header }}
+      </th>
 
-    <th *ngIf="showActions" class="col-actions"></th>
-  </tr>
+      <th *ngIf="showActions" class="col-actions"></th>
+    </tr>
   </thead>
 
-  <tbody>
+  <!-- DADOS -->
+  <tbody *ngIf="!loading && data.length > 0; else bodyEmptyOrLoading">
     <tr *ngFor="let row of data; index as i; trackBy: trackByIndex">
       <td *ngIf="selectable" class="col-select">
         <input type="checkbox"
@@ -115,4 +116,26 @@
       </td>
     </tr>
   </tbody>
+
+  <!-- EMPTY / LOADING -->
+  <ng-template #bodyEmptyOrLoading>
+    <!-- skeletons -->
+    <tbody *ngIf="loading">
+    <tr *ngFor="let _ of skeletonArray; let r = index">
+      <td *ngIf="selectable" class="col-select"><span class="sk sk--circle"></span></td>
+      <td *ngFor="let col of columns"><span class="sk sk--line"></span></td>
+      <td *ngIf="hasActions" class="col-actions"><span class="sk sk--circle"></span></td>
+    </tr>
+    </tbody>
+
+    <!-- vazio -->
+    <tbody *ngIf="!loading && data.length === 0">
+    <tr>
+      <td class="empty"
+          [attr.colspan]="columns.length + (selectable?1:0) + (hasActions?1:0)">
+        {{ emptyMessage }}
+      </td>
+    </tr>
+    </tbody>
+  </ng-template>
 </table>

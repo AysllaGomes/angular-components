@@ -37,6 +37,14 @@ export class TableComponent<T = any> implements AfterContentInit {
   @ContentChildren(TableCellTemplateDirective) cellTemplates!: QueryList<TableCellTemplateDirective>;
   @ContentChild(TableActionsTemplateDirective) actionsTpl?: TableActionsTemplateDirective;
 
+  @Input() loading = false;
+  @Input() loadingRows = 5;
+  @Input() emptyMessage = 'Nenhum registro encontrado';
+
+  get skeletonArray() {
+    return Array.from({ length: Math.max(1, this.loadingRows) });
+  }
+
   private cellTplMap = new Map<string, TemplateRef<any>>();
 
   ngAfterContentInit(): void {
