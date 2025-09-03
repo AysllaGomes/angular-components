@@ -1,3 +1,7 @@
+button
+  border: none !important
+  background: transparent
+
 .tbl
   width: 100%
   border-collapse: separate
@@ -70,8 +74,6 @@ input[type="checkbox"]
   /* zera UI nativa */
   appearance: none
   -webkit-appearance: none
-  border: 0           /* <— remove a borda nativa */
-  background: none
   box-shadow: none
   padding: 0
 
@@ -91,10 +93,6 @@ input[type="checkbox"]
 
 /* variação sem fundo/borda (ghost) */
 .icon-btn--ghost
-  border: 0 !important   /* reforça caso algum outro estilo adicione borda */
-  background: transparent
-  box-shadow: none
-
   &:hover
     background: color-mix(in oklab, var(--tbl-action, #058075) 12%, transparent)
   &:focus-visible
