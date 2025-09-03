@@ -24,11 +24,14 @@ export class TableDemoComponent {
   rows: AdicionalRow[] = [
     { nome: 'Nome Colaborador',   tipo: 'Correntista',     documento: '111.222.333-44', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO' },
     { nome: 'Nome Colaborador - Não correntista', tipo: 'Não correntista', documento: '555.666.777-88', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 2' },
-    { nome: 'Nome Colaborador - Não correntista 2',tipo: 'Não correntista', documento: '012.345.678-90', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 3' },
+    { nome: 'Nome Colaborador - Correntista 2',tipo: 'Correntista', documento: '012.345.678-90', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 3' },
     { nome: 'Nome Colaborador - Não correntista 3',tipo: 'Não correntista', documento: '098.765.432-10', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 4' },
-    // { nome: 'Nome Colaborador - Não correntista 4',tipo: 'Não correntista', documento: '111.111.111-11', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 5' },
-    // { nome: 'Nome Colaborador - Não correntista 5',tipo: 'Não correntista', documento: '999.000.111-22', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 6' },
+    { nome: 'Nome Colaborador - Correntista 3',tipo: 'Correntista', documento: '111.111.111-11', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 5' },
+    { nome: 'Nome Colaborador - Não correntista 5',tipo: 'Não correntista', documento: '999.000.111-22', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO 6' },
   ];
+
+  loading = signal(false);
+  empty = signal(false);
 
   selected = signal<number[]>([]);
 
@@ -55,8 +58,9 @@ export class TableDemoComponent {
   pageIndex = signal(0);
 
   pagedRows = computed(() => {
+    const source = this.empty() ? [] : this.rows;
     const start = this.pageIndex() * this.pageSize;
-    return this.rows.slice(start, start + this.pageSize);
+    return source.slice(start, start + this.pageSize);
   });
 
   onEdit(row: AdicionalRow, index: number) {
@@ -65,5 +69,17 @@ export class TableDemoComponent {
 
   onAction(e: { type: string; row: AdicionalRow; index: number }) {
     if (e.type === 'edit') this.onEdit(e.row, e.index);
+  }
+
+  simulateLoad() {
+    if (this.loading()) return;
+    this.loading.set(true);
+    setTimeout(() => this.loading.set(false), 1500);
+  }
+
+  toggleEmpty() {
+    this.empty.update(v => !v);
+    // opcional: voltar para a primeira página ao esvaziar
+    this.pageIndex.set(0);
   }
 }

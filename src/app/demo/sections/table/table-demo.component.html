@@ -3,9 +3,23 @@
   <p class="lead">Tabela personalizável com checkbox, chips e coluna de ações — sem framework de UI.</p>
 
   <article class="card">
+    <div class="toolbar">
+      <button class="pill" type="button"
+              (click)="simulateLoad()"
+              [disabled]="loading()">
+        {{ loading() ? 'Carregando…' : 'Simular loading (1.5s)' }}
+      </button>
+
+      <button class="pill" type="button" (click)="toggleEmpty()">
+        {{ empty() ? 'Mostrar dados' : 'Mostrar vazio' }}
+      </button>
+    </div>
+
     <app-table
       [columns]="columns"
       [data]="pagedRows()"
+      [loading]="loading()"
+      [emptyMessage]="'Sem registros para exibir'"
       [selectable]="true"
       [showActions]="true"
       [actions]="actions"
@@ -25,19 +39,5 @@
       </app-pagination>
     </div>
 
-  </article>
-</section>
-
-<section id="table" class="demo-section">
-  <h2>Tabela</h2>
-  <p class="lead">Tabela sem dados.</p>
-
-  <article class="card">
-    <app-table
-      [columns]="columns"
-      [data]="[]"
-      [loading]="true"
-      [emptyMessage]="'Sem registros para exibir'">
-    </app-table>
   </article>
 </section>
