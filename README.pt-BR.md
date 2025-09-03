@@ -11,13 +11,13 @@
 
 ## Componentes
 
-| Componente | Descrição | Documentação | Demo |
-|-----------:|-----------|--------------|------|
-| **Stepper** | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema. | `src/app/shared/components/stepper/stepper.md` | `/demo#stepper` |
-| **Table** | Tabela flexível com checkbox por linha, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | `src/app/shared/components/table/table.md` | `/demo#table` |
-| **Pagination** | Paginação independente (bolhas numéricas + setas), controlada por `total`, `pageSize` e `pageIndex`. | `src/app/shared/components/pagination/pagination.md` | `/demo#pagination` |
+| Componente | Descrição | Docs | Demo |
+|-----------:|-----------|------|------|
+| **Stepper** | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema. | [PT‑BR](src/app/shared/components/stepper/stepper.md) · [EN](src/app/shared/components/stepper/stepper.en.md) | `/demo#stepper` |
+| **Table** | Tabela flexível com checkbox por linha, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | [PT‑BR](src/app/shared/components/table/table.md) · [EN](src/app/shared/components/table/table.en.md) | `/demo#table` |
+| **Pagination** | Paginação independente (bolhas numéricas + setas), controlada por `total`, `pageSize` e `pageIndex`. | [PT‑BR](src/app/shared/components/pagination/pagination.md) · [EN](src/app/shared/components/pagination/pagination.en.md) | `/demo#pagination` |
 
-> Cada componente deve ter sua própria pasta em `src/app/shared/components/<nome>/` com um **README/MD** cobrindo **API**, **exemplos**, **tokens de tema** e **boas práticas**.
+> Cada componente fica em `src/app/shared/components/<nome>/` com um **README/MD** cobrindo **API**, **exemplos**, **tokens de tema** e **boas práticas**. EN é a referência primária; PT‑BR é sincronizado quando possível.
 
 ---
 
@@ -38,18 +38,21 @@ src/
           stepper.component.ts
           stepper.component.html
           stepper.component.sass
-          stepper.md
+          stepper.md          # PT‑BR
+          stepper.en.md       # EN (referência)
         table/
           table.component.ts
           table.component.html
           table.component.sass
-          table.directives.ts   # appCell / appActions
-          table.md
+          table.directives.ts # appCell / appActions
+          table.md            # PT‑BR
+          table.en.md         # EN (referência)
         pagination/
           pagination.component.ts
           pagination.component.html
           pagination.component.sass
-          pagination.md
+          pagination.md       # PT‑BR
+          pagination.en.md    # EN (referência)
     app.routes.ts
   styles.sass                  # tokens e variáveis globais
 ```
@@ -80,39 +83,10 @@ ng test
 ## Padrão para novos componentes
 
 1. **Standalone**: `standalone: true` e, quando viável, `ChangeDetectionStrategy.OnPush`.
-2. **Arquivos**: `*.component.ts/html/sass` + `README.md` do componente na mesma pasta.
+2. **Arquivos**: `*.component.ts/html/sass` + um `README.md` por componente (EN) e opcional `README.pt-BR.md`.
 3. **Theming**: use **CSS Custom Properties** com *fallbacks* (`var(--badge-fg, #1f2937)`).
 4. **Acessibilidade**: marcação semântica, `role`/`aria-*` e foco visível quando aplicável.
 5. **Demo**: adicione uma *section* na página de demo e um link no header.
-
-### Blueprint
-```ts
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-
-@Component({
-  selector: 'app-nome',
-  standalone: true,
-  templateUrl: './nome.component.html',
-  styleUrl: './nome.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class NomeComponent {
-  @Input() disabled = false;
-  @Output() action = new EventEmitter<void>();
-}
-```
-
-```html
-<section class="nome" [class.is-disabled]="disabled">
-  <!-- markup -->
-</section>
-```
-
-```sass
-/* nome.component.sass */
-.nome
-  color: var(--nome-text, #1f2937)
-```
 
 ---
 

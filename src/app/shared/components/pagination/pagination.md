@@ -1,3 +1,5 @@
+<p align="right"><a href="./pagination.en.md">English</a></p>
+
 # Pagination (Standalone, HTML + Sass)
 
 Componente de **paginação independente** (não acopla à Tabela), pensado para funcionar tanto com **fatiamento client-side** quanto **server-side**. Visual em “bolhas”, setas laterais e controles acessíveis.

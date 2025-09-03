@@ -11,13 +11,13 @@
 
 ## Components
 
-| Component | Description | Documentation | Demo |
-|---------:|-------------|---------------|------|
-| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | `src/app/shared/components/stepper/stepper.md` | `/demo#stepper` |
-| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | `src/app/shared/components/table/table.md` | `/demo#table` |
-| **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | `src/app/shared/components/pagination/pagination.md` | `/demo#pagination` |
+| Component | Description | Docs | Demo |
+|---------:|-------------|------|------|
+| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT‑BR](src/app/shared/components/stepper/stepper.md) | `/demo#stepper` |
+| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | [EN](src/app/shared/components/table/table.en.md) · [PT‑BR](src/app/shared/components/table/table.md) | `/demo#table` |
+| **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT‑BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
 
-> Each component should live under `src/app/shared/components/<name>/` with its own **README/MD** covering **API**, **examples**, **theme tokens**, and **best practices**.
+> Each component lives under `src/app/shared/components/<name>/` with its own **README/MD** covering **API**, **examples**, **theme tokens**, and **best practices**. English is the default; PT‑BR is kept in sync when possible.
 
 ---
 
@@ -38,18 +38,21 @@ src/
           stepper.component.ts
           stepper.component.html
           stepper.component.sass
-          stepper.md
+          stepper.md          # PT‑BR
+          stepper.en.md       # EN (default)
         table/
           table.component.ts
           table.component.html
           table.component.sass
-          table.directives.ts   # appCell / appActions
-          table.md
+          table.directives.ts # appCell / appActions
+          table.md            # PT‑BR
+          table.en.md         # EN (default)
         pagination/
           pagination.component.ts
           pagination.component.html
           pagination.component.sass
-          pagination.md
+          pagination.md       # PT‑BR
+          pagination.en.md    # EN (default)
     app.routes.ts
   styles.sass                  # global tokens/variables
 ```
@@ -80,39 +83,10 @@ ng test
 ## Pattern for new components
 
 1. **Standalone:** set `standalone: true` and, when feasible, `ChangeDetectionStrategy.OnPush`.
-2. **Files:** keep `*.component.ts/html/sass` + a per-component `README.md` in the same folder.
+2. **Files:** keep `*.component.ts/html/sass` + a per-component `README.md` (EN) and optional `README.pt-BR.md`.
 3. **Theming:** use **CSS Custom Properties** with fallbacks, e.g. `var(--badge-fg, #1f2937)`.
 4. **Accessibility:** semantic markup and proper `role`/`aria-*`/focus where applicable.
 5. **Demo:** add a section to the demo page and a header link.
-
-### Blueprint
-```ts
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-
-@Component({
-  selector: 'app-name',
-  standalone: true,
-  templateUrl: './name.component.html',
-  styleUrl: './name.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class NameComponent {
-  @Input() disabled = false;
-  @Output() action = new EventEmitter<void>();
-}
-```
-
-```html
-<section class="name" [class.is-disabled]="disabled">
-  <!-- markup -->
-</section>
-```
-
-```sass
-/* name.component.sass */
-.name
-  color: var(--name-text, #1f2937)
-```
 
 ---
 

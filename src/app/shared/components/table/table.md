@@ -1,3 +1,5 @@
+<p align="right"><a href="./table.en.md">English</a></p>
+
 # Table (HTML + Sass, Standalone Angular)
 
 Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _chips_ e células customizáveis — tudo em **HTML + Sass**, exposta como componente **standalone** (sem framework de UI).

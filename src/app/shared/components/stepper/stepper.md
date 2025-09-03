@@ -1,3 +1,5 @@
+<p align="right"><a href="./stepper.en.md">English</a></p>
+
 # Stepper (HTML + Sass, Standalone Angular)
 
 Um **componente de etapas** leve e acessível, implementado em **HTML + Sass**, exposto como Angular **Standalone**. Sem dependência de UI framework.
