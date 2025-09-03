@@ -1,33 +1,37 @@
+<p align="right"><a href="./README.pt-BR.md">Português (BR)</a></p>
+
 # Angular Components (Standalone, HTML + Sass)
 
-> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: Stepper, Table) com **HTML + Sass** e **Angular Standalone**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
+> **Purpose:** build **reusable UI components** (e.g., Stepper, Table, Pagination) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
-- **Demo local:** `http://localhost:4200/demo`
+- **Local demo:** `http://localhost:4200/demo`
 - **Stack:** Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties (theming).
 
 ---
 
-## Componentes
+## Components
 
-| Componente | Descrição | Documentação | Demo |
-|-----------:|-----------|--------------|------|
-| **Stepper** | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema. | `src/app/shared/components/stepper/stepper.md` | `/demo#stepper` |
-| **Table** | Tabela flexível com checkbox, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | `src/app/shared/components/table/table.md` | `/demo#table` |
+| Component | Description | Documentation | Demo |
+|---------:|-------------|---------------|------|
+| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | `src/app/shared/components/stepper/stepper.md` | `/demo#stepper` |
+| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | `src/app/shared/components/table/table.md` | `/demo#table` |
+| **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | `src/app/shared/components/pagination/pagination.md` | `/demo#pagination` |
 
-> Cada componente deve ter sua própria pasta em `src/app/shared/components/<nome>/` com um **README/MD** descrevendo: **API**, **exemplos**, **tokens de tema** e **boas práticas**.
+> Each component should live under `src/app/shared/components/<name>/` with its own **README/MD** covering **API**, **examples**, **theme tokens**, and **best practices**.
 
 ---
 
-## Estrutura sugerida
+## Suggested structure
 
 ```
 src/
   app/
-    demo/                     # página de demonstração (header/footer/sections)
+    demo/                     # demo page (header/footer/sections)
       demo-page.component.*
       sections/
         stepper-demo.component.*
         table-demo.component.*
+        pagination-demo.component.*
     shared/
       components/
         stepper/
@@ -41,75 +45,80 @@ src/
           table.component.sass
           table.directives.ts   # appCell / appActions
           table.md
+        pagination/
+          pagination.component.ts
+          pagination.component.html
+          pagination.component.sass
+          pagination.md
     app.routes.ts
-  styles.sass                  # tokens e variáveis globais
+  styles.sass                  # global tokens/variables
 ```
 
 ---
 
-## Como rodar
+## How to run
 
 ### Dev server
 ```bash
 ng serve
 ```
-Abra `http://localhost:4200/demo`. A aplicação recarrega ao salvar.
+Open `http://localhost:4200/demo`. Live reload on save.
 
 ### Build
 ```bash
 ng build
 ```
-Artefatos em `dist/` (modo server/SSR conforme `angular.json`).
+Artifacts in `dist/` (server/SSR per `angular.json`).
 
-### Testes
+### Tests
 ```bash
 ng test
 ```
 
 ---
 
-## Padrão para novos componentes
+## Pattern for new components
 
-1. **Standalone**: `standalone: true` e, quando viável, `ChangeDetectionStrategy.OnPush`.
-2. **Arquivos**: `*.component.ts/html/sass` + `README.md` do componente na mesma pasta.
-3. **Theming**: use **CSS Custom Properties** com *fallbacks* (`var(--badge-fg, #1f2937)`).
-4. **Acessibilidade**: marcação semântica, `role`/`aria-*` e foco visível quando aplicável.
-5. **Demo**: adicione uma *section* na página de demo e um link no header.
+1. **Standalone:** set `standalone: true` and, when feasible, `ChangeDetectionStrategy.OnPush`.
+2. **Files:** keep `*.component.ts/html/sass` + a per-component `README.md` in the same folder.
+3. **Theming:** use **CSS Custom Properties** with fallbacks, e.g. `var(--badge-fg, #1f2937)`.
+4. **Accessibility:** semantic markup and proper `role`/`aria-*`/focus where applicable.
+5. **Demo:** add a section to the demo page and a header link.
 
 ### Blueprint
 ```ts
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-nome',
+  selector: 'app-name',
   standalone: true,
-  templateUrl: './nome.component.html',
-  styleUrl: './nome.component.sass',
+  templateUrl: './name.component.html',
+  styleUrl: './name.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NomeComponent {
+export class NameComponent {
   @Input() disabled = false;
   @Output() action = new EventEmitter<void>();
 }
 ```
 
 ```html
-<section class="nome" [class.is-disabled]="disabled">
+<section class="name" [class.is-disabled]="disabled">
   <!-- markup -->
 </section>
 ```
 
 ```sass
-/* nome.component.sass */
-.nome
-  color: var(--nome-text, #1f2937)
+/* name.component.sass */
+.name
+  color: var(--name-text, #1f2937)
 ```
 
 ---
 
-## Theming global
+## Global theming
 
-Defina no `styles.sass` tokens globais (ex.: cores do Stepper e Table) e sobrescreva por página quando necessário.
+Define global tokens in `styles.sass` (Stepper, Table, Pagination) and override per page as needed:
 
 ```sass
 :root
@@ -133,34 +142,34 @@ Defina no `styles.sass` tokens globais (ex.: cores do Stepper e Table) e sobresc
   --tbl-fg: #0f1720
   --tbl-muted: #6b7280
   --tbl-action: #058075
+
+  /* Pagination */
+  --pg-active-bg: var(--tbl-action, #058075)
+  --pg-active-fg: #ffffff
+  --pg-page-bg: #eef6f4
+  --pg-ghost-bg: #eeeeee
+  --pg-hover: color-mix(in oklab, var(--pg-active-bg) 12%, white)
+  --pg-fg: #0f1720
 ```
 
 ---
 
-## SSR (cuidados)
+## SSR notes
 
-Em serviços/utilitários que acessam `window`, `document` ou `localStorage`, cheque o ambiente com `isPlatformBrowser`. O `ThemeService` está **SSR-safe** e serve como exemplo:
-
-```ts
-import { isPlatformBrowser } from '@angular/common';
-import { inject, PLATFORM_ID, effect, signal } from '@angular/core';
-// ...
-private platformId = inject(PLATFORM_ID);
-private isBrowser = isPlatformBrowser(this.platformId);
-// só usar localStorage/document se isBrowser === true
-```
+For services/utilities touching `window`, `document`, or `localStorage`, guard with `isPlatformBrowser`. The current `ThemeService` is **SSR-safe** and can serve as an example.
 
 ---
 
 ## Roadmap
 
-- [ ] Novas seções na demo para cada componente
-- [ ] Stepper vertical / ícones / navegação por teclado
-- [ ] Table: ordenação, empty/loading/error, paginação, ações em massa
-- [ ] Componentes adicionais (Badge, Pagination, Toast)
+- [ ] New demo sections per component
+- [ ] Stepper: vertical / icons / keyboard navigation
+- [ ] Table: sorting, empty/loading/error states, pagination, bulk actions
+- [ ] Pagination: first/last buttons, keyboard shortcuts, compact variant
+- [ ] Additional components (Badge, Toast, page-size selector)
 
 ---
 
-## Licença
+## License
 
-MIT — use, adapte e contribua.
+MIT — feel free to use, adapt, and contribute.
