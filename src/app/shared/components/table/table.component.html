@@ -5,6 +5,7 @@
         <input
           type="checkbox"
           [checked]="allSelected"
+          [indeterminate]="selected.length>0 && selected.length<data.length"
           (change)="toggleAll($any($event.target).checked)"
           aria-label="Selecionar tudo">
       </th>
@@ -21,7 +22,7 @@
           [class.align-right]="col.align==='right'"
           [attr.aria-sort]="sortKey===col.key ? (sortDir==='asc'?'ascending':'descending') : 'none'">
           {{ col.header }}
-          <span class="sort" *ngIf="sortKey===col.key">{{ sortDir==='asc' ? '▲' : '▼' }}</span>
+          <span class="sort" [attr.title]="'Clique para ordenar'" *ngIf="sortKey===col.key">{{ sortDir==='asc' ? '▲' : '▼' }}</span>
         </th>
       </ng-container>
 
