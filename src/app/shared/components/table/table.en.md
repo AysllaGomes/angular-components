@@ -43,37 +43,89 @@ export interface ColumnDef<T = any> {
 ## API
 
 ### Inputs
-| Input         | Type                    | Default | Description |
-|---------------|-------------------------|:------:|-------------|
-| `data`        | `T[]`                   |   —    | Table rows. |
-| `columns`     | `ColumnDef<T>[]`        |   —    | Declarative columns. |
-| `selectable`  | `boolean`               | `false`| Show row checkbox and “select all”. |
-| `showActions` | `boolean`               | `false`| Show actions column. (Automatically true if `[actions]` or `appActions` is provided.) |
-| `selected`    | `number[]`              | `[]`   | Controlled selection (row indices). |
-| `actions`     | `(TableAction<T> | ActionKind)[]` | `[]` | Declarative actions rendered automatically when no `appActions` slot is provided. |
+| Input            | Type                             |         Default         | Description                                                                           |
+|------------------|----------------------------------|:-----------------------:|---------------------------------------------------------------------------------------|
+| `data`           | `T[]`                            |            —            | Table rows.                                                                           |
+| `columns`        | `ColumnDef<T>[]`                 |            —            | Declarative columns.                                                                  |
+| `selectable`     | `boolean`                        |         `false`         | Show row checkbox and “select all”.                                                   |
+| `showActions`    | `boolean`                        |         `false`         | Show actions column. (Automatically true if `[actions]` or `appActions` is provided.) |
+| `selected`       | `number[]`                       |          `[]`           | Controlled selection (row indices).                                                   |
+| `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
+| `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
+| `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
+| `emptyMessage`   | `string`                         | `No records to display` | Empty-state message.                                                                  |
+| `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
+| `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
 
 ### Outputs
-| Output           | Payload                               | When |
-|------------------|----------------------------------------|------|
-| `selectedChange` | `number[]`                             | Row or “select all” changes. |
+| Output           | Payload                                   | When                                                  |
+|------------------|-------------------------------------------|-------------------------------------------------------|
+| `selectedChange` | `number[]`                                | Row or “select all” changes.                          |
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
+| `sortChange`     | `{ key: string; dir: 'asc'                | 'desc' }`                                             | User clicked a header and changed sorting. |
 
 ### Projectable templates
-- **Custom cell (`appCell`)** — context: `$implicit` (value), `row`, `index`  
+- **Custom cell (`appCell`)** — context: `$implicit` (value), `row`, `index`
   ```html
-  <ng-template appCell="documento" let-value let-row="row" let-index="index">
+  <ng-template appCell="documento" let-value="" let-row="row" let-index="index">
     {{ value }}
   </ng-template>
   ```
 
-- **Actions (`appActions`)** — context: `row`, `index`  
+- **Actions (`appActions`)** — context: `row`, `index`
   ```html
-  <ng-template appActions let-row let-index="index">
+  <ng-template appActions let-row="" let-index="index">
     <button class="icon-btn icon-btn--ghost" (click)="onEdit(row, index)" aria-label="Edit">
       ✏️
     </button>
   </ng-template>
   ```
+
+---
+### Sorting (controlled)
+
+The component emits `sortChange` and sets `aria-sort` on `<th>`. Keep the sorted view in the host:
+
+```ts
+type SortState = { key: string; dir: 'asc'|'desc' };
+const sort = signal<SortState|null>(null);
+const collator = new Intl.Collator(undefined, { numeric:true, sensitivity:'base' });
+
+const sortedRows = computed(() => {
+  const s = sort(); if (!s) return rows;
+  const k = s.key as keyof Row;
+  const dir = s.dir === 'asc' ? 1 : -1;
+  return [...rows].sort((a,b) => {
+    const av = a[k] as any, bv = b[k] as any;
+    const cmp = (typeof av === 'number' && typeof bv === 'number')
+      ? av - bv
+      : collator.compare(String(av ?? ''), String(bv ?? ''));
+    return cmp * dir;
+  });
+});
+```
+
+```html
+<app-table
+  [columns]="columns"
+  [data]="sortedRows()"
+  (sortChange)="sort.set($event)">
+</app-table>
+```
+
+---
+
+### Loading & Empty
+
+```html
+<app-table
+  [columns]="columns"
+  [data]="rows"
+  [loading]="loading()"
+  [loadingRows]="5"
+  [emptyMessage]="'No records to display'">
+</app-table>
+```
 
 ---
 
@@ -110,7 +162,9 @@ If you pass `[actions]`, the component auto-renders an action list **unless** yo
 ```
 
 ### With chips and custom actions
+
 ```html
+
 <app-table
   [columns]="columns"
   [data]="rows"
@@ -118,9 +172,9 @@ If you pass `[actions]`, the component auto-renders an action list **unless** yo
   [actions]="actions"
   (action)="onAction($event)">
 
-  <ng-template appActions let-row let-index="index">
+  <ng-template appActions let-row="" let-index="index">
     <button class="icon-btn icon-btn--ghost" (click)="onEdit(row, index)" aria-label="Edit">
-      <img src="/icons/svg/pen-box.svg" width="24" height="24" alt="" />
+      <img src="/icons/svg/pen-box.svg" width="24" height="24" alt=""/>
     </button>
   </ng-template>
 </app-table>
@@ -151,6 +205,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
+- Clickable header with `aria-sort="ascending|descending|none"` and visible focus on the `th` (Enter/Space toggles).
 
 ---
 
@@ -161,7 +216,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 ---
 
 ## Roadmap
-- [ ] Sorting
-- [ ] Empty/Loading/Error states
+- [x] Sorting
+- [x] Empty/Loading/Error states
 - [ ] Pagination helpers & bulk actions
 - [ ] Responsive columns for small screens

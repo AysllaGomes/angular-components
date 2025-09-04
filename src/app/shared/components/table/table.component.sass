@@ -134,3 +134,15 @@ td.empty
   text-align: center
   color: var(--tbl-muted)
   padding: 24px 14px
+
+.tbl thead th[role="button"]
+  cursor: pointer
+  user-select: none
+  &:focus-visible
+    outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
+    outline-offset: 2px
+
+.tbl thead .sort
+  margin-left: .25rem
+  font-size: .8em
+  opacity: .75

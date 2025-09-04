@@ -11,6 +11,7 @@ import { AdicionalRow } from '../../../shared/model/interface/adicional-row.inte
 
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import {SortState} from '../../../shared/model/type/sort-state.type';
 
 @Component({
   selector: 'app-table-demo',
@@ -62,11 +63,38 @@ export class TableDemoComponent {
 
   pageIndex = signal(0);
 
-  pagedRows = computed(() => {
-    const source = this.empty() ? [] : this.rows;
-    const start = this.pageIndex() * this.pageSize;
-    return source.slice(start, start + this.pageSize);
+  sort = signal<SortState | null>(null);
+
+  // comparador amigável p/ strings e números
+  private collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
+  sortedRows = computed(() => {
+    const rows = this.empty() ? [] : this.rows;
+    const s = this.sort();
+    if (!s) return rows;
+
+    const key = s.key as keyof AdicionalRow;
+    const dir = s.dir === 'asc' ? 1 : -1;
+
+    return [...rows].sort((a, b) => {
+      const av = a[key] as any;
+      const bv = b[key] as any;
+      const cmp = (typeof av === 'number' && typeof bv === 'number')
+        ? av - bv
+        : this.collator.compare(String(av ?? ''), String(bv ?? ''));
+      return cmp * dir;
+    });
   });
+
+  pagedRows = computed(() => {
+    const start = this.pageIndex() * this.pageSize;
+    return this.sortedRows().slice(start, start + this.pageSize);
+  });
+
+  onSort(e: SortState) {
+    this.sort.set(e);
+    this.pageIndex.set(0); // volta pra primeira página ao ordenar
+  }
 
   onEdit(row: AdicionalRow, index: number) {
     console.log('editar', index, row);

@@ -112,19 +112,25 @@ export interface TableAction<T = any> {
 ```
 
 ### Inputs
-| Propriedade   | Tipo                         | Padrão | Descrição |
-|---------------|------------------------------|:------:|-----------|
-| `data`        | `T[]`                        |   —    | Linhas da tabela. |
-| `columns`     | `ColumnDef<T>[]`             |   —    | Colunas declarativas. |
-| `selectable`  | `boolean`                    | `false`| Mostra checkbox por linha e “selecionar tudo”. |
-| `showActions` | `boolean`                    | `false`| (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
-| `actions`     | `(TableAction \| ActionKind)[]` | `[]`   | Define ações **declarativas** com ícones padrão ou por `iconUrl`. |
+| Propriedade     | Tipo                            |                                                               Padrão                                                                | Descrição                                                                                                    |
+|-----------------|---------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------:|--------------------------------------------------------------------------------------------------------------|
+| `data`          | `T[]`                           |                                                                  —                                                                  | Linhas da tabela.                                                                                            |
+| `columns`       | `ColumnDef<T>[]`                |                                                                  —                                                                  | Colunas declarativas.                                                                                        |
+| `selectable`    | `boolean`                       |                                                               `false`                                                               | Mostra checkbox por linha e “selecionar tudo”.                                                               |
+| `showActions`   | `boolean`                       |                                                               `false`                                                               | (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
+| `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
+| `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
+| `loadingRows`   | `number`                        |                                                                 `5`                                                                 | Quantidade de linhas do skeleton.                                                                            |
+| `emptyMessage`  | `string`                        |                                                    `Nenhum registro encontrado`                                                     | Mensagem para o estado vazio.                                                                                |
+| `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
+| `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 
 ### Outputs
-| Evento             | Payload                                   | Quando dispara |
-|--------------------|-------------------------------------------|----------------|
-| `selectedChange`   | `number[]`                                 | Alterou seleção (linha ou “selecionar tudo”). |
-| `action`           | `{ type: ActionKind; row: T; index: number }` | Clique numa ação declarativa (quando usando `[actions]`). |
+| Evento            | Payload                                         | Quando dispara                                            |
+|-------------------|-------------------------------------------------|-----------------------------------------------------------|
+| `selectedChange`  | `number[]`                                      | Alterou seleção (linha ou “selecionar tudo”).             |
+| `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
+| `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
 
 ### Templates projetáveis
 - **Célula custom (`appCell`)**  
@@ -142,6 +148,55 @@ export interface TableAction<T = any> {
     <button class="icon-btn icon-btn--ghost" (click)="onEdit(row, index)">✏️</button>
   </ng-template>
   ```
+
+---
+### Ordenação (controlada)
+
+O componente emite `sortChange` e expõe `aria-sort` no `<th>`. Controle a ordenação no host:
+
+```ts
+type SortState = { key: string; dir: 'asc'|'desc' };
+
+const sort = signal<SortState|null>(null);
+const collator = new Intl.Collator(undefined, { numeric:true, sensitivity:'base' });
+
+const sortedRows = computed(() => {
+  const s = sort(); if (!s) return rows;
+  const k = s.key as keyof Row;
+  const dir = s.dir === 'asc' ? 1 : -1;
+  return [...rows].sort((a,b) => {
+    const av = a[k] as any, bv = b[k] as any;
+    const cmp = (typeof av === 'number' && typeof bv === 'number')
+      ? av - bv
+      : collator.compare(String(av ?? ''), String(bv ?? ''));
+    return cmp * dir;
+  });
+});
+```
+
+```html
+<app-table
+  [columns]="columns"
+  [data]="sortedRows()"
+  (sortChange)="sort.set($event)">
+</app-table>
+```
+
+---
+## Loading e Empty
+
+```md
+### Loading e vazio
+
+```html
+<app-table
+  [columns]="columns"
+  [data]="rows"
+  [loading]="loading()"
+  [loadingRows]="5"
+  [emptyMessage]="'Sem registros para exibir'">
+</app-table>
+```
 
 ---
 
@@ -178,8 +233,14 @@ Declare/ajuste tokens no `styles.sass` (ou no wrapper da página):
 
 No Sass do componente essas variáveis já são usadas em header, linhas, bordas, chips e botões.
 
----
 
+## Acessibilidade
+Adicionar uma bullet:
+```md
+- Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
+```
+
+---
 ## Estilos dos botões de ação
 
 Para evitar borda/fundo nativos e deixar “ghost”:
@@ -223,8 +284,8 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 
 ## Roadmap
 
-- [ ] Ordenação por coluna
-- [ ] Empty/Loading/Error states
+- [x] Ordenação por coluna
+- [x] Empty/Loading/Error states
 - [ ] Paginação
 - [ ] Ações em massa (seleção)
 - [ ] Responsivo com colunas colapsáveis

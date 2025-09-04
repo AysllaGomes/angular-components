@@ -24,9 +24,12 @@
       [loading]="loading()"
       [emptyMessage]="'table.empty' | t"
       [selectable]="true"
-      [showActions]="true"
       [actions]="actions()"
+      [showActions]="true"
       [selected]="selected()"
+      [sortKey]="sort()?.key || undefined"
+      [sortDir]="sort()?.dir || 'asc'"
+      (sortChange)="onSort($event)"
       (selectedChange)="selected.set($event)"
       (action)="onAction($event)">
     </app-table>

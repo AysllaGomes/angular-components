@@ -21,6 +21,12 @@ export class TableComponent<T = any> implements AfterContentInit {
   @Input() actions: (TableAction<T> | ActionKind)[] = [];
   @Input({ required: true }) columns: ColumnDef<T>[] = [];
 
+  @Input() loading = false;
+  @Input() loadingRows = 5;
+  @Input() emptyMessage = 'Nenhum registro encontrado';
+  @Input() sortKey?: string;
+  @Input() sortDir: 'asc'|'desc' = 'asc';
+
   /** Mostra coluna de seleção por checkbox */
   @Input() selectable = false;
 
@@ -30,16 +36,13 @@ export class TableComponent<T = any> implements AfterContentInit {
   /** linhas selecionadas por índice */
   @Input() selected: number[] = [];
   @Output() selectedChange = new EventEmitter<number[]>();
+  @Output() sortChange = new EventEmitter<{ key: string; dir: 'asc'|'desc' }>();
 
   /** evento para ações padrão (se você quiser escutar) */
   @Output() action = new EventEmitter<{ type: string; row: T; index: number }>();
 
   @ContentChildren(TableCellTemplateDirective) cellTemplates!: QueryList<TableCellTemplateDirective>;
   @ContentChild(TableActionsTemplateDirective) actionsTpl?: TableActionsTemplateDirective;
-
-  @Input() loading = false;
-  @Input() loadingRows = 5;
-  @Input() emptyMessage = 'Nenhum registro encontrado';
 
   get skeletonArray() {
     return Array.from({ length: Math.max(1, this.loadingRows) });
@@ -100,9 +103,6 @@ export class TableComponent<T = any> implements AfterContentInit {
     return !!(this.showActions || (this.actions && this.actions.length) || this.actionsTpl);
   }
 
-  isActionVisible(a: TableAction<T>, row: T, index: number) {
-    return a.visible ? !!a.visible(row, index) : true;
-  }
   isActionDisabled(a: TableAction<T>, row: T, index: number) {
     return a.disabled ? !!a.disabled(row, index) : false;
   }
@@ -111,6 +111,15 @@ export class TableComponent<T = any> implements AfterContentInit {
     this.action.emit({ type: kind, row, index });
   }
 
+  onHeaderClick(col: ColumnDef<T>) {
+    if (!col.key || col.type === 'custom') return;
+    const key = String(col.key);
+    const dir = (this.sortKey === key && this.sortDir === 'asc') ? 'desc' : 'asc';
+    this.sortKey = key; this.sortDir = dir;
+    this.sortChange.emit({ key, dir });
+  }
+
   trackByIndex = (_: number, __: unknown) => _;
+  trackByCol = (_: number, c: ColumnDef) => c.key as string;
   protected readonly String = String;
 }

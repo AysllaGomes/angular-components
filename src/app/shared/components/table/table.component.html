@@ -2,22 +2,33 @@
   <thead>
     <tr>
       <th *ngIf="selectable" class="col-select">
-        <input type="checkbox"
-               [checked]="allSelected"
-               (change)="toggleAll($any($event.target).checked)"
-               aria-label="Selecionar tudo">
+        <input
+          type="checkbox"
+          [checked]="allSelected"
+          (change)="toggleAll($any($event.target).checked)"
+          aria-label="Selecionar tudo">
       </th>
 
-      <th *ngFor="let col of columns"
+      <!-- use um ng-container para o *ngFor -->
+      <ng-container *ngFor="let col of columns; trackBy: trackByCol">
+        <th
+          (click)="onHeaderClick(col)"
+          (keydown.enter)="onHeaderClick(col)"
+          (keydown.space)="onHeaderClick(col)"
+          tabindex="0" role="button"
           [style.width]="col.width || null"
           [class.align-center]="col.align==='center'"
-          [class.align-right]="col.align==='right'">
-        {{ col.header }}
-      </th>
+          [class.align-right]="col.align==='right'"
+          [attr.aria-sort]="sortKey===col.key ? (sortDir==='asc'?'ascending':'descending') : 'none'">
+          {{ col.header }}
+          <span class="sort" *ngIf="sortKey===col.key">{{ sortDir==='asc' ? '▲' : '▼' }}</span>
+        </th>
+      </ng-container>
 
-      <th *ngIf="showActions" class="col-actions"></th>
+      <th *ngIf="hasActions" class="col-actions"></th>
     </tr>
   </thead>
+
 
   <!-- DADOS -->
   <tbody *ngIf="!loading && data.length > 0; else bodyEmptyOrLoading">
