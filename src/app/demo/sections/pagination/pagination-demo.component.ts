@@ -1,11 +1,14 @@
-import { Component, signal, computed } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { Component, signal, computed } from '@angular/core';
+
+import { TPipe } from '../../../shared/i18n/t.pipe';
+
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-pagination-demo',
   standalone: true,
-  imports: [NgIf, PaginationComponent],
+  imports: [NgIf, PaginationComponent, TPipe],
   templateUrl: './pagination-demo.component.html'
 })
 export class PaginationDemoComponent {
@@ -13,16 +16,10 @@ export class PaginationDemoComponent {
   pageSize = signal(5);
   pageIndex = signal(0);
 
-  // texto “Mostrando X–Y de Z”
-  rangeText = computed(() => {
-    const size = this.pageSize();
-    const idx = this.pageIndex();
-    const start = idx * size + 1;
-    const end = Math.min(this.total(), start + size - 1);
-    return `${start}–${end} de ${this.total()}`;
-  });
+  // helpers para usar no template
+  start = computed(() => this.pageIndex() * this.pageSize() + 1);
+  end   = computed(() => Math.min(this.total(), this.start() + this.pageSize() - 1));
 
-  // se o usuário trocar o pageSize, garante que o índice continua válido
   onPageSizeChange(size: number) {
     this.pageSize.set(size);
     const last = Math.max(0, Math.ceil(this.total() / size) - 1);

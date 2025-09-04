@@ -1,5 +1,8 @@
 import { Component, inject } from '@angular/core';
 
+import { TPipe } from '../../../shared/i18n/t.pipe';
+
+import { I18nService } from '../../../shared/services/i18n.service';
 import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
@@ -7,44 +10,45 @@ import { ToastService } from '../../../shared/services/toast.service';
   standalone: true,
   templateUrl: './toast-demo.component.html',
   styleUrl: './toast-demo.component.sass',
+  imports: [
+    TPipe
+  ]
 })
 export class ToastDemoComponent {
   private toast = inject(ToastService);
+  private i18n  = inject(I18nService);
 
   ok() {
-    this.toast.success('Mensagem de sucesso.');
+    this.toast.success(this.i18n.t('toast.msg.success'));
   }
 
   warn() {
-    this.toast.warning('Mensagem de alerta.');
+    this.toast.warning(this.i18n.t('toast.msg.warn'));
   }
 
   info() {
-    this.toast.info('Mensagem de info.');
+    this.toast.info(this.i18n.t('toast.msg.info'));
   }
 
   fail() {
-    this.toast.error(
-      'Recomece sua jornada ou entre em contato com o suporte.',
-      { duration: 7000 }
-    );
+    this.toast.error(this.i18n.t('toast.msg.error'), { duration: 7000 });
   }
 
   withAction() {
-    this.toast.info('Arquivo pronto para download.', {
-      actionLabel: 'Baixar',
-      onAction: () => console.log('→ usuário clicou em “Baixar”')
+    this.toast.info(this.i18n.t('toast.msg.action'), {
+      actionLabel: this.i18n.t('toast.action.download'),
+      onAction: () => console.log('→', this.i18n.t('toast.action.download'))
     });
   }
 
   many() {
-    this.toast.success('Pedido enviado!');
-    this.toast.info('Processando…');
-    this.toast.warning('Atenção: revise os campos.');
-    this.toast.error('Falha ao salvar.');
+    this.toast.success(this.i18n.t('toast.msg.many.1'));
+    this.toast.info(this.i18n.t('toast.msg.many.2'));
+    this.toast.warning(this.i18n.t('toast.msg.many.3'));
+    this.toast.error(this.i18n.t('toast.msg.many.4'));
   }
 
   sticky() {
-    this.toast.info('Este toast só sai no X (duration: 0).', { duration: 0 });
+    this.toast.info(this.i18n.t('toast.msg.sticky'), { duration: 0 });
   }
 }

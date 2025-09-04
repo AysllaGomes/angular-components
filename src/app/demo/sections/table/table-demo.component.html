@@ -1,17 +1,20 @@
 <section id="table" class="demo-section">
-  <h2>Tabela</h2>
-  <p class="lead">Tabela personalizável com checkbox, chips e coluna de ações — sem framework de UI.</p>
+  <h2>{{ 'section.table.title' | t }}</h2>
+  <p class="lead">{{ 'section.table.lead' | t }}</p>
 
   <article class="card">
     <div class="toolbar">
       <button class="pill" type="button"
               (click)="simulateLoad()"
               [disabled]="loading()">
-        {{ loading() ? 'Carregando…' : 'Simular loading (1.5s)' }}
+        {{ loading() ? ('table.toolbar.simulate.loading' | t)
+        : ('table.toolbar.simulate' | t) }}
       </button>
 
       <button class="pill" type="button" (click)="toggleEmpty()">
-        {{ empty() ? 'Mostrar dados' : 'Mostrar vazio' }}
+        {{ empty()
+        ? ('table.toolbar.toggleEmpty.hide' | t)
+        : ('table.toolbar.toggleEmpty.show' | t) }}
       </button>
     </div>
 
@@ -19,17 +22,17 @@
       [columns]="columns"
       [data]="pagedRows()"
       [loading]="loading()"
-      [emptyMessage]="'Sem registros para exibir'"
+      [emptyMessage]="'table.empty' | t"
       [selectable]="true"
       [showActions]="true"
-      [actions]="actions"
+      [actions]="actions()"
       [selected]="selected()"
       (selectedChange)="selected.set($event)"
       (action)="onAction($event)">
     </app-table>
 
     <div class="tbl-footer" *ngIf="rows.length > pageSize">
-      <span class="total">Total de {{ rows.length }} registro(s)</span>
+      <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
 
       <app-pagination
         [total]="rows.length"
@@ -38,6 +41,5 @@
         (pageChange)="pageIndex.set($event)">
       </app-pagination>
     </div>
-
   </article>
 </section>

@@ -1,25 +1,30 @@
 import { NgIf } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
-import { TableComponent } from '../../../shared/components/table/table.component';
+import { TPipe } from '../../../shared/i18n/t.pipe';
+
+import { I18nService } from '../../../shared/services/i18n.service';
 
 import { ColumnDef } from '../../../shared/model/interface/column-def.interface';
 import { TableAction } from '../../../shared/model/interface/table-action.interface';
 import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
+
+import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-table-demo',
   standalone: true,
-  imports: [NgIf, TableComponent, PaginationComponent],
+  imports: [NgIf, TableComponent, PaginationComponent, TPipe],
   templateUrl: './table-demo.component.html',
   styleUrl: './table-demo.component.sass'
 })
 export class TableDemoComponent {
+  private i18n = inject(I18nService);
 
-  actions: TableAction[] = [
-    { kind: 'edit', ariaLabel: 'Editar', iconUrl: '/icons/svg/pen-box.svg' }
-  ];
+  actions = computed<TableAction<AdicionalRow>[]>(() => [
+    { kind: 'edit', ariaLabel: this.i18n.t('table.action.edit'), iconUrl: '/icons/svg/pen-box.svg' }
+  ]);
 
   rows: AdicionalRow[] = [
     { nome: 'Nome Colaborador',   tipo: 'Correntista',     documento: '111.222.333-44', limite: 'Limite máximo atribuído', nomeImpresso: 'NOME IMPRESSO' },
