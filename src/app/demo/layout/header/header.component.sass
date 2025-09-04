@@ -1,38 +1,81 @@
+/* skip link (acessibilidade) */
+.skip-link
+  position: absolute
+  left: -9999px
+  top: auto
+  width: 1px
+  height: 1px
+  overflow: hidden
+  &:focus
+    position: fixed
+    left: 16px
+    top: 16px
+    width: auto
+    height: auto
+    background: #111827
+    color: #fff
+    padding: .5rem .75rem
+    border-radius: .5rem
+    z-index: 999
+
 .demo-header
   position: sticky
   top: 0
-  z-index: 20
-  backdrop-filter: blur(6px)
-  border-bottom: 1px solid var(--border)
-  background: color-mix(in oklab, var(--bg) 85%, transparent)
+  z-index: 50
+  border-bottom: 1px solid var(--hdr-border)
+  background: var(--hdr-bg)
+  backdrop-filter: saturate(180%) blur(8px)
 
-  .container
-    max-width: 1120px
-    margin: 0 auto
-    padding: .75rem 1rem
-    display: grid
-    grid-template-columns: 1fr auto auto
-    align-items: center
-    gap: 1rem
+.hdr
+  display: grid
+  grid-template-columns: auto 1fr auto
+  align-items: center
+  gap: 16px
+  min-height: 56px
+  padding: 8px 0
 
-  .brand
-    font-weight: 700
+.brand
+  font-weight: 800
+  text-decoration: none
+  color: var(--hdr-link)
+
+.nav
+  display: flex
+  gap: 12px
+  flex-wrap: wrap
+  justify-content: center
+  a
+    color: var(--hdr-link)
     text-decoration: none
-    color: var(--fg)
+    padding: 6px 8px
+    border-radius: 8px
+    &:hover
+      background: var(--hdr-link-hover)
 
+.actions
+  display: flex
+  gap: 8px
+
+.pill
+  appearance: none
+  border: 1px solid var(--hdr-pill-border)
+  background: var(--hdr-pill-bg)
+  color: var(--hdr-pill-color)
+  padding: 6px 10px
+  border-radius: 9999px
+  font-weight: 600
+  cursor: pointer
+
+@media (max-width: 840px)
+  .hdr
+    grid-template-columns: auto 1fr
+    grid-template-areas: 'brand actions' 'nav nav'
+    row-gap: 8px
+  .brand
+    grid-area: brand
   .nav
-    display: flex
-    gap: 1rem
-    a
-      color: var(--muted)
-      text-decoration: none
-      &:hover
-        color: var(--fg)
-
-  .theme-btn
-    border: 1px solid var(--border)
-    background: var(--surface)
-    color: var(--fg)
-    padding: .35rem .6rem
-    border-radius: .5rem
-    cursor: pointer
+    grid-area: nav
+    justify-content: flex-start
+  .actions
+    grid-area: actions
+    justify-content: flex-end

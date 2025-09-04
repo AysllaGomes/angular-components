@@ -1,17 +1,22 @@
-<header class="demo-header">
-  <div class="container">
-    <a class="brand" routerLink="/">Angular Components</a>
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
 
-    <nav class="nav">
+<header class="demo-header">
+  <div class="container hdr">
+    <a class="brand" href="#top" aria-label="Página inicial">
+      Angular Components
+    </a>
+
+    <nav class="nav" aria-label="Seções da demo">
       <a href="#stepper">Stepper</a>
-      <a href="#table">Tabela</a>
-      <a href="#pagination">Paginação</a>
+      <a href="#table">Table</a>
+      <a href="#pagination">Pagination</a>
       <a href="#toast">Toast</a>
-      <!-- futuramente: <a href="#badge">Badge</a> ... -->
     </nav>
 
-    <button type="button" class="theme-btn" (click)="toggle()">
-      {{ current() === 'light' ? '🌙' : '☀️' }}
-    </button>
+    <div class="actions">
+      <button class="pill" type="button" (click)="toggleTheme()">
+        {{ theme.theme() === 'light' ? '☀️ Claro' : '🌙 Escuro' }}
+      </button>
+    </div>
   </div>
 </header>
