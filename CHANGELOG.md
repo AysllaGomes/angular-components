@@ -1,6 +1,22 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### 0.0.1 (2025-09-04)
+
+
+### Features
+
+* changelog. ci/deploy/release icons ([9c12e3a](https://github.com/AysllaGomes/angular-components/commit/9c12e3aaa2c40239663d8a11bd2e9f8273e6e898))
+* **demo-table:** add Loading & Empty toolbar + bind to [loading] and dataset ([3d68dbf](https://github.com/AysllaGomes/angular-components/commit/3d68dbfd2a56b3632d41911165ff09bece736c2a))
+* **demo:** lightweight i18n (PT/EN) with service + pipe ([d93fb4a](https://github.com/AysllaGomes/angular-components/commit/d93fb4a527fc2894dc944e46e50ce7e0aee284a0))
+* **demo:** new sticky header with nav and theme toggle ([a6dd96a](https://github.com/AysllaGomes/angular-components/commit/a6dd96a85f11e1480af85c3c0a4d33321b935dd5))
+* **stepper:** steps computed, next and prev button ([d9dd686](https://github.com/AysllaGomes/angular-components/commit/d9dd6863f026a71f74bfe8b3c662d53483a61f7b))
+* **table:** ações declarativas via [actions] com ícones padrão; mantém slot appActions como override ([7633d72](https://github.com/AysllaGomes/angular-components/commit/7633d723643d23253660b9d9cce6cda32ed2e325))
+* **table:** add Loading & Empty states ([d31f5b2](https://github.com/AysllaGomes/angular-components/commit/d31f5b245ec1efefd2bd39aa777e8ce246e8b083))
+* **table:** sorting and loading/empty ([69503d1](https://github.com/AysllaGomes/angular-components/commit/69503d14c56270fd3fdfc69bc9dfb7e954d51f76))
+* **table:** UX/A11y in table ([80a5311](https://github.com/AysllaGomes/angular-components/commit/80a53115b91f1ee5fdf8af5026e5b3dfc6ab9d8b))
+* update readme ([c48e7af](https://github.com/AysllaGomes/angular-components/commit/c48e7af9dd717c655f19812c8addc5ccf1f3bcbe))
 
 ## [0.1.0] - 04/09/2025
 ### Added
