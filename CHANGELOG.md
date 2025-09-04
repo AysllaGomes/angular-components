@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/AysllaGomes/angular-components/compare/v0.0.1...v1.1.0) (2025-09-04)
+
+
+### Features
+
+* added utils to convert asset ([f620713](https://github.com/AysllaGomes/angular-components/commit/f62071313788e9606402eb1481f8e8e7d8a90770))
+
 ### 0.0.1 (2025-09-04)
 
 
