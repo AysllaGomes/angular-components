@@ -1,0 +1,66 @@
+# .github/workflows/deploy.yml
+name: deploy-gh-pages
+on:
+  push:
+    branches: [main]
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # use o script do package.json (já com --base-href /angular-components/)
+      - run: npm run build
+
+      # normaliza a saída SSR (index.csr.html -> index.html) e cria o fallback 404.html
+      - name: Normalize SSR index and create 404 fallback
+        run: |
+          B=dist/angular-components/browser
+          if [ ! -f "$B/index.html" ] && [ -f "$B/index.csr.html" ]; then
+            cp "$B/index.csr.html" "$B/index.html"
+          fi
+          cp "$B/index.html" "$B/404.html"
+
+      - name: Make root redirect to /<repo>/demo/
+        run: |
+          B=dist/angular-components/browser
+          REPO=${{ github.event.repository.name }}
+          cat > "$B/index.html" <<EOF
+          <!doctype html><meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=/$REPO/demo/">
+          <script>location.replace('/'+$REPO+'/demo/');</script>
+          <title>Redirecting…</title>
+          <p>Redirecting to <a href="/$REPO/demo/">/$REPO/demo/</a></p>
+          EOF
+          cp "$B/index.html" "$B/404.html"
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: enabled
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/angular-components/browser
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
