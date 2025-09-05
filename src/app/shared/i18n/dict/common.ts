@@ -6,6 +6,10 @@ export const COMMON: Dict = {
     pt: 'Angular Components',
     en: 'Angular Components'
   },
+  'nav.select': {
+    pt: 'Select',
+    en: 'Select'
+  },
   'nav.stepper': {
     pt: 'Stepper',
     en: 'Stepper'
@@ -64,4 +68,18 @@ export const COMMON: Dict = {
     pt: 'Total de {{n}} registro(s)',
     en: 'Total of {{n}} record(s)'
   },
+
+  // Form helpers
+  'form.required.label': {
+    pt: 'requerido',
+    en: 'required'
+  },
+  'form.required.error': {
+    pt: 'Campo obrigatório',
+    en: 'This field is required'
+  },
+  'form.hint': {
+    pt: 'Hint',
+    en: 'Message hint'
+  }
 };

@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file. See [standa
 ### Adicionado
 - New accent preset blue (`#2563eb`).
 - Nova predefinição de destaque azul (`#2563eb`).
+- feat(select): accessible select with optional filter + themeable via CSS vars
+  - Keyboard nav (↑/↓, Home/End, Enter, Esc), focus management, outside click
+  - Validation: external error + required auto-validate (blur/close)
+  - Theming: --sel-* CSS vars; hover/active derive from --accent
+  - Filter: diacritics-insensitive, sticky input at panel top
 
 ### Docs
 - Docs: accent picker supports 4 colors (teal, orange, violet, blue).

@@ -1,0 +1,60 @@
+<div class="field" [class.is-disabled]="disabled" [class.is-error]="hasError()">
+  <label class="label">
+    <span>{{ label }}</span>
+    <span class="req" *ngIf="required">{{ requiredLabel }}</span>
+  </label>
+
+  <button
+    #button
+    class="control"
+    type="button"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="listboxId"
+    [attr.aria-invalid]="hasError() || null"
+    [attr.aria-disabled]="disabled || null"
+    [disabled]="disabled"
+    (click)="toggle()"
+    (keydown)="onButtonKeydown($event)"
+    (blur)="onControlBlur()">
+    <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder }}</span>
+    <span class="caret" aria-hidden="true">▾</span>
+  </button>
+
+  <div
+    #panel
+    *ngIf="open()"
+    class="panel"
+    tabindex="0"
+    role="listbox"
+    [id]="listboxId"
+    (keydown)="onPanelKeydown($event)"
+    [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+    <!-- filtro -->
+    <div class="filter" *ngIf="filterable">
+      <input
+        #filterInput
+        type="text"
+        [placeholder]="filterPlaceholder"
+        [value]="filter()"
+        (input)="filter.set($any($event.target).value); syncHighlight()"
+        aria-label="Filtrar opções" />
+    </div>
+
+    <div *ngFor="let p of filtered(); index as fi"
+         class="option"
+         [id]="optionId(fi)"
+         role="option"
+         [attr.aria-selected]="p.opt.value===value"
+         [class.is-selected]="p.opt.value===value"
+         [class.is-active]="fi===highlighted()"
+         [class.is-disabled]="p.opt.disabled"
+         (mouseenter)="highlight(fi)"
+         (click)="select(p.opt, fi)">
+      {{ p.opt.label }}
+    </div>
+  </div>
+
+  <div class="hint" *ngIf="!displayError() && hint">{{ hint }}</div>
+  <div class="error" *ngIf="displayError()">{{ displayError() }}</div>
+</div>

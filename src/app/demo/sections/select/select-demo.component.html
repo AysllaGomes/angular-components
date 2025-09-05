@@ -1,0 +1,67 @@
+<section id="select" class="demo-section">
+  <h2>{{ 'section.select.title' | t }}</h2>
+  <p class="lead">{{ 'section.select.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'select.demo.basic.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [required]="true"
+      [requiredLabel]="'form.required.label' | t"
+      [requiredError]="'form.required.error' | t"
+      [placeholder]="'select.placeholder' | t"
+      [options]="options()"
+      [value]="categoriaBasic()"
+      (valueChange)="categoriaBasic.set($event)"
+      [hint]="'form.hint' | t">
+    </app-select>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'select.demo.filter.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [placeholder]="'select.placeholder' | t"
+      [filterable]="true"
+      [filterPlaceholder]="'select.filter.placeholder' | t"
+      [options]="options()"
+      [value]="categoriaFilter()"
+      (valueChange)="categoriaFilter.set($event)">
+    </app-select>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'select.demo.disabled.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [disabled]="true"
+      [options]="options()"
+      [value]="categoriaDisabled()">
+    </app-select>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'select.demo.noplaceholder.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [required]="true"
+      [requiredLabel]="'form.required.label' | t"
+      [requiredError]="'form.required.error' | t"
+      [options]="options()"
+      [value]="categoriaBasic()"
+      (valueChange)="categoriaBasic.set($event)">
+    </app-select>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'select.demo.notrequired.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [required]="false"
+      [placeholder]="'select.placeholder' | t"
+      [options]="options()"
+      [value]="categoriaNoReq()"
+      (valueChange)="categoriaNoReq.set($event)">
+    </app-select>
+  </article>
+</section>
