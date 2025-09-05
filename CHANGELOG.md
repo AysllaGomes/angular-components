@@ -1,26 +1,23 @@
 # Changelog
-
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [Unrelease]
+### Added
+- New accent preset blue (`#2563eb`).
+
+### Docs
+- Docs: accent picker supports 4 colors (teal, orange, violet, blue).
+
 ## [1.2.0](https://github.com/AysllaGomes/angular-components/compare/v1.1.0...v1.2.0) (2025-09-05)
-
-
 ### Features
-
 * **theme:** add runtime accent presets (teal|orange|violet) ([7b44bae](https://github.com/AysllaGomes/angular-components/commit/7b44baed72c512c609071c6e00a4c0f30a7315d3))
 
 ## [1.1.0](https://github.com/AysllaGomes/angular-components/compare/v0.0.1...v1.1.0) (2025-09-04)
-
-
 ### Features
-
 * added utils to convert asset ([f620713](https://github.com/AysllaGomes/angular-components/commit/f62071313788e9606402eb1481f8e8e7d8a90770))
 
 ### 0.0.1 (2025-09-04)
-
-
 ### Features
-
 * changelog. ci/deploy/release icons ([9c12e3a](https://github.com/AysllaGomes/angular-components/commit/9c12e3aaa2c40239663d8a11bd2e9f8273e6e898))
 * **demo-table:** add Loading & Empty toolbar + bind to [loading] and dataset ([3d68dbf](https://github.com/AysllaGomes/angular-components/commit/3d68dbfd2a56b3632d41911165ff09bece736c2a))
 * **demo:** lightweight i18n (PT/EN) with service + pipe ([d93fb4a](https://github.com/AysllaGomes/angular-components/commit/d93fb4a527fc2894dc944e46e50ce7e0aee284a0))

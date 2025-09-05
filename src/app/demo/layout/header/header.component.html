@@ -71,6 +71,13 @@
           [title]="'accent.violet'|t"
           aria-label="Violet">
         </button>
+        <button
+          class="swatch swatch--blue"
+          [class.is-active]="theme.accent()==='blue'"
+          (click)="setAccent('blue')"
+          [title]="'accent.blue'|t"
+          aria-label="Blue">
+        </button>
       </div>
     </div>
   </div>

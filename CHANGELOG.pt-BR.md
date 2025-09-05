@@ -2,8 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [Não publicado]
+## [1.3.0] - 2025-09-05
+### Adicionado
+- New accent preset blue (`#2563eb`).
+- Nova predefinição de destaque azul (`#2563eb`).
 
+### Docs
+- Docs: accent picker supports 4 colors (teal, orange, violet, blue).
+- Seletor de acentos suporta quatro cores (azul-petróleo, laranja, violeta, azul).
+
+## [1.2.0] - 2025-09-05
 ### Adicionado
 - **Presets de accent** em tempo de execução (`teal` | `orange` | `violet`) via CSS vars.
 - Sinal de **accent** no `ThemeService` + persistência segura para SSR.
@@ -24,7 +32,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 ## [0.1.0] - 2025-09-04
-### Added
+### Adicionado
 - **Stepper**: estados (ativo/feito/desabilitado), clique opcional, theming por CSS vars, modo compacto.
 - **Table**: colunas declarativas, seleção por checkbox, ações (slot `appActions` e/ou `[actions]`), *chips*, células custom, vazio+loading (skeleton), **ordenação** por cabeçalho.
 - **Pagination**: componente standalone (bolhas numéricas + setas), controlado por `total`, `pageSize`, `pageIndex`.
@@ -33,8 +41,8 @@ All notable changes to this project will be documented in this file. See [standa
 - **Docs**: README PT/EN; docs por componente (PT/EN).
 - **Deploy**: GitHub Pages (roteamento SPA com fallback `404.html`), redirect para `/demo`.
 
-### Changed
+### Alterado
 - Ajustes de estilo global (tokens para header, table, etc.).
 
-### Fixed
+### Corrigido
 - Base href e 404 de SPA para deep links em GitHub Pages.

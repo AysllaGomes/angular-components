@@ -31,6 +31,7 @@ export const COMMON: Dict = {
   'accent.teal':   { pt: 'Verde (teal)', en: 'Teal' },
   'accent.orange': { pt: 'Laranja',      en: 'Orange' },
   'accent.violet': { pt: 'Violeta',      en: 'Violet' },
+  'accent.blue':   { pt: 'Azul',         en: 'Blue' },
   'header.accent': { pt: 'Cor de destaque', en: 'Accent color' },
   'header.lang':   { pt: 'Idioma', en: 'Language' },
 
