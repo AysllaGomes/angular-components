@@ -11,8 +11,6 @@ import { ColumnDef } from '../../../shared/model/interface/column-def.interface'
 import { TableAction } from '../../../shared/model/interface/table-action.interface';
 import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
 
-import { AngularComponentsUtils } from '../../../shared/utils/angular-components.utils';
-
 import { TableComponent } from '../../../shared/components/table/table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
@@ -27,7 +25,7 @@ export class TableDemoComponent {
   private i18n = inject(I18nService);
 
   actions = computed<TableAction<AdicionalRow>[]>(() => [
-    { kind: 'edit', ariaLabel: this.i18n.t('table.action.edit'), iconUrl: AngularComponentsUtils.asset('icons/svg/pen-box.svg') }
+    { kind: 'edit', ariaLabel: this.i18n.t('table.action.edit'), iconUrl: 'icons/svg/pen-box.svg' }
   ]);
 
   rows: AdicionalRow[] = [

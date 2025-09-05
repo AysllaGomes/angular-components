@@ -28,6 +28,11 @@ export const COMMON: Dict = {
     en: 'English'
   },
 
+  'accent.teal':   { pt: 'Verde (teal)', en: 'Teal' },
+  'accent.orange': { pt: 'Laranja',      en: 'Orange' },
+  'accent.violet': { pt: 'Violeta',      en: 'Violet' },
+  'header.accent': { pt: 'Cor de destaque', en: 'Accent color' },
+  'header.lang':   { pt: 'Idioma', en: 'Language' },
 
   // buttons
   'button.theme.light': {

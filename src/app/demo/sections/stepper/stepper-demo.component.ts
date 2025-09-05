@@ -29,7 +29,7 @@ export class StepperDemoComponent {
 
   current = signal(0);
   goTo = (i: number) => this.current.set(i);
-  next = () => this.current.update(v => Math.min(v + 1, this.steps.length - 1));
+  next = () => this.current.update(v => Math.min(v + 1, this.steps().length - 1));
   prev = () => this.current.update(v => Math.max(v - 1, 0));
 
   // com etapa desabilitada

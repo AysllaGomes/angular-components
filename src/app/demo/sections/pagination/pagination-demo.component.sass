@@ -1,0 +1,54 @@
+.pg .page.is-active
+  background: var(--pg-active-bg)
+  color: var(--pg-active-fg)
+
+.row
+  display: flex
+  gap: 1rem
+  align-items: center
+  justify-content: space-between
+
+.pager-wrap
+  margin-top: .75rem
+  display: flex
+  justify-content: flex-end
+
+.muted
+  color: var(--muted)
+
+.page-size
+  display: inline-flex
+  align-items: center
+  gap: .5rem
+  position: relative
+
+  select
+    appearance: none
+    -webkit-appearance: none
+    background: var(--surface-2)
+    color: var(--fg)
+    border: 1px solid var(--border)
+    border-radius: .5rem
+    padding: .4rem 2rem .4rem .6rem
+    font-weight: 600
+    cursor: pointer
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease
+
+    &:hover
+      background: color-mix(in srgb, var(--surface-2) 90%, white)
+
+    &:focus-visible
+      outline: none
+      border-color: var(--accent)
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 60%, transparent)
+
+  /* “setinha” do select (pseudoelemento) */
+  &::after
+    content: "▾"
+    pointer-events: none
+    position: absolute
+    right: .6rem
+    top: 50%
+    transform: translateY(-50%)
+    color: var(--muted)
+    font-weight: 700

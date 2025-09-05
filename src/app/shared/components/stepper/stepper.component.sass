@@ -126,6 +126,22 @@
   .label, .caption
     color: var(--stepper-color-disabled)
 
+/* força o label do passo ativo a usar o accent (mais específico que .texts .label) */
+.stepper-item.is-active .texts .label
+  color: var(--stepper-color-active)
+
+/* (opcional) se quiser o texto das etapas concluídas também no accent */
+.stepper-item.is-done .texts .label
+  color: var(--stepper-color-done)
+
+/* acessibilidade: anel de foco no bullet seguindo o accent */
+.stepper-item .stepper-button:focus-visible .bullet
+  outline: 3px solid color-mix(in srgb, var(--accent), transparent 70%)
+  outline-offset: 2px
+
+.stepper-item.is-active .texts .caption
+  color: var(--stepper-color-active)
+
 @media (max-width: 720px)
   .stepper-item .caption
     display: none

@@ -39,7 +39,7 @@ button
 input[type="checkbox"]
   width: 16px
   height: 16px
-  accent-color: var(--chip-teal-border)
+  accent-color: var(--tbl-action)
 
 /* chips */
 .chip
@@ -141,6 +141,10 @@ td.empty
   &:focus-visible
     outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
     outline-offset: 2px
+
+/* hover em cabeçalho clicável usa token de hover derivado do accent */
+.tbl thead th[role="button"]:hover
+  background: var(--tbl-header-hover)
 
 .tbl thead .sort
   margin-left: .25rem

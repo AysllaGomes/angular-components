@@ -29,39 +29,61 @@
 ## Global theming
 
 ```sass
+/* Global theming (runtime) */
 :root
+  /* Accent (default = teal) */
+  --accent: #058075
+
   /* Stepper */
-  --stepper-color-active:   #00a39b
-  --stepper-color-done:     #2fbf71
-  --stepper-color-default:  #c8ccd2
+  --stepper-color-active: var(--accent)
+  --stepper-color-done:   var(--accent)
+  --stepper-color-default: #c8ccd2
   --stepper-color-disabled: #dcdfe4
-  --stepper-text:           #1f2937
-  --stepper-caption:        #6b7280
-  --stepper-connector:      #e6e9ed
-  --stepper-bullet-bg:      #ffffff
+  --stepper-text: var(--fg)
+  --stepper-caption: var(--muted)
+  --stepper-connector: #e6e9ed
+  --stepper-bullet-bg: #ffffff
   --stepper-color-number-active: #ffffff
 
-  /* Table */
-  --tbl-header-bg: #07363c
+  /* Table (header derives from accent) */
+  --tbl-header-bg: color-mix(in srgb, var(--accent) 28%, #0f1720)
   --tbl-header-fg: #ffffff
-  --tbl-row-bg: #f2f5f7
-  --tbl-row-gray-medium: #ffffff
+  --tbl-row-bg: #ffffff
   --tbl-row-border: #e6e9ed
   --tbl-fg: #0f1720
   --tbl-muted: #6b7280
-  --tbl-action: #058075
+  --tbl-action: var(--accent)
+  --tbl-header-hover: color-mix(in srgb, var(--accent) 36%, #0f1720)
 
   /* Pagination */
-  --pg-active-bg: var(--tbl-action, #058075)
+  --pg-active-bg: var(--accent)
   --pg-active-fg: #ffffff
-  --pg-page-bg: #eef6f4
+  --pg-page-bg: #f2f4f7
   --pg-ghost-bg: #eeeeee
-  --pg-hover: color-mix(in oklab, var(--pg-active-bg) 12%, white)
+  --pg-hover: color-mix(in srgb, var(--accent) 12%, white)
   --pg-fg: #0f1720
 
   /* Toast */
   --toast-radius: .75rem
   --toast-shadow: 0 6px 20px rgba(0,0,0,.12)
+
+/* Dark overrides */
+:root[data-theme="dark"]
+  --bg: #0c0d10
+  --fg: #e7eaf0
+  --tbl-header-bg: color-mix(in srgb, var(--accent) 44%, #0b1220)
+  --tbl-header-fg: #e7eaf0
+  --pg-page-bg: #1f2937
+  --pg-ghost-bg: #111827
+  --pg-active-fg: #0b1220
+
+/* Accent presets */
+:root[data-accent="teal"]
+  --accent: #058075
+:root[data-accent="orange"]
+  --accent: #D17A30
+:root[data-accent="violet"]
+  --accent: #6D5BD0
 ```
 
 ---

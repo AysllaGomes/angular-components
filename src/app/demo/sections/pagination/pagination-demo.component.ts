@@ -9,7 +9,8 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
   selector: 'app-pagination-demo',
   standalone: true,
   imports: [NgIf, PaginationComponent, TPipe],
-  templateUrl: './pagination-demo.component.html'
+  templateUrl: './pagination-demo.component.html',
+  styleUrl: './pagination-demo.component.sass'
 })
 export class PaginationDemoComponent {
   total = signal(42);

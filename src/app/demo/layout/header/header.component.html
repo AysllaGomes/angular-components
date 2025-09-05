@@ -47,6 +47,31 @@
           {{ theme.theme() === 'light' ? ('button.theme.light'|t) : ('button.theme.dark'|t) }}
         </span>
       </button>
+
+      <!-- accent picker -->
+      <div class="accent-picker" role="group" [attr.aria-label]="'header.accent' | t">
+        <button
+          class="swatch swatch--teal"
+          [class.is-active]="theme.accent()==='teal'"
+          (click)="setAccent('teal')"
+          [title]="'accent.teal'|t"
+          aria-label="Teal">
+        </button>
+        <button
+          class="swatch swatch--orange"
+          [class.is-active]="theme.accent()==='orange'"
+          (click)="setAccent('orange')"
+          [title]="'accent.orange'|t"
+          aria-label="Orange">
+        </button>
+        <button
+          class="swatch swatch--violet"
+          [class.is-active]="theme.accent()==='violet'"
+          (click)="setAccent('violet')"
+          [title]="'accent.violet'|t"
+          aria-label="Violet">
+        </button>
+      </div>
     </div>
   </div>
 </header>

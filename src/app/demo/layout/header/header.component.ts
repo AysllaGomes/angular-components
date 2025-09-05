@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
+import { Accent } from '../../../shared/model/type/accent.type';
+
 import { I18nService } from '../../../shared/services/i18n.service';
 import { ThemeService } from '../../../shared/services/theme.service';
 
@@ -22,4 +24,5 @@ export class HeaderComponent {
 
   toggleTheme() { this.theme.toggle(); }
   toggleLang()  { this.i18n.toggle(); }
+  setAccent(a: Accent) { this.theme.setAccent(a); }
 }

@@ -1,4 +1,30 @@
+/* =======================================================================
+   styles.sass  —  tokens globais + suporte a accent dinâmico
+   Mantém o header/menu/iconografia original; sem resets invasivos.
+   ======================================================================= */
+
+/* ==========================================================
+   DEFAULTS (tokens base claros)
+   ========================================================== */
 :root
+  /* cor de marca/acento base (padrão = teal) */
+  --accent: #058075
+
+  /* Stepper herda do accent */
+  --stepper-color-active: var(--accent)
+  --stepper-color-done:   var(--accent)
+
+  /* Table/Pagination/Toast usando accent */
+  --tbl-action: var(--accent)
+  --pg-active-bg: var(--accent)
+  --pg-active-fg: #ffffff
+  --pg-page-bg: #f2f4f7
+  --pg-ghost-bg: #eeeeee
+  /* usar srgb por compatibilidade ampla */
+  --pg-hover: color-mix(in srgb, var(--accent) 12%, white)
+  --pg-fg: #0f1720
+
+  /* Cores de fundo/contraste padrão (tema claro) */
   --bg: #ffffff
   --surface: #ffffff
   --surface-2: #f7f8f9
@@ -6,22 +32,7 @@
   --muted: #5f6a75
   --border: #e6e9ed
 
-  /* Stepper (exemplo de defaults) */
-  --stepper-connector: #A4A4A4
-  --stepper-connector-active: var(--stepper-color-active)
-  --stepper-bullet-bg: #FFFFFF
-  --stepper-color-number-active: #FFFFFF
-  --stepper-color-active: #058075
-  --stepper-color-done: #058075
-  --stepper-color-default: #c8ccd2
-  --stepper-color-disabled: #dcdfe4
-  --stepper-text: #0A655E
-  --stepper-caption: #818181
-  --stepper-bullet-muted-bg: #eff1f3
-
-  --stepper-bullet-size: 28px
-
-:root
+  /* Header (tema claro) */
   --hdr-bg: linear-gradient(180deg, #ffffff 0, #f8fafc 100%)
   --hdr-border: #e5e7eb
   --hdr-link: #0f1720
@@ -29,8 +40,57 @@
   --hdr-pill-bg: #ffffff
   --hdr-pill-border: #d1d5db
   --hdr-pill-color: #0f1720
+  --hdr-accent: var(--accent)
+  --hdr-link-active: var(--hdr-accent)
+  --hdr-hover: color-mix(in srgb, var(--accent) 14%, transparent)
+  --hdr-pill-ring: color-mix(in srgb, var(--accent) 55%, transparent)
 
-/* Tema escuro */
+  /* Stepper (defaults) */
+  --stepper-connector: #A4A4A4
+  --stepper-connector-active: var(--stepper-color-active)
+  --stepper-bullet-bg: #FFFFFF
+  --stepper-color-number-active: #FFFFFF
+  --stepper-color-default: #c8ccd2
+  --stepper-color-disabled: #dcdfe4
+  --stepper-text: var(--fg)
+  --stepper-caption: var(--muted)
+  --stepper-bullet-muted-bg: #eff1f3
+  --stepper-bullet-size: 28px
+
+  /* Tabela */
+  --tbl-header-bg: color-mix(in srgb, var(--accent) 28%, #0f1720)
+  --tbl-header-fg: #ffffff
+  --tbl-row-bg: #ffffff
+  --tbl-row-gray-medium: #EBEDF1
+  --tbl-row-gray94: #F0F0F0
+  --tbl-row-alt: #f5f7f9
+  --tbl-row-border: #e6e9ed
+  --tbl-fg: #0f1720
+  --tbl-muted: #6b7280
+  /* hover do cabeçalho clicável */
+  --tbl-header-hover: color-mix(in srgb, var(--accent) 36%, #0f1720)
+
+  /* Chips (ajuste conforme seu DS) */
+  --chip-radius: 9999px
+  --chip-h: 24px
+  --chip-pad-x: .6rem
+  --chip-fs: .8rem
+
+  --chip-teal-border: #009688
+  --chip-teal-bg: #FFFFFF
+  --chip-teal-fg: #03857F
+
+  --chip-orange-border: #c76b2b
+  --chip-orange-bg: #FFFFFF
+  --chip-orange-fg: #DD5C02
+
+  /* Toasts */
+  --toast-radius: .75rem
+  --toast-shadow: 0 6px 20px rgba(0,0,0,.12)
+
+/* ==========================================================
+   DARK THEME (mantém o que você já tinha)
+   ========================================================== */
 :root[data-theme="dark"]
   --hdr-bg: #0c0d10
   --hdr-border: #273142
@@ -39,6 +99,10 @@
   --hdr-pill-bg: #0f1720
   --hdr-pill-border: #334155
   --hdr-pill-color: #e5e7eb
+  --hdr-accent: var(--accent)
+  --hdr-link-active: var(--hdr-accent)
+  --hdr-hover: color-mix(in srgb, var(--accent) 22%, transparent)
+  --hdr-pill-ring: color-mix(in srgb, var(--accent) 60%, transparent)
 
   --bg: #0c0d10
   --surface: #121319
@@ -52,41 +116,35 @@
   --stepper-color-default: #3b3f4a
   --stepper-connector: #262a35
 
-/* table */
-:root
-  --tbl-header-bg: #07363c
-  --tbl-header-fg: #ffffff
-  --tbl-row-bg: #ffffff
-  --tbl-row-gray-medium: #EBEDF1
-  --tbl-row-gray94: #F0F0F0
-  --tbl-row-alt: #f5f7f9
-  --tbl-row-border: #e6e9ed
-  --tbl-fg: #0f1720
-  --tbl-muted: #6b7280
+  --tbl-header-bg: color-mix(in srgb, var(--accent) 44%, #0b1220)
+  --tbl-header-fg: #e7eaf0
+  --tbl-header-hover: color-mix(in srgb, var(--accent) 56%, #0b1220)
 
-  /* chips */
-  --chip-radius: 9999px
-  --chip-h: 24px
-  --chip-pad-x: .6rem
-  --chip-fs: .8rem
+  /* paginação (dark) */
+  --pg-active-bg: var(--accent)
+  --pg-active-fg: #0b1220
+  /* se preferir mais escuro, pode usar #111 */
+  --pg-page-bg: #1f2937
+  /* chips neutros */
+  --pg-ghost-bg: #111827
+  --pg-hover: color-mix(in srgb, var(--accent) 18%, transparent)
+  --pg-fg: var(--fg)
 
-  /* variações de chip (ajuste as cores p/ seu design system) */
-  --chip-teal-border: #009688
-  --chip-teal-bg: #FFFFFF
-  --chip-teal-fg: #03857F
+/* ==========================================================
+   ACCENT PRESETS (dinâmico via data-accent)
+   ========================================================== */
+:root[data-accent="teal"]
+  --accent: #058075
 
-  --chip-orange-border: #c76b2b
-  --chip-orange-bg: #FFFFFF
-  --chip-orange-fg: #DD5C02
+:root[data-accent="orange"]
+  --accent: #D17A30
 
-:root
-  --tbl-action: #058075   /* cor dos ícones de ação */
+:root[data-accent="violet"]
+  --accent: #6D5BD0
 
-:root
-  --toast-radius: .75rem
-  --toast-shadow: 0 6px 20px rgba(0,0,0,.12)
-
-/* reset rápido */
+/* ==========================================================
+   Base mínima (sem mexer em links/icones globais)
+   ========================================================== */
 html, body
   background: var(--bg)
   color: var(--fg)

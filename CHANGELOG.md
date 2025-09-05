@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [Unreleased]
+
+### Added
+- Runtime **accent presets** (`teal` | `orange` | `violet`) via CSS variables.
+- `ThemeService` **accent** signal + SSR-safe persistence.
+- Header **accent picker** with accessible tooltips.
+- **Dark theme** tokens for pagination.
+
+### Changed
+- **Global tokens** now map `--accent` into Stepper, Table (header), Pagination and Toast.
+- Table **header background** derives from the current accent.
+- Stepper **active label** color follows the accent.
+- Pagination: neutral page chips in light theme; hover/active use accent.
+- Pagination demo: improved “Items per page” select (pill, focus ring).
+
+### Migration notes
+- Replace any hardcoded accent hex values in component Sass with `var(--accent)` (or `--accent-weak/strong` if used).
+- Remove the `:host` token block from `pagination.component.sass` so it inherits global tokens.
+- Ensure your app sets `data-accent="teal|orange|violet"` on `<html>` (ThemeService already does).
+
 ## [1.1.0](https://github.com/AysllaGomes/angular-components/compare/v0.0.1...v1.1.0) (2025-09-04)
 
 
