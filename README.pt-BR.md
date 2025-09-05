@@ -17,12 +17,13 @@
 
 ## Componentes
 
-| Componente | Descrição | Docs | Demo |
-|-----------:|-----------|------|------|
-| **Stepper** | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema. | [PT-BR](src/app/shared/components/stepper/stepper.md) · [EN](src/app/shared/components/stepper/stepper.en.md) | `/demo#stepper` |
-| **Table** | Tabela flexível com checkbox por linha, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | [PT-BR](src/app/shared/components/table/table.md) · [EN](src/app/shared/components/table/table.en.md) | `/demo#table` |
-| **Pagination** | Paginação independente (bolhas numéricas + setas), controlada por `total`, `pageSize` e `pageIndex`. | [PT-BR](src/app/shared/components/pagination/pagination.md) · [EN](src/app/shared/components/pagination/pagination.en.md) | `/demo#pagination` |
-| **Toast** | Toast leve (serviço + container), acessível e tematizável. | [PT-BR](src/app/shared/components/toast/toast.md) · [EN](src/app/shared/components/toast/toast.en.md) | `/demo#toast` |
+| Componente     | Descrição                                                                                                                               | Docs | Demo |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|------|------|
+| **Stepper**    | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema.                                                | [PT-BR](src/app/shared/components/stepper/stepper.md) · [EN](src/app/shared/components/stepper/stepper.en.md) | `/demo#stepper` |
+| **Table**      | Tabela flexível com checkbox por linha, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom. | [PT-BR](src/app/shared/components/table/table.md) · [EN](src/app/shared/components/table/table.en.md) | `/demo#table` |
+| **Pagination** | Paginação independente (bolhas numéricas + setas), controlada por `total`, `pageSize` e `pageIndex`.                                    | [PT-BR](src/app/shared/components/pagination/pagination.md) · [EN](src/app/shared/components/pagination/pagination.en.md) | `/demo#pagination` |
+| **Toast**      | Toast leve (serviço + container), acessível e tematizável.                                                                              | [PT-BR](src/app/shared/components/toast/toast.md) · [EN](src/app/shared/components/toast/toast.en.md) | `/demo#toast` |
+| **Select**     | Select leve acessível e tematizável.                                                                                                    | [PT-BR](src/app/shared/components/select/select.md) · [EN](src/app/shared/components/select/select.en.md) | `/demo#select` |
 
 ---
 

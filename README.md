@@ -17,12 +17,13 @@
 
 ## Components
 
-| Component | Description | Docs | Demo |
-|---------:|-------------|------|------|
-| **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT-BR](src/app/shared/components/stepper/stepper.md) | `/demo#stepper` |
-| **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md) | `/demo#table` |
+|      Component | Description | Docs                                                                                                                      | Demo |
+|---------------:|-------------|---------------------------------------------------------------------------------------------------------------------------|------|
+|    **Stepper** | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens. | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT-BR](src/app/shared/components/stepper/stepper.md)             | `/demo#stepper` |
+|      **Table** | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells. | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md)                     | `/demo#table` |
 | **Pagination** | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`. | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT-BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
-| **Toast** | Lightweight toast (service + container), accessible and themeable. | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md) | `/demo#toast` |
+|      **Toast** | Lightweight toast (service + container), accessible and themeable. | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md)                     | `/demo#toast` |
+|     **Select** | A lightweight, accessible and themeable. | [EN](src/app/shared/components/select/select.en.md) · [PT-BR](src/app/shared/components/select/select.md)                    | `/demo#select` |
 
 ---
 
