@@ -1,12 +1,13 @@
 # Changelog
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [Unrelease]
-### Added
-- New accent preset blue (`#2563eb`).
+## [1.3.0](https://github.com/AysllaGomes/angular-components/compare/v1.2.0...v1.3.0) (2025-09-05)
 
-### Docs
-- Docs: accent picker supports 4 colors (teal, orange, violet, blue).
+
+### Features
+
+* **theme:** add 'blue' accent preset ([11fd39e](https://github.com/AysllaGomes/angular-components/commit/11fd39eeec0e0c65e9afcc0de7314cead771007f)), closes [#2563](https://github.com/AysllaGomes/angular-components/issues/2563)
 
 ## [1.2.0](https://github.com/AysllaGomes/angular-components/compare/v1.1.0...v1.2.0) (2025-09-05)
 ### Features
