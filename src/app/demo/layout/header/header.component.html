@@ -78,6 +78,13 @@
           [title]="'accent.blue'|t"
           aria-label="Blue">
         </button>
+        <button
+          class="swatch swatch--rose"
+          [class.is-active]="theme.accent()==='rose'"
+          (click)="setAccent('rose')"
+          [title]="'accent.rose'|t"
+          aria-label="Rose">
+        </button>
       </div>
     </div>
   </div>

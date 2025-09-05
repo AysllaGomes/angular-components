@@ -1,1 +1,1 @@
-export type Accent = 'teal' | 'orange' | 'violet' | 'blue';
+export type Accent = 'teal' | 'orange' | 'violet' | 'blue' | 'rose';
