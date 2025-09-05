@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [Unrealese]
-- feat(select): accessible select with optional filter + themeable via CSS vars
-  - Keyboard nav (↑/↓, Home/End, Enter, Esc), focus mgmt, outside click
-  - Validation: external error + required auto-validate (blur/close)
-  - Theming: --sel-* CSS vars; hover/active derive from --accent
-  - Filter: diacritics-insensitive, sticky input at panel top
+## [1.4.0](https://github.com/AysllaGomes/angular-components/compare/v1.3.0...v1.4.0) (2025-09-05)
+
+
+### Features
+
+* **select:** accessible select with optional filter + themeable via CSS vars ([843203e](https://github.com/AysllaGomes/angular-components/commit/843203e4a48f438ce5eea58630c7767ba9290636))
+* **theme:** add 'rose' accent preset ([9ba5b70](https://github.com/AysllaGomes/angular-components/commit/9ba5b70f4572968ad908bf0d4c8f6afa2cf59330)), closes [#e11d48](https://github.com/AysllaGomes/angular-components/issues/e11d48)
 
 ## [1.3.0](https://github.com/AysllaGomes/angular-components/compare/v1.2.0...v1.3.0) (2025-09-05)
 ### Features
