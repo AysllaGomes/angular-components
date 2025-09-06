@@ -97,14 +97,6 @@
   background: var(--hdr-bg)
   backdrop-filter: saturate(180%) blur(8px)
 
-.hdr
-  display: grid
-  align-items: center
-  gap: 16px
-  min-height: 56px
-  padding: 8px 0
-  grid-template-columns: auto 1fr auto
-
 .brand
   font-weight: 800
   text-decoration: none
@@ -174,3 +166,89 @@
   .actions
     grid-area: actions
     justify-content: flex-end
+
+/* grid base */
+.hdr
+  display: grid
+  align-items: center
+  gap: 16px
+  min-height: 56px
+  padding: 8px 0
+  grid-template-columns: auto 1fr auto
+  grid-template-areas: 'brand nav actions'
+
+.brand
+  grid-area: brand
+.nav
+  grid-area: nav
+.actions
+  grid-area: actions
+
+/* nav desktop */
+.nav
+  display: flex
+  gap: 12px
+  flex-wrap: wrap
+  justify-content: center
+  min-width: 0
+  a
+    color: var(--hdr-link)
+    text-decoration: none
+    padding: 6px 8px
+    border-radius: 8px
+    &:hover
+      background: var(--hdr-hover)
+
+/* botão menu oculto no desktop */
+.menu-btn
+  display: none
+
+/* ----------------- MOBILE ≤ 840px ----------------- */
+@media (max-width: 840px)
+  .hdr
+    grid-template-columns: auto 1fr auto
+    grid-template-areas: 'menu brand actions' 'nav nav nav'
+    row-gap: 8px
+
+  .menu-btn
+    display: inline-grid
+    grid-area: menu
+
+  .brand
+    justify-self: start
+  .actions
+    justify-self: end
+
+  /* nav vira "drop-down": fechado por padrão */
+  .nav
+    display: grid
+    grid-auto-rows: min-content
+    gap: 4px
+    justify-items: start
+    padding: 0
+    margin: 0
+    max-height: 0
+    overflow: hidden
+    opacity: 0
+    pointer-events: none
+    transform: translateY(-4px)
+    transition: max-height .24s ease, opacity .2s ease, transform .2s ease
+    background: var(--hdr-pill-bg)
+    border: 1px solid var(--hdr-pill-border)
+    border-radius: .75rem
+    padding-inline: .25rem
+
+    a
+      display: block
+      width: 100%
+      padding: .5rem .6rem
+      border-radius: .5rem
+      &:hover
+        background: var(--hdr-hover)
+
+  .nav.is-open
+    max-height: 60vh
+    opacity: 1
+    pointer-events: auto
+    transform: translateY(0)
+    padding-block: .35rem

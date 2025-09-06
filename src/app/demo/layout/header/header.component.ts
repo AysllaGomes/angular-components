@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -21,6 +21,23 @@ import { ThemeService } from '../../../shared/services/theme.service';
 export class HeaderComponent {
   theme = inject(ThemeService);
   i18n  = inject(I18nService);
+
+  // menu mobile
+  openNav = signal(false);
+  private BREAKPOINT = 840;
+
+  toggleMenu() { this.openNav.update(v => !v); }
+  closeMenu()  { this.openNav.set(false); }
+  onNavClick(e: Event) {
+    const t = e.target as HTMLElement;
+    if (t.tagName.toLowerCase() === 'a') this.closeMenu();
+  }
+
+  @HostListener('window:resize')
+  onResize() { if (window.innerWidth > this.BREAKPOINT && this.openNav()) this.closeMenu(); }
+
+  @HostListener('document:keydown', ['$event'])
+  onKey(e: KeyboardEvent) { if (e.key === 'Escape' && this.openNav()) this.closeMenu(); }
 
   toggleTheme() { this.theme.toggle(); }
   toggleLang()  { this.i18n.toggle(); }

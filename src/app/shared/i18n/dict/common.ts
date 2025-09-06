@@ -28,6 +28,10 @@ export const COMMON: Dict = {
   },
   'nav.actionbar': { pt: 'ActionBar', en: 'Action bar' },
 
+  'header.menu': {
+    pt: 'Menu',
+    en: 'Menu'
+  },
   'header.lang.tooltip': {
     pt: 'Português (Brasil)',
     en: 'English'
