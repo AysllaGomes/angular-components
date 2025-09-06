@@ -12,6 +12,13 @@
     font-size: .8rem
     color: var(--muted)
 
+/* agrupador do controle + clear */
+.control-wrap
+  display: grid
+  grid-template-columns: 1fr auto
+  align-items: center
+  gap: .5rem
+
 .control
   appearance: none
   -webkit-appearance: none
@@ -21,7 +28,8 @@
   grid-template-columns: 1fr auto
   align-items: center
   gap: .5rem
-  padding: .55rem .65rem
+  padding: .60rem .70rem   /* ligeiro aumento (tap target) */
+  min-height: 44px         /* acessível p/ toque */
   border-radius: .5rem
   border: 1px solid var(--sel-border)
   background: var(--sel-bg)
@@ -45,6 +53,31 @@
     font-weight: 700
     line-height: 1
 
+/* botão "×" para limpar */
+.clear-btn
+  appearance: none
+  -webkit-appearance: none
+  border: 0
+  width: 36px
+  height: 36px
+  min-height: 36px
+  border-radius: 9999px
+  display: grid
+  place-items: center
+  cursor: pointer
+  background: var(--sel-disabled-bg)
+  color: var(--sel-caret)
+  font-size: 18px
+  line-height: 1
+
+  &:hover
+    background: var(--sel-option-hover)
+
+  &:focus-visible
+    outline: none
+    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+
+/* estados */
 .field.is-disabled .control
   background: var(--sel-disabled-bg)
   border-color: var(--sel-disabled-border)
@@ -58,6 +91,21 @@
 .field.is-error .label .req,
 .field.is-error .control .caret
   color: var(--sel-error)
+
+/* backdrop (sheet) */
+.backdrop
+  position: fixed
+  inset: 0
+  background: rgba(0,0,0,.35)
+  animation: fadeIn .12s ease
+
+@keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+/* painel */
 .panel
   position: relative
   margin-top: .35rem
@@ -65,37 +113,93 @@
   border: 1px solid var(--sel-menu-border)
   border-radius: .5rem
   box-shadow: 0 12px 24px rgba(0,0,0,.12)
-  max-height: 224px
+  max-height: 320px
   overflow: auto
   scrollbar-color: var(--sel-scrollbar-thumb) transparent
 
-  /* filtro sticky no topo do painel */
-  .filter
-    position: sticky
-    top: 0
-    z-index: 1
-    background: var(--sel-menu-bg)
-    border-bottom: 1px solid var(--sel-menu-border)
-    padding: .5rem
+  &.is-sheet
+    position: fixed
+    left: 0
+    right: 0
+    bottom: 0
+    top: auto
+    margin-top: 0
+    max-height: min(70vh, 480px)
+    border-radius: 16px 16px 0 0
+    border: 0
+    border-top: 1px solid var(--sel-menu-border)
+    box-shadow: 0 -16px 40px rgba(0,0,0,.35)
+    animation: slideUp .16s ease
 
-    input
-      width: 98%
-      appearance: none
-      -webkit-appearance: none
-      padding: .45rem .55rem
-      border: 1px solid var(--sel-border)
-      border-radius: .4rem
-      background: var(--sel-bg)
-      color: var(--sel-fg)
-      &::placeholder
-        color: var(--sel-placeholder)
-      &:focus-visible
-        outline: none
-        border-color: var(--accent)
-        box-shadow: 0 0 0 3px var(--sel-focus-ring)
+@keyframes slideUp
+  from
+    transform: translateY(12px)
+    opacity: .9
+  to
+    transform: translateY(0)
+    opacity: 1
+
+/* header do sheet */
+.sheet-header
+  position: sticky
+  top: 0
+  z-index: 2
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: .5rem
+  padding: .75rem .85rem
+  background: var(--sel-menu-bg)
+  border-bottom: 1px solid var(--sel-menu-border)
+  .title
+    font-weight: 600
+  .sheet-close
+    appearance: none
+    -webkit-appearance: none
+    border: 0
+    width: 36px
+    height: 36px
+    border-radius: 9999px
+    display: grid
+    place-items: center
+    cursor: pointer
+    background: var(--sel-disabled-bg)
+    color: var(--sel-caret)
+    font-size: 18px
+    &:hover
+      background: var(--sel-option-hover)
+    &:focus-visible
+      outline: none
+      box-shadow: 0 0 0 3px var(--sel-focus-ring)
+
+/* filtro sticky no topo (abaixo do header, se houver) */
+.filter
+  position: sticky
+  top: 0
+  z-index: 1
+  background: var(--sel-menu-bg)
+  border-bottom: 1px solid var(--sel-menu-border)
+  padding: .5rem
+
+  input
+    width: 98%
+    appearance: none
+    -webkit-appearance: none
+    padding: 0 .65rem
+    min-height: 40px
+    border: 1px solid var(--sel-border)
+    border-radius: .4rem
+    background: var(--sel-bg)
+    color: var(--sel-fg)
+    &::placeholder
+      color: var(--sel-placeholder)
+    &:focus-visible
+      outline: none
+      border-color: var(--accent)
+      box-shadow: 0 0 0 3px var(--sel-focus-ring)
 
 .option
-  padding: .5rem .65rem
+  padding: .6rem .75rem
   cursor: pointer
   user-select: none
   transition: background .12s ease
@@ -116,3 +220,10 @@
 
 .error
   color: var(--sel-error)
+
+/* ajustes mobile extras */
+@media (max-width: 560px)
+  .control
+    padding: .70rem .80rem
+  .option
+    padding: .75rem .9rem

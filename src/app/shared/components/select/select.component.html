@@ -4,32 +4,56 @@
     <span class="req" *ngIf="required">{{ requiredLabel }}</span>
   </label>
 
-  <button
-    #button
-    class="control"
-    type="button"
-    [attr.aria-haspopup]="'listbox'"
-    [attr.aria-expanded]="open()"
-    [attr.aria-controls]="listboxId"
-    [attr.aria-invalid]="hasError() || null"
-    [attr.aria-disabled]="disabled || null"
-    [disabled]="disabled"
-    (click)="toggle()"
-    (keydown)="onButtonKeydown($event)"
-    (blur)="onControlBlur()">
-    <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder }}</span>
-    <span class="caret" aria-hidden="true">▾</span>
-  </button>
+  <!-- grupo do controle + clear -->
+  <div class="control-wrap">
+    <button
+      #button
+      class="control"
+      type="button"
+      [attr.aria-haspopup]="'listbox'"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="listboxId"
+      [attr.aria-invalid]="hasError() || null"
+      [attr.aria-disabled]="disabled || null"
+      [disabled]="disabled"
+      (click)="toggle()"
+      (keydown)="onButtonKeydown($event)"
+      (blur)="onControlBlur()">
+      <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder }}</span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </button>
+
+    <button
+      *ngIf="canClear()"
+      class="clear-btn"
+      type="button"
+      [attr.aria-label]="clearAriaLabel"
+      (click)="clear($event)"
+      (keydown)="onClearKeydown($event)">
+      ×
+    </button>
+  </div>
+
+  <!-- backdrop só no modo sheet -->
+  <div class="backdrop" *ngIf="open() && sheet()" (click)="close()"></div>
 
   <div
     #panel
     *ngIf="open()"
     class="panel"
+    [class.is-sheet]="sheet()"
     tabindex="0"
     role="listbox"
     [id]="listboxId"
     (keydown)="onPanelKeydown($event)"
     [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+
+    <!-- header da sheet -->
+    <div class="sheet-header" *ngIf="sheet()">
+      <div class="title">{{ panelTitle || label || 'Selecionar' }}</div>
+      <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel">×</button>
+    </div>
+
     <!-- filtro -->
     <div class="filter" *ngIf="filterable">
       <input
@@ -41,6 +65,7 @@
         aria-label="Filtrar opções" />
     </div>
 
+    <!-- lista -->
     <div *ngFor="let p of filtered(); index as fi"
          class="option"
          [id]="optionId(fi)"

@@ -10,6 +10,11 @@ export const SELECT: Dict = {
     en: 'Accessible select field. Menu hover/active follow the accent color.'
   },
 
+  'select.clear': { pt: 'Limpar seleção', en: 'Clear selection' },
+  'select.close': { pt: 'Fechar',         en: 'Close' },
+  'select.title': { pt: 'Selecionar',     en: 'Select' },
+  'select.filter':{ pt: 'Filtrar opções', en: 'Filter options' },
+
   // Demo
   'select.demo.basic.title': {
     pt: 'Básico',

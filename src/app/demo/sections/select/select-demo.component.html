@@ -6,6 +6,7 @@
     <h3>{{ 'select.demo.basic.title' | t }}</h3>
     <app-select
       [label]="'select.label' | t"
+      [panelTitle]="'select.title' | t"
       [required]="true"
       [requiredLabel]="'form.required.label' | t"
       [requiredError]="'form.required.error' | t"
@@ -13,7 +14,12 @@
       [options]="options()"
       [value]="categoriaBasic()"
       (valueChange)="categoriaBasic.set($event)"
-      [hint]="'form.hint' | t">
+      [hint]="'form.hint' | t"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [responsive]="'auto'"
+      [sheetBreakpoint]="560"
+      [closeAriaLabel]="'select.close' | t">
     </app-select>
   </article>
 
@@ -21,12 +27,17 @@
     <h3>{{ 'select.demo.filter.title' | t }}</h3>
     <app-select
       [label]="'select.label' | t"
+      [panelTitle]="'select.title' | t"
       [placeholder]="'select.placeholder' | t"
       [filterable]="true"
-      [filterPlaceholder]="'select.filter.placeholder' | t"
+      [clearable]="true"
+      [filterPlaceholder]="'select.filter' | t"
       [options]="options()"
       [value]="categoriaFilter()"
-      (valueChange)="categoriaFilter.set($event)">
+      (valueChange)="categoriaFilter.set($event)"
+      [responsive]="'auto'"
+      [sheetBreakpoint]="560"
+      [closeAriaLabel]="'select.close' | t">
     </app-select>
   </article>
 
@@ -44,12 +55,14 @@
     <h3>{{ 'select.demo.noplaceholder.title' | t }}</h3>
     <app-select
       [label]="'select.label' | t"
+      [panelTitle]="'select.title' | t"
       [required]="true"
       [requiredLabel]="'form.required.label' | t"
       [requiredError]="'form.required.error' | t"
       [options]="options()"
       [value]="categoriaBasic()"
-      (valueChange)="categoriaBasic.set($event)">
+      (valueChange)="categoriaBasic.set($event)"
+      [responsive]="'auto'">
     </app-select>
   </article>
 
@@ -61,7 +74,9 @@
       [placeholder]="'select.placeholder' | t"
       [options]="options()"
       [value]="categoriaNoReq()"
-      (valueChange)="categoriaNoReq.set($event)">
+      (valueChange)="categoriaNoReq.set($event)"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t">
     </app-select>
   </article>
 </section>

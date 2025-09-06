@@ -8,8 +8,11 @@ import {
   Output,
   ViewChild,
   signal,
-  computed
+  computed,
+  AfterViewInit
 } from '@angular/core';
+
+import { ResponsiveMode } from '../../model/type/responsive-mode.type';
 
 import { SelectOption } from '../../model/interface/select/select-option.interface';
 
@@ -22,9 +25,10 @@ let uid = 0;
   templateUrl: './select.component.html',
   styleUrl: './select.component.sass'
 })
-export class SelectComponent<T = any> {
+export class SelectComponent<T = any> implements AfterViewInit {
   // ---- API
   @Input() label = '';
+  @Input() panelTitle: string | null = null; // título no header da sheet
   @Input() required = false;
   @Input() placeholder = '';
   @Input() disabled = false;
@@ -40,6 +44,15 @@ export class SelectComponent<T = any> {
   @Input() autoValidate = true;
   @Input() hint: string | null = null;
 
+  /** Clear (×) */
+  @Input() clearable = false;
+  @Input() clearAriaLabel = 'Limpar seleção';
+
+  /** Responsividade (sheet) */
+  @Input() responsive: ResponsiveMode = 'auto';
+  @Input() sheetBreakpoint = 560; // px
+  @Input() closeAriaLabel = 'Fechar';
+
   @Input({ required: true }) options: SelectOption<T>[] = [];
   @Input() value: T | null = null;
   @Output() valueChange = new EventEmitter<T>();
@@ -52,6 +65,7 @@ export class SelectComponent<T = any> {
   open = signal(false);
   highlighted = signal<number>(-1);
   private internalError = signal<string | null>(null);
+  private sheetMode = signal<boolean>(false);
 
   readonly displayError = computed(() => this.error ?? this.internalError());
   readonly hasError = computed(() => !!this.displayError());
@@ -61,7 +75,7 @@ export class SelectComponent<T = any> {
   private norm = (s: string) =>
     s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-  /** lista filtrada {opt, fi} fi = índice filtrado */
+  /** lista filtrada {opt, i} i = índice original */
   readonly filtered = computed(() => {
     const q = this.norm(this.filter().trim());
     const all = this.options.map((opt, i) => ({ opt, i }));
@@ -78,15 +92,44 @@ export class SelectComponent<T = any> {
     return i >= 0 ? this.options[i].label : null;
   }
 
+  ngAfterViewInit(): void {
+    this.recalcSheet();
+  }
+
+  // ---- responsividade
+  sheet() { return this.sheetMode(); }
+
+  @HostListener('window:resize')
+  recalcSheet() {
+    if (this.responsive === 'sheet') return this.sheetMode.set(true);
+    if (this.responsive === 'menu')  return this.sheetMode.set(false);
+    // auto
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    this.sheetMode.set(w <= this.sheetBreakpoint);
+  }
+
+  // ---- clear
+  canClear(): boolean {
+    return this.clearable && !this.disabled && this.value !== null && this.value !== undefined && this.value !== '';
+  }
+  clear(ev?: Event) {
+    ev?.stopPropagation();
+    this.value = null as any;
+    this.valueChange.emit(this.value as any);
+    if (this.required && this.autoValidate) this.internalError.set(this.requiredError);
+    this.btnEl?.nativeElement.focus();
+  }
+  onClearKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.clear(e); }
+  }
+
   // ---- abertura/fechamento
   toggle() { if (!this.disabled) this.open.update(v => !v); this.postOpen(); }
   openPanel() { if (!this.disabled) { this.open.set(true); this.postOpen(); } }
   private postOpen() {
     if (this.open()) {
-      // zera filtro ao abrir
       this.filter.set('');
       this.syncHighlight();
-      // foca o input de filtro se existir
       queueMicrotask(() => this.filterInputEl?.nativeElement?.focus());
     }
   }
@@ -136,13 +179,16 @@ export class SelectComponent<T = any> {
   // ---- keyboard
   onButtonKeydown(e: KeyboardEvent) {
     if (this.disabled) return;
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (this.canClear()) { e.preventDefault(); this.clear(); return; }
+    }
     if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.openPanel(); }
   }
 
   onPanelKeydown(e: KeyboardEvent) {
-    // se o alvo for o input de filtro, só intercepta arrows p/ ir à lista
     if (e.target === this.filterInputEl?.nativeElement) {
       if (e.key === 'ArrowDown') { e.preventDefault(); this.highlight(0); (this.panelEl?.nativeElement as HTMLElement)?.focus(); }
+      if (e.key === 'Escape') { e.preventDefault(); this.close(); this.btnEl?.nativeElement.focus(); }
       return;
     }
     if (e.key === 'Escape') { e.preventDefault(); this.close(); this.btnEl?.nativeElement.focus(); return; }
