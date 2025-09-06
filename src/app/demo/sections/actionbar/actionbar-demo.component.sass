@@ -1,0 +1,96 @@
+.demo-section
+  scroll-margin-top: 72px
+  display: grid
+  gap: 1.25rem
+  h2
+    font-size: 1.5rem
+    margin-bottom: .25rem
+  .lead
+    color: var(--muted)
+
+.card
+  border: 1px solid var(--border)
+  background: var(--surface)
+  border-radius: .75rem
+  padding: 1rem
+  display: grid
+  gap: .75rem
+
+/* barra de botões responsiva */
+.ab-toolbar
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr))
+  gap: .5rem
+
+.muted
+  color: var(--muted)
+
+/* blocos de demo para conteúdo */
+.ab-box
+  height: 280px
+  display: grid
+  place-items: center
+  border-radius: .5rem
+  background: color-mix(in srgb, var(--accent) 10%, white)
+  color: var(--fg)
+  &.ab-box--md
+    height: 480px
+  &.ab-box--lg
+    height: 52vh
+  &.ab-box--auto
+    /* o “auto” muda conforme o conteúdo; este é só um ponto de partida */
+    width: min(60ch, 100%)
+    height: 36vh
+
+/* pill neutra que “toma” o accent no hover/focus */
+.ab-toolbar .pill
+  appearance: none
+  border: 1px solid var(--hdr-pill-border)
+  background: var(--hdr-pill-bg)
+  color: var(--hdr-pill-color)
+  padding: .45rem .8rem
+  border-radius: 9999px
+  font-weight: 600
+  cursor: pointer
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .04s ease
+
+  &:hover
+    background: var(--hdr-hover)
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--hdr-pill-border))
+
+  &:active
+    transform: translateY(1px)
+
+  &:focus-visible
+    outline: none
+    box-shadow: 0 0 0 3px var(--hdr-pill-ring)
+    border-color: var(--hdr-accent)
+
+/* variante cheia (opcional) — usa o accent direto */
+.ab-toolbar .pill--accent
+  background: var(--accent)
+  color: #fff
+  border-color: color-mix(in srgb, var(--accent) 70%, black)
+
+  &:hover
+    background: color-mix(in srgb, var(--accent) 88%, black)
+
+  &:focus-visible
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent)
+
+/* acessório: texto mais discreto abaixo do card */
+.muted
+  color: var(--muted)
+
+@media (prefers-reduced-motion: reduce)
+.ab-toolbar .pill
+  transition: none
+
+.ab-toolbar .pill[disabled]
+  opacity: .55
+  cursor: default
+  pointer-events: none
+
+.ab-toolbar .pill:focus-visible
+  outline: 2px solid var(--hdr-accent)
+  outline-offset: 2px

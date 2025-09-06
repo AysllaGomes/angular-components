@@ -1,0 +1,132 @@
+:host
+  position: relative
+  z-index: 60
+
+/* Backdrop (ocupa a tela toda) */
+.ab
+  position: fixed
+  inset: 0
+  background: color-mix(in srgb, var(--fg) 24%, transparent)
+  display: grid
+  grid-template-columns: 1fr auto   /* col da direita é o sheet */
+  /* evita “cliques” passarem por baixo no iOS */
+  -webkit-backdrop-filter: none
+
+/* Sheet */
+.ab__sheet
+  grid-column: 2                    /* >>> força ficar à direita <<< */
+  height: 100%
+  width: min(100vw, 640px)          /* default = md */
+  background: var(--surface)
+  color: var(--fg)
+  border-left: 1px solid var(--border)
+  box-shadow: -16px 0 40px rgba(0,0,0,.22)
+  display: grid
+  grid-template-rows: auto 1fr auto
+  /* animação de entrada da direita */
+  transform: translateX(12px)
+  animation: abEnter .18s ease-out both
+
+@keyframes abEnter
+  from
+    opacity: .001
+    transform: translateX(20px)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+/* tamanhos */
+.ab--sm
+  width: min(100vw, 360px)
+.ab--md
+  width: min(100vw, 640px)
+.ab--lg
+  width: min(100vw, 960px)
+
+/* Header */
+.ab__hdr
+  position: sticky
+  top: 0
+  z-index: 1
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: .5rem
+  padding: .75rem 1rem
+  background: var(--surface)
+  border-bottom: 1px solid var(--border)
+
+.ab__title
+  margin: 0
+  font-size: 1rem
+  font-weight: 700
+
+/* Botão fechar com visual “accent” */
+.ab__close
+  --_ring: color-mix(in srgb, var(--accent) 55%, white)
+  --_hover: color-mix(in srgb, var(--accent) 10%, transparent)
+  appearance: none
+  width: 36px
+  height: 36px
+  display: grid
+  place-items: center
+  border-radius: .6rem
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent)
+  background: transparent
+  color: var(--fg)
+  font-size: 18px
+  line-height: 1
+  cursor: pointer
+  &:hover
+    background: var(--_hover)
+  &:focus-visible
+    outline: 2px solid var(--_ring)
+    outline-offset: 2px
+
+/* Conteúdo */
+.ab__content
+  padding: 1rem
+  overflow: auto
+
+/* Footer */
+.ab__ftr
+  position: sticky
+  bottom: 0
+  display: flex
+  gap: .75rem
+  justify-content: flex-end
+  padding: .75rem 1rem
+  background: var(--surface)
+  border-top: 1px solid var(--border)
+
+/* Botões internos da ActionBar (maiores) */
+.btn
+  --_ring: color-mix(in srgb, var(--accent) 55%, white)
+  appearance: none
+  border: 1px solid transparent
+  background: var(--accent)
+  color: #fff
+  padding: .65rem 1.05rem
+  min-width: 120px
+  border-radius: .6rem
+  font-weight: 700
+  cursor: pointer
+  &:hover
+    background: color-mix(in srgb, var(--accent) 88%, white)
+  &:focus-visible
+    outline: 2px solid var(--_ring)
+    outline-offset: 2px
+
+.btn--ghost
+  background: transparent
+  color: var(--accent)
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent)
+  &:hover
+    background: color-mix(in srgb, var(--accent) 12%, transparent)
+
+/* Mobile: ações em coluna (botões cheios de largura) */
+@media (max-width: 480px)
+  .ab__auto-actions, .ab__ftr
+    flex-wrap: wrap
+  .ab__auto-actions .btn, .ab__auto-actions .btn--ghost
+    flex: 1 1 100%

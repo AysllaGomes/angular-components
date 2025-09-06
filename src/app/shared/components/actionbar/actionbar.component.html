@@ -1,0 +1,42 @@
+<!-- Backdrop -->
+<div
+  class="ab"
+  *ngIf="open()"
+  (click)="onBackdropClick($event)">
+
+  <!-- Sheet -->
+  <aside
+    #sheet
+    class="ab__sheet"
+    [class.ab--sm]="currentSize()==='sm'"
+    [class.ab--md]="currentSize()==='md'"
+    [class.ab--lg]="currentSize()==='lg'"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="labelId">
+
+    <header class="ab__hdr">
+      <h3 class="ab__title" [id]="labelId">{{ title }}</h3>
+      <button #closeBtn type="button" class="ab__close" (click)="close()" aria-label="Fechar">×</button>
+    </header>
+
+    <div #content class="ab__content">
+      <ng-content></ng-content>
+    </div>
+
+    <footer class="ab__ftr">
+      <!-- Slot de ações customizadas -->
+      <ng-content select="[abActions]"></ng-content>
+
+      <!-- Ou botões padrão, se labels vierem -->
+      <div class="ab__auto-actions" *ngIf="primaryLabel || secondaryLabel">
+        <button type="button" class="btn btn--ghost" *ngIf="secondaryLabel" (click)="secondary.emit()">
+          {{ secondaryLabel }}
+        </button>
+        <button type="button" class="btn" *ngIf="primaryLabel" (click)="primary.emit()">
+          {{ primaryLabel }}
+        </button>
+      </div>
+    </footer>
+  </aside>
+</div>

@@ -4,6 +4,7 @@ import { COMMON } from './common';
 import { SELECT } from './select';
 import { STEPPER } from './stepper';
 import { SECTIONS } from './sections';
+import { ACTIONBAR } from './action-bar';
 import { PAGINATION } from './pagination';
 
 import { Dict } from '../../model/type/dict.type';
@@ -16,4 +17,5 @@ export const DICT: Dict = {
   ...PAGINATION,
   ...TOAST,
   ...SELECT,
+  ...ACTIONBAR,
 };

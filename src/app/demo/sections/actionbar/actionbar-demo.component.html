@@ -1,0 +1,71 @@
+<section id="actionbar" class="demo-section">
+  <h2>{{ 'section.actionbar.title' | t }}</h2>
+  <p class="lead">{{ 'section.actionbar.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'actionbar.demo.triggers' | t }}</h3>
+
+    <div class="ab-toolbar">
+      <button class="pill" type="button" (click)="openSm.set(true)">
+        {{ 'actionbar.open.sm' | t }}
+      </button>
+      <button class="pill" type="button" (click)="openMd.set(true)">
+        {{ 'actionbar.open.md' | t }}
+      </button>
+      <button class="pill" type="button" (click)="openLg.set(true)">
+        {{ 'actionbar.open.lg' | t }}
+      </button>
+      <button class="pill pill--accent" type="button" (click)="openAuto.set(true)">
+        {{ 'actionbar.open.auto' | t }}
+      </button>
+    </div>
+
+    <small class="muted">{{ 'actionbar.demo.tip' | t }}</small>
+  </article>
+
+  <!-- sm -->
+  <app-actionbar
+    [title]="'actionbar.title' | t"
+    size="sm"
+    [opened]="openSm()"
+    (openedChange)="openSm.set($event)"
+    [primaryLabel]="'actionbar.cta.primary' | t"
+    [secondaryLabel]="'actionbar.cta.secondary' | t"
+    (primary)="openSm.set(false)">
+    <div class="ab-box">{{ 'actionbar.demo.placeholder' | t }}</div>
+  </app-actionbar>
+
+  <!-- md -->
+  <app-actionbar
+    [title]="'actionbar.title' | t"
+    size="md"
+    [opened]="openMd()"
+    (openedChange)="openMd.set($event)"
+    [primaryLabel]="'actionbar.cta.primary' | t"
+    [secondaryLabel]="'actionbar.cta.secondary' | t">
+    <div class="ab-box ab-box--md">{{ 'actionbar.demo.placeholder' | t }}</div>
+  </app-actionbar>
+
+  <!-- lg -->
+  <app-actionbar
+    [title]="'actionbar.title' | t"
+    size="lg"
+    [opened]="openLg()"
+    (openedChange)="openLg.set($event)"
+    [primaryLabel]="'actionbar.cta.primary' | t"
+    [secondaryLabel]="'actionbar.cta.secondary' | t">
+    <div class="ab-box ab-box--lg">{{ 'actionbar.demo.placeholder' | t }}</div>
+  </app-actionbar>
+
+  <!-- auto (se adapta ao conteúdo) -->
+  <app-actionbar
+    [title]="'actionbar.title' | t"
+    size="auto"
+    [opened]="openAuto()"
+    (openedChange)="openAuto.set($event)"
+    [primaryLabel]="'actionbar.cta.primary' | t"
+    [secondaryLabel]="'actionbar.cta.secondary' | t">
+    <!-- mude a largura/altura para ver o “auto” variar -->
+    <div class="ab-box ab-box--auto">{{ 'actionbar.demo.placeholder' | t }}</div>
+  </app-actionbar>
+</section>

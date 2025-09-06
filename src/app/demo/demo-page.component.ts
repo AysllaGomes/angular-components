@@ -6,6 +6,7 @@ import { TableDemoComponent } from './sections/table/table-demo.component';
 import { ToastDemoComponent } from './sections/toast/toast-demo.component';
 import { SelectDemoComponent } from './sections/select/select-demo.component';
 import { StepperDemoComponent } from './sections/stepper/stepper-demo.component';
+import { ActionBarDemoComponent } from './sections/actionbar/actionbar-demo.component';
 import { PaginationDemoComponent } from './sections/pagination/pagination-demo.component';
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
 
@@ -19,6 +20,7 @@ import { ToastContainerComponent } from '../shared/components/toast/toast-contai
     ToastDemoComponent,
     SelectDemoComponent,
     StepperDemoComponent,
+    ActionBarDemoComponent,
     PaginationDemoComponent,
     ToastContainerComponent,
   ],

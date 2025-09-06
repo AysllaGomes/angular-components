@@ -26,6 +26,7 @@ export const COMMON: Dict = {
     pt: 'Toast',
     en: 'Toast'
   },
+  'nav.actionbar': { pt: 'ActionBar', en: 'Action bar' },
 
   'header.lang.tooltip': {
     pt: 'Português (Brasil)',

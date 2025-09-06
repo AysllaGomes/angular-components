@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file. See [standa
   - Validation: external error + required auto-validate (blur/close)
   - Theming: --sel-* CSS vars; hover/active derive from --accent
   - Filter: diacritics-insensitive, sticky input at panel top
+- **ActionBar** — adicionado componente de sheet lateral: tamanhos `sm`/`md`/`lg`/`auto`, foco visível, `Esc`, trap de foco, `closeOnBackdrop`, two-way `[(opened)]`, botões integrados ao accent e abertura da direita.
 
 ### Docs
 - Docs: accent picker supports 4 colors (teal, orange, violet, blue).
