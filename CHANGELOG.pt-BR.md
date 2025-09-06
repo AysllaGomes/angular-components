@@ -2,16 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/AysllaGomes/angular-components/compare/v1.4.0...v1.5.0) (06/09/2025)
+### Recursos
+* **barra de ações:** adiciona planilha do lado direito com sm/md/lg/auto, interface com reconhecimento de acentos e a11y ([d20e461](https://github.com/AysllaGomes/angular-components/commit/d20e46172b9830f0b036816de7d12c01fd4a2ce5))
+* **selecionar:** folha inferior removível (×), polimento e documentos do a11y ([a288e57](https://github.com/AysllaGomes/angular-components/commit/a288e57ecc663011f8dbb99e9b2ea5c61bf9ca9d))
+
+## [1.4.0](https://github.com/AysllaGomes/angular-components/compare/v1.3.0...v1.4.0) (05/09/2025)
+### Recursos
+* **select:** seleção acessível com filtro opcional + tematizável via variáveis ​​CSS ([843203e](https://github.com/AysllaGomes/angular-components/commit/843203e4a48f438ce5eea58630c7767ba9290636))
+* **tema:** adicionar Predefinição de acento 'rosa' ([9ba5b70](https://github.com/AysllaGomes/angular-components/commit/9ba5b70f4572968ad908bf0d4c8f6afa2cf59330)), fecha [#e11d48](https://github.com/AysllaGomes/angular-components/issues/e11d48)
+
 ## [1.3.0] - 2025-09-05
 ### Adicionado
-- New accent preset blue (`#2563eb`).
-- Nova predefinição de destaque azul (`#2563eb`).
-- feat(select): accessible select with optional filter + themeable via CSS vars
-  - Keyboard nav (↑/↓, Home/End, Enter, Esc), focus management, outside click
-  - Validation: external error + required auto-validate (blur/close)
-  - Theming: --sel-* CSS vars; hover/active derive from --accent
-  - Filter: diacritics-insensitive, sticky input at panel top
-- **ActionBar** — adicionado componente de sheet lateral: tamanhos `sm`/`md`/`lg`/`auto`, foco visível, `Esc`, trap de foco, `closeOnBackdrop`, two-way `[(opened)]`, botões integrados ao accent e abertura da direita.
+* **tema:** adicionar predefinição de acento 'azul' ([11fd39e](https://github.com/AysllaGomes/angular-components/commit/11fd39eeec0e0c65e9afcc0de7314cead771007f)), fecha [#2563](https://github.com/AysllaGomes/angular-components/issues/2563)
 
 ### Docs
 - Docs: accent picker supports 4 colors (teal, orange, violet, blue).
