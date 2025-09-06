@@ -2,7 +2,7 @@
 
 # Select — Accessible dropdown (Angular, standalone)
 
-A lightweight, accessible **select** component themed via **CSS Variables**. Supports optional **filtering**, keyboard navigation, simple i18n integration and required validation.
+A lightweight, accessible **select** themed with **CSS Variables**. Supports optional **filtering**, keyboard navigation, required validation and simple i18n. Compatible with your global theme/accent tokens.
 
 > This doc describes the current API you shipped. I added optional improvement ideas at the end.
 
@@ -15,6 +15,8 @@ A lightweight, accessible **select** component themed via **CSS Variables**. Sup
 - **Keyboard**: arrows ↑/↓, Home/End, Enter, Escape, Tab/Shift+Tab.
 - **Theming**: inherits global tokens (`--accent`, `--surface`, `--fg`) and exposes `--sel-*` overrides.
 - **Validation**: external `error` takes precedence; built-in required check when `required` + `autoValidate`.
+- **New:** **Clearable** — optional (×) button inside the control to clear the selection.
+- **New:** **Auto-responsive (mobile)** — no props: panel/items adapt to small screens (touch-friendly targets, sticky filter, smooth scrolling, no layout jank).
 
 ---
 
@@ -93,31 +95,45 @@ options = computed<SelectOption<string>>(() => [
 </app-select>
 ```
 
+### New: Clearable
+```html
+<app-select
+  [label]="'select.label' | t"
+  [placeholder]="'select.placeholder' | t"
+  [clearable]="true"
+  [options]="options()"
+  [value]="categoryClear()"
+  (valueChange)="categoryClear.set($event)">
+</app-select>
+```
+> Tip: localize the clear button with the `select.clear` key.
+
 ---
 
 ## API
 
 ### Inputs
-| Prop | Type | Default | Description |
-|---|---|---:|---|
-| `label` | `string` | `''` | Field label. |
-| `required` | `boolean` | `false` | Shows “required” badge and enables required validation. |
-| `placeholder` | `string` | `''` | Text when no selection. |
-| `disabled` | `boolean` | `false` | Disables the control. |
-| `filterable` | `boolean` | `false` | Shows a filter input inside the panel. |
-| `filterPlaceholder` | `string` | `''` | Filter placeholder. |
-| `error` | `string \| null` | `null` | External error message (takes precedence). |
-| `requiredLabel` | `string` | `'requerido'` | Text near the label when `required`. |
-| `requiredError` | `string` | `'Campo obrigatório'` | Built-in required message. |
-| `autoValidate` | `boolean` | `true` | Validate on blur/close. |
-| `hint` | `string \| null` | `null` | Helper text (when no error). |
-| `options` | `SelectOption<T>[]` | — | Options list `{ label, value, disabled? }`. |
-| `value` | `T \| null` | `null` | Selected value. |
+| Prop                | Type                |               Default | Description                                             |
+| ------------------- | ------------------- | --------------------: | ------------------------------------------------------- |
+| `label`             | `string`            |                  `''` | Field label.                                            |
+| `required`          | `boolean`           |               `false` | Shows “required” badge and enables required validation. |
+| `placeholder`       | `string`            |                  `''` | Text when no selection.                                 |
+| `disabled`          | `boolean`           |               `false` | Disables the control.                                   |
+| `filterable`        | `boolean`           |               `false` | Shows a filter input inside the panel.                  |
+| `filterPlaceholder` | `string`            |                  `''` | Filter placeholder.                                     |
+| `clearable`         | `boolean`           |               `false` | Shows a small (×) **clear** button.                     |
+| `error`             | `string \| null`    |                `null` | External error message (takes precedence).              |
+| `requiredLabel`     | `string`            |         `'requerido'` | Text near the label when `required`.                    |
+| `requiredError`     | `string`            | `'Campo obrigatório'` | Built-in required message.                              |
+| `autoValidate`      | `boolean`           |                `true` | Validate on blur/close.                                 |
+| `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
+| `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled? }`.                  |
+| `value`             | `T \| null`         |                `null` | Selected value.                                         |
 
 ### Outputs
-| Event | Payload | When |
-|---|---|---|
-| `valueChange` | `T` | Emitted after selecting an option. |
+| Event         | Payload | When                                                        |
+| ------------- | ------- | ----------------------------------------------------------- |
+| `valueChange` | `T`     | Emitted after selecting an option (or `null` when cleared). |
 
 ---
 
@@ -128,6 +144,7 @@ options = computed<SelectOption<string>>(() => [
 - Closes on **Escape**, outside click and after selection.
 - **Keyboard**: `Enter`/`Space` to open; inside the panel use `↑/↓`, `Home/End`, `Enter` to select.
 - **Focus** returns to the button after selection.
+- **New (clearable)**: the clear button is focusable with `aria-label="{{ 'select.clear' | t }}"`. On keyboard, **Enter/Space** clears and returns focus to the control button.
 
 > 💡 Optional upgrade: set `aria-activedescendant` on the listbox pointing to the highlighted option id for better SR support.
 >
@@ -138,52 +155,32 @@ options = computed<SelectOption<string>>(() => [
 > ```
 
 ---
+## Mobile / Responsiveness
+
+No extra props: on small screens the panel uses a viewport-friendly max height, the filter input is sticky at the top of the panel, and options have comfortable touch targets. You can further tweak via CSS (e.g. @media (max-width: 480px) to increase option padding or constrain panel height).
+
+---
 
 ## Theming (CSS Vars)
 
 The Select uses these variables (safe to override per scope):
 
-| Var | Purpose | Light suggestion | Dark suggestion |
-|---|---|---|---|
-| `--sel-bg` | control bg | `var(--surface)` | `var(--surface)` |
-| `--sel-fg` | control text | `var(--fg)` | `var(--fg)` |
-| `--sel-border` | control border | `var(--border)` | `var(--border)` |
-| `--sel-placeholder` | placeholder text | `color-mix(in srgb, var(--fg) 55%, transparent)` | same |
-| `--sel-caret` | caret ▾ | `var(--muted)` | `var(--muted)` |
-| `--sel-disabled-bg` | disabled bg | `var(--surface-2)` | `#0f1720` |
-| `--sel-disabled-border` | disabled border | `var(--border)` | `var(--border)` |
-| `--sel-error` | error color | `#e11d48` | `#fb7185` |
-| `--sel-focus-ring` | focus ring | `color-mix(in srgb, var(--accent) 35%, transparent)` | `color-mix(in srgb, var(--accent) 55%, transparent)` |
-| `--sel-menu-bg` | panel bg | `var(--surface)` | `var(--surface)` |
-| `--sel-menu-border` | panel border | `var(--border)` | `var(--border)` |
-| `--sel-scrollbar-thumb` | scrollbar thumb | `color-mix(in srgb, var(--accent) 35%, #cbd5e1)` | `color-mix(in srgb, var(--accent) 35%, #334155)` |
-| `--sel-option-hover` | option hover | `color-mix(in srgb, var(--accent) 12%, transparent)` | `color-mix(in srgb, var(--accent) 18%, transparent)` |
-| `--sel-option-active` | selected option | `color-mix(in srgb, var(--accent) 20%, white)` | `color-mix(in srgb, var(--accent) 22%, #0b1220)` |
-
-Example (global):
-```sass
-:root
-  --sel-bg: var(--surface)
-  --sel-fg: var(--fg)
-  --sel-border: var(--border)
-  --sel-placeholder: color-mix(in srgb, var(--fg) 55%, transparent)
-  --sel-caret: var(--muted)
-  --sel-disabled-bg: var(--surface-2)
-  --sel-disabled-border: var(--border)
-  --sel-error: #e11d48
-  --sel-focus-ring: color-mix(in srgb, var(--accent) 35%, transparent)
-  --sel-menu-bg: var(--surface)
-  --sel-menu-border: var(--border)
-  --sel-scrollbar-thumb: color-mix(in srgb, var(--accent) 35%, #cbd5e1)
-  --sel-option-hover: color-mix(in srgb, var(--accent) 12%, transparent)
-  --sel-option-active: color-mix(in srgb, var(--accent) 20%, white)
-
-:root[data-theme="dark"]
-  --sel-focus-ring: color-mix(in srgb, var(--accent) 55%, transparent)
-  --sel-scrollbar-thumb: color-mix(in srgb, var(--accent) 35%, #334155)
-  --sel-option-hover: color-mix(in srgb, var(--accent) 18%, transparent)
-  --sel-option-active: color-mix(in srgb, var(--accent) 22%, #0b1220)
-```
+| Var                     | Purpose          | Light suggestion                                     | Dark suggestion                                      |
+| ----------------------- | ---------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| `--sel-bg`              | control bg       | `var(--surface)`                                     | `var(--surface)`                                     |
+| `--sel-fg`              | control text     | `var(--fg)`                                          | `var(--fg)`                                          |
+| `--sel-border`          | control border   | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-placeholder`     | placeholder text | `color-mix(in srgb, var(--fg) 55%, transparent)`     | same                                                 |
+| `--sel-caret`           | caret ▾          | `var(--muted)`                                       | `var(--muted)`                                       |
+| `--sel-disabled-bg`     | disabled bg      | `var(--surface-2)`                                   | `#0f1720`                                            |
+| `--sel-disabled-border` | disabled border  | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-error`           | error color      | `#e11d48`                                            | `#fb7185`                                            |
+| `--sel-focus-ring`      | focus ring       | `color-mix(in srgb, var(--accent) 35%, transparent)` | `color-mix(in srgb, var(--accent) 55%, transparent)` |
+| `--sel-menu-bg`         | panel bg         | `var(--surface)`                                     | `var(--surface)`                                     |
+| `--sel-menu-border`     | panel border     | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-scrollbar-thumb` | scrollbar thumb  | `color-mix(in srgb, var(--accent) 35%, #cbd5e1)`     | `color-mix(in srgb, var(--accent) 35%, #334155)`     |
+| `--sel-option-hover`    | option hover     | `color-mix(in srgb, var(--accent) 12%, transparent)` | `color-mix(in srgb, var(--accent) 18%, transparent)` |
+| `--sel-option-active`   | selected option  | `color-mix(in srgb, var(--accent) 20%, white)`       | `color-mix(in srgb, var(--accent) 22%, #0b1220)`     |
 
 ---
 
@@ -193,6 +190,7 @@ Example (global):
 - `select.label`, `select.placeholder`, `select.filter.placeholder`
 - `form.required.label`, `form.required.error`, `form.hint`
 - `select.option.*`
+- **New**: `select.clear`
 
 ---
 
@@ -202,6 +200,8 @@ Example (global):
 - Must close on Escape/outside click.
 - Keyboard behavior consistent with `role="listbox"`.
 - Screen readers announce selection (NVDA/JAWS/VoiceOver).
+- **Clearable**: clear button visible when there’s value, focusable, with `aria-label`; clearing emits `null`. 
+- **Mobile**: touch-friendly targets; panel stays within the viewport; filter remains sticky at the top.
 
 ---
 

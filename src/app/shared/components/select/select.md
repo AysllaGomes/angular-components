@@ -2,7 +2,7 @@
 
 # Select — Componente de seleção acessível (Angular, standalone)
 
-Componente de **select** leve, acessível e tematizável por **CSS Variables**. Suporta **filtro** no painel, navegação por teclado, validação de obrigatório e integração simples com i18n.
+Componente de **select** leve, acessível e tematizável por **CSS Variables**. Suporta **filtro** no painel, navegação por teclado, validação de obrigatório e integração simples com i18n. Mantém compatibilidade com os tokens globais de tema/acentos.
 
 > Esta doc descreve a API atual do componente enviado por você. Onde coube, deixei sugestões de melhorias opcionais no final.
 
@@ -15,6 +15,8 @@ Componente de **select** leve, acessível e tematizável por **CSS Variables**. 
 - **Teclado**: setas ↑/↓, Home/End, Enter, Escape, Tab/Shift+Tab.
 - **Temas**: herda tokens globais (`--accent`, `--surface`, `--fg` etc.) e permite overrides via `--sel-*`.
 - **Validação**: erro externo (`error`) tem prioridade; erro interno de obrigatório quando `required` e `autoValidate`.
+- **Novo:** **Clearable** — opcional (×) dentro do controle para limpar a seleção.
+- **Novo:** **Auto-responsivo (mobile)** — sem props: o painel e os itens se adaptam a telas pequenas (alvos de toque confortáveis, filtro “grudado” no topo do painel, rolagem suave e sem “jank”).
 
 ---
 
@@ -93,31 +95,46 @@ options = computed<SelectOption<string>[]>(() => [
 </app-select>
 ```
 
+### Novo: Clearable (limpar seleção)
+```html
+<app-select
+  [label]="'select.label' | t"
+  [placeholder]="'select.placeholder' | t"
+  [clearable]="true"
+  [options]="options()"
+  [value]="categoriaClear()"
+  (valueChange)="categoriaClear.set($event)">
+</app-select>
+```
+
+> Dica: para tradução do rótulo do botão de limpar, use a chave `select.clear`.
+
 ---
 
 ## API
 
 ### Inputs
-| Propriedade | Tipo | Padrão | Descrição |
-|---|---|---:|---|
-| `label` | `string` | `''` | Rótulo acima do campo. |
-| `required` | `boolean` | `false` | Exibe o selo “requerido” e ativa validação de obrigatório. |
-| `placeholder` | `string` | `''` | Texto quando nada selecionado. |
-| `disabled` | `boolean` | `false` | Desabilita interação. |
-| `filterable` | `boolean` | `false` | Mostra campo de filtro no painel. |
-| `filterPlaceholder` | `string` | `''` | Placeholder do filtro (quando `filterable`). |
-| `error` | `string \| null` | `null` | Mensagem de erro externa (prioritária). |
-| `requiredLabel` | `string` | `'requerido'` | Texto ao lado do label quando `required`. |
-| `requiredError` | `string` | `'Campo obrigatório'` | Mensagem interna de obrigatório. |
-| `autoValidate` | `boolean` | `true` | Valida ao desfocar/fechar o painel. |
-| `hint` | `string \| null` | `null` | Texto auxiliar abaixo do campo (quando não há erro). |
-| `options` | `SelectOption<T>[]` | — | Lista de opções `{ label, value, disabled? }`. |
-| `value` | `T \| null` | `null` | Valor selecionado. |
+| Propriedade         | Tipo                |                Padrão | Descrição                                                  |
+| ------------------- | ------------------- | --------------------: | ---------------------------------------------------------- |
+| `label`             | `string`            |                  `''` | Rótulo acima do campo.                                     |
+| `required`          | `boolean`           |               `false` | Exibe o selo “requerido” e ativa validação de obrigatório. |
+| `placeholder`       | `string`            |                  `''` | Texto quando nada selecionado.                             |
+| `disabled`          | `boolean`           |               `false` | Desabilita interação.                                      |
+| `filterable`        | `boolean`           |               `false` | Mostra campo de filtro no painel.                          |
+| `filterPlaceholder` | `string`            |                  `''` | Placeholder do filtro (quando `filterable`).               |
+| `clearable`         | `boolean`           |               `false` | Mostra um botão (×) para limpar a seleção.                 |
+| `error`             | `string \| null`    |                `null` | Mensagem de erro externa (prioritária).                    |
+| `requiredLabel`     | `string`            |         `'requerido'` | Texto ao lado do label quando `required`.                  |
+| `requiredError`     | `string`            | `'Campo obrigatório'` | Mensagem interna de obrigatório.                           |
+| `autoValidate`      | `boolean`           |                `true` | Valida ao desfocar/fechar o painel.                        |
+| `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
+| `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled? }`.             |
+| `value`             | `T \| null`         |                `null` | Valor selecionado.                                         |
 
 ### Outputs
-| Evento | Payload | Quando dispara |
-|---|---|---|
-| `valueChange` | `T` | Ao selecionar uma opção. |
+| Evento        | Payload | Quando dispara                                                     |
+| ------------- |---------| ------------------------------------------------------------------ |
+| `valueChange` | `T`     | Ao selecionar uma opção (ou ao limpar, o componente emite `null`). |
 
 ---
 
@@ -128,6 +145,7 @@ options = computed<SelectOption<string>[]>(() => [
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
 - **Foco**: ao selecionar, o foco retorna ao botão.
+- **Novo (clearable)**: o botão de limpar é focável e tem `aria-label="{{ 'select.clear' | t }}"`. Em teclado, **Enter/Space** limpa e retorna o foco ao botão do controle.
 
 > 💡 *Upgrade opcional*: adicionar `aria-activedescendant` no listbox apontando para o item destacado melhora a leitura por leitores de tela.
 >
@@ -140,51 +158,32 @@ options = computed<SelectOption<string>[]>(() => [
 
 ---
 
+## Mobile / Responsividade
+
+Sem props adicionais: no mobile o painel usa altura amigável à viewport e o campo de filtro fica “grudado” no topo do painel. Os itens têm área de toque confortável e rolagem suave. Se necessário, você pode ajustar via CSS (ex.: @media (max-width: 480px) aumentando o padding das opções ou limitando a altura do painel).
+
+---
+
 ## Theming (CSS Vars)
 
-O Select usa as seguintes variáveis (comportam overrides em escopos específicos):
+O Select usa estas variáveis (podem ser sobrescritas por escopo):
 
-| Var | Uso | Sugerido (claro) | Sugerido (escuro) |
-|---|---|---|---|
-| `--sel-bg` | fundo do controle | `var(--surface)` | `var(--surface)` |
-| `--sel-fg` | texto do controle | `var(--fg)` | `var(--fg)` |
-| `--sel-border` | borda do controle | `var(--border)` | `var(--border)` |
-| `--sel-placeholder` | texto placeholder | `color-mix(in srgb, var(--fg) 55%, transparent)` | idem |
-| `--sel-caret` | setinha ▾ | `var(--muted)` | `var(--muted)` |
-| `--sel-disabled-bg` | fundo desabilitado | `var(--surface-2)` | `#0f1720` |
-| `--sel-disabled-border` | borda desabilitado | `var(--border)` | `var(--border)` |
-| `--sel-error` | cor de erro | `#e11d48` | `#fb7185` |
-| `--sel-focus-ring` | anel de foco | `color-mix(in srgb, var(--accent) 35%, transparent)` | `color-mix(in srgb, var(--accent) 55%, transparent)` |
-| `--sel-menu-bg` | fundo do painel | `var(--surface)` | `var(--surface)` |
-| `--sel-menu-border` | borda do painel | `var(--border)` | `var(--border)` |
-| `--sel-scrollbar-thumb` | trilho do scrollbar | `color-mix(in srgb, var(--accent) 35%, #cbd5e1)` | `color-mix(in srgb, var(--accent) 35%, #334155)` |
-| `--sel-option-hover` | hover/active de opção | `color-mix(in srgb, var(--accent) 12%, transparent)` | `color-mix(in srgb, var(--accent) 18%, transparent)` |
-| `--sel-option-active` | item selecionado | `color-mix(in srgb, var(--accent) 20%, white)` | `color-mix(in srgb, var(--accent) 22%, #0b1220)` |
-
-Exemplo rápido (global):
-```sass
-:root
-  --sel-bg: var(--surface)
-  --sel-fg: var(--fg)
-  --sel-border: var(--border)
-  --sel-placeholder: color-mix(in srgb, var(--fg) 55%, transparent)
-  --sel-caret: var(--muted)
-  --sel-disabled-bg: var(--surface-2)
-  --sel-disabled-border: var(--border)
-  --sel-error: #e11d48
-  --sel-focus-ring: color-mix(in srgb, var(--accent) 35%, transparent)
-  --sel-menu-bg: var(--surface)
-  --sel-menu-border: var(--border)
-  --sel-scrollbar-thumb: color-mix(in srgb, var(--accent) 35%, #cbd5e1)
-  --sel-option-hover: color-mix(in srgb, var(--accent) 12%, transparent)
-  --sel-option-active: color-mix(in srgb, var(--accent) 20%, white)
-
-:root[data-theme="dark"]
-  --sel-focus-ring: color-mix(in srgb, var(--accent) 55%, transparent)
-  --sel-scrollbar-thumb: color-mix(in srgb, var(--accent) 35%, #334155)
-  --sel-option-hover: color-mix(in srgb, var(--accent) 18%, transparent)
-  --sel-option-active: color-mix(in srgb, var(--accent) 22%, #0b1220)
-```
+| Var                     | Uso                   | Sugerido (claro)                                     | Sugerido (escuro)                                    |
+| ----------------------- | --------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| `--sel-bg`              | fundo do controle     | `var(--surface)`                                     | `var(--surface)`                                     |
+| `--sel-fg`              | texto do controle     | `var(--fg)`                                          | `var(--fg)`                                          |
+| `--sel-border`          | borda do controle     | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-placeholder`     | texto placeholder     | `color-mix(in srgb, var(--fg) 55%, transparent)`     | idem                                                 |
+| `--sel-caret`           | setinha ▾             | `var(--muted)`                                       | `var(--muted)`                                       |
+| `--sel-disabled-bg`     | fundo desabilitado    | `var(--surface-2)`                                   | `#0f1720`                                            |
+| `--sel-disabled-border` | borda desabilitado    | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-error`           | cor de erro           | `#e11d48`                                            | `#fb7185`                                            |
+| `--sel-focus-ring`      | anel de foco          | `color-mix(in srgb, var(--accent) 35%, transparent)` | `color-mix(in srgb, var(--accent) 55%, transparent)` |
+| `--sel-menu-bg`         | fundo do painel       | `var(--surface)`                                     | `var(--surface)`                                     |
+| `--sel-menu-border`     | borda do painel       | `var(--border)`                                      | `var(--border)`                                      |
+| `--sel-scrollbar-thumb` | trilho do scrollbar   | `color-mix(in srgb, var(--accent) 35%, #cbd5e1)`     | `color-mix(in srgb, var(--accent) 35%, #334155)`     |
+| `--sel-option-hover`    | hover/active de opção | `color-mix(in srgb, var(--accent) 12%, transparent)` | `color-mix(in srgb, var(--accent) 18%, transparent)` |
+| `--sel-option-active`   | item selecionado      | `color-mix(in srgb, var(--accent) 20%, white)`       | `color-mix(in srgb, var(--accent) 22%, #0b1220)`     |
 
 ---
 
@@ -194,6 +193,7 @@ Exemplo rápido (global):
 - `select.label`, `select.placeholder`, `select.filter.placeholder`
 - `form.required.label`, `form.required.error`, `form.hint`
 - `select.option.*` (labels das opções)
+- Novo: `select.clear`
 
 ---
 
@@ -203,10 +203,13 @@ Exemplo rápido (global):
 - Fechar com `Escape`/clique externo sempre.
 - Navegação por teclado coerente com `role="listbox"`.
 - Leitores de tela anunciam item selecionado (testar NVDA/JAWS/VoiceOver).
+- **Clearable**: botão de limpar visível com valor, focável e com `aria-label`; limpar emite `null`. 
+- **Mobile**: alvos de toque confortáveis; painel não “estoura” a viewport; filtro permanece visível no topo.
 
 ---
 
 ## Ideias de evolução
+
 - [ ] **ControlValueAccessor** (`formControlName`/`ngModel`) e estados `touched/dirty` do Angular Forms.
 - [ ] **Clear button** opcional (×) dentro do controle.
 - [ ] **Typeahead “fechado”**: digitar com o painel fechado seleciona o primeiro match.
@@ -220,4 +223,3 @@ Exemplo rápido (global):
 ## Licença
 
 MIT — use e adapte à vontade dentro do projeto.
-
