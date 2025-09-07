@@ -27,6 +27,12 @@ export class TableComponent<T = any> implements AfterContentInit {
   @Input() sortKey?: string;
   @Input() sortDir: 'asc'|'desc' = 'asc';
 
+  /** Largura da coluna de seleção (checkbox). Aceita "36px", 36, "2.5rem"... */
+  @Input() selectColWidth: string | number = 36;
+
+  /** Largura da coluna de ações (opcional) */
+  @Input() actionsColWidth: string | number = 44;
+
   /** Mostra coluna de seleção por checkbox */
   @Input() selectable = false;
 
@@ -118,6 +124,13 @@ export class TableComponent<T = any> implements AfterContentInit {
     this.sortKey = key; this.sortDir = dir;
     this.sortChange.emit({ key, dir });
   }
+
+  toCssUnit(v: string | number): string {
+    return typeof v === 'number' ? `${v}px` : v;
+  }
+
+  get selectW(): string { return this.toCssUnit(this.selectColWidth); }
+  get actionsW(): string { return this.toCssUnit(this.actionsColWidth); }
 
   trackByIndex = (_: number, __: unknown) => _;
   trackByCol = (_: number, c: ColumnDef) => c.key as string;

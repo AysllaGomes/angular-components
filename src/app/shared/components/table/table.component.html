@@ -1,7 +1,10 @@
 <table class="tbl">
   <thead>
     <tr>
-      <th *ngIf="selectable" class="col-select">
+      <th *ngIf="selectable"
+          class="col-select"
+          [style.width]="selectW"
+          [style.minWidth]="selectW">
         <input
           type="checkbox"
           [checked]="allSelected"
@@ -26,7 +29,11 @@
         </th>
       </ng-container>
 
-      <th *ngIf="hasActions" class="col-actions"></th>
+      <th *ngIf="hasActions"
+          class="col-actions"
+          [style.width]="actionsW"
+          [style.minWidth]="actionsW">
+      </th>
     </tr>
   </thead>
 
@@ -34,16 +41,22 @@
   <!-- DADOS -->
   <tbody *ngIf="!loading && data.length > 0; else bodyEmptyOrLoading">
     <tr *ngFor="let row of data; index as i; trackBy: trackByIndex">
-      <td *ngIf="selectable" class="col-select">
-        <input type="checkbox"
-               [checked]="isSelected(i)"
-               (change)="toggleRow(i, $any($event.target).checked)"
-               aria-label="Selecionar linha">
+      <td *ngIf="selectable"
+          class="col-select"
+          [style.width]="selectW"
+          [style.minWidth]="selectW">
+        <input
+          type="checkbox"
+          [checked]="isSelected(i)"
+          (change)="toggleRow(i, $any($event.target).checked)"
+          aria-label="Selecionar linha">
       </td>
 
-      <td *ngFor="let col of columns"
-          [class.align-center]="col.align==='center'"
-          [class.align-right]="col.align==='right'">
+      <td
+        *ngFor="let col of columns"
+        [attr.data-label]="col.header"
+        [class.align-center]="col.align==='center'"
+        [class.align-right]="col.align==='right'">
 
         <ng-container [ngSwitch]="col.type || 'text'">
 
@@ -77,7 +90,10 @@
       </td>
 
       <!-- AÇÕES -->
-      <td *ngIf="hasActions" class="col-actions">
+      <td *ngIf="hasActions"
+          class="col-actions"
+          [style.width]="actionsW"
+          [style.minWidth]="actionsW">
 
         <!-- 1) Se o consumidor passar <ng-template appActions>, usamos ele -->
         <ng-container *ngIf="actionsTpl?.tpl; else autoActions"

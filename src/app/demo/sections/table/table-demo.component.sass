@@ -1,3 +1,4 @@
+/* toolbar e rodapé da demo */
 .tbl-footer
   margin-top: .75rem
   display: flex
@@ -27,3 +28,12 @@
 .pill[disabled]
   opacity: .6
   cursor: default
+
+/* wrapper com “sombra de overflow” e padding simétrico */
+.tbl-wrap
+  overflow: auto
+  border-radius: .75rem
+  padding-inline: 8px            /* garante simetria esquerda/direita */
+  background: linear-gradient(to right, var(--surface), transparent) left/24px 100%, linear-gradient(to left,  var(--surface), transparent) right/24px 100%, linear-gradient(to right, rgba(0,0,0,.08), rgba(0,0,0,0)), linear-gradient(to left,  rgba(0,0,0,.08), rgba(0,0,0,0))
+  background-repeat: no-repeat
+  background-attachment: local, local, scroll, scroll

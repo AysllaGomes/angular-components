@@ -18,22 +18,26 @@
       </button>
     </div>
 
-    <app-table
-      [columns]="columns"
-      [data]="pagedRows()"
-      [loading]="loading()"
-      [loadingRows]="pageSize"
-      [emptyMessage]="'table.empty' | t"
-      [selectable]="true"
-      [actions]="actions()"
-      [showActions]="true"
-      [selected]="selected()"
-      [sortKey]="sort()?.key || undefined"
-      [sortDir]="sort()?.dir || 'asc'"
-      (sortChange)="onSort($event)"
-      (selectedChange)="selected.set($event)"
-      (action)="onAction($event)">
-    </app-table>
+    <div class="tbl-wrap">
+      <app-table
+        [columns]="columns"
+        [data]="pagedRows()"
+        [loading]="loading()"
+        [loadingRows]="pageSize"
+        [emptyMessage]="'table.empty' | t"
+        [selectable]="true"
+        [selectColWidth]="20"
+        [actions]="actions()"
+        [actionsColWidth]="'40px'"
+        [showActions]="true"
+        [selected]="selected()"
+        [sortKey]="sort()?.key || undefined"
+        [sortDir]="sort()?.dir || 'asc'"
+        (sortChange)="onSort($event)"
+        (selectedChange)="selected.set($event)"
+        (action)="onAction($event)">
+      </app-table>
+    </div>
 
     <div class="tbl-footer" *ngIf="rows.length > pageSize">
       <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>

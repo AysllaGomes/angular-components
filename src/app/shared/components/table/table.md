@@ -295,3 +295,39 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 ## Licença
 
 MIT — use e adapte à vontade dentro do projeto.
+
+---
+
+## Responsividade
+
+### 1) Desktop / Wrap horizontal
+Envolva a tabela com um contêiner `.tbl-wrap` para permitir rolagem horizontal quando as colunas extrapolarem a largura do viewport. Esse contêiner também aplica um **sombreamento nas bordas** indicando overflow:
+
+```html
+<div class="tbl-wrap">
+  <app-table [columns]="columns" [data]="rows"></app-table>
+</div>
+```
+
+O Sass da demo já inclui os gradientes e `border-radius` do contêiner.
+
+### 2) Mobile / “Stack layout” (≤ 640px)
+Abaixo de `640px` a tabela é transformada em cartões: cada `<tr>` vira um bloco e cada `<td>` usa `data-label` para exibir o rótulo da coluna.  
+A coluna de **seleção** sobe para o topo do cartão e a de **ações** vai para o rodapé, alinhada à direita.
+
+> Dica: garanta que cada célula receba `data-label` (o componente já faz isso automaticamente a partir de `ColumnDef.header`).
+
+## Largura da coluna de seleção
+
+Por padrão a coluna de seleção usa `--tbl-select-w: 44px` (ou 48px na demo). Você pode ajustar por **token CSS** local:
+
+```sass
+/* no seu wrapper da página ou card */
+.wrapper
+  --tbl-select-w: 40px
+```
+
+> Opcionalmente, você pode expor um `@Input() selectColWidth` no componente para controlar via propriedade (se adotou essa extensão).
+
+## Acessibilidade (ordenar)
+O cabeçalho clicável mantém `aria-sort="ascending|descending|none"` e aceita teclado (Enter/Espaço). Isso é emitido via `sortChange` e você controla a ordenação no host. Consulte a seção “Ordenação (controlada)”.

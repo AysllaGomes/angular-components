@@ -220,3 +220,39 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - [x] Empty/Loading/Error states
 - [ ] Pagination helpers & bulk actions
 - [ ] Responsive columns for small screens
+
+---
+
+## Responsiveness
+
+### 1) Desktop / Horizontal wrap
+Wrap the table with a `.tbl-wrap` container to allow horizontal scrolling when columns overflow. The container adds **edge shadows** to hint overflow:
+
+```html
+<div class="tbl-wrap">
+  <app-table [columns]="columns" [data]="rows"></app-table>
+</div>
+```
+
+The demo Sass ships those gradients and the rounded corners.
+
+### 2) Mobile / “Stack layout” (≤ 640px)
+Below `640px`, each `<tr>` becomes a card-like block and each `<td>` shows its column label using the `data-label` attribute.  
+The **select** column moves to the top of the card and **actions** go to the bottom, right-aligned.
+
+> Tip: make sure each cell has `data-label` (the component auto-sets it from `ColumnDef.header`).
+
+## Select column width
+
+By default, the select column uses `--tbl-select-w: 44px` (48px in the demo). Tweak it via **CSS token**:
+
+```sass
+/* in your page or card wrapper */
+.wrapper
+  --tbl-select-w: 40px
+```
+
+> Optionally, you may expose an `@Input() selectColWidth` if you added that extension to the component.
+
+## Accessibility (sorting)
+Clickable headers keep `aria-sort="ascending|descending|none"` and support keyboard (Enter/Space). The component emits `sortChange`; keep the sorted view in the host. See “Sorting (controlled)”.

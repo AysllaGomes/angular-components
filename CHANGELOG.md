@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [Unreleased]
+### Added
+
+- **Responsive table**
+- **Horizontal wrap** with `.tbl-wrap` + “umbrellas” on the sides.
+- **Mobile stack (≤640px)**: each row becomes a “card” with labels via `data-label`; selection column rendered at the top and actions in the footer.
+- **Selectable width**: --tbl-select-w token (e.g., 48px) and local adjustment support.
+
+### Changed
+- Sortable header: visible focus and `aria-sort` maintained; **Enter/Space** support in `<th>`.
+
+### Fixed
+- Removed global reset of `button` that affected other components; styles now scoped to `.icon-btn`.
+
 ## [1.5.0](https://github.com/AysllaGomes/angular-components/compare/v1.4.0...v1.5.0) (2025-09-06)
 ### Features
 * **actionbar:** add right-side sheet with sm/md/lg/auto, accent-aware UI and a11y ([d20e461](https://github.com/AysllaGomes/angular-components/commit/d20e46172b9830f0b036816de7d12c01fd4a2ce5))
