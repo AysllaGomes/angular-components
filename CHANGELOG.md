@@ -3,10 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ## [1.6.0](https://github.com/AysllaGomes/angular-components/compare/v1.5.0...v1.6.0) (2025-09-07)
-
-
 ### Features
+* **header:** make header responsive with mobile menu + collapsible nav ([b18ba1b](https://github.com/AysllaGomes/angular-components/commit/b18ba1ba5310bde606f154c5ccbc9eda51f260df))
+* **table:** responsive wrap + mobile “stack”; selectable column width; a11y sort polish ([1ed907e](https://github.com/AysllaGomes/angular-components/commit/1ed907ea3609e41245fcd907e829f472bf2d69d5))
+  * **Responsive table**
+    * **Horizontal wrap** with `.tbl-wrap` + “umbrellas” on the sides.
+    * **Mobile stack (≤640px)**: each row becomes a “card” with labels via `data-label`; selection column rendered at the top and actions in the footer.
+  * **Selectable width**: --tbl-select-w token (e.g., 48px) and local adjustment support.
 
+### Changed
+* Sortable header: visible focus and `aria-sort` maintained; **Enter/Space** support in `<th>`.
+
+### Fixed
+* Removed global reset of `button` that affected other components; styles now scoped to `.icon-btn`.
 * **header:** make header responsive with mobile menu + collapsible nav ([b18ba1b](https://github.com/AysllaGomes/angular-components/commit/b18ba1ba5310bde606f154c5ccbc9eda51f260df))
 * **table:** responsive wrap + mobile “stack”; selectable column width; a11y sort polish ([1ed907e](https://github.com/AysllaGomes/angular-components/commit/1ed907ea3609e41245fcd907e829f472bf2d69d5))
 
