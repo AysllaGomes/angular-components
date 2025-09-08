@@ -193,26 +193,28 @@ td.empty
       overflow: clip
       padding: .5rem .5rem
 
-    /* célula vira label + valor */
+    /* célula vira: [rótulo][valor] */
     td
       display: grid
-      grid-template-columns: 12ch minmax(0, 1fr)
+      grid-template-columns: minmax(9ch, 42%) minmax(0, 1fr)
       align-items: start
-      gap: .75rem
+      gap: .5rem
       border: 0 !important
       background: transparent !important
       padding: .5rem .5rem
+      line-height: 1.35
       overflow-wrap: anywhere
       word-break: break-word
+      white-space: normal
 
       &::before
         content: attr(data-label)
         color: var(--tbl-muted)
         font-weight: 600
-        white-space: nowrap
+        white-space: normal
 
       &.align-right
-        grid-template-columns: 12ch auto
+        grid-template-columns: minmax(9ch, 42%) auto
         > *:last-child
           justify-self: end
 
@@ -220,7 +222,13 @@ td.empty
         > *:last-child
           justify-self: center
 
-    /* select / actions viram linhas inteiras sem label */
+      /* chips e ícones não “estouram” */
+      .chip
+        justify-self: start
+      img, svg
+        max-width: 100%
+
+    /* select/actions como linhas independentes */
     .col-select,
     .col-actions
       grid-template-columns: 1fr
