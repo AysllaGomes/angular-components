@@ -27,6 +27,7 @@ export const COMMON: Dict = {
     en: 'Toast'
   },
   'nav.actionbar': { pt: 'ActionBar', en: 'Action bar' },
+  'nav.dialog': { pt: 'Modal', en: 'Dialog' },
 
   'header.menu': {
     pt: 'Menu',
