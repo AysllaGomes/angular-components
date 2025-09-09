@@ -1,20 +1,7 @@
-import {NgClass, NgIf} from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-  effect,
-  signal
-} from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, effect, signal } from '@angular/core';
 
-type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'auto';
+import { DialogSize } from '../../model/type/dialog-size.type';
 
 let uid = 0;
 
