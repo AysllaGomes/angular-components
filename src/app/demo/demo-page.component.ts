@@ -5,6 +5,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { TableDemoComponent } from './sections/table/table-demo.component';
 import { ToastDemoComponent } from './sections/toast/toast-demo.component';
 import { SelectDemoComponent } from './sections/select/select-demo.component';
+import { DialogDemoComponent } from './sections/dialog/dialog-demo.component';
 import { StepperDemoComponent } from './sections/stepper/stepper-demo.component';
 import { ActionBarDemoComponent } from './sections/actionbar/actionbar-demo.component';
 import { PaginationDemoComponent } from './sections/pagination/pagination-demo.component';
@@ -19,6 +20,7 @@ import { ToastContainerComponent } from '../shared/components/toast/toast-contai
     TableDemoComponent,
     ToastDemoComponent,
     SelectDemoComponent,
+    DialogDemoComponent,
     StepperDemoComponent,
     ActionBarDemoComponent,
     PaginationDemoComponent,

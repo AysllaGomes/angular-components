@@ -1,0 +1,47 @@
+<div class="dlg-backdrop" *ngIf="open()" (click)="onBackdropClick($event)">
+  <div
+    #dlg
+    class="dlg"
+    [ngClass]="{
+      'dlg--sm': currentSize() === 'sm',
+      'dlg--md': currentSize() === 'md',
+      'dlg--lg': currentSize() === 'lg',
+      'dlg--xl': currentSize() === 'xl'
+    }"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="labelId"
+    tabindex="-1"
+  >
+    <header class="dlg__hdr">
+      <h3 class="dlg__title" [id]="labelId">{{ title }}</h3>
+      <button #closeBtn class="dlg__close" type="button" (click)="close()" aria-label="Fechar">
+        <!-- “x” neutro que herda currentColor -->
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3 10.6 10.6 16.9 4.3z" fill="currentColor"/>
+        </svg>
+      </button>
+    </header>
+
+    <div #content class="dlg__content">
+      <ng-content></ng-content>
+    </div>
+
+    <footer class="dlg__ftr">
+      <!-- slot opcional para ações customizadas -->
+      <ng-content select="[dialog-actions]"></ng-content>
+
+      <!-- ações padrão (só renderizam se tiver label) -->
+      <div class="dlg__auto-actions">
+        <button *ngIf="secondaryLabel" class="btn btn--ghost" type="button"
+                (click)="secondary.emit(); close()">
+          {{ secondaryLabel }}
+        </button>
+        <button *ngIf="primaryLabel" class="btn" type="button"
+                (click)="primary.emit()">
+          {{ primaryLabel }}
+        </button>
+      </div>
+    </footer>
+  </div>
+</div>

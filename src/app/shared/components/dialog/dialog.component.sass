@@ -1,0 +1,132 @@
+:host
+  position: relative
+  z-index: 70
+
+/* Backdrop full-screen */
+.dlg-backdrop
+  position: fixed
+  inset: 0
+  display: grid
+  place-items: center
+  background: var(--dlg-backdrop)
+
+/* Caixa do diálogo */
+.dlg
+  width: min(100vw - 24px, 640px)   /* default = md */
+  max-height: 90vh
+  background: var(--dlg-bg)
+  color: var(--dlg-fg)
+  border: 1px solid var(--dlg-border)
+  border-radius: .9rem
+  box-shadow: var(--dlg-shadow)
+  display: grid
+  grid-template-rows: auto 1fr auto
+  overflow: hidden
+  transform: scale(.98)
+  opacity: 0
+  animation: dlgIn .18s ease forwards
+
+/* tamanhos */
+.dlg--sm
+  width: min(100vw - 24px, 360px)
+.dlg--md
+  width: min(100vw - 24px, 640px)
+.dlg--lg
+  width: min(100vw - 24px, 860px)
+.dlg--xl
+  width: min(100vw - 24px, 1040px)
+
+/* Header */
+.dlg__hdr
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: .5rem
+  padding: .9rem 1rem
+  border-bottom: 1px solid var(--dlg-border)
+  background: var(--dlg-bg)
+
+.dlg__title
+  margin: 0
+  font-size: 1.05rem
+  font-weight: 800
+  color: var(--dlg-title, var(--dlg-fg))
+
+.dlg__close
+  appearance: none
+  width: 36px
+  height: 36px
+  display: grid
+  place-items: center
+  border-radius: .6rem
+  border: 1px solid transparent
+  background: transparent
+  color: var(--dlg-close, var(--muted))
+  cursor: pointer
+  &:hover
+    background: color-mix(in srgb, var(--accent) 12%, transparent)
+  &:focus-visible
+    outline: 2px solid color-mix(in srgb, var(--accent) 55%, white)
+    outline-offset: 2px
+
+/* Conteúdo */
+.dlg__content
+  padding: 1rem
+  overflow: auto
+
+/* Footer */
+.dlg__ftr
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: .5rem
+  padding: .75rem 1rem
+  border-top: 1px solid var(--dlg-border)
+  background: var(--dlg-bg)
+
+/* ações auto (direita) */
+.dlg__auto-actions
+  display: inline-flex
+  gap: .5rem
+  margin-left: auto
+
+/* Botões padrão (mesmo visual do ActionBar) */
+.btn
+  appearance: none
+  border: 1px solid transparent
+  background: var(--accent)
+  color: #fff
+  padding: .6rem 1rem
+  border-radius: .6rem
+  font-weight: 700
+  cursor: pointer
+  &:hover
+    background: color-mix(in srgb, var(--accent) 88%, white)
+  &:focus-visible
+    outline: 2px solid color-mix(in srgb, var(--accent) 55%, white)
+    outline-offset: 2px
+
+.btn--ghost
+  background: transparent
+  color: var(--accent)
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent)
+  border-width: 1px
+  border-style: solid
+  &:hover
+    background: color-mix(in srgb, var(--accent) 12%, transparent)
+
+/* Mobile: empilha botões */
+@media (max-width: 480px)
+  .dlg__ftr
+    flex-wrap: wrap
+    gap: .5rem .5rem
+  .dlg__auto-actions
+    width: 100%
+    justify-content: stretch
+    .btn, .btn--ghost
+      flex: 1 1 100%
+
+@keyframes dlgIn
+  to
+    opacity: 1
+    transform: scale(1)

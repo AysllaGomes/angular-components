@@ -1,0 +1,19 @@
+<article class="card" style="display:grid;gap:.5rem;">
+  <button class="pill" type="button" (click)="openDlg=true">Open Dialog</button>
+</article>
+
+<app-dialog
+  [title]="'Confirmar exclusão'"
+  size="auto"
+  [(opened)]="openDlg"
+  primaryLabel="Confirmar"
+  secondaryLabel="Cancelar"
+  (primary)="confirmDelete()">
+  <p>Tem certeza? Esta ação não pode ser desfeita.</p>
+  <!-- Ou ações customizadas:
+  <div dialog-actions>
+    <button class="btn--ghost btn" type="button" (click)="openDlg=false">Cancelar</button>
+    <button class="btn" type="button" (click)="confirmDelete()">Confirmar</button>
+  </div>
+  -->
+</app-dialog>
