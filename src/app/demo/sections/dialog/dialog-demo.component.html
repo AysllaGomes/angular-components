@@ -2,7 +2,7 @@
   <h2>{{ 'section.dialog.title' | t }}</h2>
   <p class="lead">{{ 'section.dialog.lead' | t }}</p>
 
-  <article class="card" class="card">
+  <article class="card">
     <div class="toolbar">
       <button class="pill pill--accent" type="button" (click)="openDlg = true">
         <!-- ícone “alerta/trasheirinho” só pra dar contexto visual -->
@@ -22,16 +22,5 @@
     [secondaryLabel]="'dialog.secondary.cancel' | t"
     (primary)="confirmDelete()">
     <p>{{ 'dialog.body.confirm' | t }}</p>
-
-    <!-- Exemplo de ações customizadas (se quiser sobrepor as padrão):
-    <div dialog-actions>
-      <button class="btn btn--ghost" type="button" (click)="openDlg=false">
-        {{ 'dialog.secondary.cancel' | t }}
-      </button>
-      <button class="btn" type="button" (click)="confirmDelete()">
-        {{ 'dialog.primary.confirm' | t }}
-      </button>
-    </div>
-    -->
   </app-dialog>
 </section>
