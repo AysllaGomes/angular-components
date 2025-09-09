@@ -1,0 +1,32 @@
+.toolbar
+  display: flex
+  gap: .5rem
+  flex-wrap: wrap
+  margin-bottom: .75rem
+
+.pill
+  appearance: none
+  border: 1px solid var(--hdr-pill-border, #d1d5db)
+  background: var(--hdr-pill-bg, #fff)
+  color: var(--hdr-pill-color, #0f1720)
+  padding: .45rem .8rem
+  border-radius: 9999px
+  font-weight: 700
+  cursor: pointer
+  display: inline-grid
+  grid-auto-flow: column
+  align-items: center
+  gap: .4rem
+
+  svg
+    display: block
+
+.pill--accent
+  background: var(--accent)
+  color: #fff
+  border-color: transparent
+  &:hover
+    background: color-mix(in srgb, var(--accent) 88%, white)
+  &:focus-visible
+    outline: 2px solid color-mix(in srgb, var(--accent) 55%, white)
+    outline-offset: 2px

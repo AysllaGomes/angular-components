@@ -1,19 +1,37 @@
-<article class="card" style="display:grid;gap:.5rem;">
-  <button class="pill" type="button" (click)="openDlg=true">Open Dialog</button>
-</article>
+<section id="dialog" class="demo-section">
+  <h2>{{ 'section.dialog.title' | t }}</h2>
+  <p class="lead">{{ 'section.dialog.lead' | t }}</p>
 
-<app-dialog
-  [title]="'Confirmar exclusão'"
-  size="auto"
-  [(opened)]="openDlg"
-  primaryLabel="Confirmar"
-  secondaryLabel="Cancelar"
-  (primary)="confirmDelete()">
-  <p>Tem certeza? Esta ação não pode ser desfeita.</p>
-  <!-- Ou ações customizadas:
-  <div dialog-actions>
-    <button class="btn--ghost btn" type="button" (click)="openDlg=false">Cancelar</button>
-    <button class="btn" type="button" (click)="confirmDelete()">Confirmar</button>
-  </div>
-  -->
-</app-dialog>
+  <article class="card" class="card">
+    <div class="toolbar">
+      <button class="pill pill--accent" type="button" (click)="openDlg = true">
+        <!-- ícone “alerta/trasheirinho” só pra dar contexto visual -->
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 7h2v7h-2v-7zm4 0h2v7h-2v-7zM7 10h2v7H7v-7z" fill="currentColor"/>
+        </svg>
+        <span>{{ 'dialog.open' | t }}</span>
+      </button>
+    </div>
+  </article>
+
+  <app-dialog
+    [title]="'dialog.title.confirm' | t"
+    size="auto"
+    [(opened)]="openDlg"
+    [primaryLabel]="'dialog.primary.confirm' | t"
+    [secondaryLabel]="'dialog.secondary.cancel' | t"
+    (primary)="confirmDelete()">
+    <p>{{ 'dialog.body.confirm' | t }}</p>
+
+    <!-- Exemplo de ações customizadas (se quiser sobrepor as padrão):
+    <div dialog-actions>
+      <button class="btn btn--ghost" type="button" (click)="openDlg=false">
+        {{ 'dialog.secondary.cancel' | t }}
+      </button>
+      <button class="btn" type="button" (click)="confirmDelete()">
+        {{ 'dialog.primary.confirm' | t }}
+      </button>
+    </div>
+    -->
+  </app-dialog>
+</section>

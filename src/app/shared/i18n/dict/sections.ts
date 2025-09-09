@@ -9,6 +9,15 @@ export const SECTIONS: Dict = {
   'section.table.lead':    { pt: 'Tabela personalizável com seleção, chips e ações.',
     en: 'Customizable table with selection, chips and actions.' },
 
+  'section.dialog.title': {
+    pt: 'Dialog',
+    en: 'Dialog'
+  },
+  'section.dialog.lead': {
+    pt: 'Janela modal centrada com título, conteúdo rolável e ações.',
+    en: 'Centered modal with title, scrollable content and actions.'
+  },
+
   'section.pagination.title': { pt: 'Paginação', en: 'Pagination' },
   'section.toast.title':      { pt: 'Toast',     en: 'Toast' },
 };
