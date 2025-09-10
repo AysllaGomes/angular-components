@@ -30,10 +30,25 @@
 
       <!-- Ou botões padrão, se labels vierem -->
       <div class="ab__auto-actions" *ngIf="primaryLabel || secondaryLabel">
-        <button type="button" class="btn btn--ghost" *ngIf="secondaryLabel" (click)="secondary.emit()">
+        <button
+          *ngIf="secondaryLabel"
+          appButton="ghost"
+          size="md"
+          type="button"
+          class="btn btn--ghost"
+          (click)="secondary.emit()"
+        >
           {{ secondaryLabel }}
         </button>
-        <button type="button" class="btn" *ngIf="primaryLabel" (click)="primary.emit()">
+        <button
+          *ngIf="primaryLabel"
+          appButton="solid"
+          tone="accent"
+          size="md"
+          type="button"
+          class="btn"
+          (click)="primary.emit()"
+        >
           {{ primaryLabel }}
         </button>
       </div>

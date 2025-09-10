@@ -22,24 +22,24 @@ export class HeaderComponent {
   theme = inject(ThemeService);
   i18n  = inject(I18nService);
 
-  // menu mobile
+  // estado do menu mobile
   openNav = signal(false);
-  private BREAKPOINT = 840;
-
-  toggleMenu() { this.openNav.update(v => !v); }
-  closeMenu()  { this.openNav.set(false); }
-  onNavClick(e: Event) {
-    const t = e.target as HTMLElement;
-    if (t.tagName.toLowerCase() === 'a') this.closeMenu();
-  }
-
-  @HostListener('window:resize')
-  onResize() { if (window.innerWidth > this.BREAKPOINT && this.openNav()) this.closeMenu(); }
-
-  @HostListener('document:keydown', ['$event'])
-  onKey(e: KeyboardEvent) { if (e.key === 'Escape' && this.openNav()) this.closeMenu(); }
 
   toggleTheme() { this.theme.toggle(); }
   toggleLang()  { this.i18n.toggle(); }
-  setAccent(a: Accent) { this.theme.setAccent(a); }
+  setAccent(a: 'teal'|'orange'|'violet'|'blue'|'rose') { this.theme.setAccent(a); }
+
+  toggleMenu() { this.openNav.update(v => !v); }
+
+  // fecha quando clicar em qualquer <a> dentro do nav
+  onNavClick(e: Event) {
+    const a = (e.target as HTMLElement).closest('a');
+    if (a) this.openNav.set(false);
+  }
+
+  // fecha com Esc
+  @HostListener('document:keydown', ['$event'])
+  onKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') this.openNav.set(false);
+  }
 }

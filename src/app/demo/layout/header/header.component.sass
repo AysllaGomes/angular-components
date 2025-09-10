@@ -1,17 +1,4 @@
-/* =========================================================
-   Header (SASS) — responsivo + acessível
-   Estrutura do HTML:
-   <header class="demo-header">
-     <div class="container hdr">
-       <button class="icon-pill menu-btn">…</button>
-       <a class="brand">…</a>
-       <nav id="demoNav" class="nav" [class.is-open]="…">…</nav>
-       <div class="actions">…</div>
-     </div>
-   </header>
-   ========================================================= */
-
-/* -------- A11Y utilidades -------- */
+/* A11Y */
 .sr-only
   position: absolute !important
   height: 1px
@@ -39,7 +26,7 @@
     border-radius: .5rem
     z-index: 999
 
-/* -------- Header “bar” -------- */
+/* Header bar */
 .demo-header
   position: sticky
   top: 0
@@ -47,11 +34,10 @@
   border-bottom: 1px solid var(--hdr-border)
   background: var(--hdr-bg)
   backdrop-filter: saturate(180%) blur(8px)
-  /* preenche a largura útil em devices com notch */
   padding-left: env(safe-area-inset-left)
   padding-right: env(safe-area-inset-right)
 
-/* -------- Pill buttons (ícones redondos) -------- */
+/* Icon pills */
 .icon-pill
   appearance: none
   -webkit-appearance: none
@@ -77,7 +63,7 @@
     height: 18px
     display: block
 
-/* -------- Accent picker -------- */
+/* Accent picker */
 .accent-picker
   display: inline-flex
   gap: 6px
@@ -106,7 +92,7 @@
 .swatch--rose
   background: #e11d48
 
-/* -------- Grid base (desktop) -------- */
+/* Grid base (desktop) */
 .hdr
   display: grid
   align-items: center
@@ -115,7 +101,7 @@
   padding: 8px 0
   grid-template-columns: auto 1fr auto
   grid-template-areas: 'brand nav actions'
-  position: relative   /* base p/ nav absoluto no mobile */
+  position: relative   /* base para nav absoluto no mobile */
 
 .brand
   grid-area: brand
@@ -138,7 +124,7 @@
     &:hover
       background: var(--hdr-hover)
 
-/* link ativo */
+/* Link ativo */
 .nav a.is-active,
 .nav a[aria-current="page"],
 .nav a[aria-current="true"]
@@ -161,13 +147,11 @@
   justify-self: end
   white-space: nowrap
 
-/* botão de menu só no mobile */
 .menu-btn
   display: none
 
-/* ================== MOBILE ≤ 840px ================== */
+/* ============== MOBILE ≤ 840px ============== */
 @media (max-width: 840px)
-  /* grid do topo: menu | brand | actions */
   .hdr
     grid-template-columns: auto 1fr auto
     grid-template-areas: 'menu brand actions'
@@ -192,7 +176,7 @@
     width: 18px
     height: 18px
 
-  /* Nav vira “drop-down” fora da .container (100vw) */
+  /* Drop-down ocupa 100vw, alinhado à viewport (com safe-area) */
   .nav
     position: absolute
     left: 0
@@ -201,7 +185,6 @@
     margin-top: 6px
     z-index: 60
 
-    /* ocupa a tela toda horizontalmente */
     width: 100vw
     transform: translateX(calc(50% - 50vw))
 
@@ -213,13 +196,12 @@
     background: var(--hdr-pill-bg)
     border: 1px solid var(--hdr-pill-border)
     border-radius: .75rem
-    /* respeita áreas seguras (notch) */
+
     padding-left: calc(.5rem + env(safe-area-inset-left))
     padding-right: calc(.5rem + env(safe-area-inset-right))
     padding-top: .35rem
     padding-bottom: .35rem
 
-    /* colapsado por padrão */
     max-height: 0
     overflow: hidden
     opacity: 0
@@ -238,4 +220,4 @@
     max-height: 60vh
     opacity: 1
     pointer-events: auto
-    transform: translateX(calc(50% - 50vw)) /* mantém alinhado quando abre */
+    transform: translateX(calc(50% - 50vw))

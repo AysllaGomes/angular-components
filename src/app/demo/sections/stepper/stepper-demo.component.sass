@@ -16,19 +16,16 @@
   display: grid
   gap: .75rem
 
+/* só layout das ações; quem estiliza o botão é o appBtn */
 .actions
   display: flex
   gap: .5rem
-  button
-    border: 1px solid var(--border)
-    background: var(--surface-2)
-    color: var(--fg)
-    padding: .5rem .75rem
-    border-radius: .5rem
-    cursor: pointer
-    &:disabled
-      opacity: .6
-      cursor: default
+  flex-wrap: wrap
+
+/* opcional: em telas pequenas, deixar os 2 botões expandirem bem */
+@media (max-width: 480px)
+  .actions .btn
+    flex: 1 1 160px
 
 /* modo compacto exemplo */
 .compact

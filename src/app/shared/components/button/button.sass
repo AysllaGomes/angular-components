@@ -1,0 +1,155 @@
+/* Base + tokens locais (herdam do styles.sass) */
+:root
+  --btn-radius: .6rem
+  --btn-fw: 700
+  --btn-gap: .4rem
+
+  --btn-py-sm: .40rem
+  --btn-px-sm: .70rem
+  --btn-py-md: .55rem
+  --btn-px-md: 1.00rem
+  --btn-py-lg: .70rem
+  --btn-px-lg: 1.10rem
+
+  --btn-icon-size: 18px
+
+/* IMPORTANT: defina --neutral e --danger no styles.sass global, ver seção 3 */
+button[appButton], a[appButton]
+  text-decoration: none
+
+.btn
+  appearance: none
+  -webkit-appearance: none
+  border: 1px solid transparent
+  border-radius: var(--btn-radius)
+  font-weight: var(--btn-fw)
+  cursor: pointer
+  display: inline-grid
+  grid-auto-flow: column
+  align-items: center
+  gap: var(--btn-gap)
+  line-height: 1
+  transition: filter .15s ease
+
+  svg, img
+    width: var(--btn-icon-size)
+    height: var(--btn-icon-size)
+    display: block
+
+  /* tamanhos */
+  &.btn--sm
+    padding: var(--btn-py-sm) var(--btn-px-sm)
+  &.btn--md
+    padding: var(--btn-py-md) var(--btn-px-md)
+  &.btn--lg
+    padding: var(--btn-py-lg) var(--btn-px-lg)
+
+  /* largura total */
+  &.btn--block
+    width: 100%
+    justify-content: center
+
+  /* só ícone (quadrado) */
+  &.btn--icononly
+    width: 36px
+    height: 36px
+    padding: 0
+    place-content: center
+
+  /* ===== mapear "tone" para cor de trabalho */
+  &.btn--accent
+    --_tone: var(--accent)
+  &.btn--neutral
+    --_tone: var(--neutral, #64748b)
+  &.btn--danger
+    --_tone: var(--danger, #ef4444)
+
+  /* ===== variantes ===== */
+  &.btn--solid
+    background: var(--_tone)
+    color: #fff
+    border-color: transparent
+    &:hover
+      background: color-mix(in srgb, var(--_tone) 88%, white)
+    &:focus-visible
+      outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
+      outline-offset: 2px
+
+  &.btn--ghost
+    background: transparent
+    color: var(--_tone)
+    border-color: color-mix(in srgb, var(--_tone) 55%, transparent)
+    &:hover
+      background: color-mix(in srgb, var(--_tone) 12%, transparent)
+    &:focus-visible
+      outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
+      outline-offset: 2px
+
+  &.btn--outline
+    background: transparent
+    color: var(--_tone)
+    border-color: var(--_tone)
+    &:hover
+      background: color-mix(in srgb, var(--_tone) 10%, transparent)
+    &:focus-visible
+      outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
+      outline-offset: 2px
+
+  &.btn--pill
+    background: var(--hdr-pill-bg)
+    color: var(--hdr-pill-color)
+    border-color: var(--hdr-pill-border)
+    border-radius: 9999px
+    &:hover
+      background: var(--hdr-link-hover)
+    &:focus-visible
+      outline: 2px solid var(--hdr-pill-ring)
+      outline-offset: 2px
+    /* se pedir "accent" no pill, vira um chip acentuado */
+    &.btn--accent
+      background: var(--accent)
+      color: #fff
+      border-color: transparent
+      &:hover
+        background: color-mix(in srgb, var(--accent) 88%, white)
+
+  &.btn--link
+    background: transparent
+    border-color: transparent
+    padding: 0
+    color: var(--_tone)
+    text-decoration: underline
+    text-underline-offset: 2px
+    &:hover
+      filter: brightness(1.1)
+    &:focus-visible
+      outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
+      outline-offset: 2px
+
+  /* estados */
+  &[disabled],
+  &[aria-disabled="true"]
+    opacity: .6
+    cursor: default
+    pointer-events: none
+
+  &.is-busy
+    position: relative
+    pointer-events: none
+    /* spinner overlay */
+    &::after
+      content: ""
+      width: 1em
+      height: 1em
+      border: 2px solid currentColor
+      border-top-color: transparent
+      border-radius: 50%
+      display: inline-block
+      animation: btnSpin .8s linear infinite
+    /* coloca no fim da grid, sem quebrar layout */
+    /* se quiser sobrepor no centro:
+    //&::after { position:absolute; inset:0; margin:auto; } */
+
+@keyframes btnSpin
+  to
+    transform: rotate(360deg)

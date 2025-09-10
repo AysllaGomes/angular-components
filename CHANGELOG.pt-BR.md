@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.7.0 (2025-09-10)
+### Added
+- `appButton` (ButtonDirective) com variantes `solid|outline|ghost|link`,
+  tons `accent|neutral|danger` e tamanhos `xs|sm|md|lg`.
+- Tokens globais de botão: `--neutral`, `--danger`.
+- Paginação: modo **compact** opcional (exibe `x / y`) e prev/next com `variant="ghost"`.
+
+### Changed
+- Dialog, Stepper, ActionBar, Pagination e Header passaram a usar `appButton`
+  onde fazia sentido (consistência visual e acessibilidade).
+- `styles.sass` agora usa `@use './app/shared/components/button/button' as *`.
+
+### Fixed
+- Header mobile ocupa 100% da largura útil com **safe-area** em iOS.
+- Pequenos ajustes de foco/aria e responsividade.
+
+### Migration Notes
+- Onde havia `.btn`/`.pill` “ad hoc”, prefira o `appButton`:
+  `<button appButton variant="outline" tone="neutral" size="sm">…</button>`.l.
+
 ## [1.6.0](https://github.com/AysllaGomes/angular-components/compare/v1.5.0...v1.6.0) (2025-09-07)
 ### Added
 - **Responsive table** 

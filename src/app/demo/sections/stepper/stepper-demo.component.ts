@@ -6,14 +6,20 @@ import { I18nService } from '../../../shared/services/i18n.service';
 
 import { StepItem } from '../../../shared/model/interface/step-item.interface';
 
+import { ButtonDirective } from '../../../shared/components/button/button.directive';
+
 import { StepperComponent } from '../../../shared/components/stepper/stepper.component';
 
 @Component({
   selector: 'app-stepper-demo',
-  standalone: true,
-  imports: [StepperComponent, TPipe],
   templateUrl: './stepper-demo.component.html',
-  styleUrl: './stepper-demo.component.sass'
+  styleUrl: './stepper-demo.component.sass',
+  standalone: true,
+  imports: [
+    TPipe,
+    ButtonDirective,
+    StepperComponent,
+  ],
 })
 export class StepperDemoComponent {
   private i18n = inject(I18nService);

@@ -2,13 +2,14 @@ import { NgIf } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, signal, effect } from '@angular/core';
 
 import { AbSize } from '../../model/type/ab-size.type';
+import {ButtonDirective} from '../button/button.directive';
 
 let uid = 0;
 
 @Component({
   selector: 'app-actionbar',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, ButtonDirective],
   templateUrl: './actionbar.component.html',
   styleUrl: './actionbar.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,

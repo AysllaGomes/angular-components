@@ -1,12 +1,20 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { TPipe } from '../../i18n/t.pipe';
+
+import { ButtonDirective } from '../button/button.directive';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.sass',
-  imports: [NgFor, NgIf],
+  imports: [
+    NgFor,
+    TPipe,
+    ButtonDirective,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {

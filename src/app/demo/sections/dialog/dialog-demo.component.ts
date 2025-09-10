@@ -4,12 +4,15 @@ import { TPipe } from '../../../shared/i18n/t.pipe';
 
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 
+import { ButtonDirective } from '../../../shared/components/button/button.directive';
+
 @Component({
   selector: 'app-dialog-demo',
   standalone: true,
   imports: [
+    TPipe,
     DialogComponent,
-    TPipe
+    ButtonDirective,
   ],
   templateUrl: './dialog-demo.component.html',
   styleUrl: './dialog-demo.component.sass'

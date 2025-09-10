@@ -5,7 +5,7 @@
   <article class="card">
     <div class="toolbar">
       <!-- Exemplo 1: ações padrão (primary/secondary do componente) -->
-      <button class="pill pill--accent" type="button" (click)="openDlgDefault = true">
+      <button appButton="solid" tone="accent" (click)="openDlgDefault = true">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 7h2v7h-2v-7zm4 0h2v7h-2v-7zM7 10h2v7H7v-7z" fill="currentColor"/>
         </svg>
@@ -13,7 +13,7 @@
       </button>
 
       <!-- Exemplo 2: slot [dialog-actions] (custom) -->
-      <button class="pill" type="button" (click)="openDlgCustom = true">
+      <button appButton="pill" (click)="openDlgCustom = true">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 5v6h-2V7h2zm0 8v2h-2v-2h2z" fill="currentColor"/>
         </svg>
@@ -41,10 +41,10 @@
     <p>{{ 'dialog.body.custom' | t }}</p>
 
     <div dialog-actions>
-      <button class="btn btn--ghost" type="button" (click)="openDlgCustom=false">
+      <button appButton="ghost" tone="neutral" type="button" (click)="openDlgCustom=false">
         {{ 'dialog.secondary.back' | t }}
       </button>
-      <button class="btn" type="button" (click)="saveSomething()">
+      <button appButton="solid" tone="accent" type="button" (click)="saveSomething()">
         {{ 'dialog.primary.save' | t }}
       </button>
     </div>

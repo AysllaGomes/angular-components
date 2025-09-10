@@ -6,16 +6,16 @@
     <h3>{{ 'actionbar.demo.triggers' | t }}</h3>
 
     <div class="ab-toolbar">
-      <button class="pill" type="button" (click)="openSm.set(true)">
+      <button appButton="ghost" type="button" (click)="openSm.set(true)">
         {{ 'actionbar.open.sm' | t }}
       </button>
-      <button class="pill" type="button" (click)="openMd.set(true)">
+      <button appButton="ghost" type="button" (click)="openMd.set(true)">
         {{ 'actionbar.open.md' | t }}
       </button>
-      <button class="pill" type="button" (click)="openLg.set(true)">
+      <button appButton="ghost" type="button" (click)="openLg.set(true)">
         {{ 'actionbar.open.lg' | t }}
       </button>
-      <button class="pill pill--accent" type="button" (click)="openAuto.set(true)">
+      <button appButton="solid" tone="accent" type="button" (click)="openAuto.set(true)">
         {{ 'actionbar.open.auto' | t }}
       </button>
     </div>

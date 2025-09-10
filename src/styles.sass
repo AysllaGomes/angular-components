@@ -6,6 +6,9 @@
 /* ==========================================================
    DEFAULTS (tokens base claros)
    ========================================================== */
+
+@use './app/shared/components/button/button' as *
+
 :root
   /* cor de marca/acento base (padrão = teal) */
   --accent: #058075
@@ -122,6 +125,10 @@
   --dlg-shadow: 0 24px 60px rgba(0,0,0,.18)
   --dlg-backdrop: color-mix(in srgb, #000 38%, transparent)
 
+  /* Button */
+  --neutral: #64748b           /* slate-500 */
+  --danger:  #ef4444           /* vermelho consistente */
+
 /* ==========================================================
    DARK THEME (mantém o que você já tinha)
    ========================================================== */
@@ -187,6 +194,10 @@
   --dlg-close: #9aa3af
   --dlg-shadow: 0 24px 60px rgba(0,0,0,.35)
   --dlg-backdrop: color-mix(in srgb, #000 55%, transparent)
+
+  /* Button */
+  --neutral: #94a3b8           /* slate-400 em dark */
+  --danger:  #f87171
 
   /* paginação (dark) */
   --pg-active-bg: var(--accent)
