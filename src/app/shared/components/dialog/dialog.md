@@ -154,3 +154,53 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 
 - **“ResizeObserver is not defined”** em SSR: proteja acesso com checagem de `window`/`ResizeObserver` antes de instanciar. O componente já faz *guard*, mas em ambientes sem `DOM` garanta que rode só no browser.
 - **Foco não prende no diálogo**: verifique se nenhum elemento dentro do dialog tem `tabindex="-1"` indevidamente ou `autofocus` roubando foco.
+
+---
+
+## Roadmap
+
+### Agora (0.x)
+- [x] **A11y**
+  - [x] Retornar o foco ao elemento que abriu o diálogo (focus restore).
+  - [x] `aria-describedby` opcional (`@Input() describedBy?: string`).
+  - [x] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
+- [x] **API de estado**
+  - [x] Eventos `afterOpen` / `afterClose` (disparam após a animação).
+  - [x] Evento `beforeClose` cancelável (`(beforeClose)="e.preventDefault()"`).
+  - [x] Inputs para *busy state* dos botões: `primaryBusy`, `secondaryBusy`.
+- [x] **UX**
+  - [x] Variante “destrutiva” (`[destructive]="true"`) que muda *tone* do primário.
+  - [x] `autofocus` inteligente no primeiro controle interativo do corpo.
+  - [x] *Sticky footer* opt-in (`[stickyFooter]="true"`).
+- [x] **Responsividade**
+  - [x] Novo tamanho `full` (tela cheia em mobile).
+  - [x] *Safe areas* iOS com `env(safe-area-inset-*)`.
+- [x] **Perf/SSR**
+  - [x] *Guard* adicional para `ResizeObserver`/DOM (SSR).
+  - [x] Não renderizar nós internos quando `opened=false` (ngIf), mantendo animação.
+
+### Próximo (1.0)
+- [ ] **Serviço programático**
+  - [ ] `DialogService.open(content, config): DialogRef<T>`
+  - [ ] `DialogRef` com `close(result?)`, `afterClosed$`, `backdropClick$`.
+  - [ ] Suporte a *TemplateRef* e componentes dinâmicos.
+- [ ] **Empilhamento**
+  - [ ] Gerenciador de z-index e foco para múltiplos diálogos.
+  - [ ] Fechar em cascata com *Esc* respeitando o topo.
+- [ ] **Form helpers**
+  - [ ] `submitOnEnter` (Enter confirma se o formulário é válido).
+  - [ ] `disablePrimaryWhenInvalid` com *FormGroup* injetável.
+- [ ] **Tematização**
+  - [ ] Mais tokens: `--dlg-radius`, `--dlg-gap`, `--dlg-duration`, `--dlg-ease`.
+  - [ ] *Tokens* para ícones/cores de variante destrutiva.
+
+### Depois (1.x+)
+- [ ] **Animações e motion**
+  - [ ] Respeitar `prefers-reduced-motion` (reduzir/omitir transições).
+  - [ ] APIs de transição (enter/exit) configuráveis.
+- [ ] **Acessibilidade avançada**
+  - [ ] Suporte a `aria-live` para avisos dentro do corpo.
+  - [ ] Expor utilitário para gerenciar leitura por leitores de tela.
+- [ ] **Testes & Docs**
+  - [ ] Testes de foco/trap com *Harness*.
+  - [ ] Exemplos: formulário, confirmação destrutiva, diálogo de seleção, carregamento assíncrono.

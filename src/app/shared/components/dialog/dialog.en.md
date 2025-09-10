@@ -150,3 +150,53 @@ Suggested keys:
 
 - **“ResizeObserver is not defined”** under SSR: guard the access with a `window`/`ResizeObserver` check. The component already guards, but ensure it only runs in the browser.
 - **Focus not trapped:** verify no inner element has `tabindex="-1"` unexpectedly or an `autofocus` stealing focus.
+
+---
+
+## Roadmap
+
+### Now (0.x)
+- [x] **A11y**
+  - [x] Restore focus to the opener element on close.
+  - [x] Optional `aria-describedby` (`@Input() describedBy?: string`).
+  - [x] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
+- [x] **State API**
+  - [x] `afterOpen` / `afterClose` events (fire after animation).
+  - [x] Cancelable `beforeClose` event (`(beforeClose)="e.preventDefault()"`).
+  - [x] Busy inputs for buttons: `primaryBusy`, `secondaryBusy`.
+- [x] **UX**
+  - [x] Destructive variant (`[destructive]="true"`) adjusting primary tone.
+  - [x] Smart `autofocus` on the first interactive control.
+  - [x] Optional *sticky footer* (`[stickyFooter]="true"`).
+- [x] **Responsiveness**
+  - [x] New `full` size (mobile fullscreen).
+  - [x] iOS safe areas via `env(safe-area-inset-*)`.
+- [x] **Perf/SSR**
+  - [x] Extra guards for `ResizeObserver`/DOM (SSR friendly).
+  - [x] Don’t render internals while `opened=false` (ngIf) yet keep animations.
+
+### Next (1.0)
+- [ ] **Programmatic service**
+  - [ ] `DialogService.open(content, config): DialogRef<T>`
+  - [ ] `DialogRef` with `close(result?)`, `afterClosed$`, `backdropClick$`.
+  - [ ] Support both `TemplateRef` and dynamic component content.
+- [ ] **Stacking**
+  - [ ] Z-index & focus manager for multiple dialogs.
+  - [ ] Cascading close on *Esc* (topmost first).
+- [ ] **Form helpers**
+  - [ ] `submitOnEnter` (Enter confirms when form valid).
+  - [ ] `disablePrimaryWhenInvalid` with injectable *FormGroup*.
+- [ ] **Theming**
+  - [ ] More tokens: `--dlg-radius`, `--dlg-gap`, `--dlg-duration`, `--dlg-ease`.
+  - [ ] Tokens for icons/colors of destructive variant.
+
+### Later (1.x+)
+- [ ] **Motion & animations**
+  - [ ] Honor `prefers-reduced-motion` (reduced/omitted transitions).
+  - [ ] Configurable enter/exit transition API.
+- [ ] **Advanced accessibility**
+  - [ ] `aria-live` support for inline announcements.
+  - [ ] Utility to control SR announcements within dialog.
+- [ ] **Tests & Docs**
+  - [ ] Focus/trap tests with a Harness.
+  - [ ] Examples: form dialog, destructive confirm, chooser dialog, async loading.

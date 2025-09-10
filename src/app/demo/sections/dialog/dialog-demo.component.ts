@@ -15,10 +15,16 @@ import { DialogComponent } from '../../../shared/components/dialog/dialog.compon
   styleUrl: './dialog-demo.component.sass'
 })
 export class DialogDemoComponent {
-  openDlg = false;
+  openDlgDefault = false;
+  openDlgCustom  = false;
 
   confirmDelete() {
     console.log('Confirmado!');
-    this.openDlg = false;
+    this.openDlgDefault = false;
+  }
+
+  saveSomething() {
+    console.log('Salvo!');
+    this.openDlgCustom = false;
   }
 }
