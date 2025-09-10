@@ -10,6 +10,7 @@ import { StepperDemoComponent } from './sections/stepper/stepper-demo.component'
 import { ActionBarDemoComponent } from './sections/actionbar/actionbar-demo.component';
 import { PaginationDemoComponent } from './sections/pagination/pagination-demo.component';
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
+import {ButtonDemoComponent} from './sections/button/button-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -25,6 +26,7 @@ import { ToastContainerComponent } from '../shared/components/toast/toast-contai
     ActionBarDemoComponent,
     PaginationDemoComponent,
     ToastContainerComponent,
+    ButtonDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
   styleUrl: './demo-page.component.sass'

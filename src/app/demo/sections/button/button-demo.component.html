@@ -1,0 +1,91 @@
+<section id="button" class="demo-section">
+  <h2>{{ 'section.button.title' | t }}</h2>
+  <p class="lead">{{ 'section.button.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'button.demo.variants.title' | t }}</h3>
+    <div class="btn-grid">
+      <button appButton>{{ 'button.label.solidDefault' | t }}</button>
+      <button appButton variant="outline">{{ 'button.label.outline' | t }}</button>
+      <button appButton variant="ghost">{{ 'button.label.ghost' | t }}</button>
+      <button appButton variant="link" type="button">{{ 'button.label.link' | t }}</button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.tones.title' | t }}</h3>
+    <div class="btn-grid">
+      <button appButton tone="accent">{{ 'button.tone.accent' | t }}</button>
+      <button appButton tone="neutral">{{ 'button.tone.neutral' | t }}</button>
+      <button appButton tone="danger">{{ 'button.tone.danger' | t }}</button>
+    </div>
+    <div class="btn-grid">
+      <button appButton variant="outline" tone="neutral">{{ 'button.combo.outlineNeutral' | t }}</button>
+      <button appButton variant="ghost" tone="danger">{{ 'button.combo.ghostDanger' | t }}</button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.sizes.title' | t }}</h3>
+    <div class="btn-grid">
+      <button appButton size="xs">{{ 'button.size.xs' | t }}</button>
+      <button appButton size="sm">{{ 'button.size.sm' | t }}</button>
+      <button appButton size="md">{{ 'button.size.md' | t }}</button>
+      <button appButton size="lg">{{ 'button.size.lg' | t }}</button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.disabled.title' | t }}</h3>
+    <div class="btn-grid">
+      <button appButton disabled>{{ 'button.disabled.solid' | t }}</button>
+      <button appButton variant="outline" disabled>{{ 'button.disabled.outline' | t }}</button>
+      <button appButton variant="ghost" disabled>{{ 'button.disabled.ghost' | t }}</button>
+      <button appButton variant="link" disabled type="button">{{ 'button.disabled.link' | t }}</button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.icons.title' | t }}</h3>
+    <div class="btn-grid">
+      <button appButton>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3h6l1 2h4v2H4V5h4l1-2z" fill="currentColor"/>
+        </svg>
+        <span>{{ 'button.icon.primary' | t }}</span>
+      </button>
+
+      <button appButton variant="outline" tone="neutral">
+        <span>{{ 'button.icon.back' | t }}</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8 8-8z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <button appButton variant="ghost" tone="danger">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 7h2v7h-2v-7zm4 0h2v7h-2v-7zM7 10h2v7H7v-7z" fill="currentColor"/>
+        </svg>
+        <span>{{ 'button.icon.delete' | t }}</span>
+      </button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.links.title' | t }}</h3>
+    <div class="btn-grid">
+      <a appButton href="https://exemplo.com" target="_blank" rel="noopener">{{ 'button.link.open' | t }}</a>
+      <a appButton variant="outline" tone="neutral" routerLink="/">{{ 'button.link.home' | t }}</a>
+      <a appButton variant="link" routerLink="/docs">{{ 'button.link.docs' | t }}</a>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'button.demo.block.title' | t }}</h3>
+    <div class="btn-stack">
+      <button appButton style="width:100%">{{ 'button.block.continue' | t }}</button>
+      <button appButton variant="outline" tone="neutral" style="width:100%">{{ 'button.block.back' | t }}</button>
+    </div>
+    <small>{{ 'button.demo.block.tip' | t }}</small>
+  </article>
+</section>
