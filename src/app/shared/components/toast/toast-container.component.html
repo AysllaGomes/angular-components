@@ -21,11 +21,13 @@
       {{ t.actionLabel }}
     </button>
 
-    <button *ngIf="t.dismissible !== false"
-            type="button"
-            class="toast-close"
-            aria-label="Fechar"
-            (click)="toast.dismiss(t.id)">
+    <button
+      appButton
+      *ngIf="t.dismissible !== false"
+      type="button"
+      class="toast-close"
+      aria-label="Fechar"
+      (click)="toast.dismiss(t.id)">
       ×
     </button>
   </div>

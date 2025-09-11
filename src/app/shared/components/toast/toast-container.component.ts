@@ -3,14 +3,19 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ToastService } from '../../services/toast.service';
 
+import { ButtonDirective } from '../button/button.directive';
+
 import { Toast } from '../../model/interface/toast.interface';
 
 @Component({
   selector: 'app-toast-container',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './toast-container.component.html',
   styleUrl: './toast-container.component.sass',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ButtonDirective,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToastContainerComponent {
