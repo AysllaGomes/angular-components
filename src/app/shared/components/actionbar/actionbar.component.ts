@@ -81,7 +81,7 @@ export class ActionBarComponent implements AfterViewInit, OnDestroy {
     const el = this.content?.nativeElement;
     if (!el) return;
     const w = el.scrollWidth; // largura requisitada pelo conteúdo
-    const next = w < 420 ? 'sm' : w < 720 ? 'md' : 'lg';
+    const next = w < 436 ? 'sm' : w < 720 ? 'md' : 'lg';
     this.currentSize.set(next as any);
   }
 
