@@ -31,7 +31,7 @@
         size="sm"
         type="button"
         (click)="next()"
-        [disabled]="current() === steps.length - 1">
+        [disabled]="current() === steps().length - 1">
         {{ 'stepper.demo.basic.next' | t }}
       </button>
     </div>
