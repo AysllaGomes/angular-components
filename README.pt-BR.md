@@ -11,7 +11,7 @@
 > **Propósito:** criar **componentes de UI reutilizáveis** (ex.: **ActionBar**, **Dialog**, Select, Stepper, Table, Pagination, Toast) com **Angular Standalone** em **HTML + Sass**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
 
 - **Demo local:** `http://localhost:4200/demo`
-- **Stack:** Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties (theming).
+- **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (tematização), Vitest. Node 24 (`.nvmrc`).
 
 ---
 

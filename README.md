@@ -11,7 +11,7 @@
 > **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Stepper, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
 - **Local demo:** `http://localhost:4200/demo`
-- **Stack:** Angular 20 (standalone, SSR), Sass (`.sass`), CSS Custom Properties (theming).
+- **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (theming), Vitest. Node 24 (`.nvmrc`).
 
 ---
 

@@ -1,6 +1,42 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.0.0](https://github.com/AysllaGomes/angular-components/compare/v1.8.0...v2.0.0) (2026-11-18)
+### ⚠ Breaking Changes
+- **Angular 22 passa a ser obrigatório** (antes Angular 20). Os componentes usam
+  APIs e a semântica de templates da v22.
+- **Node 24 é o runtime suportado** (`.nvmrc`); o Node 20 está fora de suporte.
+
+### Changed
+- Angular atualizado 20.2 → 20.3 → 21 → 22.3, com TypeScript 6.
+- Migrações da v22: componentes da demo e dos testes declaram
+  `ChangeDetectionStrategy.Eager` (os da biblioteca já eram `OnPush`); a
+  hidratação mantém `withNoIncrementalHydration()`.
+- Testes unitários rodam no **Vitest** (jsdom) em vez de Karma/Jasmine: mais
+  rápidos e o CI não precisa mais de navegador.
+- Ferramenta de release: `standard-version` (descontinuado) substituído por
+  `commit-and-tag-version`, com os mesmos comandos.
+
+### Security
+- **SSR:** validação de host ativada (`security.allowedHosts`: `localhost`,
+  `127.0.0.1`); requisições com cabeçalho `Host` desconhecido recebem `400`
+  (proteção contra SSRF do Angular 22).
+- **SSR:** cabeçalhos `X-Forwarded-*` não são confiáveis (sem `trustProxyHeaders`);
+  veja o comentário em `src/server.ts` antes de publicar atrás de um proxy.
+- `path-to-regexp` (alta, usado pelo Express) corrigido; a remoção do Karma e do
+  `standard-version` eliminou os alertas restantes: `npm audit` com
+  **0 vulnerabilidades**.
+
+### Migration Notes
+- Atualize sua aplicação para o Angular 22 (`ng update @angular/core@22 @angular/cli@22`,
+  uma versão principal por vez) antes de usar a 2.0.0.
+- As APIs dos componentes não mudaram desde a 1.8.0: inputs, outputs e two-way
+  bindings funcionam igual.
+- Para rodar o servidor SSR num host público: adicione-o em `security.allowedHosts`
+  no `angular.json` ou defina `NG_ALLOWED_HOSTS`.
+- Testes: `npm test` / `npm run test:ci` agora usam o Vitest; matchers exclusivos do
+  Jasmine (`toBeTrue`, `jasmine.createSpy`, …) não existem mais.
 
 ## [1.8.0](https://github.com/AysllaGomes/angular-components/compare/v1.7.0...v1.8.0) (2026-11-18)
 ### Added

@@ -1,6 +1,37 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.0.0](https://github.com/AysllaGomes/angular-components/compare/v1.8.0...v2.0.0) (2026-11-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **Angular 22 is now required** (was Angular 20). The components use Angular 22 APIs and the v22 template semantics.
+* **Node 24 is the supported runtime** (`.nvmrc`); Node 20 is out of support.
+
+
+### Changed
+
+* Angular upgraded 20.2 → 20.3 → 21 → 22.3, with TypeScript 6 ([598a0ed](https://github.com/AysllaGomes/angular-components/commit/598a0ed), [55b15c7](https://github.com/AysllaGomes/angular-components/commit/55b15c7), [4e94f95](https://github.com/AysllaGomes/angular-components/commit/4e94f95))
+* v22 migrations: demo/spec components declare `ChangeDetectionStrategy.Eager` (library components were already `OnPush`); hydration keeps `withNoIncrementalHydration()` ([4e94f95](https://github.com/AysllaGomes/angular-components/commit/4e94f95))
+* Unit tests run on **Vitest** (jsdom) instead of Karma/Jasmine: faster, and CI no longer needs a browser ([6301dad](https://github.com/AysllaGomes/angular-components/commit/6301dad))
+* Release tooling: `standard-version` (deprecated) replaced by `commit-and-tag-version`, same commands ([f79a510](https://github.com/AysllaGomes/angular-components/commit/f79a510))
+
+
+### Security
+
+* **SSR:** host validation enabled (`security.allowedHosts`: `localhost`, `127.0.0.1`) — requests with an unknown `Host` header get `400` (SSRF protection introduced in Angular 22) ([4e94f95](https://github.com/AysllaGomes/angular-components/commit/4e94f95))
+* **SSR:** `X-Forwarded-*` headers are not trusted (no `trustProxyHeaders`); see the comment in `src/server.ts` before deploying behind a proxy ([4e94f95](https://github.com/AysllaGomes/angular-components/commit/4e94f95))
+* `path-to-regexp` (high, used by Express) fixed; removing Karma and `standard-version` eliminated the remaining dev-tool advisories — `npm audit` reports **0 vulnerabilities** ([598a0ed](https://github.com/AysllaGomes/angular-components/commit/598a0ed), [f79a510](https://github.com/AysllaGomes/angular-components/commit/f79a510), [6301dad](https://github.com/AysllaGomes/angular-components/commit/6301dad))
+
+
+### Migration Notes
+
+* Update your app to Angular 22 (`ng update @angular/core@22 @angular/cli@22`, one major at a time) before using 2.0.0.
+* Component APIs are unchanged from 1.8.0: inputs, outputs and two-way bindings work the same.
+* Running the SSR server on a public host: add it to `security.allowedHosts` in `angular.json` or set `NG_ALLOWED_HOSTS`.
+* Tests: `npm test` / `npm run test:ci` now run Vitest; Jasmine-only matchers (`toBeTrue`, `jasmine.createSpy`, …) are no longer available.
 
 ## [1.8.0](https://github.com/AysllaGomes/angular-components/compare/v1.7.0...v1.8.0) (2026-11-18)
 
