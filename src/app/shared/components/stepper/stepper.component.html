@@ -1,6 +1,6 @@
-<nav class="stepper" [attr.aria-valuenow]="current + 1" [attr.aria-valuemax]="steps.length">
+<nav class="stepper" [attr.aria-valuenow]="current() + 1" [attr.aria-valuemax]="steps().length">
   <ol class="stepper-list">
-    @for (step of steps; track $index; let i = $index) {
+    @for (step of steps(); track $index; let i = $index) {
       <li
         class="stepper-item"
         [class.is-active]="getState(i) === 'active'"
@@ -20,18 +20,18 @@
             @if (getState(i) === 'done') {
               <span class="check">✓</span>
             }
-            @if (showIndex && getState(i) !== 'done') {
+            @if (showIndex() && getState(i) !== 'done') {
               <span class="index">{{ i + 1 }}</span>
             }
           </span>
           <span class="texts">
             <span class="label">{{ step.label }}</span>
-            @if (showCaption && step.caption) {
+            @if (showCaption() && step.caption) {
               <span class="caption">{{ step.caption }}</span>
             }
           </span>
         </button>
-        @if (i < steps.length - 1) {
+        @if (i < steps().length - 1) {
           <span class="connector" aria-hidden="true"></span>
         }
       </li>

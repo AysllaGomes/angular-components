@@ -1,8 +1,8 @@
-<div class="field" [class.is-disabled]="disabled" [class.is-error]="hasError()">
+<div class="field" [class.is-disabled]="isDisabled()" [class.is-error]="hasError()">
   <label class="label">
-    <span>{{ label }}</span>
-    @if (required) {
-      <span class="req">{{ requiredLabel }}</span>
+    <span>{{ label() }}</span>
+    @if (required()) {
+      <span class="req">{{ requiredLabel() }}</span>
     }
   </label>
 
@@ -16,12 +16,12 @@
       [attr.aria-expanded]="open()"
       [attr.aria-controls]="listboxId"
       [attr.aria-invalid]="hasError() || null"
-      [attr.aria-disabled]="disabled || null"
-      [disabled]="disabled"
+      [attr.aria-disabled]="isDisabled() || null"
+      [disabled]="isDisabled()"
       (click)="toggle()"
       (keydown)="onButtonKeydown($event)"
       (blur)="onControlBlur()">
-      <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder }}</span>
+      <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder() }}</span>
       <span class="caret" aria-hidden="true">▾</span>
     </button>
 
@@ -29,7 +29,7 @@
       <button
         class="clear-btn"
         type="button"
-        [attr.aria-label]="clearAriaLabel"
+        [attr.aria-label]="clearAriaLabel()"
         (click)="clear($event)"
         (keydown)="onClearKeydown($event)">
         ×
@@ -55,17 +55,17 @@
       <!-- header da sheet -->
       @if (sheet()) {
         <div class="sheet-header">
-          <div class="title">{{ panelTitle || label || 'Selecionar' }}</div>
-          <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel">×</button>
+          <div class="title">{{ panelTitle() || label() || 'Selecionar' }}</div>
+          <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel()">×</button>
         </div>
       }
       <!-- filtro -->
-      @if (filterable) {
+      @if (filterable()) {
         <div class="filter">
           <input
             #filterInput
             type="text"
-            [placeholder]="filterPlaceholder"
+            [placeholder]="filterPlaceholder()"
             [value]="filter()"
             (input)="filter.set($any($event.target).value); syncHighlight()"
             aria-label="Filtrar opções" />
@@ -77,8 +77,8 @@
             class="option"
             [id]="optionId(fi)"
             role="option"
-            [attr.aria-selected]="p.opt.value===value"
-            [class.is-selected]="p.opt.value===value"
+            [attr.aria-selected]="p.opt.value===current()"
+            [class.is-selected]="p.opt.value===current()"
             [class.is-active]="fi===highlighted()"
             [class.is-disabled]="p.opt.disabled"
             (mouseenter)="highlight(fi)"
@@ -89,8 +89,8 @@
       </div>
     }
 
-    @if (!displayError() && hint) {
-      <div class="hint">{{ hint }}</div>
+    @if (!displayError() && hint()) {
+      <div class="hint">{{ hint() }}</div>
     }
     @if (displayError()) {
       <div class="error">{{ displayError() }}</div>

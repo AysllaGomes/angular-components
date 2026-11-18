@@ -1,5 +1,5 @@
 <!-- Backdrop -->
-@if (open()) {
+@if (opened()) {
   <div
     class="ab"
     (click)="onBackdropClick($event)">
@@ -14,7 +14,7 @@
       aria-modal="true"
       [attr.aria-labelledby]="labelId">
       <header class="ab__hdr">
-        <h3 class="ab__title" [id]="labelId">{{ title }}</h3>
+        <h3 class="ab__title" [id]="labelId">{{ title() }}</h3>
         <button #closeBtn type="button" class="ab__close" (click)="close()" aria-label="Fechar">×</button>
       </header>
       <div #content class="ab__content">
@@ -24,9 +24,9 @@
         <!-- Slot de ações customizadas -->
         <ng-content select="[abActions]"></ng-content>
         <!-- Ou botões padrão, se labels vierem -->
-        @if (primaryLabel || secondaryLabel) {
+        @if (primaryLabel() || secondaryLabel()) {
           <div class="ab__auto-actions">
-            @if (secondaryLabel) {
+            @if (secondaryLabel(); as label) {
               <button
                 appButton="ghost"
                 size="md"
@@ -34,10 +34,10 @@
                 class="btn btn--ghost"
                 (click)="secondary.emit()"
                 >
-                {{ secondaryLabel }}
+                {{ label }}
               </button>
             }
-            @if (primaryLabel) {
+            @if (primaryLabel(); as label) {
               <button
                 appButton="solid"
                 tone="accent"
@@ -46,7 +46,7 @@
                 class="btn"
                 (click)="primary.emit()"
                 >
-                {{ primaryLabel }}
+                {{ label }}
               </button>
             }
           </div>

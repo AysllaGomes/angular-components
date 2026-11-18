@@ -40,9 +40,9 @@ Right‑side sheet with header, scrollable content and footer actions. It inheri
 ### Outputs
 | Output | Type | Fires |
 |--------|------|-------|
-| `primary` | `EventEmitter<void>` | When primary button is clicked. |
-| `secondary` | `EventEmitter<void>` | When secondary button is clicked. |
-| `openedChange` | `EventEmitter<boolean>` | Whenever open state changes. |
+| `primary` | `void` | When primary button is clicked. |
+| `secondary` | `void` | When secondary button is clicked. |
+| `openedChange` | `boolean` | When the panel opens/closes by itself (ESC, backdrop, ×, `openBar()`/`close()`). Part of `[(opened)]`; not fired when the parent changes `[opened]`. |
 
 ### Public methods
 | Method | Description |

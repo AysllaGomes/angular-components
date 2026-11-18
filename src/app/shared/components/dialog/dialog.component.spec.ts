@@ -95,7 +95,7 @@ describe('DialogComponent', () => {
   it('emits openedChange only when the state changes', async () => {
     const dlg = fixture.debugElement.children[0].componentInstance as DialogComponent;
     const emitted: boolean[] = [];
-    dlg.openedChange.subscribe(v => emitted.push(v));
+    dlg.opened.subscribe(v => emitted.push(v)); // o model() é o próprio openedChange
 
     await fixture.whenStable();
     expect(emitted).toEqual([]);

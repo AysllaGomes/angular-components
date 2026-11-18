@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { TPipe } from '../../i18n/t.pipe';
 
@@ -17,16 +17,16 @@ import { ButtonDirective } from '../button/button.directive';
 })
 export class PaginationComponent {
   /** total de itens */
-  @Input({ required: true }) total = 0;
+  readonly total = input.required<number>();
   /** itens por página */
-  @Input() pageSize = 10;
+  readonly pageSize = input(10);
   /** índice da página (0-based) */
-  @Input() pageIndex = 0;
+  readonly pageIndex = input(0);
   /** máx. de botões numéricos visíveis */
-  @Input() maxVisible = 5;
+  readonly maxVisible = input(5);
 
   /** emite o novo índice (0-based) */
-  @Output() pageChange = new EventEmitter<number>();
+  readonly pageChange = output<number>();
 
   /** inteiro positivo, ou o fallback para valores inválidos (0, negativo, NaN) */
   private static positiveInt(v: number, fallback: number): number {
@@ -35,14 +35,14 @@ export class PaginationComponent {
   }
 
   get pageCount(): number {
-    const total = Math.max(0, Number(this.total) || 0);
-    const size = PaginationComponent.positiveInt(this.pageSize, 1);
+    const total = Math.max(0, Number(this.total()) || 0);
+    const size = PaginationComponent.positiveInt(this.pageSize(), 1);
     return Math.max(1, Math.ceil(total / size));
   }
 
   /** `pageIndex` limitado ao intervalo válido [0, pageCount - 1] */
   get current(): number {
-    const i = Math.floor(Number(this.pageIndex) || 0);
+    const i = Math.floor(Number(this.pageIndex()) || 0);
     return Math.min(Math.max(0, i), this.pageCount - 1);
   }
 
@@ -51,7 +51,7 @@ export class PaginationComponent {
 
   pages(): number[] {
     const count = this.pageCount;
-    const visible = PaginationComponent.positiveInt(this.maxVisible, 1);
+    const visible = PaginationComponent.positiveInt(this.maxVisible(), 1);
     if (count <= visible) return Array.from({ length: count }, (_, i) => i);
 
     const half = Math.floor((visible - 1) / 2);

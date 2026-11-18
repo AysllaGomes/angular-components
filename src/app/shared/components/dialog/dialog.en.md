@@ -158,7 +158,7 @@ Suggested keys:
 ### Now (0.x)
 - [x] **A11y**
   - [x] Restore focus to the opener element on close.
-  - [x] Optional `aria-describedby` (`@Input() describedBy?: string`).
+  - [ ] Optional `aria-describedby` (`describedBy` input).
   - [x] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
 - [x] **State API**
   - [x] `afterOpen` / `afterClose` events (fire after animation).

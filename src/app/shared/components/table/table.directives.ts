@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, input } from '@angular/core';
 
 /** Célula custom de uma coluna específica */
 @Directive({
@@ -7,7 +7,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 })
 export class TableCellTemplateDirective {
   /** nome da coluna (mesmo 'key' do ColumnDef) */
-  @Input('appCell') name!: string;
+  readonly name = input.required<string>({ alias: "appCell" });
   constructor(public tpl: TemplateRef<any>) {}
 }
 

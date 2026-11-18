@@ -1,7 +1,18 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  computed,
+  contentChild,
+  contentChildren,
+  input,
+  linkedSignal,
+  output
+} from '@angular/core';
 
 import { ActionKind } from '../../model/type/action-kind.type';
+import { SortDir } from '../../model/type/sort-dir.type';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
@@ -16,98 +27,104 @@ import { TableActionsTemplateDirective, TableCellTemplateDirective } from './tab
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent<T = any> implements AfterContentInit {
-  @Input({ required: true }) data: T[] = [];
-  @Input() actions: (TableAction<T> | ActionKind)[] = [];
-  @Input({ required: true }) columns: ColumnDef<T>[] = [];
+export class TableComponent<T = any> {
+  readonly data = input.required<T[]>();
+  readonly actions = input<(TableAction<T> | ActionKind)[]>([]);
+  readonly columns = input.required<ColumnDef<T>[]>();
 
-  @Input() loading = false;
-  @Input() loadingRows = 5;
-  @Input() emptyMessage = 'Nenhum registro encontrado';
-  @Input() sortKey?: string;
-  @Input() sortDir: 'asc'|'desc' = 'asc';
+  readonly loading = input(false);
+  readonly loadingRows = input(5);
+  readonly emptyMessage = input('Nenhum registro encontrado');
+
+  /** Ordenação controlada pelo container (o clique no cabeçalho atualiza o estado local e emite `sortChange`). */
+  readonly sortKey = input<string | undefined>(undefined);
+  readonly sortDir = input<SortDir>('asc');
+  readonly activeSortKey = linkedSignal(() => this.sortKey());
+  readonly activeSortDir = linkedSignal(() => this.sortDir());
 
   /** Largura da coluna de seleção (checkbox). Aceita "36px", 36, "2.5rem"... */
-  @Input() selectColWidth: string | number = 36;
+  readonly selectColWidth = input<string | number>(36);
 
   /** Largura da coluna de ações (opcional) */
-  @Input() actionsColWidth: string | number = 44;
+  readonly actionsColWidth = input<string | number>(44);
 
   /** Mostra coluna de seleção por checkbox */
-  @Input() selectable = false;
+  readonly selectable = input(false);
 
   /** Mostra coluna de ações (usa slot appActions) */
-  @Input() showActions = false;
+  readonly showActions = input(false);
 
   /**
    * Identificador estável da linha (nome da propriedade ou função).
    * Com ele, `selected` guarda **chaves** em vez de índices, e a seleção
    * sobrevive a ordenação, paginação e filtros feitos fora da tabela.
    */
-  @Input() rowKey?: keyof T | ((row: T, index: number) => unknown);
+  readonly rowKey = input<keyof T | ((row: T, index: number) => unknown)>();
 
   /** Linhas selecionadas: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`). */
-  @Input() selected: any[] = [];
-  @Output() selectedChange = new EventEmitter<any[]>();
-  @Output() sortChange = new EventEmitter<{ key: string; dir: 'asc'|'desc' }>();
+  readonly selected = input<any[]>([]);
+  /** seleção atual: segue o input `selected` e é atualizada pelos checkboxes */
+  private readonly selection = linkedSignal(() => this.selected());
+
+  readonly selectedChange = output<any[]>();
+  readonly sortChange = output<{ key: string; dir: SortDir }>();
 
   /** evento para ações padrão (se você quiser escutar) */
-  @Output() action = new EventEmitter<{ type: string; row: T; index: number }>();
+  readonly action = output<{ type: string; row: T; index: number }>();
 
-  @ContentChildren(TableCellTemplateDirective) cellTemplates!: QueryList<TableCellTemplateDirective>;
-  @ContentChild(TableActionsTemplateDirective) actionsTpl?: TableActionsTemplateDirective;
+  private readonly cellTemplates = contentChildren(TableCellTemplateDirective);
+  readonly actionsTpl = contentChild(TableActionsTemplateDirective);
+
+  /** templates `appCell` por nome de coluna */
+  private readonly cellTplMap = computed(() =>
+    new Map(this.cellTemplates().map(d => [String(d.name()), d.tpl] as const))
+  );
 
   get skeletonArray() {
-    return Array.from({ length: Math.max(1, this.loadingRows) });
-  }
-
-  private cellTplMap = new Map<string, TemplateRef<any>>();
-
-  ngAfterContentInit(): void {
-    this.cellTplMap.clear();
-    this.cellTemplates?.forEach((d) => this.cellTplMap.set(String(d.name), d.tpl));
+    return Array.from({ length: Math.max(1, this.loadingRows()) });
   }
 
   getTemplate(name: string): TemplateRef<any> | null {
-    return this.cellTplMap.get(String(name)) ?? null;
+    return this.cellTplMap().get(String(name)) ?? null;
   }
 
   // ===== seleção =====
   /** Chave da linha usada na seleção e no `track` do @for (índice quando não há `rowKey`). */
   rowId(row: T, i: number): unknown {
-    const k = this.rowKey;
+    const k = this.rowKey();
     if (k == null) return i;
     return typeof k === 'function' ? k(row, i) : row[k];
   }
 
   private get pageIds(): unknown[] {
-    return this.data.map((row, i) => this.rowId(row, i));
+    return this.data().map((row, i) => this.rowId(row, i));
   }
 
   private get selectedOnPage(): number {
-    return this.pageIds.filter(id => this.selected.includes(id)).length;
+    const sel = this.selection();
+    return this.pageIds.filter(id => sel.includes(id)).length;
   }
 
   isSelected(row: T, i: number) {
-    return this.selected.includes(this.rowId(row, i));
+    return this.selection().includes(this.rowId(row, i));
   }
 
   toggleRow(row: T, i: number, checked: boolean) {
     const id = this.rowId(row, i);
-    const rest = this.selected.filter(s => s !== id);
+    const rest = this.selection().filter(s => s !== id);
     const next = checked ? [...rest, id] : rest;
     // sem rowKey mantém o comportamento original (índices ordenados)
-    this.selected = this.rowKey == null ? next.sort((a, b) => a - b) : next;
-    this.selectedChange.emit(this.selected);
+    this.updateSelection(this.rowKey() == null ? next.sort((a, b) => a - b) : next);
   }
 
   get allSelected() {
-    return this.data.length > 0 && this.selectedOnPage === this.data.length;
+    const len = this.data().length;
+    return len > 0 && this.selectedOnPage === len;
   }
 
   get someSelected() {
     const n = this.selectedOnPage;
-    return n > 0 && n < this.data.length;
+    return n > 0 && n < this.data().length;
   }
 
   /**
@@ -116,9 +133,13 @@ export class TableComponent<T = any> implements AfterContentInit {
    */
   toggleAll(checked: boolean) {
     const ids = this.pageIds;
-    const rest = this.rowKey == null ? [] : this.selected.filter(s => !ids.includes(s));
-    this.selected = checked ? [...rest, ...ids] : rest;
-    this.selectedChange.emit(this.selected);
+    const rest = this.rowKey() == null ? [] : this.selection().filter(s => !ids.includes(s));
+    this.updateSelection(checked ? [...rest, ...ids] : rest);
+  }
+
+  private updateSelection(next: any[]) {
+    this.selection.set(next);
+    this.selectedChange.emit(next);
   }
 
   // ===== chip helpers =====
@@ -136,12 +157,13 @@ export class TableComponent<T = any> implements AfterContentInit {
   }
 
   get normalizedActions(): TableAction<T>[] {
-    return (this.actions ?? []).map(a => typeof a === 'string' ? ({ kind: a }) : a);
+    return (this.actions() ?? []).map(a => typeof a === 'string' ? ({ kind: a }) : a);
   }
 
   get hasActions(): boolean {
     // renderiza a coluna se: showActions=true OU foram passadas actions OU existe template projetado
-    return !!(this.showActions || (this.actions && this.actions.length) || this.actionsTpl);
+    const actions = this.actions();
+    return !!(this.showActions() || (actions && actions.length) || this.actionsTpl());
   }
 
   isActionDisabled(a: TableAction<T>, row: T, index: number) {
@@ -155,8 +177,9 @@ export class TableComponent<T = any> implements AfterContentInit {
   onHeaderClick(col: ColumnDef<T>) {
     if (!col.key || col.type === 'custom') return;
     const key = String(col.key);
-    const dir = (this.sortKey === key && this.sortDir === 'asc') ? 'desc' : 'asc';
-    this.sortKey = key; this.sortDir = dir;
+    const dir: SortDir = (this.activeSortKey() === key && this.activeSortDir() === 'asc') ? 'desc' : 'asc';
+    this.activeSortKey.set(key);
+    this.activeSortDir.set(dir);
     this.sortChange.emit({ key, dir });
   }
 
@@ -164,8 +187,8 @@ export class TableComponent<T = any> implements AfterContentInit {
     return typeof v === 'number' ? `${v}px` : v;
   }
 
-  get selectW(): string { return this.toCssUnit(this.selectColWidth); }
-  get actionsW(): string { return this.toCssUnit(this.actionsColWidth); }
+  get selectW(): string { return this.toCssUnit(this.selectColWidth()); }
+  get actionsW(): string { return this.toCssUnit(this.actionsColWidth()); }
 
   protected readonly String = String;
 }

@@ -1,4 +1,4 @@
-@if (open()) {
+@if (opened()) {
   <div class="dlg-backdrop" (click)="onBackdropClick($event)">
     <div
       #dlg
@@ -15,7 +15,7 @@
       tabindex="-1"
       >
       <header class="dlg__hdr">
-        <h3 class="dlg__title" [id]="labelId">{{ title }}</h3>
+        <h3 class="dlg__title" [id]="labelId">{{ title() }}</h3>
         <button #closeBtn class="dlg__close" type="button" (click)="close()" aria-label="Fechar">
           <!-- “x” neutro que herda currentColor -->
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -31,16 +31,16 @@
         <ng-content select="[dialog-actions]"></ng-content>
         <!-- ações padrão (só renderizam se tiver label) -->
         <div class="dlg__auto-actions">
-          @if (secondaryLabel) {
+          @if (secondaryLabel(); as label) {
             <button class="btn btn--ghost" type="button"
               (click)="secondary.emit(); close()">
-              {{ secondaryLabel }}
+              {{ label }}
             </button>
           }
-          @if (primaryLabel) {
+          @if (primaryLabel(); as label) {
             <button class="btn" type="button"
               (click)="primary.emit()">
-              {{ primaryLabel }}
+              {{ label }}
             </button>
           }
         </div>

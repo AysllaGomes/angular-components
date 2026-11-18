@@ -13,11 +13,13 @@ import { SelectComponent } from './select.component';
       label="Fruta"
       responsive="menu"
       [filterable]="true"
+      [required]="required()"
       [options]="options()"
       [(value)]="value" />
   `
 })
 class HostComponent {
+  required = signal(false);
   options = signal<SelectOption<string>[]>([
     { label: 'Maçã', value: 'apple' },
     { label: 'Banana', value: 'banana' }
@@ -93,7 +95,8 @@ describe('SelectComponent', () => {
 
   it('closing the panel with the button validates required fields', async () => {
     const select = fixture.debugElement.children[0].componentInstance as SelectComponent;
-    select.required = true;
+    host.required.set(true);
+    await fixture.whenStable();
 
     await openPanel();
     await openPanel(); // segundo clique fecha

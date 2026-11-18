@@ -1,7 +1,7 @@
 <table class="tbl">
   <thead>
     <tr>
-      @if (selectable) {
+      @if (selectable()) {
         <th
           class="col-select"
           [style.width]="selectW"
@@ -15,7 +15,7 @@
           </th>
         }
 
-        @for (col of columns; track col.key) {
+        @for (col of columns(); track col.key) {
           <th
             (click)="onHeaderClick(col)"
             (keydown.enter)="onHeaderClick(col)"
@@ -24,10 +24,10 @@
             [style.width]="col.width || null"
             [class.align-center]="col.align==='center'"
             [class.align-right]="col.align==='right'"
-            [attr.aria-sort]="sortKey===col.key ? (sortDir==='asc'?'ascending':'descending') : 'none'">
+            [attr.aria-sort]="activeSortKey()===col.key ? (activeSortDir()==='asc'?'ascending':'descending') : 'none'">
             {{ col.header }}
-            @if (sortKey===col.key) {
-              <span class="sort" [attr.title]="'Clique para ordenar'">{{ sortDir==='asc' ? '▲' : '▼' }}</span>
+            @if (activeSortKey()===col.key) {
+              <span class="sort" [attr.title]="'Clique para ordenar'">{{ activeSortDir()==='asc' ? '▲' : '▼' }}</span>
             }
           </th>
         }
@@ -44,11 +44,11 @@
 
 
     <!-- DADOS -->
-    @if (!loading && data.length > 0) {
+    @if (!loading() && data().length > 0) {
       <tbody>
-        @for (row of data; track rowId(row, $index); let i = $index) {
+        @for (row of data(); track rowId(row, $index); let i = $index) {
           <tr>
-            @if (selectable) {
+            @if (selectable()) {
               <td
                 class="col-select"
                 [style.width]="selectW"
@@ -60,7 +60,7 @@
                   aria-label="Selecionar linha">
                 </td>
               }
-              @for (col of columns; track col.key) {
+              @for (col of columns(); track col.key) {
                 <td
                   [attr.data-label]="col.header"
                   [class.align-center]="col.align==='center'"
@@ -103,9 +103,9 @@
                   [style.width]="actionsW"
                   [style.minWidth]="actionsW">
                   <!-- 1) Se o consumidor passar <ng-template appActions>, usamos ele -->
-                  @if (actionsTpl?.tpl) {
+                  @if (actionsTpl()?.tpl) {
                     <ng-container
-                      [ngTemplateOutlet]="actionsTpl?.tpl"
+                      [ngTemplateOutlet]="actionsTpl()?.tpl"
                       [ngTemplateOutletContext]="{ row: row, index: i }">
                     </ng-container>
                   } @else {
@@ -163,14 +163,14 @@
         </tbody>
       } @else {
         <!-- skeletons -->
-        @if (loading) {
+        @if (loading()) {
           <tbody>
             @for (_ of skeletonArray; track $index) {
               <tr>
-                @if (selectable) {
+                @if (selectable()) {
                   <td class="col-select"><span class="sk sk--circle"></span></td>
                 }
-                @for (col of columns; track col.key) {
+                @for (col of columns(); track col.key) {
                   <td><span class="sk sk--line"></span></td>
                 }
                 @if (hasActions) {
@@ -181,12 +181,12 @@
           </tbody>
         }
         <!-- vazio -->
-        @if (!loading && data.length === 0) {
+        @if (!loading() && data().length === 0) {
           <tbody>
             <tr>
               <td class="empty"
-                [attr.colspan]="columns.length + (selectable?1:0) + (hasActions?1:0)">
-                {{ emptyMessage }}
+                [attr.colspan]="columns().length + (selectable()?1:0) + (hasActions?1:0)">
+                {{ emptyMessage() }}
               </td>
             </tr>
           </tbody>

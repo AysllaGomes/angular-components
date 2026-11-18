@@ -162,7 +162,7 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 ### Agora (0.x)
 - [x] **A11y**
   - [x] Retornar o foco ao elemento que abriu o diálogo (focus restore).
-  - [x] `aria-describedby` opcional (`@Input() describedBy?: string`).
+  - [ ] `aria-describedby` opcional (input `describedBy`).
   - [x] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
 - [x] **API de estado**
   - [x] Eventos `afterOpen` / `afterClose` (disparam após a animação).

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { StepState } from '../../model/type/step-state.type';
 
@@ -17,39 +17,39 @@ import { StepItem } from '../../model/interface/step-item.interface';
   }
 })
 export class StepperComponent {
-  @Input({ required: true }) steps: StepItem[] = [];
+  readonly steps = input.required<StepItem[]>();
 
   /** Índice base-0 da etapa ativa */
-  @Input() current = 0;
+  readonly current = input(0);
 
   /** Permite clicar em etapas (limite: até a última concluída + 1) */
-  @Input() clickable = true;
+  readonly clickable = input(true);
 
   /** Exibir números dentro dos círculos */
-  @Input() showIndex = true;
+  readonly showIndex = input(true);
 
   /** Mostrar legendas (caption) abaixo do label */
-  @Input() showCaption = true;
+  readonly showCaption = input(true);
 
   /** Emite quando o usuário clica em uma etapa válida */
-  @Output() stepChange = new EventEmitter<number>();
+  readonly stepChange = output<number>();
 
   /** cálculo de estado visual */
   getState(i: number): StepState {
-    if (this.steps[i]?.state === 'disabled') return 'disabled';
-    if (i < this.current) return 'done';
-    if (i === this.current) return 'active';
+    if (this.steps()[i]?.state === 'disabled') return 'disabled';
+    if (i < this.current()) return 'done';
+    if (i === this.current()) return 'active';
     return 'pending';
   }
 
   /** Qual a maior etapa alcançável para navegação por clique */
   private get maxReachableIndex(): number {
     // permite voltar para anteriores e avançar para a próxima imediata
-    return Math.max(this.current + 1, 0);
+    return Math.max(this.current() + 1, 0);
   }
 
   canClick(i: number): boolean {
-    if (!this.clickable) return false;
+    if (!this.clickable()) return false;
     const state = this.getState(i);
     if (state === 'disabled') return false;
     // você pode sempre voltar para as anteriores; avançar no máx até a próxima
@@ -57,7 +57,7 @@ export class StepperComponent {
   }
 
   onStepClick(i: number): void {
-    if (!this.canClick(i) || i === this.current) return;
+    if (!this.canClick(i) || i === this.current()) return;
     this.stepChange.emit(i);
   }
 

@@ -40,9 +40,9 @@ Sheet lateral com título, conteúdo e ações. Abre da **direita para a esquerd
 ### Outputs
 | Output         | Tipo                    | Dispara quando                      |
 |----------------|-------------------------|-------------------------------------|
-| `primary`      | `EventEmitter<void>`    | Clicar no botão primário.           |
-| `secondary`    | `EventEmitter<void>`    | Clicar no botão secundário.         |
-| `openedChange` | `EventEmitter<boolean>` | Estado abre/fecha (para two‑way).   |
+| `primary`      | `void`                  | Clicar no botão primário.           |
+| `secondary`    | `void`                  | Clicar no botão secundário.         |
+| `openedChange` | `boolean`               | O painel abre/fecha por conta própria (ESC, backdrop, ×, `openBar()`/`close()`). Parte do `[(opened)]`; não dispara quando o pai muda `[opened]`. |
 
 ### Métodos públicos
 | Método       | Descrição           |

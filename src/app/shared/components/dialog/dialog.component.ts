@@ -1,9 +1,24 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, effect, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  computed,
+  effect,
+  input,
+  model,
+  output,
+  signal,
+  viewChild
+} from '@angular/core';
 
 import { DialogSize } from '../../model/type/dialog-size.type';
 
 let uid = 0;
+
+type FixedSize = Exclude<DialogSize, 'auto'>;
 
 @Component({
   selector: 'app-dialog',
@@ -12,68 +27,69 @@ let uid = 0;
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[class.is-open]': 'open()' }
+  host: { '[class.is-open]': 'opened()' }
 })
 export class DialogComponent implements OnDestroy {
   // API
-  @Input() title = 'Dialog';
+  readonly title = input('Dialog');
   /** Tamanho do dialog. `auto` mede o conteúdo sempre que o dialog é aberto. */
-  @Input() set size(v: DialogSize) { this._size = v ?? 'md'; this.applySize(); }
-  get size(): DialogSize { return this._size; }
-  private _size: DialogSize = 'md';
-  @Input() closeOnBackdrop = true;
+  readonly size = input<DialogSize, DialogSize | null | undefined>('md', { transform: v => v ?? 'md' });
+  readonly closeOnBackdrop = input(true);
 
   // botões padrão (opcionais)
-  @Input() primaryLabel: string | null = null;
-  @Input() secondaryLabel: string | null = null;
-  @Output() primary = new EventEmitter<void>();
-  @Output() secondary = new EventEmitter<void>();
+  readonly primaryLabel = input<string | null>(null);
+  readonly secondaryLabel = input<string | null>(null);
+  readonly primary = output<void>();
+  readonly secondary = output<void>();
 
-  // controle de abertura (two-way)
-  @Input() set opened(v: boolean) { this.open.set(!!v); }
-  @Output() openedChange = new EventEmitter<boolean>();
-
-  // estado
-  open = signal(false);
-  currentSize = signal<Exclude<DialogSize, 'auto'>>('md');
-
-  @ViewChild('dlg')      dlgRef!: ElementRef<HTMLElement>;
   /**
-   * O conteúdo só existe enquanto o dialog está aberto (@if), então a
-   * observação de tamanho é (re)ligada sempre que o elemento aparece.
+   * Controle de abertura (two-way `[(opened)]`). Como `model()`, só emite
+   * `openedChange` quando o próprio dialog muda o estado (abrir/fechar).
    */
-  @ViewChild('content') set contentEl(ref: ElementRef<HTMLElement> | undefined) {
-    this.contentRef = ref;
-    this.applySize();
-  }
-  private contentRef?: ElementRef<HTMLElement>;
-  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>;
+  readonly opened = model(false);
 
-  private ro?: ResizeObserver;
+  /** largura medida no modo `auto` */
+  private readonly measuredSize = signal<FixedSize>('md');
+  readonly currentSize = computed<FixedSize>(() => {
+    const s = this.size();
+    return s === 'auto' ? this.measuredSize() : s;
+  });
+
+  private readonly dlgRef = viewChild<ElementRef<HTMLElement>>('dlg');
+  /** só existe enquanto o dialog está aberto (@if) */
+  private readonly contentRef = viewChild<ElementRef<HTMLElement>>('content');
+  private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
+
   private id = `dlg-${++uid}`;
   private prevOverflow = '';
   /** só restaura o overflow do body se ESTA instância o travou */
   private scrollLocked = false;
-  private emittedOpen?: boolean;
 
   get labelId() { return `${this.id}-label`; }
 
-  // ===== Effects em injeção (seguros p/ signals) =====
-  /** espelha open no @Output (two-way), apenas quando o valor muda */
-  private _emitOpened = effect(() => {
-    const v = this.open();
-    if (this.emittedOpen === undefined) { this.emittedOpen = v; return; }
-    if (v === this.emittedOpen) return;
-    this.emittedOpen = v;
-    this.openedChange.emit(v);
-  });
-
+  // ===== Effects =====
   /** foco inicial + scroll-lock no body */
   private _whenOpen = effect(() => {
-    const isOpen = this.open();
+    const isOpen = this.opened();
     // foco depois do paint
-    if (isOpen) queueMicrotask(() => this.closeBtn?.nativeElement?.focus());
+    if (isOpen) queueMicrotask(() => this.closeBtn()?.nativeElement.focus());
     if (isOpen) this.lockScroll(); else this.unlockScroll();
+  });
+
+  /** modo `auto`: observa o conteúdo enquanto ele estiver renderizado */
+  private _autoSize = effect(onCleanup => {
+    if (this.size() !== 'auto') return;
+    const el = this.contentRef()?.nativeElement;
+    if (!el) return;
+
+    if (typeof ResizeObserver === 'undefined') {
+      queueMicrotask(() => this.updateAutoSize(el));
+      return;
+    }
+    // o callback inicial do ResizeObserver já faz a primeira medição
+    const ro = new ResizeObserver(() => this.updateAutoSize(el));
+    ro.observe(el);
+    onCleanup(() => ro.disconnect());
   });
 
   private lockScroll() {
@@ -89,63 +105,40 @@ export class DialogComponent implements OnDestroy {
     this.scrollLocked = false;
   }
 
-  private applySize() {
-    this.ro?.disconnect();
-    this.ro = undefined;
-
-    if (this._size !== 'auto') {
-      this.currentSize.set(this._size);
-      return;
-    }
-
-    const el = this.contentRef?.nativeElement;
-    if (!el) return;
-    if (typeof ResizeObserver !== 'undefined') {
-      // o callback inicial do ResizeObserver já faz a primeira medição
-      this.ro = new ResizeObserver(() => this.updateAutoSize());
-      this.ro.observe(el);
-    } else {
-      queueMicrotask(() => this.updateAutoSize());
-    }
-  }
-
   ngOnDestroy(): void {
-    this.ro?.disconnect();
     // garante que não deixa body travado
     this.unlockScroll();
   }
 
-  private updateAutoSize() {
-    const el = this.contentRef?.nativeElement;
-    if (!el) return;
+  private updateAutoSize(el: HTMLElement) {
     // usa largura “desejada” do conteúdo
     const w = el.scrollWidth;
-    const next =
+    this.measuredSize.set(
       w < 420 ? 'sm' :
         w < 720 ? 'md' :
-          w < 960 ? 'lg' : 'xl';
-    this.currentSize.set(next as any);
+          w < 960 ? 'lg' : 'xl'
+    );
   }
 
   // ===== A11y / fechamento =====
   @HostListener('document:keydown', ['$event'])
   onKey(e: KeyboardEvent) {
-    if (!this.open()) return;
+    if (!this.opened()) return;
     if (e.key === 'Escape') { e.preventDefault(); this.close(); }
     if (e.key === 'Tab') this.trapFocus(e);
   }
 
   onBackdropClick(e: MouseEvent) {
-    if (!this.closeOnBackdrop) return;
+    if (!this.closeOnBackdrop()) return;
     if ((e.target as HTMLElement).classList.contains('dlg-backdrop')) this.close();
   }
 
-  openDialog() { this.open.set(true); }
-  close()      { this.open.set(false); }
+  openDialog() { this.opened.set(true); }
+  close()      { this.opened.set(false); }
 
   // Focus trap simples dentro do dialog
   private trapFocus(e: KeyboardEvent) {
-    const root = this.dlgRef?.nativeElement; if (!root) return;
+    const root = this.dlgRef()?.nativeElement; if (!root) return;
     const focusables = root.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
