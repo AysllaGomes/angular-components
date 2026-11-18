@@ -53,7 +53,11 @@ export class SelectComponent<T = any> implements AfterViewInit {
   @Input() sheetBreakpoint = 560; // px
   @Input() closeAriaLabel = 'Fechar';
 
-  @Input({ required: true }) options: SelectOption<T>[] = [];
+  /** Guardado em signal para que `filtered()` recalcule quando as opções mudarem. */
+  @Input({ required: true })
+  set options(v: SelectOption<T>[] | null | undefined) { this._options.set(v ?? []); }
+  get options(): SelectOption<T>[] { return this._options(); }
+  private _options = signal<SelectOption<T>[]>([]);
   @Input() value: T | null = null;
   @Output() valueChange = new EventEmitter<T>();
 

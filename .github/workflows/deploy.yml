@@ -48,7 +48,7 @@ jobs:
           cat > "$B/index.html" <<EOF
           <!doctype html><meta charset="utf-8">
           <meta http-equiv="refresh" content="0; url=/$REPO/demo/">
-          <script>location.replace('/'+$REPO+'/demo/');</script>
+          <script>location.replace('/$REPO/demo/');</script>
           <title>Redirecting…</title>
           <p>Redirecting to <a href="/$REPO/demo/">/$REPO/demo/</a></p>
           EOF

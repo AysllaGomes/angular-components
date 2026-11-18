@@ -1,5 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, effect, signal } from '@angular/core';
 
 import { DialogSize } from '../../model/type/dialog-size.type';
 
@@ -14,10 +14,13 @@ let uid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-open]': 'open()' }
 })
-export class DialogComponent implements AfterViewInit, OnDestroy {
+export class DialogComponent implements OnDestroy {
   // API
   @Input() title = 'Dialog';
-  @Input() size: DialogSize = 'md';
+  /** Tamanho do dialog. `auto` mede o conteúdo sempre que o dialog é aberto. */
+  @Input() set size(v: DialogSize) { this._size = v ?? 'md'; this.applySize(); }
+  get size(): DialogSize { return this._size; }
+  private _size: DialogSize = 'md';
   @Input() closeOnBackdrop = true;
 
   // botões padrão (opcionais)
@@ -35,7 +38,15 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
   currentSize = signal<Exclude<DialogSize, 'auto'>>('md');
 
   @ViewChild('dlg')      dlgRef!: ElementRef<HTMLElement>;
-  @ViewChild('content')  contentRef!: ElementRef<HTMLElement>;
+  /**
+   * O conteúdo só existe enquanto o dialog está aberto (*ngIf), então a
+   * observação de tamanho é (re)ligada sempre que o elemento aparece.
+   */
+  @ViewChild('content') set contentEl(ref: ElementRef<HTMLElement> | undefined) {
+    this.contentRef = ref;
+    this.applySize();
+  }
+  private contentRef?: ElementRef<HTMLElement>;
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>;
 
   private ro?: ResizeObserver;
@@ -65,17 +76,23 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
     }
   });
 
-  ngAfterViewInit(): void {
-    // auto-size por conteúdo
-    if (this.size === 'auto') {
-      const el = this.contentRef?.nativeElement;
-      if (typeof ResizeObserver !== 'undefined' && el) {
-        this.ro = new ResizeObserver(() => this.updateAutoSize());
-        this.ro.observe(el);
-      }
-      this.updateAutoSize(); // primeira vez
+  private applySize() {
+    this.ro?.disconnect();
+    this.ro = undefined;
+
+    if (this._size !== 'auto') {
+      this.currentSize.set(this._size);
+      return;
+    }
+
+    const el = this.contentRef?.nativeElement;
+    if (!el) return;
+    if (typeof ResizeObserver !== 'undefined') {
+      // o callback inicial do ResizeObserver já faz a primeira medição
+      this.ro = new ResizeObserver(() => this.updateAutoSize());
+      this.ro.observe(el);
     } else {
-      this.currentSize.set(this.size);
+      queueMicrotask(() => this.updateAutoSize());
     }
   }
 
