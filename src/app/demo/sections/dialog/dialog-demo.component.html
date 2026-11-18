@@ -27,18 +27,20 @@
     [title]="'dialog.title.confirm' | t"
     size="auto"
     [(opened)]="openDlgDefault"
+    describedBy="dlg-default-desc"
     [primaryLabel]="'dialog.primary.confirm' | t"
     [secondaryLabel]="'dialog.secondary.cancel' | t"
     (primary)="confirmDelete()">
-    <p>{{ 'dialog.body.confirm' | t }}</p>
+    <p id="dlg-default-desc">{{ 'dialog.body.confirm' | t }}</p>
   </app-dialog>
 
   <!-- Exemplo 2: ações customizadas via slot -->
   <app-dialog
     [title]="'dialog.title.custom' | t"
     size="md"
-    [(opened)]="openDlgCustom">
-    <p>{{ 'dialog.body.custom' | t }}</p>
+    [(opened)]="openDlgCustom"
+    describedBy="dlg-custom-desc">
+    <p id="dlg-custom-desc">{{ 'dialog.body.custom' | t }}</p>
 
     <div dialog-actions>
       <button appButton="ghost" tone="neutral" type="button" (click)="openDlgCustom=false">

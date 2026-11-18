@@ -11,7 +11,8 @@ import { DialogComponent } from './dialog.component';
   imports: [DialogComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    <app-dialog title="Teste" [size]="size()" [opened]="opened()">
+    <app-dialog title="Teste" [size]="size()" [opened]="opened()" [describedBy]="describedBy()">
+      <p id="dlg-test-desc">Descrição do dialog.</p>
       <div [style.width.px]="contentWidth()" style="height: 10px"></div>
     </app-dialog>
   `
@@ -20,6 +21,7 @@ class HostComponent {
   size = signal<DialogSize>('auto');
   opened = signal(false);
   contentWidth = signal(800);
+  describedBy = signal<string | null>(null);
 }
 
 /** Espera o ResizeObserver disparar e o Angular renderizar. */
@@ -126,5 +128,37 @@ describe('DialogComponent', () => {
     host.size.set('lg');
     await settle(fixture);
     expect(dialogEl(fixture)?.classList).toContain('dlg--lg');
+  });
+
+  it('omits aria-describedby when describedBy is not set', async () => {
+    host.opened.set(true);
+    await settle(fixture);
+    expect(dialogEl(fixture)?.hasAttribute('aria-describedby')).toBe(false);
+
+    host.describedBy.set('');
+    await settle(fixture);
+    expect(dialogEl(fixture)?.hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('links aria-describedby to the given id and keeps aria-labelledby on the title', async () => {
+    host.describedBy.set('dlg-test-desc');
+    host.opened.set(true);
+    await settle(fixture);
+
+    const dlg = dialogEl(fixture)!;
+    expect(dlg.getAttribute('aria-describedby')).toBe('dlg-test-desc');
+    expect(document.getElementById('dlg-test-desc')?.textContent).toContain('Descrição do dialog.');
+
+    const title = document.getElementById(dlg.getAttribute('aria-labelledby')!);
+    expect(title?.textContent?.trim()).toBe('Teste');
+  });
+
+  it('updates aria-describedby when describedBy changes', async () => {
+    host.describedBy.set('a');
+    host.opened.set(true);
+    await settle(fixture);
+    host.describedBy.set('a b');
+    await settle(fixture);
+    expect(dialogEl(fixture)?.getAttribute('aria-describedby')).toBe('a b');
   });
 });

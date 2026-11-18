@@ -35,6 +35,13 @@ export class DialogComponent implements OnDestroy {
   /** Tamanho do dialog. `auto` mede o conteúdo sempre que o dialog é aberto. */
   readonly size = input<DialogSize, DialogSize | null | undefined>('md', { transform: v => v ?? 'md' });
   readonly closeOnBackdrop = input(true);
+  /**
+   * Id (ou ids separados por espaço) do(s) elemento(s) que descrevem o dialog,
+   * ligado ao `aria-describedby`. Leitores de tela leem esse texto junto com o título
+   * ao abrir. Ex.: `describedBy="del-desc"` + `<p id="del-desc">…</p>` no conteúdo.
+   * Vazio ou `null` não gera o atributo.
+   */
+  readonly describedBy = input<string | null>(null);
 
   // botões padrão (opcionais)
   readonly primaryLabel = input<string | null>(null);

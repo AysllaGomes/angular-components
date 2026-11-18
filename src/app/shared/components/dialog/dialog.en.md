@@ -18,6 +18,7 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
 | `size`            | `'sm' \| 'md' \| 'lg' \| 'auto'` | `'auto'`     | Dialog width. `auto` adapts to content (via `ResizeObserver`). |
 | `opened`          | `boolean`                        | `false`      | Controls visibility. Supports two‑way as `[(opened)]`.         |
 | `closeOnBackdrop` | `boolean`                        | `true`       | Close when clicking the backdrop.                              |
+| `describedBy`     | `string \| null`                 | `null`       | Id (or space-separated ids) of the text describing the dialog → `aria-describedby`. |
 | `primaryLabel`    | `string \| null`                 | `null`       | Default primary button label. If `null`, it’s hidden.          |
 | `secondaryLabel`  | `string \| null`                 | `null`       | Default secondary button label. If `null`, it’s hidden.        |
 
@@ -42,6 +43,7 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
 
 - `role="dialog"` and `aria-modal="true"` on the sheet.
 - `aria-labelledby` points to the title element ID.
+- `aria-describedby` (optional, via `describedBy`) points to the text describing the dialog, read together with the title when it opens.
 - **Initial focus** goes to the close button. **Focus trap** keeps tabbing inside.
 - **Keys:** `Esc` closes; `Tab`/`Shift+Tab` cycles focus.
 - **Backdrop:** enabled by default; can be disabled with `closeOnBackdrop=false`.
@@ -90,10 +92,11 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
   [title]="'dialog.title.delete' | t"
   size="auto"
   [(opened)]="openDlg"
+  describedBy="dlg-delete-desc"
   [primaryLabel]="'dialog.primary.confirm' | t"
   [secondaryLabel]="'dialog.secondary.cancel' | t"
   (primary)="confirmDelete()">
-  <p>{{ 'dialog.body.delete' | t }}</p>
+  <p id="dlg-delete-desc">{{ 'dialog.body.delete' | t }}</p>
 </app-dialog>
 ```
 
@@ -158,7 +161,7 @@ Suggested keys:
 ### Now (0.x)
 - [x] **A11y**
   - [x] Restore focus to the opener element on close.
-  - [ ] Optional `aria-describedby` (`describedBy` input).
+  - [x] Optional `aria-describedby` (`describedBy` input).
   - [x] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
 - [x] **State API**
   - [x] `afterOpen` / `afterClose` events (fire after animation).

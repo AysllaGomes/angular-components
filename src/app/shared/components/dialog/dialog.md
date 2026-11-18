@@ -18,6 +18,7 @@ Sheet/modal acessível e leve para confirmações e pequenos formulários. Const
 | `size`            | `'sm' \| 'md' \| 'lg' \| 'auto'` | `'auto'`     | Largura do dialog. `auto` se adapta ao conteúdo (via `ResizeObserver`). |
 | `opened`          | `boolean`                        | `false`      | Controla abertura. Suporta two‑way via `[(opened)]`.                    |
 | `closeOnBackdrop` | `boolean`                        | `true`       | Fecha ao clicar no backdrop.                                            |
+| `describedBy`     | `string \| null`                 | `null`       | Id (ou ids separados por espaço) do texto que descreve o dialog → `aria-describedby`. |
 | `primaryLabel`    | `string \| null`                 | `null`       | Texto do botão primário padrão. Se `null`, não renderiza.               |
 | `secondaryLabel`  | `string \| null`                 | `null`       | Texto do botão secundário padrão. Se `null`, não renderiza.             |
 
@@ -42,6 +43,7 @@ Sheet/modal acessível e leve para confirmações e pequenos formulários. Const
 
 - `role="dialog"` e `aria-modal="true"` no contêiner do sheet.
 - `aria-labelledby` aponta para o ID do título.
+- `aria-describedby` (opcional, via `describedBy`) aponta para o texto que descreve o dialog, lido junto com o título ao abrir.
 - **Foco inicial** vai para o botão “fechar”. **Trap de foco** mantém a navegação dentro do diálogo.
 - **Teclado:** `Esc` fecha; `Tab`/`Shift+Tab` navega entre itens focáveis.
 - **Backdrop:** habilitado por padrão; pode ser desativado com `closeOnBackdrop=false`.
@@ -92,10 +94,11 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
   [title]="'dialog.title.delete' | t"
   size="auto"
   [(opened)]="openDlg"
+  describedBy="dlg-delete-desc"
   [primaryLabel]="'dialog.primary.confirm' | t"
   [secondaryLabel]="'dialog.secondary.cancel' | t"
   (primary)="confirmDelete()">
-  <p>{{ 'dialog.body.delete' | t }}</p>
+  <p id="dlg-delete-desc">{{ 'dialog.body.delete' | t }}</p>
 </app-dialog>
 ```
 
@@ -162,7 +165,7 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 ### Agora (0.x)
 - [x] **A11y**
   - [x] Retornar o foco ao elemento que abriu o diálogo (focus restore).
-  - [ ] `aria-describedby` opcional (input `describedBy`).
+  - [x] `aria-describedby` opcional (input `describedBy`).
   - [x] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
 - [x] **API de estado**
   - [x] Eventos `afterOpen` / `afterClose` (disparam após a animação).
