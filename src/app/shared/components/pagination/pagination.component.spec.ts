@@ -64,12 +64,12 @@ describe('PaginationComponent', () => {
 
     set('pageIndex', 99);
     expect(cmp.current).toBe(2);
-    expect(cmp.canNext).toBeFalse();
+    expect(cmp.canNext).toBe(false);
     expect(cmp.pages()).toEqual([0, 1, 2]);
 
     set('pageIndex', -3);
     expect(cmp.current).toBe(0);
-    expect(cmp.canPrev).toBeFalse();
+    expect(cmp.canPrev).toBe(false);
   });
 
   it('ignores goTo outside the range', () => {

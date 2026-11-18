@@ -1,6 +1,8 @@
 import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { stubLayout } from '../../../../testing/layout-stub';
+
 import { AbSize } from '../../model/type/ab-size.type';
 
 import { ActionBarComponent } from './actionbar.component';
@@ -34,7 +36,11 @@ describe('ActionBarComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let host: HostComponent;
 
+  let restoreLayout: () => void;
+
   beforeEach(async () => {
+    restoreLayout = stubLayout();
+
     await TestBed.configureTestingModule({
       imports: [HostComponent],
       providers: [provideZonelessChangeDetection()]
@@ -45,7 +51,10 @@ describe('ActionBarComponent', () => {
     await fixture.whenStable();
   });
 
-  afterEach(() => fixture.destroy());
+  afterEach(() => {
+    fixture.destroy();
+    restoreLayout();
+  });
 
   it('size="auto" measures content after opening (content only exists while open)', async () => {
     host.opened.set(true);

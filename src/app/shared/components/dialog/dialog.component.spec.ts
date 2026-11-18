@@ -1,6 +1,8 @@
 import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { stubLayout } from '../../../../testing/layout-stub';
+
 import { DialogSize } from '../../model/type/dialog-size.type';
 
 import { DialogComponent } from './dialog.component';
@@ -34,7 +36,11 @@ describe('DialogComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let host: HostComponent;
 
+  let restoreLayout: () => void;
+
   beforeEach(async () => {
+    restoreLayout = stubLayout();
+
     await TestBed.configureTestingModule({
       imports: [HostComponent],
       providers: [provideZonelessChangeDetection()]
@@ -45,7 +51,10 @@ describe('DialogComponent', () => {
     await fixture.whenStable();
   });
 
-  afterEach(() => fixture.destroy());
+  afterEach(() => {
+    fixture.destroy();
+    restoreLayout();
+  });
 
   it('does not render while closed', () => {
     expect(dialogEl(fixture)).toBeNull();

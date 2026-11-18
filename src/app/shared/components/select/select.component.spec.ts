@@ -176,23 +176,23 @@ describe('SelectComponent with forms', () => {
       await fixture.whenStable();
 
       expect(host.form.value.fruit).toBe('apple');
-      expect(host.form.controls.fruit.dirty).toBeTrue();
+      expect(host.form.controls.fruit.dirty).toBe(true);
     });
 
     it('marks the control as touched on blur', async () => {
       button(el).dispatchEvent(new Event('blur'));
       await fixture.whenStable();
-      expect(host.form.controls.fruit.touched).toBeTrue();
+      expect(host.form.controls.fruit.touched).toBe(true);
     });
 
     it('follows disable()/enable() from the form', async () => {
       host.form.controls.fruit.disable();
       await fixture.whenStable();
-      expect(button(el).disabled).toBeTrue();
+      expect(button(el).disabled).toBe(true);
 
       host.form.controls.fruit.enable();
       await fixture.whenStable();
-      expect(button(el).disabled).toBeFalse();
+      expect(button(el).disabled).toBe(false);
     });
 
     it('shows the error passed from the form state', async () => {

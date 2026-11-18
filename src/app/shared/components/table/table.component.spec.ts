@@ -82,12 +82,12 @@ describe('TableComponent selection', () => {
       host.data.set(ALL.slice(2)); // página 2: Carla, Diego
       await fixture.whenStable();
 
-      expect(headerBox().checked).toBeFalse();
-      expect(headerBox().indeterminate).toBeFalse();
+      expect(headerBox().checked).toBe(false);
+      expect(headerBox().indeterminate).toBe(false);
 
       await click(headerBox());
       expect(host.selected()).toEqual(['a', 'c', 'd']);
-      expect(headerBox().checked).toBeTrue();
+      expect(headerBox().checked).toBe(true);
 
       await click(headerBox());
       expect(host.selected()).toEqual(['a']);
@@ -95,8 +95,8 @@ describe('TableComponent selection', () => {
 
     it('shows indeterminate when only some visible rows are selected', async () => {
       await click(rowBoxes()[0]);
-      expect(headerBox().indeterminate).toBeTrue();
-      expect(headerBox().checked).toBeFalse();
+      expect(headerBox().indeterminate).toBe(true);
+      expect(headerBox().checked).toBe(false);
     });
   });
 
