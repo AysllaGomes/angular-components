@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -10,6 +10,7 @@ import {ButtonDirective} from '../../../shared/components/button/button.directiv
   standalone: true,
   imports: [ActionBarComponent, TPipe, ButtonDirective],
   templateUrl: './actionbar-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './actionbar-demo.component.sass'
 })
 export class ActionBarDemoComponent {

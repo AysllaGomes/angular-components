@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 
@@ -15,6 +15,7 @@ import { ButtonDirective } from '../../../shared/components/button/button.direct
     ButtonDirective
 ],
   templateUrl: './button-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './button-demo.component.sass'
 })
 export class ButtonDemoComponent {}

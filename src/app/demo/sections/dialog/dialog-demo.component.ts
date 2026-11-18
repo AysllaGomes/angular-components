@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -15,6 +15,7 @@ import { ButtonDirective } from '../../../shared/components/button/button.direct
     ButtonDirective,
   ],
   templateUrl: './dialog-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dialog-demo.component.sass'
 })
 export class DialogDemoComponent {

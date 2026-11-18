@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -9,6 +9,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
   standalone: true,
   imports: [PaginationComponent, TPipe],
   templateUrl: './pagination-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pagination-demo.component.sass'
 })
 export class PaginationDemoComponent {

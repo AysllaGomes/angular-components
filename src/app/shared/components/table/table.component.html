@@ -103,9 +103,9 @@
                   [style.width]="actionsW"
                   [style.minWidth]="actionsW">
                   <!-- 1) Se o consumidor passar <ng-template appActions>, usamos ele -->
-                  @if (actionsTpl()?.tpl) {
+                  @if (actionsTpl()?.tpl; as tpl) {
                     <ng-container
-                      [ngTemplateOutlet]="actionsTpl()?.tpl"
+                      [ngTemplateOutlet]="tpl"
                       [ngTemplateOutletContext]="{ row: row, index: i }">
                     </ng-container>
                   } @else {

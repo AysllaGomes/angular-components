@@ -1,4 +1,4 @@
-import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
+import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogSize } from '../../model/type/dialog-size.type';
@@ -7,6 +7,7 @@ import { DialogComponent } from './dialog.component';
 
 @Component({
   imports: [DialogComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-dialog title="Teste" [size]="size()" [opened]="opened()">
       <div [style.width.px]="contentWidth()" style="height: 10px"></div>

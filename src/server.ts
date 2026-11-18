@@ -10,6 +10,13 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+/**
+ * Não confia em cabeçalhos X-Forwarded-* (padrão seguro do Angular 22).
+ * A demo é publicada como estática no GitHub Pages, sem proxy na frente.
+ * Se um dia o SSR rodar atrás de um proxy/load balancer confiável, habilite
+ * `trustProxyHeaders` apenas para os cabeçalhos que ele define:
+ * https://angular.dev/best-practices/security#configuring-trusted-proxy-headers
+ */
 const angularApp = new AngularNodeAppEngine();
 
 /**

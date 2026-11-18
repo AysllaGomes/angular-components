@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -16,6 +16,7 @@ import { SelectOption } from '../../../shared/model/interface/select/select-opti
   standalone: true,
   imports: [SelectComponent, ReactiveFormsModule, ButtonDirective, TPipe],
   templateUrl: './select-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './select-demo.component.sass'
 })
 export class SelectDemoComponent {

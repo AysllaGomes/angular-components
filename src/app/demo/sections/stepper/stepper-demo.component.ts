@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -15,6 +15,7 @@ import { StepperComponent } from '../../../shared/components/stepper/stepper.com
   templateUrl: './stepper-demo.component.html',
   styleUrl: './stepper-demo.component.sass',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TPipe,
     ButtonDirective,

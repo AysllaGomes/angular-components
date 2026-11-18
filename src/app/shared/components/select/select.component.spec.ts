@@ -1,4 +1,4 @@
-import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
+import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { SelectComponent } from './select.component';
 
 @Component({
   imports: [SelectComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-select
       label="Fruta"
@@ -115,6 +116,7 @@ const FRUITS: SelectOption<string>[] = [
 
 @Component({
   imports: [SelectComponent, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <form [formGroup]="form">
       <app-select label="Fruta" responsive="menu" [options]="options" formControlName="fruit"
@@ -129,6 +131,7 @@ class ReactiveHostComponent {
 
 @Component({
   imports: [SelectComponent, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<app-select label="Fruta" responsive="menu" [options]="options" [(ngModel)]="fruit" />`
 })
 class NgModelHostComponent {

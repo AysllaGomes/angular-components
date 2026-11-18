@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -29,6 +29,7 @@ import {ButtonDemoComponent} from './sections/button/button-demo.component';
     ButtonDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './demo-page.component.sass'
 })
 export class DemoPageComponent {}

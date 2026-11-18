@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -10,6 +10,7 @@ import { ToastService } from '../../../shared/services/toast.service';
   standalone: true,
   templateUrl: './toast-demo.component.html',
   styleUrl: './toast-demo.component.sass',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TPipe
   ]

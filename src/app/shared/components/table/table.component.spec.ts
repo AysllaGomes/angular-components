@@ -1,4 +1,4 @@
-import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
+import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
@@ -16,6 +16,7 @@ const ALL: Row[] = [
 
 @Component({
   imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-table
       [columns]="columns"

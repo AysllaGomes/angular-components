@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -18,6 +18,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
   standalone: true,
   imports: [TableComponent, PaginationComponent, TPipe],
   templateUrl: './table-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './table-demo.component.sass'
 })
 export class TableDemoComponent {

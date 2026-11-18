@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -14,6 +14,7 @@ import { ThemeService } from '../../../shared/services/theme.service';
   imports: [
     TPipe
 ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.component.sass'
 })
 export class HeaderComponent {
