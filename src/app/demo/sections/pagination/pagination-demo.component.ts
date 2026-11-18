@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, signal, computed } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
@@ -8,7 +7,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 @Component({
   selector: 'app-pagination-demo',
   standalone: true,
-  imports: [NgIf, PaginationComponent, TPipe],
+  imports: [PaginationComponent, TPipe],
   templateUrl: './pagination-demo.component.html',
   styleUrl: './pagination-demo.component.sass'
 })

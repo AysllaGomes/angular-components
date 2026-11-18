@@ -38,7 +38,8 @@ src/app/shared/components/pagination/
 | `pageChange` | `number`  | Emite o **novo** `pageIndex` (0‑based). |
 
 ### Comportamento
-- O componente **só é exibido** quando `pageCount > 1` (já no template via `*ngIf`).
+- O componente é sempre renderizado; para escondê-lo quando há uma única página, envolva-o com `@if` no container (veja o exemplo com Tabela).
+- `pageSize` inválido (0, negativo) é tratado como 1 e `pageIndex` fora do intervalo é ajustado.
 - Botões “‹/›” são desativados no início/fim.
 - Numeração exibida com janela deslizante até `maxVisible`.
 - Acessível: `aria-label`/`aria-current`, foco visível.
@@ -80,15 +81,17 @@ pagedRows = computed(() => {
   (action)="onAction($event)">
 </app-table>
 
-<div class="tbl-footer" *ngIf="rows.length > pageSize">
-  <span class="total">Total de {{ rows.length }} registro(s)</span>
-  <app-pagination
-    [total]="rows.length"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex()"
-    (pageChange)="pageIndex.set($event)">
-  </app-pagination>
-</div>
+@if (rows.length > pageSize) {
+  <div class="tbl-footer">
+    <span class="total">Total de {{ rows.length }} registro(s)</span>
+    <app-pagination
+      [total]="rows.length"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex()"
+      (pageChange)="pageIndex.set($event)">
+    </app-pagination>
+  </div>
+}
 ```
 
 ---

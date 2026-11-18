@@ -1,7 +1,9 @@
 <div class="field" [class.is-disabled]="disabled" [class.is-error]="hasError()">
   <label class="label">
     <span>{{ label }}</span>
-    <span class="req" *ngIf="required">{{ requiredLabel }}</span>
+    @if (required) {
+      <span class="req">{{ requiredLabel }}</span>
+    }
   </label>
 
   <!-- grupo do controle + clear -->
@@ -23,63 +25,74 @@
       <span class="caret" aria-hidden="true">▾</span>
     </button>
 
-    <button
-      *ngIf="canClear()"
-      class="clear-btn"
-      type="button"
-      [attr.aria-label]="clearAriaLabel"
-      (click)="clear($event)"
-      (keydown)="onClearKeydown($event)">
-      ×
-    </button>
+    @if (canClear()) {
+      <button
+        class="clear-btn"
+        type="button"
+        [attr.aria-label]="clearAriaLabel"
+        (click)="clear($event)"
+        (keydown)="onClearKeydown($event)">
+        ×
+      </button>
+    }
   </div>
 
   <!-- backdrop só no modo sheet -->
-  <div class="backdrop" *ngIf="open() && sheet()" (click)="close()"></div>
+  @if (open() && sheet()) {
+    <div class="backdrop" (click)="close()"></div>
+  }
 
-  <div
-    #panel
-    *ngIf="open()"
-    class="panel"
-    [class.is-sheet]="sheet()"
-    tabindex="0"
-    role="listbox"
-    [id]="listboxId"
-    (keydown)="onPanelKeydown($event)"
-    [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+  @if (open()) {
+    <div
+      #panel
+      class="panel"
+      [class.is-sheet]="sheet()"
+      tabindex="0"
+      role="listbox"
+      [id]="listboxId"
+      (keydown)="onPanelKeydown($event)"
+      [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+      <!-- header da sheet -->
+      @if (sheet()) {
+        <div class="sheet-header">
+          <div class="title">{{ panelTitle || label || 'Selecionar' }}</div>
+          <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel">×</button>
+        </div>
+      }
+      <!-- filtro -->
+      @if (filterable) {
+        <div class="filter">
+          <input
+            #filterInput
+            type="text"
+            [placeholder]="filterPlaceholder"
+            [value]="filter()"
+            (input)="filter.set($any($event.target).value); syncHighlight()"
+            aria-label="Filtrar opções" />
+          </div>
+        }
+        <!-- lista -->
+        @for (p of filtered(); track p.i; let fi = $index) {
+          <div
+            class="option"
+            [id]="optionId(fi)"
+            role="option"
+            [attr.aria-selected]="p.opt.value===value"
+            [class.is-selected]="p.opt.value===value"
+            [class.is-active]="fi===highlighted()"
+            [class.is-disabled]="p.opt.disabled"
+            (mouseenter)="highlight(fi)"
+            (click)="select(p.opt, fi)">
+            {{ p.opt.label }}
+          </div>
+        }
+      </div>
+    }
 
-    <!-- header da sheet -->
-    <div class="sheet-header" *ngIf="sheet()">
-      <div class="title">{{ panelTitle || label || 'Selecionar' }}</div>
-      <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel">×</button>
-    </div>
-
-    <!-- filtro -->
-    <div class="filter" *ngIf="filterable">
-      <input
-        #filterInput
-        type="text"
-        [placeholder]="filterPlaceholder"
-        [value]="filter()"
-        (input)="filter.set($any($event.target).value); syncHighlight()"
-        aria-label="Filtrar opções" />
-    </div>
-
-    <!-- lista -->
-    <div *ngFor="let p of filtered(); index as fi"
-         class="option"
-         [id]="optionId(fi)"
-         role="option"
-         [attr.aria-selected]="p.opt.value===value"
-         [class.is-selected]="p.opt.value===value"
-         [class.is-active]="fi===highlighted()"
-         [class.is-disabled]="p.opt.disabled"
-         (mouseenter)="highlight(fi)"
-         (click)="select(p.opt, fi)">
-      {{ p.opt.label }}
-    </div>
+    @if (!displayError() && hint) {
+      <div class="hint">{{ hint }}</div>
+    }
+    @if (displayError()) {
+      <div class="error">{{ displayError() }}</div>
+    }
   </div>
-
-  <div class="hint" *ngIf="!displayError() && hint">{{ hint }}</div>
-  <div class="error" *ngIf="displayError()">{{ displayError() }}</div>
-</div>

@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, signal, effect } from '@angular/core';
 
 import { AbSize } from '../../model/type/ab-size.type';
@@ -9,7 +8,7 @@ let uid = 0;
 @Component({
   selector: 'app-actionbar',
   standalone: true,
-  imports: [NgIf, ButtonDirective],
+  imports: [ButtonDirective],
   templateUrl: './actionbar.component.html',
   styleUrl: './actionbar.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +35,7 @@ export class ActionBarComponent implements OnDestroy {
 
   @ViewChild('sheet') sheet!: ElementRef<HTMLElement>;
   /**
-   * O conteúdo só existe enquanto o painel está aberto (*ngIf), então a
+   * O conteúdo só existe enquanto o painel está aberto (@if), então a
    * observação de tamanho é (re)ligada sempre que o elemento aparece.
    */
   @ViewChild('content') set contentEl(ref: ElementRef<HTMLElement> | undefined) {

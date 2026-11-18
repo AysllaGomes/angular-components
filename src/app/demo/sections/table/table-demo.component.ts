@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
@@ -17,7 +16,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 @Component({
   selector: 'app-table-demo',
   standalone: true,
-  imports: [NgIf, TableComponent, PaginationComponent, TPipe],
+  imports: [TableComponent, PaginationComponent, TPipe],
   templateUrl: './table-demo.component.html',
   styleUrl: './table-demo.component.sass'
 })

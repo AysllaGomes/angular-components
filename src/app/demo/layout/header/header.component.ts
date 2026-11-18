@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, HostListener, inject, signal } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
@@ -13,9 +12,8 @@ import { ThemeService } from '../../../shared/services/theme.service';
   standalone: true,
   templateUrl: './header.component.html',
   imports: [
-    NgIf,
-    TPipe,
-  ],
+    TPipe
+],
   styleUrl: './header.component.sass'
 })
 export class HeaderComponent {

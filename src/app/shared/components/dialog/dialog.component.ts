@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, effect, signal } from '@angular/core';
 
 import { DialogSize } from '../../model/type/dialog-size.type';
@@ -8,7 +8,7 @@ let uid = 0;
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgClass],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +39,7 @@ export class DialogComponent implements OnDestroy {
 
   @ViewChild('dlg')      dlgRef!: ElementRef<HTMLElement>;
   /**
-   * O conteúdo só existe enquanto o dialog está aberto (*ngIf), então a
+   * O conteúdo só existe enquanto o dialog está aberto (@if), então a
    * observação de tamanho é (re)ligada sempre que o elemento aparece.
    */
   @ViewChild('content') set contentEl(ref: ElementRef<HTMLElement> | undefined) {

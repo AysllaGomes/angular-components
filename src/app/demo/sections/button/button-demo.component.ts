@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -12,9 +12,8 @@ import { ButtonDirective } from '../../../shared/components/button/button.direct
   imports: [
     TPipe,
     RouterLink,
-    CommonModule,
-    ButtonDirective,
-  ],
+    ButtonDirective
+],
   templateUrl: './button-demo.component.html',
   styleUrl: './button-demo.component.sass'
 })

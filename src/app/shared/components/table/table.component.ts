@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from '@angular/core';
 
 import { ActionKind } from '../../model/type/action-kind.type';
@@ -11,7 +11,7 @@ import { TableActionsTemplateDirective, TableCellTemplateDirective } from './tab
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -73,7 +73,7 @@ export class TableComponent<T = any> implements AfterContentInit {
   }
 
   // ===== seleção =====
-  /** Chave da linha usada na seleção e no trackBy (índice quando não há `rowKey`). */
+  /** Chave da linha usada na seleção e no `track` do @for (índice quando não há `rowKey`). */
   rowId(row: T, i: number): unknown {
     const k = this.rowKey;
     if (k == null) return i;
@@ -167,7 +167,5 @@ export class TableComponent<T = any> implements AfterContentInit {
   get selectW(): string { return this.toCssUnit(this.selectColWidth); }
   get actionsW(): string { return this.toCssUnit(this.actionsColWidth); }
 
-  trackByRow = (i: number, row: T) => this.rowId(row, i);
-  trackByCol = (_: number, c: ColumnDef) => c.key as string;
   protected readonly String = String;
 }

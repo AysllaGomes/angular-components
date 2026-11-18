@@ -53,15 +53,17 @@ pagedRows = computed(() => {
 ```html
 <app-table [columns]="columns" [data]="pagedRows()" (action)="onAction($event)"></app-table>
 
-<div class="tbl-footer" *ngIf="rows.length > pageSize">
-  <span class="total">Total: {{ rows.length }}</span>
-  <app-pagination
-    [total]="rows.length"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex()"
-    (pageChange)="pageIndex.set($event)">
-  </app-pagination>
-</div>
+@if (rows.length > pageSize) {
+  <div class="tbl-footer">
+    <span class="total">Total: {{ rows.length }}</span>
+    <app-pagination
+      [total]="rows.length"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex()"
+      (pageChange)="pageIndex.set($event)">
+    </app-pagination>
+  </div>
+}
 ```
 
 ---

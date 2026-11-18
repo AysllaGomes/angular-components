@@ -10,15 +10,16 @@
   </button>
 
   <div class="pg-pages" role="list">
-    <button
-      *ngFor="let p of pages()"
-      type="button"
-      class="pg-btn"
-      [class.is-active]="p === current"
-      [attr.aria-current]="p === current ? 'page' : null"
-      (click)="goTo(p)">
-      {{ p + 1 }}
-    </button>
+    @for (p of pages(); track p) {
+      <button
+        type="button"
+        class="pg-btn"
+        [class.is-active]="p === current"
+        [attr.aria-current]="p === current ? 'page' : null"
+        (click)="goTo(p)">
+        {{ p + 1 }}
+      </button>
+    }
   </div>
 
   <button

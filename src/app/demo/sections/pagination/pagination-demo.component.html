@@ -17,14 +17,15 @@
     </div>
 
     <div class="pager-wrap">
-      <app-pagination
-        *ngIf="total() > pageSize()"
-        [total]="total()"
-        [pageSize]="pageSize()"
-        [pageIndex]="pageIndex()"
-        [maxVisible]="5"
-        (pageChange)="pageIndex.set($event)">
-      </app-pagination>
+      @if (total() > pageSize()) {
+        <app-pagination
+          [total]="total()"
+          [pageSize]="pageSize()"
+          [pageIndex]="pageIndex()"
+          [maxVisible]="5"
+          (pageChange)="pageIndex.set($event)">
+        </app-pagination>
+      }
     </div>
   </article>
 </section>

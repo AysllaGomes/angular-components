@@ -5,8 +5,8 @@
   <article class="card">
     <div class="toolbar">
       <button class="pill" type="button"
-              (click)="simulateLoad()"
-              [disabled]="loading()">
+        (click)="simulateLoad()"
+        [disabled]="loading()">
         {{ loading() ? ('table.toolbar.simulate.loading' | t)
         : ('table.toolbar.simulate' | t) }}
       </button>
@@ -40,15 +40,16 @@
       </app-table>
     </div>
 
-    <div class="tbl-footer" *ngIf="rows.length > pageSize">
-      <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
-
-      <app-pagination
-        [total]="rows.length"
-        [pageSize]="pageSize"
-        [pageIndex]="pageIndex()"
-        (pageChange)="pageIndex.set($event)">
-      </app-pagination>
-    </div>
+    @if (rows.length > pageSize) {
+      <div class="tbl-footer">
+        <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
+        <app-pagination
+          [total]="rows.length"
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex()"
+          (pageChange)="pageIndex.set($event)">
+        </app-pagination>
+      </div>
+    }
   </article>
 </section>

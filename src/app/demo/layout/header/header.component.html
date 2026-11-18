@@ -12,12 +12,16 @@
       [title]="'header.menu' | t"
       [attr.aria-label]="'header.menu' | t">
       <!-- ícone hambúrguer / fechar -->
-      <svg *ngIf="!openNav()" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="currentColor"/>
-      </svg>
-      <svg *ngIf="openNav()" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3 10.6 10.6 16.9 4.3z" fill="currentColor"/>
-      </svg>
+      @if (!openNav()) {
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="currentColor"/>
+        </svg>
+      }
+      @if (openNav()) {
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3 10.6 10.6 16.9 4.3z" fill="currentColor"/>
+        </svg>
+      }
     </button>
 
     <a class="brand" href="#top">{{ 'brand' | t }}</a>
@@ -58,13 +62,17 @@
         [attr.title]="theme.theme() === 'light' ? ('button.theme.light'|t) : ('button.theme.dark'|t)"
         [attr.aria-label]="theme.theme() === 'light' ? ('button.theme.light'|t) : ('button.theme.dark'|t)"
         [attr.aria-pressed]="theme.theme() === 'dark'"
-      >
-        <svg *ngIf="theme.theme() === 'light'" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM1 13h3v-2H1v2zm10-9h-2v3h2V4zm7.04.46l-1.41-1.41-1.8 1.79 1.41 1.41 1.8-1.79zM20 11v2h3v-2h-3zm-9 9h2v-3h-2v3zm6.24-1.84l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM4.22 17.66l1.8-1.79-1.42-1.42-1.79 1.8 1.41 1.41zM12 8a4 4 0 100 8 4 4 0 000-8z" fill="currentColor"/>
-        </svg>
-        <svg *ngIf="theme.theme() === 'dark'" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 2a9.99 9.99 0 00-8.94 5.5A10 10 0 0012 22a9.99 9.99 0 008.94-5.5A10 10 0 0112 2zm0 18a8 8 0 01-6.93-12A9 9 0 0012 20z" fill="currentColor"/>
-        </svg>
+        >
+        @if (theme.theme() === 'light') {
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM1 13h3v-2H1v2zm10-9h-2v3h2V4zm7.04.46l-1.41-1.41-1.8 1.79 1.41 1.41 1.8-1.79zM20 11v2h3v-2h-3zm-9 9h2v-3h-2v3zm6.24-1.84l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM4.22 17.66l1.8-1.79-1.42-1.42-1.79 1.8 1.41 1.41zM12 8a4 4 0 100 8 4 4 0 000-8z" fill="currentColor"/>
+          </svg>
+        }
+        @if (theme.theme() === 'dark') {
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a9.99 9.99 0 00-8.94 5.5A10 10 0 0012 22a9.99 9.99 0 008.94-5.5A10 10 0 0112 2zm0 18a8 8 0 01-6.93-12A9 9 0 0012 20z" fill="currentColor"/>
+          </svg>
+        }
         <span class="sr-only">
           {{ theme.theme() === 'light' ? ('button.theme.light'|t) : ('button.theme.dark'|t) }}
         </span>

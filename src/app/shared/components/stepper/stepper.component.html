@@ -1,33 +1,40 @@
 <nav class="stepper" [attr.aria-valuenow]="current + 1" [attr.aria-valuemax]="steps.length">
   <ol class="stepper-list">
-    <li
-      *ngFor="let step of steps; index as i; trackBy: trackByIndex"
-      class="stepper-item"
-      [class.is-active]="getState(i) === 'active'"
-      [class.is-done]="getState(i) === 'done'"
-      [class.is-disabled]="getState(i) === 'disabled'"
-    >
-      <button
-        class="stepper-button"
-        type="button"
-        role="tab"
-        [attr.aria-selected]="getState(i) === 'active'"
-        [attr.aria-disabled]="!canClick(i)"
-        [disabled]="!canClick(i)"
-        (click)="onStepClick(i)"
-      >
-        <span class="bullet" aria-hidden="true">
-          <span class="check" *ngIf="getState(i) === 'done'">✓</span>
-          <span class="index" *ngIf="showIndex && getState(i) !== 'done'">{{ i + 1 }}</span>
-        </span>
-
-        <span class="texts">
-          <span class="label">{{ step.label }}</span>
-          <span class="caption" *ngIf="showCaption && step.caption">{{ step.caption }}</span>
-        </span>
-      </button>
-
-      <span class="connector" *ngIf="i < steps.length - 1" aria-hidden="true"></span>
-    </li>
+    @for (step of steps; track $index; let i = $index) {
+      <li
+        class="stepper-item"
+        [class.is-active]="getState(i) === 'active'"
+        [class.is-done]="getState(i) === 'done'"
+        [class.is-disabled]="getState(i) === 'disabled'"
+        >
+        <button
+          class="stepper-button"
+          type="button"
+          role="tab"
+          [attr.aria-selected]="getState(i) === 'active'"
+          [attr.aria-disabled]="!canClick(i)"
+          [disabled]="!canClick(i)"
+          (click)="onStepClick(i)"
+          >
+          <span class="bullet" aria-hidden="true">
+            @if (getState(i) === 'done') {
+              <span class="check">✓</span>
+            }
+            @if (showIndex && getState(i) !== 'done') {
+              <span class="index">{{ i + 1 }}</span>
+            }
+          </span>
+          <span class="texts">
+            <span class="label">{{ step.label }}</span>
+            @if (showCaption && step.caption) {
+              <span class="caption">{{ step.caption }}</span>
+            }
+          </span>
+        </button>
+        @if (i < steps.length - 1) {
+          <span class="connector" aria-hidden="true"></span>
+        }
+      </li>
+    }
   </ol>
 </nav>

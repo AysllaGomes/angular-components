@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { StepState } from '../../model/type/step-state.type';
@@ -8,7 +7,7 @@ import { StepItem } from '../../model/interface/step-item.interface';
 @Component({
   selector: 'app-stepper',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,5 +61,4 @@ export class StepperComponent {
     this.stepChange.emit(i);
   }
 
-  trackByIndex = (_: number, __: unknown) => _;
 }

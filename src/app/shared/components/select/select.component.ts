@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -21,7 +20,7 @@ let uid = 0;
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [],
   templateUrl: './select.component.html',
   styleUrl: './select.component.sass'
 })
