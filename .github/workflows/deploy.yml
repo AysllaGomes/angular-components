@@ -29,6 +29,9 @@ jobs:
 
       - run: npm ci
 
+      # testes antes do build: se falharem, nada é publicado
+      - run: npm run test:ci
+
       # use o script do package.json (já com --base-href /angular-components/)
       - run: npm run build
 
