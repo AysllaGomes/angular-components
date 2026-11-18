@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, Injectable, PLATFORM_ID, effect, inject, signal } from '@angular/core';
 
 import { DICT } from '../i18n/dict';
 
@@ -12,6 +12,16 @@ export class I18nService {
 
   private _lang = signal<Lang>(this.load());
   lang = this._lang.asReadonly();
+
+  constructor() {
+    // mantém <html lang> em sincronia (leitores de tela, hifenização, tradutores)
+    if (this.isBrowser) {
+      const doc = inject(DOCUMENT);
+      effect(() => {
+        doc.documentElement.lang = this._lang() === 'en' ? 'en' : 'pt-BR';
+      });
+    }
+  }
 
   t(key: string, params?: Record<string, string | number>): string {
     const entry = DICT[key];

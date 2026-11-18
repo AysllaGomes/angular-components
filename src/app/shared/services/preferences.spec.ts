@@ -39,4 +39,18 @@ describe('Stored preferences', () => {
     expect(theme.accent()).toBe('teal');
     expect(i18n.lang()).toBe('pt');
   });
+
+  it('keeps <html lang> in sync with the current language', () => {
+    const i18n = TestBed.inject(I18nService);
+    TestBed.tick();
+    expect(document.documentElement.lang).toBe('pt-BR');
+
+    i18n.set('en');
+    TestBed.tick();
+    expect(document.documentElement.lang).toBe('en');
+
+    i18n.set('pt');
+    TestBed.tick();
+    expect(document.documentElement.lang).toBe('pt-BR');
+  });
 });
