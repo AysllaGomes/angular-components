@@ -40,7 +40,8 @@ export class TableDemoComponent {
   loading = signal(false);
   empty = signal(false);
 
-  selected = signal<number[]>([]);
+  /** documentos selecionados (rowKey="documento"): sobrevive a ordenação e paginação */
+  selected = signal<string[]>([]);
 
   columns: ColumnDef<AdicionalRow>[] = [
     { key: 'nome',        header: 'Nome do adicional' },

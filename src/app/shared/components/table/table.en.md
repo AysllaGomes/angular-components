@@ -49,7 +49,8 @@ export interface ColumnDef<T = any> {
 | `columns`        | `ColumnDef<T>[]`                 |            —            | Declarative columns.                                                                  |
 | `selectable`     | `boolean`                        |         `false`         | Show row checkbox and “select all”.                                                   |
 | `showActions`    | `boolean`                        |         `false`         | Show actions column. (Automatically true if `[actions]` or `appActions` is provided.) |
-| `selected`       | `number[]`                       |          `[]`           | Controlled selection (row indices).                                                   |
+| `rowKey`         | `keyof T \| (row, i) => unknown` |            —            | Stable row id. With it, `selected` holds **keys** and survives sorting/pagination.    |
+| `selected`       | `any[]`                          |          `[]`           | Controlled selection: keys (with `rowKey`) or indices into `data` (without it).       |
 | `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
 | `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
 | `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
@@ -60,7 +61,7 @@ export interface ColumnDef<T = any> {
 ### Outputs
 | Output           | Payload                                   | When                                                  |
 |------------------|-------------------------------------------|-------------------------------------------------------|
-| `selectedChange` | `number[]`                                | Row or “select all” changes.                          |
+| `selectedChange` | `any[]` (keys or indices)                 | Row or “select all” changes.                          |
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
 | `sortChange`     | `{ key: string; dir: 'asc'                | 'desc' }`                                             | User clicked a header and changed sorting. |
 
@@ -211,7 +212,13 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 
 ## Troubleshooting
 - **Asset 404**: if using `public/` assets, put your SVG at `public/icons/...` and reference as `/icons/...`. If you prefer `src/assets`, ensure it’s listed under `assets` in `angular.json` and reference as `/assets/...`.
-- **Selection across pages** (if you paginate outside the table): keep a global selection list and map indices with the page offset.
+- **Selection with sorting/pagination**: without `rowKey`, `selected` holds indices into `data`, which shift when you sort or paginate outside the table. Pass `rowKey` to select by key:
+  ```html
+  <app-table [data]="pagedRows()" [selectable]="true" rowKey="documento"
+             [selected]="selected()" (selectedChange)="selected.set($event)">
+  </app-table>
+  ```
+  “Select all” toggles only the visible rows and keeps selections from other pages.
 
 ---
 

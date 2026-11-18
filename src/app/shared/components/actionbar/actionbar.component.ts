@@ -53,8 +53,15 @@ export class ActionBarComponent implements OnDestroy {
   private id = `ab-${++uid}`;
   get labelId() { return `${this.id}-label`; }
 
-  // espelha open() no two-way
-  private emitOpened = effect(() => this.openedChange.emit(this.open()));
+  // espelha open() no two-way, apenas quando o valor muda
+  private emittedOpen?: boolean;
+  private emitOpened = effect(() => {
+    const v = this.open();
+    if (this.emittedOpen === undefined) { this.emittedOpen = v; return; }
+    if (v === this.emittedOpen) return;
+    this.emittedOpen = v;
+    this.openedChange.emit(v);
+  });
   // foco ao abrir
   private focusWhenOpen = effect(() => { if (this.open()) queueMicrotask(() => this.closeBtn?.nativeElement?.focus()); });
 

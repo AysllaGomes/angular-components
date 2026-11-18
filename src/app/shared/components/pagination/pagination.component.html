@@ -4,7 +4,7 @@
     size="sm"
     type="button"
     (click)="prev()"
-    [disabled]="pageIndex === 0"
+    [disabled]="!canPrev"
     aria-label="{{ 'pagination.prev' | t }}">
     ‹
   </button>
@@ -14,8 +14,8 @@
       *ngFor="let p of pages()"
       type="button"
       class="pg-btn"
-      [class.is-active]="p === pageIndex"
-      [attr.aria-current]="p === pageIndex ? 'page' : null"
+      [class.is-active]="p === current"
+      [attr.aria-current]="p === current ? 'page' : null"
       (click)="goTo(p)">
       {{ p + 1 }}
     </button>
@@ -26,7 +26,7 @@
     size="sm"
     type="button"
     (click)="next()"
-    [disabled]="(pageIndex + 1) >= pageCount"
+    [disabled]="!canNext"
     aria-label="{{ 'pagination.next' | t }}">
     ›
   </button>

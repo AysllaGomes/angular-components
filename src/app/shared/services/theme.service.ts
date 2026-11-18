@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, effect, signal, PLATFORM_ID, inject, DOCUMENT } from '@angular/core';
 
-import { Theme } from '../model/type/theme.type';
-import {Accent} from '../model/type/accent.type';
+import { THEMES, Theme } from '../model/type/theme.type';
+import { ACCENTS, Accent } from '../model/type/accent.type';
 
 @Injectable({
   providedIn: 'root'
@@ -43,16 +43,21 @@ export class ThemeService {
   }
 
   private loadTheme(): Theme {
-    if (this.isBrowser) {
-      try { return (localStorage.getItem('demo-theme') as Theme) ?? 'light'; } catch {}
-    }
-    return 'light';
+    return this.loadValid('demo-theme', THEMES, 'light');
   }
 
   private loadAccent(): Accent {
-    if (this.isBrowser) {
-      try { return (localStorage.getItem('demo-accent') as Accent) ?? 'teal'; } catch {}
+    return this.loadValid('demo-accent', ACCENTS, 'teal');
+  }
+
+  /** lê do localStorage e só aceita valores conhecidos (ignora lixo/versões antigas) */
+  private loadValid<T extends string>(key: string, allowed: readonly T[], fallback: T): T {
+    if (!this.isBrowser) return fallback;
+    try {
+      const v = localStorage.getItem(key);
+      return allowed.includes(v as T) ? (v as T) : fallback;
+    } catch {
+      return fallback;
     }
-    return 'teal';
   }
 }

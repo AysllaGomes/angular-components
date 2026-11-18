@@ -3,7 +3,7 @@ import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
 
 import { DICT } from '../i18n/dict';
 
-import { Lang } from '../model/type/lang.type';
+import { LANGS, Lang } from '../model/type/lang.type';
 
 @Injectable({ providedIn: 'root' })
 export class I18nService {
@@ -35,7 +35,10 @@ export class I18nService {
 
   private load(): Lang {
     if (this.isBrowser) {
-      try { return (localStorage.getItem('demo-lang') as Lang) || 'pt'; } catch {}
+      try {
+        const v = localStorage.getItem('demo-lang');
+        if (LANGS.includes(v as Lang)) return v as Lang;
+      } catch {}
     }
     return 'pt';
   }

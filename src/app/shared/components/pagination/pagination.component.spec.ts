@@ -45,6 +45,39 @@ describe('PaginationComponent', () => {
     expect(cmp.pages()).toEqual([15, 16, 17, 18, 19]);
   });
 
+  it('treats invalid pageSize as 1 instead of producing Infinity/NaN', () => {
+    cmp.total = 3;
+    for (const size of [0, -5, NaN]) {
+      cmp.pageSize = size;
+      expect(cmp.pageCount).toBe(3);
+    }
+  });
+
+  it('clamps pageIndex to the valid range', () => {
+    cmp.total = 30;
+    cmp.pageSize = 10;
+
+    cmp.pageIndex = 99;
+    expect(cmp.current).toBe(2);
+    expect(cmp.canNext).toBeFalse();
+    expect(cmp.pages()).toEqual([0, 1, 2]);
+
+    cmp.pageIndex = -3;
+    expect(cmp.current).toBe(0);
+    expect(cmp.canPrev).toBeFalse();
+  });
+
+  it('ignores goTo outside the range', () => {
+    const emitted: number[] = [];
+    cmp.pageChange.subscribe(i => emitted.push(i));
+    cmp.total = 30;
+    cmp.pageSize = 10;
+
+    cmp.goTo(-1);
+    cmp.goTo(3);
+    expect(emitted).toEqual([]);
+  });
+
   it('emits pageChange only for valid moves', () => {
     const emitted: number[] = [];
     cmp.pageChange.subscribe(i => emitted.push(i));

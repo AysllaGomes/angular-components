@@ -51,30 +51,43 @@ export class DialogComponent implements OnDestroy {
 
   private ro?: ResizeObserver;
   private id = `dlg-${++uid}`;
-  private prevOverflow?: string;
+  private prevOverflow = '';
+  /** só restaura o overflow do body se ESTA instância o travou */
+  private scrollLocked = false;
+  private emittedOpen?: boolean;
 
   get labelId() { return `${this.id}-label`; }
 
   // ===== Effects em injeção (seguros p/ signals) =====
-  /** espelha open no @Output (two-way) */
-  private _emitOpened = effect(() => this.openedChange.emit(this.open()));
+  /** espelha open no @Output (two-way), apenas quando o valor muda */
+  private _emitOpened = effect(() => {
+    const v = this.open();
+    if (this.emittedOpen === undefined) { this.emittedOpen = v; return; }
+    if (v === this.emittedOpen) return;
+    this.emittedOpen = v;
+    this.openedChange.emit(v);
+  });
 
   /** foco inicial + scroll-lock no body */
   private _whenOpen = effect(() => {
     const isOpen = this.open();
     // foco depois do paint
     if (isOpen) queueMicrotask(() => this.closeBtn?.nativeElement?.focus());
-    // scroll-lock
-    if (typeof document !== 'undefined') {
-      const body = document.body;
-      if (isOpen) {
-        this.prevOverflow = body.style.overflow;
-        body.style.overflow = 'hidden';
-      } else {
-        body.style.overflow = this.prevOverflow ?? '';
-      }
-    }
+    if (isOpen) this.lockScroll(); else this.unlockScroll();
   });
+
+  private lockScroll() {
+    if (this.scrollLocked || typeof document === 'undefined') return;
+    this.prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    this.scrollLocked = true;
+  }
+
+  private unlockScroll() {
+    if (!this.scrollLocked || typeof document === 'undefined') return;
+    document.body.style.overflow = this.prevOverflow;
+    this.scrollLocked = false;
+  }
 
   private applySize() {
     this.ro?.disconnect();
@@ -99,9 +112,7 @@ export class DialogComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.ro?.disconnect();
     // garante que não deixa body travado
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = this.prevOverflow ?? '';
-    }
+    this.unlockScroll();
   }
 
   private updateAutoSize() {

@@ -117,6 +117,8 @@ export interface TableAction<T = any> {
 | `data`          | `T[]`                           |                                                                  —                                                                  | Linhas da tabela.                                                                                            |
 | `columns`       | `ColumnDef<T>[]`                |                                                                  —                                                                  | Colunas declarativas.                                                                                        |
 | `selectable`    | `boolean`                       |                                                               `false`                                                               | Mostra checkbox por linha e “selecionar tudo”.                                                               |
+| `rowKey`        | `keyof T \| (row, i) => unknown` |                                                                  —                                                                  | Identificador estável da linha. Com ele, `selected` guarda **chaves** e a seleção sobrevive a ordenação/paginação. |
+| `selected`      | `any[]`                         |                                                                `[]`                                                                 | Seleção controlada: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`).                               |
 | `showActions`   | `boolean`                       |                                                               `false`                                                               | (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
 | `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
 | `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
@@ -128,7 +130,7 @@ export interface TableAction<T = any> {
 ### Outputs
 | Evento            | Payload                                         | Quando dispara                                            |
 |-------------------|-------------------------------------------------|-----------------------------------------------------------|
-| `selectedChange`  | `number[]`                                      | Alterou seleção (linha ou “selecionar tudo”).             |
+| `selectedChange`  | `any[]` (chaves ou índices)                     | Alterou seleção (linha ou “selecionar tudo”).             |
 | `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
 | `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
 
@@ -279,6 +281,13 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 - **Asset 404**: usando `public/` em `angular.json`, coloque o SVG em `public/icons/svg/pen-box.svg` e referencie com `/icons/svg/pen-box.svg`. Se preferir `src/assets`, inclua a pasta nos `assets` do `angular.json` e use `/assets/...`.
 - **Cor do ícone**: `<img>` usa a cor embutida no arquivo. Para herdar do CSS, use SVG **inline** com `fill="currentColor"`.
 - **Types no template**: use `$any(...)` em vez de casts TS (ex.: `$any(row)[$any(col).key]`).
+- **Seleção com ordenação/paginação**: sem `rowKey`, `selected` guarda índices de `data`, que mudam quando você ordena ou pagina fora da tabela. Passe `rowKey` para selecionar por chave:
+  ```html
+  <app-table [data]="pagedRows()" [selectable]="true" rowKey="documento"
+             [selected]="selected()" (selectedChange)="selected.set($event)">
+  </app-table>
+  ```
+  “Selecionar tudo” marca/desmarca só as linhas visíveis e preserva a seleção das outras páginas.
 
 ---
 

@@ -39,9 +39,16 @@ export class TableComponent<T = any> implements AfterContentInit {
   /** Mostra coluna de ações (usa slot appActions) */
   @Input() showActions = false;
 
-  /** linhas selecionadas por índice */
-  @Input() selected: number[] = [];
-  @Output() selectedChange = new EventEmitter<number[]>();
+  /**
+   * Identificador estável da linha (nome da propriedade ou função).
+   * Com ele, `selected` guarda **chaves** em vez de índices, e a seleção
+   * sobrevive a ordenação, paginação e filtros feitos fora da tabela.
+   */
+  @Input() rowKey?: keyof T | ((row: T, index: number) => unknown);
+
+  /** Linhas selecionadas: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`). */
+  @Input() selected: any[] = [];
+  @Output() selectedChange = new EventEmitter<any[]>();
   @Output() sortChange = new EventEmitter<{ key: string; dir: 'asc'|'desc' }>();
 
   /** evento para ações padrão (se você quiser escutar) */
@@ -66,23 +73,51 @@ export class TableComponent<T = any> implements AfterContentInit {
   }
 
   // ===== seleção =====
-  isSelected(i: number) {
-    return this.selected.includes(i);
+  /** Chave da linha usada na seleção e no trackBy (índice quando não há `rowKey`). */
+  rowId(row: T, i: number): unknown {
+    const k = this.rowKey;
+    if (k == null) return i;
+    return typeof k === 'function' ? k(row, i) : row[k];
   }
 
-  toggleRow(i: number, checked: boolean) {
-    const set = new Set(this.selected);
-    if (checked) set.add(i); else set.delete(i);
-    this.selected = [...set].sort((a,b)=>a-b);
+  private get pageIds(): unknown[] {
+    return this.data.map((row, i) => this.rowId(row, i));
+  }
+
+  private get selectedOnPage(): number {
+    return this.pageIds.filter(id => this.selected.includes(id)).length;
+  }
+
+  isSelected(row: T, i: number) {
+    return this.selected.includes(this.rowId(row, i));
+  }
+
+  toggleRow(row: T, i: number, checked: boolean) {
+    const id = this.rowId(row, i);
+    const rest = this.selected.filter(s => s !== id);
+    const next = checked ? [...rest, id] : rest;
+    // sem rowKey mantém o comportamento original (índices ordenados)
+    this.selected = this.rowKey == null ? next.sort((a, b) => a - b) : next;
     this.selectedChange.emit(this.selected);
   }
 
   get allSelected() {
-    return this.data.length > 0 && this.selected.length === this.data.length;
+    return this.data.length > 0 && this.selectedOnPage === this.data.length;
   }
 
+  get someSelected() {
+    const n = this.selectedOnPage;
+    return n > 0 && n < this.data.length;
+  }
+
+  /**
+   * Marca/desmarca as linhas visíveis. Com `rowKey`, chaves de linhas que
+   * não estão em `data` (ex.: outras páginas) são preservadas.
+   */
   toggleAll(checked: boolean) {
-    this.selected = checked ? this.data.map((_, i) => i) : [];
+    const ids = this.pageIds;
+    const rest = this.rowKey == null ? [] : this.selected.filter(s => !ids.includes(s));
+    this.selected = checked ? [...rest, ...ids] : rest;
     this.selectedChange.emit(this.selected);
   }
 
@@ -132,7 +167,7 @@ export class TableComponent<T = any> implements AfterContentInit {
   get selectW(): string { return this.toCssUnit(this.selectColWidth); }
   get actionsW(): string { return this.toCssUnit(this.actionsColWidth); }
 
-  trackByIndex = (_: number, __: unknown) => _;
+  trackByRow = (i: number, row: T) => this.rowId(row, i);
   trackByCol = (_: number, c: ColumnDef) => c.key as string;
   protected readonly String = String;
 }

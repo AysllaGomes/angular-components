@@ -8,7 +8,7 @@
         <input
           type="checkbox"
           [checked]="allSelected"
-          [indeterminate]="selected.length>0 && selected.length<data.length"
+          [indeterminate]="someSelected"
           (change)="toggleAll($any($event.target).checked)"
           aria-label="Selecionar tudo">
       </th>
@@ -40,15 +40,15 @@
 
   <!-- DADOS -->
   <tbody *ngIf="!loading && data.length > 0; else bodyEmptyOrLoading">
-    <tr *ngFor="let row of data; index as i; trackBy: trackByIndex">
+    <tr *ngFor="let row of data; index as i; trackBy: trackByRow">
       <td *ngIf="selectable"
           class="col-select"
           [style.width]="selectW"
           [style.minWidth]="selectW">
         <input
           type="checkbox"
-          [checked]="isSelected(i)"
-          (change)="toggleRow(i, $any($event.target).checked)"
+          [checked]="isSelected(row, i)"
+          (change)="toggleRow(row, i, $any($event.target).checked)"
           aria-label="Selecionar linha">
       </td>
 

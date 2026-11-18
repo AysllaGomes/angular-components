@@ -71,6 +71,42 @@ describe('DialogComponent', () => {
     expect(dialogEl(fixture)?.classList).toContain('dlg--xl');
   });
 
+  it('does not touch body overflow until it is opened', async () => {
+    fixture.destroy();
+    document.body.style.overflow = 'scroll';
+
+    const f = TestBed.createComponent(HostComponent);
+    await f.whenStable();
+    expect(document.body.style.overflow).toBe('scroll');
+
+    f.componentInstance.opened.set(true);
+    await f.whenStable();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    f.componentInstance.opened.set(false);
+    await f.whenStable();
+    expect(document.body.style.overflow).toBe('scroll');
+
+    f.destroy();
+    expect(document.body.style.overflow).toBe('scroll');
+    document.body.style.overflow = '';
+  });
+
+  it('emits openedChange only when the state changes', async () => {
+    const dlg = fixture.debugElement.children[0].componentInstance as DialogComponent;
+    const emitted: boolean[] = [];
+    dlg.openedChange.subscribe(v => emitted.push(v));
+
+    await fixture.whenStable();
+    expect(emitted).toEqual([]);
+
+    dlg.openDialog();
+    await fixture.whenStable();
+    dlg.close();
+    await fixture.whenStable();
+    expect(emitted).toEqual([true, false]);
+  });
+
   it('applies a fixed size and reacts to size changes', async () => {
     host.size.set('sm');
     host.opened.set(true);
