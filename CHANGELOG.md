@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/AysllaGomes/angular-components/compare/v1.6.0...v1.7.0) (2026-11-18)
+
+
+### Features
+
+* **dialog:** new accessible modal dialog with title, content and primary/secondary actions; sizes `sm`/`md`/`lg`/`xl`/`auto`, focus trap, ESC/backdrop close, `[dialog-actions]` slot; PT/EN docs ([198bceb](https://github.com/AysllaGomes/angular-components/commit/198bceb), [1296e57](https://github.com/AysllaGomes/angular-components/commit/1296e57), [79187d5](https://github.com/AysllaGomes/angular-components/commit/79187d5))
+* **button:** reusable `appButton` directive with variants `solid|outline|ghost|link`, tones `accent|neutral|danger` and sizes `xs|sm|md|lg`; global tokens `--neutral`/`--danger` ([cedd13a](https://github.com/AysllaGomes/angular-components/commit/cedd13af32cd309eb3570dd1e5cfc094b807039d), [48326b3](https://github.com/AysllaGomes/angular-components/commit/48326b3e0867ac49ac1480aa42356385000a1c21))
+* **toast:** container actions use `appButton` ([de36eea](https://github.com/AysllaGomes/angular-components/commit/de36eeafcd2e5dda608ea18e58188460af7cee1e))
+* **actionbar:** `auto` size control ([a36d77f](https://github.com/AysllaGomes/angular-components/commit/a36d77f294b3fa2958d15f803727778a0c1aad1c))
+* **table:** stable row selection via `rowKey`: selection survives sorting, pagination and filtering; "select all" only affects visible rows ([7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+
+
+### Changed
+
+* Dialog, Stepper, ActionBar, Pagination and Header now use `appButton` ([cedd13a](https://github.com/AysllaGomes/angular-components/commit/cedd13af32cd309eb3570dd1e5cfc094b807039d))
+* Responsive mobile stack for the table and the header ([85c3dd6](https://github.com/AysllaGomes/angular-components/commit/85c3dd6), [26ce64d](https://github.com/AysllaGomes/angular-components/commit/26ce64d))
+* Dialog and ActionBar only emit `openedChange` when the state actually changes (no emission on init) ([7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+
+
+### Bug Fixes
+
+* **dialog / actionbar:** `size="auto"` now measures the content every time it opens (it never ran before because the content is rendered with `*ngIf`); `size` changes after creation are applied ([1ad79dc](https://github.com/AysllaGomes/angular-components/commit/1ad79dc4ad58a2503dcda0e7e791b2087d4bd8b4))
+* **dialog:** only restores the body `overflow` if the instance locked it (it used to clear it on init) ([7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+* **select:** the option list updates when `options` changes after the first render ([1ad79dc](https://github.com/AysllaGomes/angular-components/commit/1ad79dc4ad58a2503dcda0e7e791b2087d4bd8b4))
+* **pagination:** invalid `pageSize` (0, negative, NaN) no longer produces `Infinity`; `pageIndex` is clamped to the valid range ([7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+* **theme / i18n:** values read from `localStorage` are validated against known lists ([7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+* **header:** full-width mobile menu with iOS safe-area ([cedd13a](https://github.com/AysllaGomes/angular-components/commit/cedd13af32cd309eb3570dd1e5cfc094b807039d))
+* **deploy:** root redirect script generated invalid JavaScript ([1ad79dc](https://github.com/AysllaGomes/angular-components/commit/1ad79dc4ad58a2503dcda0e7e791b2087d4bd8b4))
+
+
+### Tests & CI
+
+* Unit tests for Dialog, ActionBar, Select, Pagination, Table and stored preferences (29 specs); `npm run test:ci` script ([0cce600](https://github.com/AysllaGomes/angular-components/commit/0cce600), [7db76a9](https://github.com/AysllaGomes/angular-components/commit/7db76a90e904fcae65d87e037ed9a36f5c00d338))
+* Deploy runs the tests before publishing; `ci` workflow limited to PRs and non-main branches ([4f2c451](https://github.com/AysllaGomes/angular-components/commit/4f2c451))
+
 ## [1.6.0](https://github.com/AysllaGomes/angular-components/compare/v1.5.0...v1.6.0) (2025-09-07)
 ### Features
 * **header:** make header responsive with mobile menu + collapsible nav ([b18ba1b](https://github.com/AysllaGomes/angular-components/commit/b18ba1ba5310bde606f154c5ccbc9eda51f260df))

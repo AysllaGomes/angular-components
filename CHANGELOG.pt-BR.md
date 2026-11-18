@@ -2,25 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## 1.7.0 (2025-09-10)
+## [1.7.0](https://github.com/AysllaGomes/angular-components/compare/v1.6.0...v1.7.0) (2026-11-18)
 ### Added
+- **Dialog**: modal acessível com título, conteúdo e ações primária/secundária;
+  tamanhos `sm`/`md`/`lg`/`xl`/`auto`, focus trap, fechamento por ESC/backdrop,
+  slot `[dialog-actions]`; docs PT/EN.
 - `appButton` (ButtonDirective) com variantes `solid|outline|ghost|link`,
   tons `accent|neutral|danger` e tamanhos `xs|sm|md|lg`.
 - Tokens globais de botão: `--neutral`, `--danger`.
-- Paginação: modo **compact** opcional (exibe `x / y`) e prev/next com `variant="ghost"`.
+- Paginação: prev/next com `variant="ghost"`.
+- ActionBar: controle do tamanho `auto`.
+- **Tabela**: seleção por chave estável via `rowKey`; a seleção sobrevive a
+  ordenação, paginação e filtros, e “selecionar tudo” age só nas linhas visíveis.
+- Testes unitários de Dialog, ActionBar, Select, Pagination, Tabela e preferências
+  (29 specs) e script `npm run test:ci`.
 
 ### Changed
-- Dialog, Stepper, ActionBar, Pagination e Header passaram a usar `appButton`
+- Dialog, Stepper, ActionBar, Pagination, Toast e Header passaram a usar `appButton`
   onde fazia sentido (consistência visual e acessibilidade).
 - `styles.sass` agora usa `@use './app/shared/components/button/button' as *`.
+- Tabela e header com layout empilhado no mobile.
+- Dialog e ActionBar só emitem `openedChange` quando o estado muda de fato
+  (não emitem mais na inicialização).
+- CI: o deploy roda os testes antes de publicar; o workflow `ci` passou a rodar
+  só em PRs e branches que não sejam a `main`.
 
 ### Fixed
+- Dialog/ActionBar: `size="auto"` agora mede o conteúdo sempre que abre (antes
+  nunca rodava, porque o conteúdo é renderizado com `*ngIf`); mudanças em `size`
+  após a criação são aplicadas.
+- Dialog: só restaura o `overflow` do body se a própria instância o travou
+  (antes zerava o valor na inicialização).
+- Select: a lista de opções atualiza quando `options` muda após a primeira renderização.
+- Paginação: `pageSize` inválido (0, negativo, NaN) não gera mais `Infinity`;
+  `pageIndex` é limitado ao intervalo válido.
+- Tema/idioma: valores lidos do `localStorage` são validados.
+- Deploy: o script de redirect da raiz gerava JavaScript inválido.
 - Header mobile ocupa 100% da largura útil com **safe-area** em iOS.
 - Pequenos ajustes de foco/aria e responsividade.
 
 ### Migration Notes
 - Onde havia `.btn`/`.pill` “ad hoc”, prefira o `appButton`:
-  `<button appButton variant="outline" tone="neutral" size="sm">…</button>`.l.
+  `<button appButton variant="outline" tone="neutral" size="sm">…</button>`.
 
 ## [1.6.0](https://github.com/AysllaGomes/angular-components/compare/v1.5.0...v1.6.0) (2025-09-07)
 ### Added
