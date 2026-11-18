@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -6,10 +7,12 @@ import {
   Input,
   Output,
   ViewChild,
+  forwardRef,
   signal,
   computed,
   AfterViewInit
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ResponsiveMode } from '../../model/type/responsive-mode.type';
 
@@ -22,22 +25,34 @@ let uid = 0;
   standalone: true,
   imports: [],
   templateUrl: './select.component.html',
-  styleUrl: './select.component.sass'
+  styleUrl: './select.component.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    // integra com Reactive Forms (formControl/formControlName) e ngModel
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent), multi: true }
+  ]
 })
-export class SelectComponent<T = any> implements AfterViewInit {
+export class SelectComponent<T = any> implements AfterViewInit, ControlValueAccessor {
   // ---- API
   @Input() label = '';
   @Input() panelTitle: string | null = null; // título no header da sheet
   @Input() required = false;
   @Input() placeholder = '';
-  @Input() disabled = false;
+
+  /** Também controlado pelo formulário (setDisabledState). Em signal para refletir na tela sem zone.js. */
+  @Input() set disabled(v: boolean) { this._disabled.set(!!v); }
+  get disabled(): boolean { return this._disabled(); }
+  private _disabled = signal(false);
 
   /** filtro opcional no painel */
   @Input() filterable = false;
   @Input() filterPlaceholder = '';
 
   /** Mensagens / validação */
-  @Input() error: string | null = null;
+  /** Erro externo (ex.: vindo do estado do formulário). Em signal para `displayError()` recalcular. */
+  @Input() set error(v: string | null) { this._error.set(v ?? null); }
+  get error(): string | null { return this._error(); }
+  private _error = signal<string | null>(null);
   @Input() requiredLabel = 'requerido';
   @Input() requiredError = 'Campo obrigatório';
   @Input() autoValidate = true;
@@ -57,8 +72,31 @@ export class SelectComponent<T = any> implements AfterViewInit {
   set options(v: SelectOption<T>[] | null | undefined) { this._options.set(v ?? []); }
   get options(): SelectOption<T>[] { return this._options(); }
   private _options = signal<SelectOption<T>[]>([]);
-  @Input() value: T | null = null;
-  @Output() valueChange = new EventEmitter<T>();
+
+  /** Valor selecionado (two-way `[(value)]`). Com formulários, use `formControl`/`ngModel`. */
+  @Input() set value(v: T | null) { this._value.set(v ?? null); }
+  get value(): T | null { return this._value(); }
+  private _value = signal<T | null>(null);
+  @Output() valueChange = new EventEmitter<T | null>();
+
+  // ---- ControlValueAccessor
+  private onChange: (v: T | null) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  writeValue(v: T | null): void { this._value.set(v ?? null); }
+  registerOnChange(fn: (v: T | null) => void): void { this.onChange = fn; }
+  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void {
+    this._disabled.set(isDisabled);
+    if (isDisabled) this.open.set(false);
+  }
+
+  /** mudança feita pelo usuário: atualiza estado, two-way binding e formulário */
+  private commit(v: T | null) {
+    this._value.set(v);
+    this.valueChange.emit(v);
+    this.onChange(v);
+  }
 
   @ViewChild('panel')  panelEl?: ElementRef<HTMLDivElement>;
   @ViewChild('button') btnEl?:   ElementRef<HTMLButtonElement>;
@@ -117,8 +155,8 @@ export class SelectComponent<T = any> implements AfterViewInit {
   }
   clear(ev?: Event) {
     ev?.stopPropagation();
-    this.value = null as any;
-    this.valueChange.emit(this.value as any);
+    this.commit(null);
+    this.onTouched();
     if (this.required && this.autoValidate) this.internalError.set(this.requiredError);
     this.btnEl?.nativeElement.focus();
   }
@@ -127,7 +165,11 @@ export class SelectComponent<T = any> implements AfterViewInit {
   }
 
   // ---- abertura/fechamento
-  toggle() { if (!this.disabled) this.open.update(v => !v); this.postOpen(); }
+  toggle() {
+    if (this.disabled) return;
+    // fechar pelo botão também marca como tocado/valida
+    if (this.open()) this.close(); else this.openPanel();
+  }
   openPanel() { if (!this.disabled) { this.open.set(true); this.postOpen(); } }
   private postOpen() {
     if (this.open()) {
@@ -141,8 +183,7 @@ export class SelectComponent<T = any> implements AfterViewInit {
   // ---- seleção
   select(opt: SelectOption<T>, fi: number) {
     if (opt.disabled) return;
-    this.value = opt.value;
-    this.valueChange.emit(opt.value);
+    this.commit(opt.value);
     this.highlighted.set(fi);
     this.close();
     this.btnEl?.nativeElement.focus();
@@ -212,6 +253,7 @@ export class SelectComponent<T = any> implements AfterViewInit {
   onControlBlur() { if (!this.open()) this.markTouchedAndValidate(); }
 
   private markTouchedAndValidate() {
+    this.onTouched();
     if (!this.autoValidate) return;
     const empty = this.value === null || this.value === undefined || this.value === '';
     this.internalError.set(this.required && empty ? this.requiredError : null);

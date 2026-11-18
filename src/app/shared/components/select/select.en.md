@@ -108,6 +108,37 @@ options = computed<SelectOption<string>>(() => [
 ```
 > Tip: localize the clear button with the `select.clear` key.
 
+### Forms (Reactive Forms and `ngModel`)
+The component implements `ControlValueAccessor`, so it works with `formControl`, `formControlName` and `[(ngModel)]`:
+
+```ts
+category = new FormControl<string | null>(null, Validators.required);
+
+categoryError(): string | null {
+  const c = this.category;
+  return c.touched && c.hasError('required') ? 'Required field' : null;
+}
+```
+
+```html
+<app-select
+  label="Category"
+  [required]="true"
+  [autoValidate]="false"
+  [options]="options()"
+  [formControl]="category"
+  [error]="categoryError()">
+</app-select>
+
+<!-- or template-driven -->
+<app-select label="Category" [options]="options()" [(ngModel)]="category"></app-select>
+```
+
+- Selecting or clearing updates the control (`dirty`); closing the panel or leaving the field marks it `touched`.
+- The control's `disable()`/`enable()` disable the field and close the panel.
+- Validation belongs to the form (`Validators.required`). `[required]` only shows the “required” badge; use `[autoValidate]="false"` and pass the message via `[error]` to avoid duplicating the built-in validation.
+- Don't combine `[value]`/`(valueChange)` with `formControl`/`ngModel` on the same field.
+
 ---
 
 ## API
@@ -118,7 +149,7 @@ options = computed<SelectOption<string>>(() => [
 | `label`             | `string`            |                  `''` | Field label.                                            |
 | `required`          | `boolean`           |               `false` | Shows “required” badge and enables required validation. |
 | `placeholder`       | `string`            |                  `''` | Text when no selection.                                 |
-| `disabled`          | `boolean`           |               `false` | Disables the control.                                   |
+| `disabled`          | `boolean`           |               `false` | Disables the control. With forms, prefer `control.disable()`. |
 | `filterable`        | `boolean`           |               `false` | Shows a filter input inside the panel.                  |
 | `filterPlaceholder` | `string`            |                  `''` | Filter placeholder.                                     |
 | `clearable`         | `boolean`           |               `false` | Shows a small (×) **clear** button.                     |
@@ -128,12 +159,12 @@ options = computed<SelectOption<string>>(() => [
 | `autoValidate`      | `boolean`           |                `true` | Validate on blur/close.                                 |
 | `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
 | `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled? }`.                  |
-| `value`             | `T \| null`         |                `null` | Selected value.                                         |
+| `value`             | `T \| null`         |                `null` | Selected value (without forms).                         |
 
 ### Outputs
-| Event         | Payload | When                                                        |
-| ------------- | ------- | ----------------------------------------------------------- |
-| `valueChange` | `T`     | Emitted after selecting an option (or `null` when cleared). |
+| Event         | Payload     | When                                                        |
+| ------------- | ----------- | ----------------------------------------------------------- |
+| `valueChange` | `T \| null` | Emitted after selecting an option (or `null` when cleared). |
 
 ---
 
@@ -206,8 +237,8 @@ The Select uses these variables (safe to override per scope):
 ---
 
 ## Roadmap / ideas
-- [ ] **ControlValueAccessor** for `formControlName`/`ngModel`.
-- [ ] **Clear button** (×) inside the control.
+- [x] **ControlValueAccessor** for `formControlName`/`ngModel`.
+- [x] **Clear button** (×) inside the control.
 - [ ] **Typeahead while closed**: typing moves selection.
 - [ ] **Groups** (optgroup) and separators.
 - [ ] **Async** data + skeleton in panel.

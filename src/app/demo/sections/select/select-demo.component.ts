@@ -1,9 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
 import { I18nService } from '../../../shared/services/i18n.service';
 
+import { ButtonDirective } from '../../../shared/components/button/button.directive';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 
 import { SelectOption } from '../../../shared/model/interface/select/select-option.interface';
@@ -11,7 +14,7 @@ import { SelectOption } from '../../../shared/model/interface/select/select-opti
 @Component({
   selector: 'app-select-demo',
   standalone: true,
-  imports: [SelectComponent, TPipe],
+  imports: [SelectComponent, ReactiveFormsModule, ButtonDirective, TPipe],
   templateUrl: './select-demo.component.html',
   styleUrl: './select-demo.component.sass'
 })
@@ -28,4 +31,26 @@ export class SelectDemoComponent {
     { label: this.i18n.t('select.option.o1'),    value: 'o1' },
     { label: this.i18n.t('select.option.o2'),    value: 'o2' },
   ]);
+
+  // ===== Reactive Forms (ControlValueAccessor) =====
+  categoriaCtrl = new FormControl<string | null>(null, Validators.required);
+
+  /** estado do controle em signals, para exibir na demo sem zone.js */
+  ctrlValue  = toSignal(this.categoriaCtrl.valueChanges,  { initialValue: this.categoriaCtrl.value });
+  ctrlStatus = toSignal(this.categoriaCtrl.statusChanges, { initialValue: this.categoriaCtrl.status });
+
+  /** erro só depois que o usuário interagiu com o campo */
+  ctrlError(): string | null {
+    const c = this.categoriaCtrl;
+    return c.touched && c.hasError('required') ? this.i18n.t('form.required.error') : null;
+  }
+
+  toggleCtrlDisabled() {
+    const c = this.categoriaCtrl;
+    if (c.disabled) c.enable(); else c.disable();
+  }
+
+  resetCtrl() {
+    this.categoriaCtrl.reset(null);
+  }
 }

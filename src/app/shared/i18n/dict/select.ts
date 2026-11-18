@@ -51,4 +51,9 @@ export const SELECT: Dict = {
   'select.demo.notrequired.title': { pt: 'Não obrigatório', en: 'Not required' },
 
   'select.filter.placeholder':     { pt: 'Filtrar…',        en: 'Filter…' },
+
+  'select.demo.forms.title':   { pt: 'Com Reactive Forms (formControl)', en: 'With Reactive Forms (formControl)' },
+  'select.demo.forms.disable': { pt: 'Desabilitar', en: 'Disable' },
+  'select.demo.forms.enable':  { pt: 'Habilitar',   en: 'Enable' },
+  'select.demo.forms.reset':   { pt: 'Resetar',     en: 'Reset' },
 };

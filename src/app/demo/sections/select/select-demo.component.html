@@ -79,4 +79,32 @@
       [clearAriaLabel]="'select.clear' | t">
     </app-select>
   </article>
+
+  <article class="card">
+    <h3>{{ 'select.demo.forms.title' | t }}</h3>
+    <app-select
+      [label]="'select.label' | t"
+      [required]="true"
+      [autoValidate]="false"
+      [requiredLabel]="'form.required.label' | t"
+      [placeholder]="'select.placeholder' | t"
+      [options]="options()"
+      [formControl]="categoriaCtrl"
+      [error]="ctrlError()"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t">
+    </app-select>
+
+    <div class="form-state">
+      <code>value: {{ ctrlValue() ?? 'null' }} · status: {{ ctrlStatus() }}</code>
+      <div class="form-actions">
+        <button appButton="outline" tone="neutral" size="sm" type="button" (click)="toggleCtrlDisabled()">
+          {{ (ctrlStatus() === 'DISABLED' ? 'select.demo.forms.enable' : 'select.demo.forms.disable') | t }}
+        </button>
+        <button appButton="ghost" tone="neutral" size="sm" type="button" (click)="resetCtrl()">
+          {{ 'select.demo.forms.reset' | t }}
+        </button>
+      </div>
+    </div>
+  </article>
 </section>

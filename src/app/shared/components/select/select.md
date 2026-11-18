@@ -109,6 +109,37 @@ options = computed<SelectOption<string>[]>(() => [
 
 > Dica: para tradução do rótulo do botão de limpar, use a chave `select.clear`.
 
+### Formulários (Reactive Forms e `ngModel`)
+O componente implementa `ControlValueAccessor`, então funciona com `formControl`, `formControlName` e `[(ngModel)]`:
+
+```ts
+categoria = new FormControl<string | null>(null, Validators.required);
+
+erroCategoria(): string | null {
+  const c = this.categoria;
+  return c.touched && c.hasError('required') ? 'Campo obrigatório' : null;
+}
+```
+
+```html
+<app-select
+  label="Categoria"
+  [required]="true"
+  [autoValidate]="false"
+  [options]="options()"
+  [formControl]="categoria"
+  [error]="erroCategoria()">
+</app-select>
+
+<!-- ou template-driven -->
+<app-select label="Categoria" [options]="options()" [(ngModel)]="categoria"></app-select>
+```
+
+- Selecionar ou limpar atualiza o controle (`dirty`); fechar o painel ou sair do campo marca como `touched`.
+- `disable()`/`enable()` do controle desabilitam o campo e fecham o painel.
+- A validação fica no formulário (`Validators.required`). `[required]` só exibe o selo “requerido”; use `[autoValidate]="false"` e passe a mensagem em `[error]` para não duplicar a validação interna.
+- Não combine `[value]`/`(valueChange)` com `formControl`/`ngModel` no mesmo campo.
+
 ---
 
 ## API
@@ -119,7 +150,7 @@ options = computed<SelectOption<string>[]>(() => [
 | `label`             | `string`            |                  `''` | Rótulo acima do campo.                                     |
 | `required`          | `boolean`           |               `false` | Exibe o selo “requerido” e ativa validação de obrigatório. |
 | `placeholder`       | `string`            |                  `''` | Texto quando nada selecionado.                             |
-| `disabled`          | `boolean`           |               `false` | Desabilita interação.                                      |
+| `disabled`          | `boolean`           |               `false` | Desabilita interação. Com formulários, prefira `control.disable()`. |
 | `filterable`        | `boolean`           |               `false` | Mostra campo de filtro no painel.                          |
 | `filterPlaceholder` | `string`            |                  `''` | Placeholder do filtro (quando `filterable`).               |
 | `clearable`         | `boolean`           |               `false` | Mostra um botão (×) para limpar a seleção.                 |
@@ -129,12 +160,12 @@ options = computed<SelectOption<string>[]>(() => [
 | `autoValidate`      | `boolean`           |                `true` | Valida ao desfocar/fechar o painel.                        |
 | `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
 | `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled? }`.             |
-| `value`             | `T \| null`         |                `null` | Valor selecionado.                                         |
+| `value`             | `T \| null`         |                `null` | Valor selecionado (sem formulários).                       |
 
 ### Outputs
-| Evento        | Payload | Quando dispara                                                     |
-| ------------- |---------| ------------------------------------------------------------------ |
-| `valueChange` | `T`     | Ao selecionar uma opção (ou ao limpar, o componente emite `null`). |
+| Evento        | Payload     | Quando dispara                                                     |
+| ------------- |-------------| ------------------------------------------------------------------ |
+| `valueChange` | `T \| null` | Ao selecionar uma opção (ou ao limpar, o componente emite `null`). |
 
 ---
 
@@ -210,8 +241,8 @@ O Select usa estas variáveis (podem ser sobrescritas por escopo):
 
 ## Ideias de evolução
 
-- [ ] **ControlValueAccessor** (`formControlName`/`ngModel`) e estados `touched/dirty` do Angular Forms.
-- [ ] **Clear button** opcional (×) dentro do controle.
+- [x] **ControlValueAccessor** (`formControlName`/`ngModel`) e estados `touched/dirty` do Angular Forms.
+- [x] **Clear button** opcional (×) dentro do controle.
 - [ ] **Typeahead “fechado”**: digitar com o painel fechado seleciona o primeiro match.
 - [ ] **Groups** (optgroup) e separadores.
 - [ ] **Async** (carregamento remoto) + esqueleto dentro do painel.
