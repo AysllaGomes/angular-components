@@ -101,7 +101,7 @@
     color: var(--stepper-color-number-active)
 
   .label
-    color: var(--stepper-color-active)
+    color: var(--stepper-color-label-active, var(--stepper-color-active))
 
   .connector
     background: var(--stepper-connector)
@@ -132,7 +132,7 @@
 
 /* força o label do passo ativo a usar o accent (mais específico que .texts .label) */
 .stepper-item.is-active .texts .label
-  color: var(--stepper-color-active)
+  color: var(--stepper-color-label-active, var(--stepper-color-active))
 
 /* (opcional) se quiser o texto das etapas concluídas também no accent */
 .stepper-item.is-done .texts .label
@@ -144,7 +144,7 @@
   outline-offset: 2px
 
 .stepper-item.is-active .texts .caption
-  color: var(--stepper-color-active)
+  color: var(--stepper-color-label-active, var(--stepper-color-active))
 
 @media (max-width: 720px)
   .stepper-item .texts .caption

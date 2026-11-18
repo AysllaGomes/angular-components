@@ -59,10 +59,13 @@ button[appButton], a[appButton]
   /* ===== mapear "tone" para cor de trabalho */
   &.btn--accent
     --_tone: var(--accent)
+    --_tone-text: var(--accent-text, var(--accent))
   &.btn--neutral
     --_tone: var(--neutral, #64748b)
+    --_tone-text: var(--_tone)
   &.btn--danger
     --_tone: var(--danger, #ef4444)
+    --_tone-text: var(--_tone)
 
   /* ===== variantes ===== */
   &.btn--solid
@@ -77,8 +80,8 @@ button[appButton], a[appButton]
 
   &.btn--ghost
     background: transparent
-    color: var(--_tone)
-    border-color: color-mix(in srgb, var(--_tone) 55%, transparent)
+    color: var(--_tone-text, var(--_tone))
+    border-color: color-mix(in srgb, var(--_tone-text, var(--_tone)) 55%, transparent)
     &:hover
       background: color-mix(in srgb, var(--_tone) 12%, transparent)
     &:focus-visible
@@ -87,8 +90,8 @@ button[appButton], a[appButton]
 
   &.btn--outline
     background: transparent
-    color: var(--_tone)
-    border-color: var(--_tone)
+    color: var(--_tone-text, var(--_tone))
+    border-color: var(--_tone-text, var(--_tone))
     &:hover
       background: color-mix(in srgb, var(--_tone) 10%, transparent)
     &:focus-visible
@@ -117,7 +120,7 @@ button[appButton], a[appButton]
     background: transparent
     border-color: transparent
     padding: 0
-    color: var(--_tone)
+    color: var(--_tone-text, var(--_tone))
     text-decoration: underline
     text-underline-offset: 2px
     &:hover

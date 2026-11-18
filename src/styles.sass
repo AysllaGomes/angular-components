@@ -10,15 +10,19 @@
 @use './app/shared/components/button/button' as *
 
 :root
+  color-scheme: light
   /* cor de marca/acento base (padrão = teal) */
   --accent: #058075
+  /* destaque usado como TEXTO/BORDA sobre a superfície (no escuro fica mais claro p/ contraste) */
+  --accent-text: var(--accent)
 
   /* Stepper herda do accent */
   --stepper-color-active: var(--accent)
-  --stepper-color-done:   var(--accent)
+  --stepper-color-label-active: var(--accent-text)
+  --stepper-color-done:   var(--accent-text)
 
   /* Table/Pagination/Toast usando accent */
-  --tbl-action: var(--accent)
+  --tbl-action: var(--accent-text)
   --pg-active-bg: var(--accent)
   --pg-active-fg: #ffffff
   --pg-page-bg: #f2f4f7
@@ -133,6 +137,8 @@
    DARK THEME (mantém o que você já tinha)
    ========================================================== */
 :root[data-theme="dark"]
+  /* controles nativos (checkbox, scrollbar, select) no esquema escuro */
+  color-scheme: dark
   --hdr-bg: #0c0d10
   --hdr-border: #273142
   --hdr-link: #e5e7eb
@@ -155,7 +161,29 @@
   --stepper-text: var(--fg)
   --stepper-caption: #96a0ad
   --stepper-color-default: #3b3f4a
-  --stepper-connector: #262a35
+  --stepper-connector: #3a3f4b
+  --stepper-bullet-bg: var(--surface)
+  --stepper-color-disabled: #2e3340
+
+  --accent-text: color-mix(in srgb, var(--accent) 55%, white)
+
+  /* Tabela */
+  --tbl-row-bg: var(--surface)
+  --tbl-row-gray-medium: var(--surface-2)
+  --tbl-row-border: var(--border)
+  --tbl-fg: var(--fg)
+  --tbl-muted: var(--muted)
+
+  /* Chips */
+  --chip-teal-bg: transparent
+  --chip-teal-border: #2dd4bf
+  --chip-teal-fg: #5eead4
+  --chip-orange-bg: transparent
+  --chip-orange-border: #fb923c
+  --chip-orange-fg: #fdba74
+
+  /* Toasts */
+  --toast-shadow: 0 6px 20px rgba(0,0,0,.45)
 
   /* Select */
   --sel-bg: var(--surface)
@@ -201,7 +229,7 @@
 
   /* paginação (dark) */
   --pg-active-bg: var(--accent)
-  --pg-active-fg: #0b1220
+  --pg-active-fg: #ffffff
   /* se preferir mais escuro, pode usar #111 */
   --pg-page-bg: #1f2937
   /* chips neutros */
