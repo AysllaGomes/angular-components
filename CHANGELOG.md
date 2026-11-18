@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/AysllaGomes/angular-components/compare/v1.7.0...v1.8.0) (2026-11-18)
+
+
+### Features
+
+* **select:** Angular Forms integration via `ControlValueAccessor`: works with `formControl`, `formControlName` and `[(ngModel)]` (value, `dirty`, `touched`, `disable()`/`enable()`); new Reactive Forms demo and docs section ([9c9a731](https://github.com/AysllaGomes/angular-components/commit/9c9a731205970f674d01ea0d307e63b83b25363c))
+* **i18n:** `<html lang>` follows the current language ([92d51bb](https://github.com/AysllaGomes/angular-components/commit/92d51bbf3948755fce0f93c25ac34134c5545c94))
+
+
+### Changed
+
+* All components use signal APIs: `input()`, `model()`, `output()`, `viewChild()`/`contentChild()`; `linkedSignal` for state that follows an input but can change internally (Select value, Table selection/sorting) ([e142995](https://github.com/AysllaGomes/angular-components/commit/e142995))
+* Templates migrated to built-in control flow (`@if`/`@for`/`@switch`) with explicit `track` keys (Table rows use `rowKey`) ([36c72a2](https://github.com/AysllaGomes/angular-components/commit/36c72a2))
+* Dialog/ActionBar `size="auto"` handled by an `effect` that disconnects its `ResizeObserver` automatically ([e142995](https://github.com/AysllaGomes/angular-components/commit/e142995))
+* `index.html`: proper title, `lang="pt-BR"` and meta description ([92d51bb](https://github.com/AysllaGomes/angular-components/commit/92d51bbf3948755fce0f93c25ac34134c5545c94))
+* CI and deploy run on Node 24 (from `.nvmrc`) with npm cache ([9ee6f9b](https://github.com/AysllaGomes/angular-components/commit/9ee6f9b))
+
+
+### Bug Fixes
+
+* **theme:** no more light-theme flash on load with SSR: saved theme, accent and language are applied before first paint ([92d51bb](https://github.com/AysllaGomes/angular-components/commit/92d51bbf3948755fce0f93c25ac34134c5545c94))
+* **select:** `[error]` now updates after the first render; closing the panel with the button marks the field as touched and validates ([9c9a731](https://github.com/AysllaGomes/angular-components/commit/9c9a731205970f674d01ea0d307e63b83b25363c))
+* **select:** component styles back under the 4 kB budget (build without warnings) ([92d51bb](https://github.com/AysllaGomes/angular-components/commit/92d51bbf3948755fce0f93c25ac34134c5545c94))
+* **table:** skeleton rows no longer produce duplicate `track` keys; action buttons are not recreated on every change detection ([36c72a2](https://github.com/AysllaGomes/angular-components/commit/36c72a2))
+
+
+### Migration Notes
+
+* Templates need no changes: `[(opened)]`, `[(value)]`, `(selectedChange)`, `(sortChange)` etc. keep working.
+* Code that reached into component instances (e.g. via `#ref` or `viewChild`) may need updates: Dialog/ActionBar `open` is now `opened` (a `model()` signal), `appButton`'s `variant` is now a signal (`variant()`), and internal element refs became private.
+* `valueChange` of the Select is typed `T | null` (clearing already emitted `null`).
+
 ## [1.7.0](https://github.com/AysllaGomes/angular-components/compare/v1.6.0...v1.7.0) (2026-11-18)
 
 

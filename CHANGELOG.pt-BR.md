@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/AysllaGomes/angular-components/compare/v1.7.0...v1.8.0) (2026-11-18)
+### Added
+- **Select** integrado ao Angular Forms via `ControlValueAccessor`: funciona com
+  `formControl`, `formControlName` e `[(ngModel)]` (valor, `dirty`, `touched`,
+  `disable()`/`enable()`); nova demo com Reactive Forms e seção nos docs.
+- `<html lang>` acompanha o idioma atual.
+
+### Changed
+- Todos os componentes usam as APIs de signals: `input()`, `model()`, `output()`,
+  `viewChild()`/`contentChild()`; `linkedSignal` para estados que seguem um input
+  mas mudam internamente (valor do Select, seleção/ordenação da Tabela).
+- Templates migrados para o control flow nativo (`@if`/`@for`/`@switch`) com
+  chaves de `track` explícitas (linhas da Tabela usam o `rowKey`).
+- `size="auto"` do Dialog/ActionBar agora é um `effect` que desliga o
+  `ResizeObserver` automaticamente.
+- `index.html`: título, `lang="pt-BR"` e meta description.
+- CI e deploy rodam no Node 24 (lido do `.nvmrc`) com cache do npm.
+
+### Fixed
+- Tema: sem “piscada” do tema claro ao carregar com SSR; tema, cor de destaque e
+  idioma salvos são aplicados antes da primeira pintura.
+- Select: `[error]` passa a atualizar após a primeira renderização; fechar o
+  painel pelo botão marca o campo como tocado e valida.
+- Select: estilos de volta abaixo do limite de 4 kB (build sem avisos).
+- Tabela: skeleton sem chaves de `track` duplicadas; botões de ação não são mais
+  recriados a cada detecção de mudanças.
+
+### Migration Notes
+- Templates não precisam de mudanças: `[(opened)]`, `[(value)]`, `(selectedChange)`,
+  `(sortChange)` etc. continuam funcionando.
+- Código que acessava a instância dos componentes (via `#ref` ou `viewChild`) pode
+  precisar de ajuste: `open` do Dialog/ActionBar agora é `opened` (um `model()`),
+  o `variant` do `appButton` virou signal (`variant()`) e as referências internas
+  de elementos ficaram privadas.
+- `valueChange` do Select é tipado como `T | null` (limpar já emitia `null`).
+
 ## [1.7.0](https://github.com/AysllaGomes/angular-components/compare/v1.6.0...v1.7.0) (2026-11-18)
 ### Added
 - **Dialog**: modal acessível com título, conteúdo e ações primária/secundária;
