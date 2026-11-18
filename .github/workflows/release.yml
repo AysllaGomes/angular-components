@@ -1,14 +1,60 @@
 # .github/workflows/release.yml
+# Cria a GitHub Release de uma tag vX.Y.Z usando a seção correspondente do
+# CHANGELOG.md como notas.
+# - push de tag: automático (a release vira a "Latest")
+# - manual (Actions → gh-release → Run workflow): cria/atualiza a release de
+#   uma tag já existente, útil para releases que falharam
 name: gh-release
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag existente (ex.: v1.8.0)'
+        required: true
+        type: string
+      latest:
+        description: 'Marcar como "Latest"? (use só para a versão mais recente)'
+        required: false
+        type: boolean
+        default: false
+
+# o GITHUB_TOKEN é somente leitura por padrão; criar releases exige escrita
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Extrai as notas da versão do CHANGELOG.md
+        id: notes
+        run: |
+          VERSION="${TAG#v}"
+          # conteúdo entre "## [VERSION]" e o próximo cabeçalho "## "
+          awk -v v="$VERSION" '
+            /^## / { if (found) exit; if (index($0, "[" v "]")) { found = 1; next } }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ -s release-notes.md ] && grep -q '[^[:space:]]' release-notes.md; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Seção ${VERSION} não encontrada no CHANGELOG.md; usando notas geradas pelo GitHub."
+          fi
+
       - uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          body_path: ${{ steps.notes.outputs.found == 'true' && 'release-notes.md' || '' }}
+          generate_release_notes: ${{ steps.notes.outputs.found != 'true' }}
+          make_latest: ${{ github.event_name == 'push' || inputs.latest }}
