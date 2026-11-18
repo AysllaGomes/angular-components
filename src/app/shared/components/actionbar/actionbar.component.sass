@@ -2,6 +2,10 @@
   position: relative
   z-index: 60
 
+/* fechado não ocupa espaço no layout de quem o usa (ex.: gaps de grid/flex) */
+:host(:not(.is-open))
+  display: none
+
 /* Backdrop (ocupa a tela toda) */
 .ab
   position: fixed

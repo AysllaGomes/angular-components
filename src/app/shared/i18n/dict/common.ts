@@ -27,7 +27,7 @@ export const COMMON: Dict = {
     en: 'Toast'
   },
   'nav.actionbar': { pt: 'ActionBar', en: 'Action bar' },
-  'nav.dialog': { pt: 'Modal', en: 'Dialog' },
+  'nav.dialog': { pt: 'Dialog', en: 'Dialog' },
   'nav.button': { pt: 'Button', en: 'Button' },
 
   'header.menu': {
@@ -86,7 +86,7 @@ export const COMMON: Dict = {
     en: 'This field is required'
   },
   'form.hint': {
-    pt: 'Hint',
-    en: 'Message hint'
+    pt: 'Texto de apoio exibido abaixo do campo.',
+    en: 'Helper text shown below the field.'
   }
 };

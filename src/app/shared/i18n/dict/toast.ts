@@ -15,7 +15,7 @@ export const TOAST: Dict = {
   'toast.btn.warn':    { pt: 'Alerta',   en: 'Warning' },
   'toast.btn.ghost':   { pt: 'Com ação', en: 'With action' },
   'toast.btn.many':    { pt: 'Vários de uma vez', en: 'Many at once' },
-  'toast.btn.sticky':  { pt: 'Ficar na tela (duration: 0)', en: 'Sticky (duration: 0)' },
+  'toast.btn.sticky':  { pt: 'Persistente', en: 'Persistent' },
 
   // mensagens
   'toast.msg.success': { pt: 'Mensagem de sucesso.', en: 'Success message.' },

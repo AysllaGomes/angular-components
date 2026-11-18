@@ -29,7 +29,6 @@ import {ButtonDemoComponent} from './sections/button/button-demo.component';
     ButtonDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  styleUrl: './demo-page.component.sass'
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class DemoPageComponent {}

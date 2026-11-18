@@ -17,7 +17,9 @@
   display: grid
   grid-template-columns: 1fr auto
   align-items: center
-  gap: .5rem
+  /* espaço só quando o "×" existe (o gap reservaria 8px à direita sempre) */
+  > .clear-btn
+    margin-left: .5rem
 
 .control
   appearance: none

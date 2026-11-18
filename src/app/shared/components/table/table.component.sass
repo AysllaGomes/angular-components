@@ -206,6 +206,9 @@ td.empty
       overflow-wrap: anywhere
       word-break: break-word
       white-space: normal
+      /* no card, rótulo e valor sempre alinhados à esquerda (ignora o align da coluna) */
+      &, &.align-center, &.align-right
+        text-align: start
 
       &::before
         content: attr(data-label)
@@ -217,10 +220,6 @@ td.empty
         grid-template-columns: minmax(9ch, 42%) auto
         > *:last-child
           justify-self: end
-
-      &.align-center
-        > *:last-child
-          justify-self: center
 
       /* chips e ícones não “estouram” */
       .chip

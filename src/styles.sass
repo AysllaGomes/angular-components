@@ -232,8 +232,12 @@
 html, body
   background: var(--bg)
   color: var(--fg)
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif
   margin: 0
+
+/* controles de formulário herdam a fonte da página (o padrão do navegador é Arial) */
+button, input, select, textarea
+  font: inherit
 
 /* largura padrão das seções */
 .container
@@ -241,9 +245,46 @@ html, body
   margin: 0 auto
   padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right))
 
-/* espaço das seções da demo */
+/* ==========================================================
+   Layout da demo (compartilhado por todas as seções)
+   Fica no global porque cada seção é um componente com estilos
+   encapsulados: regras no demo-page não alcançam os filhos.
+
+   `minmax(0, 1fr)`: por padrão um item de grid não encolhe abaixo
+   da largura do próprio conteúdo; sem isso, Stepper/Tabela empurram
+   a coluna e a página fica mais larga que a tela no celular.
+   ========================================================== */
 .demo-main
+  display: grid
+  grid-template-columns: minmax(0, 1fr)
+  gap: 2.5rem
   padding-block: 24px
+
+.demo-section
+  display: grid
+  grid-template-columns: minmax(0, 1fr)
+  gap: 1rem
+
+  > h2
+    font-size: 1.5rem
+    margin: 0
+
+  > .lead
+    color: var(--muted)
+    margin: -.5rem 0 0
+
+.card
+  display: grid
+  grid-template-columns: minmax(0, 1fr)
+  gap: .75rem
+  padding: 1rem
+  border: 1px solid var(--border)
+  border-radius: .75rem
+  background: var(--surface)
+
+  > h3
+    font-size: 1.05rem
+    margin: 0
 
 /* quando navegar por #âncoras, não colar no header sticky */
 [id]
