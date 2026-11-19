@@ -18,4 +18,12 @@ export const PAGINATION: Dict = {
   'pagination.prev':        { pt: 'Anterior', en: 'Prev' },
   'pagination.next':        { pt: 'Próxima',  en: 'Next' },
   'pagination.last':        { pt: 'Última',   en: 'Last' },
+  'pagination.status':      { pt: 'Página {{page}} de {{total}}', en: 'Page {{page}} of {{total}}' },
+
+  // demo do modo compacto
+  'pagination.demo.compact.title': { pt: 'Compacto', en: 'Compact' },
+  'pagination.demo.compact.note':  {
+    pt: 'Com compact="auto" (usado acima), a paginação vira compacta só em telas de até 420px.',
+    en: 'With compact="auto" (used above), the pagination turns compact only on screens up to 420px.'
+  },
 };

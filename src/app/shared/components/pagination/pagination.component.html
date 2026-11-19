@@ -1,4 +1,8 @@
-<nav class="pg" aria-label="Pagination">
+<nav
+  class="pg"
+  [class.pg--compact]="compact() === true"
+  [class.pg--auto]="compact() === 'auto'"
+  aria-label="Pagination">
   <button
     appButton="ghost"
     size="sm"
@@ -8,6 +12,11 @@
     aria-label="{{ 'pagination.prev' | t }}">
     ‹
   </button>
+
+  <!-- modo compacto: texto no lugar dos números (escondido por CSS fora dele) -->
+  <span class="pg-status" aria-live="polite">
+    {{ 'pagination.status' | t:{ page: current + 1, total: pageCount } }}
+  </span>
 
   <div class="pg-pages" role="list">
     @for (p of pages(); track p) {

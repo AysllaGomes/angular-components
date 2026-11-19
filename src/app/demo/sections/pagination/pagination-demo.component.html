@@ -23,9 +23,24 @@
           [pageSize]="pageSize()"
           [pageIndex]="pageIndex()"
           [maxVisible]="5"
+          compact="auto"
           (pageChange)="pageIndex.set($event)">
         </app-pagination>
       }
     </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'pagination.demo.compact.title' | t }}</h3>
+    <div class="pager-wrap">
+      <app-pagination
+        [total]="total()"
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        compact
+        (pageChange)="pageIndex.set($event)">
+      </app-pagination>
+    </div>
+    <small class="muted">{{ 'pagination.demo.compact.note' | t }}</small>
   </article>
 </section>

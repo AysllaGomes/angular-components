@@ -24,6 +24,14 @@ export class PaginationComponent {
   readonly pageIndex = input(0);
   /** máx. de botões numéricos visíveis */
   readonly maxVisible = input(5);
+  /**
+   * Modo compacto: troca os números por "Página X de Y" entre as setas.
+   * `true` sempre; `'auto'` só em telas estreitas (≤ 420px, via CSS); `false` (padrão) nunca.
+   * Também aceita o atributo vazio: `<app-pagination compact>`.
+   */
+  readonly compact = input<boolean | 'auto', boolean | 'auto' | ''>(false, {
+    transform: v => v === '' ? true : v
+  });
 
   /** emite o novo índice (0-based) */
   readonly pageChange = output<number>();

@@ -100,4 +100,50 @@ describe('PaginationComponent', () => {
 
     expect(emitted).toEqual([1, 1]);
   });
+
+  describe('compact mode', () => {
+    const nav = () => (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('nav.pg')!;
+    const status = () => (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('.pg-status')!;
+
+    beforeEach(() => {
+      set('total', 100);
+      set('pageSize', 10);
+      set('pageIndex', 2);
+    });
+
+    it('is off by default (no compact classes)', async () => {
+      await fixture.whenStable();
+      expect(nav().classList).not.toContain('pg--compact');
+      expect(nav().classList).not.toContain('pg--auto');
+    });
+
+    it('compact=true marks the nav and shows "page X of Y" for the current page', async () => {
+      set('compact', true);
+      await fixture.whenStable();
+      expect(nav().classList).toContain('pg--compact');
+      expect(status().textContent).toMatch(/\b3\b.*\b10\b/);
+      expect(status().getAttribute('aria-live')).toBe('polite');
+    });
+
+    it('the status follows page changes', async () => {
+      set('compact', true);
+      set('pageIndex', 9);
+      await fixture.whenStable();
+      expect(status().textContent).toMatch(/\b10\b.*\b10\b/);
+    });
+
+    it("compact='auto' uses the responsive class instead", async () => {
+      set('compact', 'auto');
+      await fixture.whenStable();
+      expect(nav().classList).toContain('pg--auto');
+      expect(nav().classList).not.toContain('pg--compact');
+    });
+
+    it('accepts the bare attribute (empty string) as true', async () => {
+      set('compact', '');
+      await fixture.whenStable();
+      expect(cmp.compact()).toBe(true);
+      expect(nav().classList).toContain('pg--compact');
+    });
+  });
 });

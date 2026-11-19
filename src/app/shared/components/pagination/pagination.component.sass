@@ -35,11 +35,24 @@
     height: 28px
     font-size: .85rem
 
+/* ===== modo compacto: "Página X de Y" no lugar dos números ===== */
+.pg-status
+  display: none
+  margin-inline: .5rem
+  color: var(--pg-fg)
+  font-size: .9rem
+  white-space: nowrap
+
+@mixin compact
+  .pg-pages
+    display: none
+  .pg-status
+    display: inline
+
+.pg--compact
+  @include compact
+
+/* 'auto': compacto só em telas estreitas */
 @media (max-width: 420px)
-  .pg.compact
-    .pg-pages
-      display: none
-    .pg-status
-      margin-inline: .25rem
-      color: var(--pg-fg)
-      font-size: .9rem
+  .pg--auto
+    @include compact

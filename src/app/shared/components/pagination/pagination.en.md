@@ -25,6 +25,7 @@ src/app/shared/components/pagination/
 | `pageSize`   | `number`  | `10`   | Items per page. |
 | `pageIndex`  | `number`  | `0`    | Zero‑based page index. |
 | `maxVisible` | `number`  | `5`    | Maximum visible numeric buttons. |
+| `compact`    | `boolean \| 'auto'` | `false` | `true`: shows "Page X of Y" between the arrows instead of numbers. `'auto'`: only on screens ≤ 420px (CSS). Accepts the bare attribute (`compact`). |
 
 ### Output
 | Output      | Payload  | When |
@@ -35,6 +36,7 @@ Behavior:
 - Only renders when `pageCount > 1`.
 - Prev/Next disabled at bounds.
 - Sliding window for numeric buttons up to `maxVisible`.
+- In compact mode, the "Page X of Y" text has `aria-live="polite"`, so screen readers announce page changes.
 - Accessible labels and `aria-current="page"` on the active button.
 
 ---
@@ -92,4 +94,4 @@ pagedRows = computed(() => {
 ## Roadmap
 - [ ] First/Last buttons (optional)
 - [ ] Keyboard shortcuts (←/→)
-- [ ] Compact density
+- [x] Compact mode (`compact` = `true` / `'auto'`)

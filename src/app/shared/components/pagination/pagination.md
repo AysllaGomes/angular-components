@@ -31,6 +31,7 @@ src/app/shared/components/pagination/
 | `pageSize`  | `number`    | `10`   | Itens por página. |
 | `pageIndex` | `number`    | `0`    | Índice da página atual (**0‑based**). |
 | `maxVisible`| `number`    | `5`    | Máximo de botões numéricos exibidos. |
+| `compact`   | `boolean \| 'auto'` | `false` | `true`: mostra "Página X de Y" entre as setas no lugar dos números. `'auto'`: só em telas ≤ 420px (CSS). Aceita o atributo vazio (`compact`). |
 
 ### Outputs
 | Evento       | Payload   | Quando dispara |
@@ -42,6 +43,7 @@ src/app/shared/components/pagination/
 - `pageSize` inválido (0, negativo) é tratado como 1 e `pageIndex` fora do intervalo é ajustado.
 - Botões “‹/›” são desativados no início/fim.
 - Numeração exibida com janela deslizante até `maxVisible`.
+- No modo compacto, o texto "Página X de Y" tem `aria-live="polite"`: leitores de tela anunciam a troca de página.
 - Acessível: `aria-label`/`aria-current`, foco visível.
 
 ---
@@ -127,4 +129,4 @@ Defina no wrapper (ou globalmente) — o componente já possui *fallbacks*:
 ## Roadmap
 - [ ] Botão “Primeira/Última” (opcional).
 - [ ] Atalhos de teclado (←/→).
-- [ ] Versão compacta.
+- [x] Versão compacta (`compact` = `true` / `'auto'`).
