@@ -102,6 +102,8 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-tree-select label="Cidades" responsive="menu" selectionMode="checkbox" filterable
                          filterPlaceholder="Filtrar" [nodes]="tree" [value]="['santos']"
                          [expandedKeys]="['br', 'sp']" error="Revise a seleção" />
+        <app-tree-select label="Estados" responsive="menu" selectionMode="checkbox" valueMode="summary"
+                         [nodes]="lazyTree" [loadChildren]="failLoad" [value]="['ba']" />
       </section>
 
       <!-- Tabs: contador, rótulo próprio, desabilitada, sob demanda -->
@@ -145,6 +147,8 @@ class GalleryComponent {
   options = OPTIONS;
   plans = [{ label: 'Básico', value: 'basic', description: 'Grátis' }, { label: 'Pro', value: 'pro' }, { label: 'Empresa', value: 'ent', disabled: true }];
   tree = TREE;
+  lazyTree: TreeNode[] = [{ key: 'sp', label: 'São Paulo', leaf: false }, { key: 'ba', label: 'Bahia', leaf: false }];
+  failLoad = () => Promise.reject(new Error('500'));
   steps = [{ label: 'Entrega', caption: 'Endereço' }, { label: 'Produto' }, { label: 'Resumo' }];
   columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }, { key: 'tipo', header: 'Tipo' }];
   rows: Row[] = [{ id: 'a', nome: 'Ana', tipo: 'Titular' }, { id: 'b', nome: 'Bruno', tipo: 'Adicional' }];
@@ -203,6 +207,17 @@ describe('Acessibilidade (axe-core)', () => {
     await open(single);
     await expectNoA11yViolations(section('treeselect'));
     await open(multi);
+    await expectNoA11yViolations(section('treeselect'));
+  });
+
+  it('TreeSelect sob demanda: aberto, com erro de carregamento anunciado', async () => {
+    const lazy = section('treeselect').querySelectorAll<HTMLElement>('app-tree-select')[2];
+    await open(lazy);
+    lazy.querySelector<HTMLElement>('.twisty')!.click();
+    await new Promise(r => setTimeout(r));
+    await fixture.whenStable();
+    expect(lazy.querySelector('.node-error')).not.toBeNull();
+    expect(lazy.querySelector('[role="status"]')!.textContent).toContain('São Paulo');
     await expectNoA11yViolations(section('treeselect'));
   });
 

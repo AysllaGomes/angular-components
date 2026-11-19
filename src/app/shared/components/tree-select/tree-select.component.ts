@@ -15,23 +15,30 @@ import {
   linkedSignal,
   output,
   signal,
-  viewChild
+  viewChild,
+  WritableSignal
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Observable, firstValueFrom, isObservable } from 'rxjs';
 
 import { CheckState, CheckboxMarkComponent } from '../checkbox/checkbox-mark.component';
-import { checkState, filterTree, indexTree, normalize, toggleLeaves, visibleLeaves } from './tree-utils';
+import {
+  attachChildren, checkState, expandSelection, filterTree, indexTree, leafValue, normalize, summaryValue, toggleLeaves, visibleLeaves
+} from './tree-utils';
 
 import { ResponsiveMode } from '../../model/type/responsive-mode.type';
-import { TreeNode, TreeSelectionMode } from '../../model/interface/tree-select/tree-node.interface';
+import { TreeNode, TreeSelectionMode, TreeValueMode } from '../../model/interface/tree-select/tree-node.interface';
 
 let uid = 0;
 
 /** tempo (ms) sem digitar até o typeahead recomeçar a busca */
 const TYPEAHEAD_RESET_MS = 500;
 
-/** valor: key (single) ou lista de keys das folhas (checkbox) */
+/** valor: key (single) ou lista de keys (checkbox: folhas, ou grupos completos no `summary`) */
 export type TreeSelectValue = string | string[] | null;
+
+/** carrega os filhos de um nó `leaf: false` (ex.: de uma API) */
+export type TreeChildrenLoader<T = unknown> = (node: TreeNode<T>) => Promise<TreeNode<T>[]> | Observable<TreeNode<T>[]>;
 
 /** uma linha visível do painel (árvore achatada na ordem de exibição) */
 export interface TreeRow<T = unknown> {
@@ -49,9 +56,11 @@ export interface TreeRow<T = unknown> {
  *
  * - `single`: escolhe um nó; o campo mostra o caminho ("Brasil › SP › Campinas").
  * - `checkbox`: marca vários; marcar um grupo marca as folhas dele; grupo parcial
- *   mostra "−". O valor são as keys das **folhas** marcadas (nunca a de um grupo).
+ *   mostra "−". O valor são as keys das **folhas** marcadas; com `valueMode="summary"`,
+ *   um grupo completo vira a key do grupo.
+ * - `loadChildren`: nós `leaf: false` buscam os filhos ao serem abertos.
  *
- * O componente só apresenta: recebe a árvore pronta e devolve keys.
+ * O componente só apresenta: recebe a árvore (ou o carregador) e devolve keys.
  */
 @Component({
   selector: 'app-tree-select',
@@ -79,6 +88,13 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   readonly pathSeparator = input(' › ');
   /** `checkbox`: quantos chips mostrar antes do "+N" */
   readonly maxChips = input(3);
+  /** `checkbox`: `leaves` (keys das folhas) ou `summary` (grupo completo vira a key do grupo) */
+  readonly valueMode = input<TreeValueMode>('leaves');
+
+  /** carrega os filhos dos nós `leaf: false` ao abri-los (Promise ou Observable) */
+  readonly loadChildren = input<TreeChildrenLoader<T> | null>(null);
+  readonly loadingLabel = input('Carregando…');
+  readonly loadErrorLabel = input('Não foi possível carregar. Abra de novo para tentar.');
 
   readonly filterable = input(false, { transform: booleanAttribute });
   readonly filterPlaceholder = input('');
@@ -110,17 +126,31 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
 
   /** valor atual: segue `value`, mas muda pelo usuário/formulário sem emitir `valueChange` */
   readonly current = linkedSignal<TreeSelectValue>(() => this.value() ?? this.emptyValue());
+  /** checkbox: unidades marcadas (keys de grupo do valor já viram as unidades deles) */
   readonly selected = computed<ReadonlySet<string>>(() => {
     const v = this.current();
-    return new Set(Array.isArray(v) ? v : v != null && v !== '' ? [v] : []);
+    const keys = Array.isArray(v) ? v : v != null && v !== '' ? [v] : [];
+    return this.isCheckbox() ? expandSelection(keys, this.index()) : new Set(keys);
   });
 
-  readonly index = computed(() => indexTree(this.nodes()));
+  // ---- carregamento sob demanda (zera quando a árvore de entrada muda)
+  private readonly loaded = linkedSignal<TreeNode<T>[], ReadonlyMap<string, TreeNode<T>[]>>({
+    source: this.nodes,
+    computation: () => new Map(),
+  });
+  readonly loading = signal<ReadonlySet<string>>(new Set());
+  readonly failed = signal<ReadonlySet<string>>(new Set());
+  /** anúncio para leitor de tela (carregando / erro) */
+  readonly liveMessage = signal('');
+
+  /** árvore efetiva: a de entrada com os filhos já carregados */
+  readonly tree = computed(() => attachChildren(this.nodes(), this.loaded()));
+  readonly index = computed(() => indexTree(this.tree()));
   readonly expanded = linkedSignal(() => new Set(this.expandedKeys()));
 
   readonly open = signal(false);
   readonly filter = signal('');
-  private readonly filtered = computed(() => this.filter().trim() ? filterTree(this.nodes(), this.filter()) : null);
+  private readonly filtered = computed(() => this.filter().trim() ? filterTree(this.tree(), this.filter()) : null);
 
   /** linhas visíveis: com filtro, tudo que combina fica aberto */
   readonly rows = computed<TreeRow<T>[]>(() => {
@@ -129,11 +159,14 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
     const out: TreeRow<T>[] = [];
     const walk = (list: TreeNode<T>[], level: number) => list.forEach((node, i) => {
       const kids = f ? f.children.get(node.key) ?? [] : node.children ?? [];
-      const expanded = kids.length > 0 && (!!f || open.has(node.key));
-      out.push({ key: node.key, node, level, posinset: i + 1, setsize: list.length, hasChildren: kids.length > 0, expanded });
+      // nó sob demanda ainda sem filhos: tem a seta (abrir = carregar); com filtro, fica fechado
+      const pending = !f && !node.children?.length && node.leaf === false;
+      const hasChildren = kids.length > 0 || pending;
+      const expanded = hasChildren && (!!f || open.has(node.key));
+      out.push({ key: node.key, node, level, posinset: i + 1, setsize: list.length, hasChildren, expanded });
       if (expanded) walk(kids, level + 1);
     });
-    walk(f ? f.roots : this.nodes(), 1);
+    walk(f ? f.roots : this.tree(), 1);
     return out;
   });
 
@@ -163,16 +196,21 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   readonly selectedPath = computed(() => {
     const v = this.current();
     if (this.isCheckbox() || typeof v !== 'string') return null;
-    return this.index().get(v)?.path.join(this.pathSeparator()) ?? null;
+    // nó ainda não carregado: sem caminho, mostra a key
+    return this.index().get(v)?.path.join(this.pathSeparator()) ?? v;
   });
-  /** `checkbox`: rótulos das folhas marcadas, na ordem da árvore */
+  /** `checkbox`: rótulos do valor, na ordem da árvore (no `summary`, o grupo aparece como um chip só) */
   readonly selectedLabels = computed(() => {
     if (!this.isCheckbox()) return [];
-    const sel = this.selected();
-    const out: string[] = [];
-    for (const [key, info] of this.index()) if (info.isLeaf && sel.has(key)) out.push(info.node.label);
-    return out;
+    return this.toValue(this.selected()).map(k => this.index().get(k)?.node.label ?? k);
   });
+
+  /** valor do modo checkbox a partir das unidades marcadas */
+  private toValue(sel: ReadonlySet<string>): string[] {
+    return this.valueMode() === 'summary'
+      ? summaryValue(this.tree(), sel, this.index())
+      : leafValue(sel, this.index());
+  }
   readonly chips = computed(() => this.selectedLabels().slice(0, Math.max(0, this.maxChips())));
   readonly moreCount = computed(() => this.selectedLabels().length - this.chips().length);
   readonly isEmpty = computed(() => this.selected().size === 0);
@@ -253,12 +291,45 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   toggleExpand(key: string, ev?: Event) {
     ev?.stopPropagation();
     if (this.filtered()) return; // com filtro tudo fica aberto
+    const opening = !this.expanded().has(key);
     this.expanded.update(s => {
       const next = new Set(s);
       if (next.has(key)) next.delete(key); else next.add(key);
       return next;
     });
     this.activeKey.set(key);
+    if (opening) void this.load(key);
+  }
+
+  /** busca os filhos de um nó `leaf: false`; erro: fecha o nó (abrir de novo tenta outra vez) */
+  private async load(key: string) {
+    const loader = this.loadChildren();
+    const info = this.index().get(key);
+    if (!loader || !info?.pending || this.loading().has(key)) return;
+
+    const source = this.nodes();
+    const flag = (sig: WritableSignal<ReadonlySet<string>>, on: boolean) => sig.update(s => {
+      const next = new Set(s);
+      if (on) next.add(key); else next.delete(key);
+      return next;
+    });
+    flag(this.failed, false);
+    flag(this.loading, true);
+    this.liveMessage.set(`${info.node.label}: ${this.loadingLabel()}`);
+    try {
+      const result = loader(info.node);
+      const kids = isObservable(result) ? await firstValueFrom(result) : await result;
+      if (this.nodes() !== source) return; // a árvore mudou enquanto carregava
+      this.loaded.update(m => new Map(m).set(key, kids ?? []));
+      this.liveMessage.set('');
+    } catch {
+      if (this.nodes() !== source) return;
+      flag(this.failed, true);
+      this.expanded.update(s => { const next = new Set(s); next.delete(key); return next; });
+      this.liveMessage.set(`${info.node.label}: ${this.loadErrorLabel()}`);
+    } finally {
+      flag(this.loading, false);
+    }
   }
 
   /** clique/Enter/Espaço numa linha */
@@ -267,10 +338,7 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
     if (this.isCheckbox()) {
       if (!this.isCheckable(row.key)) return;
       const next = toggleLeaves(this.targetLeaves(row.key), this.selected());
-      // devolve só folhas, na ordem da árvore
-      const ordered: string[] = [];
-      for (const [key, info] of this.index()) if (info.isLeaf && next.has(key)) ordered.push(key);
-      this.commit(ordered);
+      this.commit(this.toValue(next));
       return;
     }
     if (this.isSelectable(row.key)) {
@@ -308,6 +376,8 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
     } else {
       this.activeKey.set(this.rows()[0]?.key ?? null);
     }
+    // nós sob demanda que já começam abertos (expandedKeys)
+    for (const key of this.expanded()) void this.load(key);
     this.open.set(true);
     // depois que o painel (@if) for desenhado: foco no filtro ou na árvore
     afterNextRender(() => {

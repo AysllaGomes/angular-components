@@ -191,3 +191,26 @@
 
 .error
   color: var(--sel-error)
+
+/* carregando os filhos: anel girando no lugar da seta */
+.twisty.is-loading
+  width: .85rem
+  height: .85rem
+  margin: 0 .075rem
+  box-sizing: border-box
+  border: 2px solid var(--sel-border)
+  border-top-color: var(--accent)
+  border-radius: 50%
+  animation: ts-spin .7s linear infinite
+
+@keyframes ts-spin
+  to
+    transform: rotate(1turn)
+
+.node-error
+  font-size: .8rem
+  color: var(--sel-error)
+
+@media (prefers-reduced-motion: reduce)
+  .twisty.is-loading
+    animation-duration: 2.4s

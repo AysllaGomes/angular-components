@@ -8,7 +8,7 @@ Select cujas opções formam uma **árvore**: escolha um nó (com o caminho no c
 - **Modelo:** `src/app/shared/model/interface/tree-select/tree-node.interface.ts`
 - **Visual:** mesmos tokens do Select (`--sel-*`) e a caixa do Checkbox (`app-checkbox-mark`, tokens `--cb-*`).
 
-O componente **só apresenta**: recebe a árvore pronta e devolve **keys**. Não chama API nem conhece regra de negócio.
+O componente **só apresenta**: recebe a árvore (ou uma função que busca os filhos) e devolve **keys**. Não conhece regra de negócio.
 
 | Situação | Componente |
 |---|---|
@@ -26,6 +26,7 @@ interface TreeNode<T = unknown> {
   label: string;
   value?: T;              // dado extra opcional (não entra no valor)
   children?: TreeNode<T>[];
+  leaf?: boolean;         // false (sem children): filhos carregados por loadChildren
   disabled?: boolean;     // desabilita o nó e toda a subárvore
   selectable?: boolean;   // false: só agrupa (não pode ser escolhido/marcado)
 }
@@ -58,6 +59,45 @@ interface TreeNode<T = unknown> {
 - **Com a busca ativa**, marcar um grupo marca só as folhas que ele está exibindo.
 - O campo mostra **chips** (até `maxChips`) e "+N" para o resto.
 
+### Valor resumido (`valueMode="summary"`)
+
+```html
+<app-tree-select selectionMode="checkbox" valueMode="summary" [nodes]="permissoes" [(value)]="perms" />
+```
+
+- Grupo com **todas** as folhas marcadas vira **a key do grupo**, e os filhos não aparecem: `["finance"]` em vez de `["finance.reports", "finance.export"]`. Vale em qualquer nível: o país inteiro vira `["br"]`.
+- Grupo parcial continua listando as folhas marcadas.
+- Uma folha **desabilitada e desmarcada** impede o resumo (o grupo não está completo de verdade): marcar "Vendas" sem "Estornar" dá `["sales.view", "sales.create"]`.
+- Na entrada, a key de um grupo marca o grupo inteiro (`[(value)]="['finance']"`).
+- O campo mostra um chip por item do valor: "Financeiro", e não as duas ações.
+
+### Filhos sob demanda (`loadChildren`)
+
+Para árvores grandes vindas de API: os nós com `leaf: false` (e sem `children`) buscam os filhos quando são abertos.
+
+```html
+<app-tree-select selectionMode="checkbox" valueMode="summary"
+  [nodes]="estados" [loadChildren]="carregarCidades" [(value)]="cidades" />
+```
+
+```ts
+estados: TreeNode[] = [
+  { key: 'sp', label: 'São Paulo', leaf: false },
+  { key: 'ba', label: 'Bahia', leaf: false },
+];
+
+// Promise ou Observable (ex.: HttpClient)
+carregarCidades: TreeChildrenLoader = node =>
+  this.http.get<TreeNode[]>(`/api/estados/${node.key}/cidades`);
+```
+
+- **Busca uma vez por nó** (fechar e abrir de novo não repete). Os filhos podem ter `leaf: false` também (vários níveis). Resposta vazia: o nó vira folha.
+- **Carregando:** um anel gira no lugar da seta, a linha fica com `aria-busy` e o leitor de tela ouve "São Paulo: Carregando…".
+- **Erro:** o nó fecha, mostra `loadErrorLabel` na linha e o leitor ouve a mensagem; **abrir de novo tenta outra vez**.
+- **Marcar sem carregar:** no `checkbox`, um grupo ainda não carregado é marcado como uma unidade — o valor recebe a key dele (`["ba"]`) sem nenhuma busca. Quando os filhos chegam, eles já vêm marcados. Por isso, com `loadChildren`, prefira `valueMode="summary"`: a key de grupo no valor sempre significa "o grupo inteiro".
+- Trocar a árvore (`[nodes]`) descarta o que foi carregado e ignora respostas de pedidos antigos.
+- A busca (`filterable`) procura só no que já foi carregado. No `single`, um valor fora do que foi carregado aparece pela key (o caminho só existe depois de carregar).
+
 ---
 
 ## API
@@ -78,6 +118,9 @@ interface TreeNode<T = unknown> {
 | `placeholder`       | `string`                     | `''`                       | Texto com o campo vazio. |
 | `pathSeparator`     | `string`                     | `' › '`                    | Separador do caminho (`single`). |
 | `maxChips`          | `number`                     | `3`                        | Chips antes do "+N" (`checkbox`). |
+| `valueMode`         | `'leaves' \| 'summary'`      | `'leaves'`                 | `checkbox`: keys das folhas, ou grupo completo como uma key. |
+| `loadChildren`      | `(node) => Promise<TreeNode[]> \| Observable<TreeNode[]>` | `null` | Busca os filhos dos nós `leaf: false` ao abri-los. |
+| `loadingLabel`, `loadErrorLabel` | `string`        | PT-BR                      | Textos do carregamento e do erro (i18n). |
 | `clearable`         | `boolean`                    | `false`                    | Botão "×" para limpar. |
 | `required`          | `boolean`                    | `false`                    | Mostra "requerido" e valida ao fechar/sair. |
 | `error` / `hint`    | `string \| null`             | `null`                     | Erro externo (prioridade) e texto de apoio. |
@@ -113,13 +156,15 @@ O painel segue o **padrão WAI-ARIA de árvore** (`role="tree"`, `treeitem` com 
 - Com `filterable`, o foco abre na busca; `↓` leva para a árvore.
 - `single`: o nó escolhido tem `aria-selected="true"`. `checkbox`: cada nó tem `aria-checked` (`true`/`false`/`mixed`); a caixa visual é só decoração.
 - Os chips são lidos como lista ("Ver pedidos, Relatórios, +1").
+- Carregando filhos: `aria-busy` na linha e anúncio numa região `role="status"` (também para o erro).
 - Clique fora fecha.
 
 ---
 
 ## Limitações e próximos passos
 
-- [ ] Carregar filhos sob demanda (`loadChildren`) para árvores grandes vindas de API.
+- [x] Carregar filhos sob demanda (`loadChildren`).
+- [x] Valor resumido no `checkbox` (`valueMode="summary"`).
 - [ ] Rolagem virtual (desempenho com milhares de nós ainda não medido).
-- [ ] Valor "resumido" no `checkbox` (pai completo vira uma key só).
+- [ ] Busca no servidor (hoje o filtro vê só o que já foi carregado).
 - Keys são `string`: converta ids numéricos ao montar a árvore.

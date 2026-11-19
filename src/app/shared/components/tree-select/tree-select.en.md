@@ -8,7 +8,7 @@ A select whose options form a **tree**: pick one node (with its path in the fiel
 - **Model:** `src/app/shared/model/interface/tree-select/tree-node.interface.ts`
 - **Look:** same tokens as the Select (`--sel-*`) and the Checkbox box (`app-checkbox-mark`, `--cb-*` tokens).
 
-The component **only presents**: it receives a ready tree and returns **keys**. It calls no API and knows no business rules.
+The component **only presents**: it receives the tree (or a function that fetches children) and returns **keys**. It knows no business rules.
 
 | Situation | Component |
 |---|---|
@@ -26,6 +26,7 @@ interface TreeNode<T = unknown> {
   label: string;
   value?: T;              // optional extra data (not part of the value)
   children?: TreeNode<T>[];
+  leaf?: boolean;         // false (no children): children loaded by loadChildren
   disabled?: boolean;     // disables the node and its whole subtree
   selectable?: boolean;   // false: only groups (cannot be picked/checked)
 }
@@ -58,6 +59,45 @@ interface TreeNode<T = unknown> {
 - **With an active search**, checking a group checks only the leaves it is showing.
 - The field shows **chips** (up to `maxChips`) and "+N" for the rest.
 
+### Summarized value (`valueMode="summary"`)
+
+```html
+<app-tree-select selectionMode="checkbox" valueMode="summary" [nodes]="permissions" [(value)]="perms" />
+```
+
+- A group with **all** leaves checked becomes **the group key**, and its children are left out: `["finance"]` instead of `["finance.reports", "finance.export"]`. Works at any level: the whole country becomes `["br"]`.
+- A partial group still lists its checked leaves.
+- A **disabled, unchecked** leaf prevents summarizing (the group is not really complete): checking "Sales" without "Refund" gives `["sales.view", "sales.create"]`.
+- On input, a group key checks the whole group (`[(value)]="['finance']"`).
+- The field shows one chip per value item: "Finance", not its two actions.
+
+### Children on demand (`loadChildren`)
+
+For large trees from an API: nodes with `leaf: false` (and no `children`) fetch their children when opened.
+
+```html
+<app-tree-select selectionMode="checkbox" valueMode="summary"
+  [nodes]="states" [loadChildren]="loadCities" [(value)]="cities" />
+```
+
+```ts
+states: TreeNode[] = [
+  { key: 'sp', label: 'São Paulo', leaf: false },
+  { key: 'ba', label: 'Bahia', leaf: false },
+];
+
+// Promise or Observable (e.g. HttpClient)
+loadCities: TreeChildrenLoader = node =>
+  this.http.get<TreeNode[]>(`/api/states/${node.key}/cities`);
+```
+
+- **Fetches once per node** (closing and reopening does not repeat it). Children may have `leaf: false` too (several levels). An empty answer turns the node into a leaf.
+- **Loading:** a spinning ring replaces the arrow, the row gets `aria-busy` and screen readers hear "São Paulo: Loading…".
+- **Error:** the node closes, shows `loadErrorLabel` on the row and the message is announced; **opening it again retries**.
+- **Checking without loading:** in `checkbox` mode, a group not loaded yet is checked as one unit — the value gets its key (`["ba"]`) without any request. When the children arrive, they come checked. That is why, with `loadChildren`, `valueMode="summary"` is recommended: a group key in the value always means "the whole group".
+- Replacing the tree (`[nodes]`) drops what was loaded and ignores answers to old requests.
+- The search (`filterable`) only looks at what has been loaded. In `single` mode, a value outside what was loaded shows its key (the path only exists after loading).
+
 ---
 
 ## API
@@ -70,6 +110,9 @@ interface TreeNode<T = unknown> {
 | `selectionMode`     | `'single' \| 'checkbox'`     | `'single'`                 | One node or several leaves. |
 | `value`             | `string \| string[] \| null` | `null` / `[]`              | Value. Two-way via `[(value)]`; with forms, use `formControl`/`ngModel`. |
 | `leafOnly`          | `boolean`                    | `false`                    | `single`: only leaves can be picked. |
+| `valueMode`         | `'leaves' \| 'summary'`      | `'leaves'`                 | `checkbox`: leaf keys, or a complete group as one key. |
+| `loadChildren`      | `(node) => Promise<TreeNode[]> \| Observable<TreeNode[]>` | `null` | Fetches the children of `leaf: false` nodes when opened. |
+| `loadingLabel`, `loadErrorLabel` | `string`        | PT-BR                      | Loading and error texts (i18n). |
 | `expandedKeys`      | `string[]`                   | `[]`                       | Nodes open at start. |
 | `filterable`        | `boolean`                    | `false`                    | Search box in the panel (accent/case-insensitive). |
 | `filterPlaceholder` | `string`                     | `''`                       | Search placeholder. |
@@ -113,13 +156,15 @@ The panel follows the **WAI-ARIA tree pattern** (`role="tree"`, `treeitem` with 
 - With `filterable`, focus opens on the search; `↓` moves into the tree.
 - `single`: the picked node has `aria-selected="true"`. `checkbox`: each node has `aria-checked` (`true`/`false`/`mixed`); the visual box is decoration only.
 - Chips are read as a list ("View orders, Reports, +1").
+- Loading children: `aria-busy` on the row and an announcement in a `role="status"` region (also for errors).
 - Clicking outside closes it.
 
 ---
 
 ## Limitations and next steps
 
-- [ ] Load children on demand (`loadChildren`) for large trees from an API.
+- [x] Load children on demand (`loadChildren`).
+- [x] Summarized value in `checkbox` (`valueMode="summary"`).
 - [ ] Virtual scrolling (performance with thousands of nodes not measured yet).
-- [ ] "Summarized" value in `checkbox` (a full parent becomes one key).
+- [ ] Server-side search (the filter only sees what has been loaded).
 - Keys are `string`: convert numeric ids when building the tree.

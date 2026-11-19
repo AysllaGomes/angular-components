@@ -51,4 +51,38 @@
       [emptyMessage]="'treeselect.empty' | t" />
     <code>{{ 'treeselect.demo.value' | t:{ v: show(perms()) } }}</code>
   </article>
+  <article class="card">
+    <h3>{{ 'treeselect.demo.lazy.title' | t }}</h3>
+    <app-tree-select
+      selectionMode="checkbox"
+      [label]="'treeselect.demo.lazy.label' | t"
+      [placeholder]="'treeselect.demo.lazy.placeholder' | t"
+      [hint]="'treeselect.demo.lazy.hint' | t"
+      [nodes]="states"
+      [loadChildren]="loadCities"
+      [loadingLabel]="'treeselect.loading' | t"
+      [loadErrorLabel]="'treeselect.loadError' | t"
+      [(value)]="served"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [closeAriaLabel]="'select.close' | t" />
+    <code>{{ 'treeselect.demo.value' | t:{ v: show(served()) } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'treeselect.demo.summary.title' | t }}</h3>
+    <app-tree-select
+      selectionMode="checkbox"
+      valueMode="summary"
+      [label]="'treeselect.demo.checkbox.label' | t"
+      [placeholder]="'treeselect.demo.checkbox.placeholder' | t"
+      [hint]="'treeselect.demo.summary.hint' | t"
+      [nodes]="permissions()"
+      [expandedKeys]="['sales', 'finance', 'admin']"
+      [(value)]="permsSummary"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [closeAriaLabel]="'select.close' | t" />
+    <code>{{ 'treeselect.demo.value' | t:{ v: show(permsSummary()) } }}</code>
+  </article>
 </section>

@@ -27,6 +27,21 @@ export const TREE_SELECT: Dict = {
     en: 'Checking a module checks its actions; the value holds only the actions (leaves).'
   },
 
+  'treeselect.demo.lazy.title': { pt: 'Carregando sob demanda (loadChildren)', en: 'Loading on demand (loadChildren)' },
+  'treeselect.demo.lazy.label': { pt: 'Cidades atendidas', en: 'Served cities' },
+  'treeselect.demo.lazy.placeholder': { pt: 'Nenhuma cidade', en: 'No cities' },
+  'treeselect.demo.lazy.hint': {
+    pt: 'As cidades vêm de uma API simulada ao abrir o estado. Dá para marcar um estado sem abrir; a Bahia falha na primeira vez.',
+    en: 'Cities come from a simulated API when a state is opened. A state can be checked without opening it; Bahia fails the first time.'
+  },
+  'treeselect.demo.summary.title': { pt: 'Valor resumido (valueMode="summary")', en: 'Summarized value (valueMode="summary")' },
+  'treeselect.demo.summary.hint': {
+    pt: 'Módulo com todas as ações marcadas vira uma key só (ex.: "finance").',
+    en: 'A module with every action checked becomes a single key (e.g. "finance").'
+  },
+  'treeselect.loading': { pt: 'Carregando…', en: 'Loading…' },
+  'treeselect.loadError': { pt: 'Não foi possível carregar. Abra de novo para tentar.', en: 'Could not load. Open it again to retry.' },
+
   'treeselect.demo.value': { pt: 'Valor: {{v}}', en: 'Value: {{v}}' },
   'treeselect.filter': { pt: 'Filtrar…', en: 'Filter…' },
   'treeselect.empty': { pt: 'Nenhum item encontrado', en: 'No items found' },

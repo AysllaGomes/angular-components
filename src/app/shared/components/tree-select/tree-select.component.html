@@ -96,12 +96,15 @@
             [attr.aria-selected]="isCheckbox() ? null : current() === row.key"
             [attr.aria-checked]="isCheckbox() ? ariaChecked(row.key) : null"
             [attr.aria-disabled]="isRowDisabled(row.key) || null"
+            [attr.aria-busy]="loading().has(row.key) || null"
             [class.is-active]="row.key === activeKey()"
             [class.is-selected]="!isCheckbox() && current() === row.key"
             [class.is-disabled]="isRowDisabled(row.key)"
             (mouseenter)="activeKey.set(row.key)"
             (click)="onRowClick(row)">
-            @if (row.hasChildren) {
+            @if (loading().has(row.key)) {
+              <span class="twisty is-loading" aria-hidden="true"></span>
+            } @else if (row.hasChildren) {
               <span class="twisty" [class.is-open]="row.expanded" aria-hidden="true" (click)="toggleExpand(row.key, $event)">▸</span>
             } @else {
               <span class="twisty" aria-hidden="true"></span>
@@ -110,6 +113,9 @@
               <app-checkbox-mark [state]="stateOf(row.key)" [disabled]="isRowDisabled(row.key)" />
             }
             <span class="node-label">{{ row.node.label }}</span>
+            @if (failed().has(row.key)) {
+              <span class="node-error">{{ loadErrorLabel() }}</span>
+            }
           </div>
         } @empty {
           <div class="empty">{{ emptyMessage() }}</div>
@@ -119,6 +125,9 @@
   }
 
   </div>
+  <!-- carregando / erro ao carregar, para leitor de tela -->
+  <div class="sr-only" role="status" aria-live="polite">{{ liveMessage() }}</div>
+
   @if (!displayError() && hint()) {
     <div class="hint">{{ hint() }}</div>
   }

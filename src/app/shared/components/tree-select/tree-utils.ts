@@ -12,13 +12,20 @@ export interface NodeInfo<T = unknown> {
   /** rótulos da raiz até o nó, inclusive */
   path: string[];
   isLeaf: boolean;
+  /** filhos ainda não carregados (`leaf: false` sem `children`) */
+  pending: boolean;
+  /**
+   * unidade de marcação no modo checkbox: folha, ou grupo ainda não carregado
+   * (marcar "Bahia" sem ter as cidades). É o que entra em `leaves`/`allLeaves`.
+   */
+  unit: boolean;
   /** desabilitado por ele mesmo ou por um ancestral */
   disabled: boolean;
-  /** folha que pode ser marcada no modo checkbox (habilitada e `selectable !== false`) */
+  /** unidade que pode ser marcada no modo checkbox (habilitada e `selectable !== false`) */
   checkable: boolean;
-  /** folhas marcáveis na subárvore (a própria, se for folha) */
+  /** unidades marcáveis na subárvore (a própria, se for unidade) */
   leaves: string[];
-  /** todas as folhas da subárvore, inclusive as não marcáveis */
+  /** todas as unidades da subárvore, inclusive as não marcáveis */
   allLeaves: string[];
   /** número sequencial, para ids no DOM (keys podem ter qualquer caractere) */
   num: number;
@@ -41,14 +48,16 @@ export function indexTree<T>(nodes: TreeNode<T>[]): TreeIndex<T> {
     for (const node of list) {
       if (index.has(node.key)) continue;
       const disabled = inheritedDisabled || !!node.disabled;
-      const isLeaf = !node.children?.length;
+      const pending = !node.children?.length && node.leaf === false;
+      const isLeaf = !node.children?.length && !pending;
+      const unit = isLeaf || pending;
       const info: NodeInfo<T> = {
-        node, parent, level, path: [...path, node.label], isLeaf, disabled,
-        checkable: isLeaf && !disabled && node.selectable !== false,
+        node, parent, level, path: [...path, node.label], isLeaf, pending, unit, disabled,
+        checkable: unit && !disabled && node.selectable !== false,
         leaves: [], allLeaves: [], num: num++,
       };
       index.set(node.key, info);
-      if (isLeaf) {
+      if (unit) {
         info.allLeaves = [node.key];
         info.leaves = info.checkable ? [node.key] : [];
       } else {
@@ -72,7 +81,7 @@ export function indexTree<T>(nodes: TreeNode<T>[]): TreeIndex<T> {
  * então um grupo com uma folha desabilitada ainda pode ficar "marcado" por completo.
  */
 export function checkState<T>(info: NodeInfo<T>, selected: ReadonlySet<string>, index: TreeIndex<T>): CheckState {
-  if (info.isLeaf) return selected.has(info.node.key) ? 'checked' : 'unchecked';
+  if (info.unit) return selected.has(info.node.key) ? 'checked' : 'unchecked';
   let on = 0;
   let relevant = info.leaves.length;
   for (const k of info.allLeaves) {
@@ -145,9 +154,62 @@ export function visibleLeaves<T>(key: string, filtered: FilteredTree<T>, index: 
   const walk = (k: string) => {
     const info = index.get(k);
     if (!info) return;
-    if (info.isLeaf) { if (info.checkable) out.push(k); return; }
+    if (info.unit) { if (info.checkable) out.push(k); return; }
     for (const child of filtered.children.get(k) ?? []) walk(child.key);
   };
   walk(key);
   return out;
+}
+
+/**
+ * Conjunto de unidades marcadas a partir do valor: key de grupo (valor resumido,
+ * ou grupo marcado antes de carregar) vira todas as unidades dele. Keys que não
+ * estão na árvore são mantidas.
+ */
+export function expandSelection<T>(keys: readonly string[], index: TreeIndex<T>): Set<string> {
+  const out = new Set<string>();
+  for (const k of keys) {
+    const info = index.get(k);
+    if (info && !info.unit) info.allLeaves.forEach(u => out.add(u));
+    else out.add(k);
+  }
+  return out;
+}
+
+/** valor `leaves`: unidades marcadas, na ordem da árvore */
+export function leafValue<T>(selected: ReadonlySet<string>, index: TreeIndex<T>): string[] {
+  const out: string[] = [];
+  for (const [key, info] of index) if (info.unit && selected.has(key)) out.push(key);
+  return out;
+}
+
+/**
+ * valor `summary`: grupo com **todas** as unidades marcadas (inclusive as desabilitadas)
+ * vira a key do grupo e os filhos não aparecem; o resto segue como em `leaves`.
+ */
+export function summaryValue<T>(nodes: TreeNode<T>[], selected: ReadonlySet<string>, index: TreeIndex<T>): string[] {
+  const out: string[] = [];
+  const visit = (list: TreeNode<T>[]) => {
+    for (const node of list) {
+      const info = index.get(node.key);
+      if (!info || info.node !== node) continue; // key repetida: vale a primeira
+      if (info.unit) { if (selected.has(node.key)) out.push(node.key); continue; }
+      if (info.allLeaves.length && info.allLeaves.every(k => selected.has(k))) out.push(node.key);
+      else visit(node.children ?? []);
+    }
+  };
+  visit(nodes);
+  return out;
+}
+
+/** árvore com os filhos carregados sob demanda já no lugar (sem alterar a original) */
+export function attachChildren<T>(nodes: TreeNode<T>[], loaded: ReadonlyMap<string, TreeNode<T>[]>): TreeNode<T>[] {
+  if (!loaded.size) return nodes;
+  const walk = (list: TreeNode<T>[]): TreeNode<T>[] => list.map(node => {
+    const kids = loaded.get(node.key);
+    if (kids && !node.children?.length) return { ...node, children: walk(kids), leaf: kids.length > 0 ? false : true };
+    if (node.children?.length) return { ...node, children: walk(node.children) };
+    return node;
+  });
+  return walk(nodes);
 }
