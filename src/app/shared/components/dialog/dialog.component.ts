@@ -15,6 +15,7 @@ import {
   viewChild
 } from '@angular/core';
 
+import { ModalSession } from '../../a11y/modal-session';
 import { DialogSize } from '../../model/type/dialog-size.type';
 
 let uid = 0;
@@ -68,38 +69,23 @@ export class DialogComponent implements OnDestroy {
   private readonly contentRef = viewChild<ElementRef<HTMLElement>>('content');
   private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
 
-  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  /** foco devolvido, scroll travado e fundo inerte enquanto aberto */
+  private readonly modal = new ModalSession(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement);
 
   private id = `dlg-${++uid}`;
-  private prevOverflow = '';
-  /** só restaura o overflow do body se ESTA instância o travou */
-  private scrollLocked = false;
-  /** estado já aplicado (o effect só age nas transições aberto ⇄ fechado) */
-  private wasOpen = false;
-  /** elemento focado antes de abrir (normalmente o botão que abriu) */
-  private returnFocusTo: HTMLElement | null = null;
-  /** elementos que ESTA instância marcou com `inert` (só esses são liberados) */
-  private inertedByMe: HTMLElement[] = [];
 
   get labelId() { return `${this.id}-label`; }
 
   // ===== Effects =====
-  /** ao abrir: guarda o foco, trava o scroll, deixa o fundo inerte e foca o "fechar"; ao fechar: desfaz tudo */
+  /** ao abrir: sessão modal + foco no "fechar"; ao fechar: desfaz tudo e devolve o foco */
   private _whenOpen = effect(() => {
-    const isOpen = this.opened();
-    if (isOpen === this.wasOpen) return;
-    this.wasOpen = isOpen;
-
-    if (isOpen) {
-      this.rememberFocus();
-      this.lockScroll();
-      this.makeBackgroundInert();
+    if (this.opened()) {
+      if (this.modal.isActive) return;
+      this.modal.open();
       // foco depois do paint
       queueMicrotask(() => this.closeBtn()?.nativeElement.focus());
     } else {
-      this.unlockScroll();
-      this.releaseBackground();
-      this.restoreFocus();
+      this.modal.close();
     }
   });
 
@@ -119,63 +105,9 @@ export class DialogComponent implements OnDestroy {
     onCleanup(() => ro.disconnect());
   });
 
-  private lockScroll() {
-    if (this.scrollLocked || typeof document === 'undefined') return;
-    this.prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    this.scrollLocked = true;
-  }
-
-  private unlockScroll() {
-    if (!this.scrollLocked || typeof document === 'undefined') return;
-    document.body.style.overflow = this.prevOverflow;
-    this.scrollLocked = false;
-  }
-
-  private rememberFocus() {
-    if (typeof document === 'undefined') return;
-    const el = document.activeElement;
-    this.returnFocusTo = el instanceof HTMLElement && el !== document.body ? el : null;
-  }
-
-  /** devolve o foco a quem abriu, se ele ainda estiver na página */
-  private restoreFocus() {
-    const el = this.returnFocusTo;
-    this.returnFocusTo = null;
-    if (el?.isConnected) el.focus();
-  }
-
-  /**
-   * Marca com `inert` tudo o que não é o dialog: os irmãos do host e de cada
-   * ancestral até o `<body>`. O fundo deixa de receber foco, clique e leitor de tela.
-   * Elementos já inertes são ignorados (e continuarão inertes ao fechar).
-   * Exceção: quem tiver `data-dialog-keep-active` (ex.: o container de toasts,
-   * para avisos continuarem sendo anunciados e fecháveis com o dialog aberto).
-   */
-  private makeBackgroundInert() {
-    if (typeof document === 'undefined') return;
-    let node: HTMLElement | null = this.host.nativeElement;
-    while (node && node !== document.body && node.parentElement) {
-      for (const sib of Array.from(node.parentElement.children)) {
-        if (sib === node || !(sib instanceof HTMLElement) || sib.hasAttribute('inert')) continue;
-        if (sib.hasAttribute('data-dialog-keep-active')) continue;
-        if (sib.tagName === 'SCRIPT' || sib.tagName === 'STYLE') continue;
-        sib.setAttribute('inert', '');
-        this.inertedByMe.push(sib);
-      }
-      node = node.parentElement;
-    }
-  }
-
-  private releaseBackground() {
-    for (const el of this.inertedByMe) el.removeAttribute('inert');
-    this.inertedByMe = [];
-  }
-
   ngOnDestroy(): void {
     // destruído aberto: não deixa o body travado nem a página inerte
-    this.unlockScroll();
-    this.releaseBackground();
+    this.modal.close(false);
   }
 
   private updateAutoSize(el: HTMLElement) {

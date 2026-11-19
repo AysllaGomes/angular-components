@@ -3,8 +3,10 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   computed,
   effect,
+  inject,
   input,
   model,
   output,
@@ -12,6 +14,7 @@ import {
   viewChild
 } from '@angular/core';
 
+import { ModalSession } from '../../a11y/modal-session';
 import { AbSize } from '../../model/type/ab-size.type';
 import { ButtonDirective } from '../button/button.directive';
 
@@ -28,7 +31,7 @@ type FixedSize = Exclude<AbSize, 'auto'>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-open]': 'opened()' }
 })
-export class ActionBarComponent {
+export class ActionBarComponent implements OnDestroy {
   readonly title = input('ActionBar');
   /** Tamanho do painel. `auto` mede o conteúdo sempre que o painel é aberto. */
   readonly size = input<AbSize, AbSize | null | undefined>('auto', { transform: v => v ?? 'auto' });
@@ -60,10 +63,24 @@ export class ActionBarComponent {
   private id = `ab-${++uid}`;
   get labelId() { return `${this.id}-label`; }
 
-  // foco ao abrir
-  private focusWhenOpen = effect(() => {
-    if (this.opened()) queueMicrotask(() => this.closeBtn()?.nativeElement.focus());
+  /** foco devolvido, scroll travado e fundo inerte enquanto aberto */
+  private readonly modal = new ModalSession(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement);
+
+  /** ao abrir: sessão modal + foco no "fechar"; ao fechar: desfaz tudo e devolve o foco */
+  private whenOpen = effect(() => {
+    if (this.opened()) {
+      if (this.modal.isActive) return;
+      this.modal.open();
+      queueMicrotask(() => this.closeBtn()?.nativeElement.focus());
+    } else {
+      this.modal.close();
+    }
   });
+
+  ngOnDestroy(): void {
+    // destruído aberto: não deixa o body travado nem a página inerte
+    this.modal.close(false);
+  }
 
   /** modo `auto`: observa o conteúdo enquanto ele estiver renderizado */
   private autoSize = effect(onCleanup => {

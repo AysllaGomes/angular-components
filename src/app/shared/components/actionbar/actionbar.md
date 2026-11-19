@@ -57,6 +57,8 @@ Sheet lateral com título, conteúdo e ações. Abre da **direita para a esquerd
 - `role="dialog"` + `aria-modal="true"` + `aria-labelledby` amarrado ao título.
 - **Teclado:** `Esc` fecha; Tab mantém o foco preso dentro do sheet (focus‑trap).
 - **Foco inicial:** ao abrir, o foco vai para o botão de fechar.
+- **Foco devolvido:** ao fechar (botão, `Esc`, backdrop ou `opened=false`), o foco volta ao elemento que estava focado antes de abrir (normalmente o botão que abriu), se ele ainda estiver na página.
+- **Fundo inerte e sem rolagem:** enquanto aberto, a rolagem da página trava e o resto da página recebe `inert` (sem foco, clique ou leitor de tela). Ao fechar, só o que o painel marcou é liberado. Elementos com `data-dialog-keep-active` continuam ativos (o `app-toast-container` já vem com ele).
 - Botões possuem **focus-visible** de alto contraste.
 
 ---
@@ -65,7 +67,7 @@ Sheet lateral com título, conteúdo e ações. Abre da **direita para a esquerd
 - `sm` — até **360px**.  
 - `md` — até **640px**.  
 - `lg` — até **960px**.  
-- `auto` — mede o `scrollWidth` do conteúdo (via `ResizeObserver`) e escolhe: `<420 → sm`, `<720 → md`, caso contrário `lg`.
+- `auto` — mede o `scrollWidth` do conteúdo (via `ResizeObserver`) e escolhe: `<436 → sm`, `<720 → md`, caso contrário `lg`.
 
 > **Nota:** se `ResizeObserver` não existir (SSR/ambiente antigo), o componente cai em `md`.
 
