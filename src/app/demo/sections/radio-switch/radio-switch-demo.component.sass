@@ -1,0 +1,23 @@
+/* a demo renderiza duas sections; o host não deve virar uma caixa entre elas */
+:host
+  display: contents
+
+/* lista de configurações: cada linha ocupa a largura, switch à direita */
+.settings
+  display: grid
+  max-width: 520px
+  > app-switch
+    display: grid
+    padding: .5rem 0
+    border-bottom: 1px solid var(--border)
+    &:last-child
+      border-bottom: 0
+
+.states
+  display: grid
+  grid-template-columns: repeat(2, minmax(0, max-content))
+  gap: .5rem 2rem
+
+@media (max-width: 560px)
+  .states
+    grid-template-columns: minmax(0, 1fr)

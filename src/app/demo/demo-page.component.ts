@@ -13,6 +13,7 @@ import { ToastContainerComponent } from '../shared/components/toast/toast-contai
 import {ButtonDemoComponent} from './sections/button/button-demo.component';
 import { CheckboxDemoComponent } from './sections/checkbox/checkbox-demo.component';
 import { TreeSelectDemoComponent } from './sections/tree-select/tree-select-demo.component';
+import { RadioSwitchDemoComponent } from './sections/radio-switch/radio-switch-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -31,6 +32,7 @@ import { TreeSelectDemoComponent } from './sections/tree-select/tree-select-demo
     ButtonDemoComponent,
     CheckboxDemoComponent,
     TreeSelectDemoComponent,
+    RadioSwitchDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.Eager

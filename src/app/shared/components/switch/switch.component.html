@@ -1,0 +1,20 @@
+<label class="sw" [class.is-disabled]="isDisabled()" [class.label-first]="labelFirst()">
+  <input
+    class="sw__input"
+    type="checkbox"
+    role="switch"
+    [id]="inputId"
+    [attr.name]="name()"
+    [checked]="checked()"
+    [disabled]="isDisabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-describedby]="hint() ? hintId : null"
+    (change)="onToggle($event)"
+    (blur)="onTouched()" />
+  <span class="sw__track" aria-hidden="true"><span class="sw__thumb"></span></span>
+  <span class="sw__label"><ng-content /></span>
+</label>
+
+@if (hint()) {
+  <div class="sw__hint" [id]="hintId">{{ hint() }}</div>
+}

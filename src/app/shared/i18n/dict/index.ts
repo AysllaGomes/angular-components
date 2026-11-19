@@ -3,6 +3,7 @@ import { TOAST } from './toast';
 import { BUTTON } from './button';
 import { CHECKBOX } from './checkbox';
 import { TREE_SELECT } from './tree-select';
+import { RADIO_SWITCH } from './radio-switch';
 import { COMMON } from './common';
 import { DIALOG } from './dialog';
 import { SELECT } from './select';
@@ -26,4 +27,5 @@ export const DICT: Dict = {
   ...BUTTON,
   ...CHECKBOX,
   ...TREE_SELECT,
+  ...RADIO_SWITCH,
 };

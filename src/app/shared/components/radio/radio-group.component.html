@@ -1,0 +1,47 @@
+<fieldset
+  class="rg"
+  [class.is-horizontal]="orientation() === 'horizontal'"
+  [class.is-disabled]="isDisabled()"
+  [class.is-error]="!!error()"
+  [disabled]="isDisabled()">
+  @if (label()) {
+    <legend class="rg__legend">
+      {{ label() }}
+      @if (required()) {
+        <span class="rg__req">{{ requiredLabel() }}</span>
+      }
+    </legend>
+  }
+
+  <div class="rg__options">
+    @for (opt of options(); track $index; let i = $index) {
+      <label class="rg__option" [class.is-disabled]="opt.disabled || isDisabled()" [attr.for]="optionId(i)">
+        <input
+          class="rg__input"
+          type="radio"
+          [id]="optionId(i)"
+          [name]="groupName()"
+          [checked]="isChecked(opt)"
+          [disabled]="opt.disabled || isDisabled()"
+          [required]="required()"
+          [attr.aria-invalid]="error() ? true : null"
+          [attr.aria-describedby]="optionDescribedBy(i, opt)"
+          (change)="select(opt)"
+          (blur)="onTouched()" />
+        <span class="rg__dot" aria-hidden="true"></span>
+        <span class="rg__text">
+          <span class="rg__label">{{ opt.label }}</span>
+          @if (opt.description) {
+            <span class="rg__desc" [id]="descId(i)">{{ opt.description }}</span>
+          }
+        </span>
+      </label>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="rg__msg rg__msg--error" [id]="errorId">{{ error() }}</div>
+  } @else if (hint()) {
+    <div class="rg__msg" [id]="hintId">{{ hint() }}</div>
+  }
+</fieldset>

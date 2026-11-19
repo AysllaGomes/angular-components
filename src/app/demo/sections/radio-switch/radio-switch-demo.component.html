@@ -1,0 +1,51 @@
+<section id="radio" class="demo-section">
+  <h2>{{ 'section.radio.title' | t }}</h2>
+  <p class="lead">{{ 'section.radio.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'radio.demo.basic.title' | t }}</h3>
+    <app-radio-group [label]="'radio.demo.plan' | t" [options]="plans()" [(value)]="plan" />
+    <code>{{ 'radio.demo.value' | t:{ v: plan() ?? 'null' } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'radio.demo.horizontal.title' | t }}</h3>
+    <app-radio-group
+      required
+      orientation="horizontal"
+      [label]="'radio.demo.shipping' | t"
+      [requiredLabel]="'form.required.label' | t"
+      [options]="shipping()"
+      [formControl]="ship"
+      [error]="shipError() ? ('radio.demo.error' | t) : null" />
+    <div>
+      <button appButton type="button" size="sm" (click)="submit()">{{ 'radio.demo.submit' | t }}</button>
+    </div>
+  </article>
+</section>
+
+<section id="switch" class="demo-section">
+  <h2>{{ 'section.switch.title' | t }}</h2>
+  <p class="lead">{{ 'section.switch.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'switch.demo.settings.title' | t }}</h3>
+    <div class="settings">
+      <app-switch labelFirst [(checked)]="notifications" [hint]="'switch.demo.notifications.hint' | t">
+        {{ 'switch.demo.notifications' | t }}
+      </app-switch>
+      <app-switch labelFirst [(checked)]="compact">{{ 'switch.demo.compact' | t }}</app-switch>
+      <app-switch labelFirst disabled>{{ 'switch.demo.beta' | t }}</app-switch>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'switch.demo.states.title' | t }}</h3>
+    <div class="states">
+      <app-switch>{{ 'switch.demo.off' | t }}</app-switch>
+      <app-switch [checked]="true">{{ 'switch.demo.on' | t }}</app-switch>
+      <app-switch disabled>{{ 'switch.demo.off' | t }} ({{ 'switch.demo.disabled' | t }})</app-switch>
+      <app-switch disabled [checked]="true">{{ 'switch.demo.on' | t }} ({{ 'switch.demo.disabled' | t }})</app-switch>
+    </div>
+  </article>
+</section>

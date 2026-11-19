@@ -8,7 +8,7 @@
 
 # Angular Components (Standalone, HTML + Sass)
 
-> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Stepper, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
+> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
 - **Local demo:** `http://localhost:4200/demo`
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (theming), Vitest. Node 24 (`.nvmrc`).
@@ -22,6 +22,8 @@
 | **ActionBar**            | Slide-over side sheet with title, content and footer actions. Sizes `sm`/`md`/`lg`/`auto`, accent-aware theming, focus trap, ESC/backdrop close. | [EN](src/app/shared/components/actionbar/actionbar.en.md) · [PT-BR](src/app/shared/components/actionbar/actionbar.md)     | `/demo#actionbar`  |
 | **Button (`appButton`)** | Directive for styling buttons/links (solid/outline/ghost/link; accent/neutral/danger; xs–lg).                                                    | [EN](src/app/shared/components/button/button.en.md) · [PT-BR](src/app/shared/components/button/button.md)                 | `/demo#button`     |
 | **Checkbox**             | Accessible checkbox with partial (indeterminate) state, forms integration (`formControl`/`ngModel`), hint/error. The visual box (`app-checkbox-mark`) is reusable on its own. | [EN](src/app/shared/components/checkbox/checkbox.en.md) · [PT-BR](src/app/shared/components/checkbox/checkbox.md) | `/demo#checkbox` |
+| **Radio group**          | Single choice among few visible options: native `fieldset`/`legend` + radios (arrow keys), option descriptions, vertical/horizontal, forms, hint/error. | [EN](src/app/shared/components/radio/radio-group.en.md) · [PT-BR](src/app/shared/components/radio/radio-group.md) | `/demo#radio` |
+| **Switch**               | On/off for settings that apply immediately: native checkbox with `role="switch"`, label-first layout for settings lists, forms, hint. | [EN](src/app/shared/components/switch/switch.en.md) · [PT-BR](src/app/shared/components/switch/switch.md) | `/demo#switch` |
 | **Dialog**               | Accessible modal dialog with title, content, and primary/secondary actions. Sizes `sm`/`md`/`lg`/`auto`, focus trap, ESC/backdrop close, slots.  | [EN](src/app/shared/components/dialog/dialog.en.md) · [PT-BR](src/app/shared/components/dialog/dialog.md)                 | `/demo#dialog`     |
 | **Stepper**              | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens.                                                             | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT-BR](src/app/shared/components/stepper/stepper.md)             | `/demo#stepper`    |
 | **Table**                | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells.                         | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md)                     | `/demo#table`      |

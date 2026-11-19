@@ -15,6 +15,8 @@ import { SelectComponent } from './select/select.component';
 import { ButtonDirective } from './button/button.directive';
 import { StepperComponent } from './stepper/stepper.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { SwitchComponent } from './switch/switch.component';
+import { RadioGroupComponent } from './radio/radio-group.component';
 import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TreeSelectComponent } from './tree-select/tree-select.component';
@@ -43,7 +45,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
 @Component({
   imports: [
-    ButtonDirective, CheckboxComponent, SelectComponent, TreeSelectComponent, StepperComponent,
+    ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, SelectComponent, TreeSelectComponent, StepperComponent,
     TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -63,6 +65,19 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-checkbox disabled [checked]="true">Bloqueado</app-checkbox>
         <app-checkbox hint="Obrigatório" error="Você precisa aceitar">Termos</app-checkbox>
         <app-checkbox ariaLabel="Selecionar linha" />
+      </section>
+
+      <!-- Radio group e Switch -->
+      <section id="radio">
+        <app-radio-group label="Plano" required [options]="plans" value="basic" hint="Pode mudar depois" />
+        <app-radio-group label="Entrega" orientation="horizontal" [options]="plans" error="Escolha uma opção" />
+        <app-radio-group label="Bloqueado" disabled [options]="plans" value="pro" />
+      </section>
+      <section id="switch">
+        <app-switch [checked]="true" hint="Por e-mail">Notificações</app-switch>
+        <app-switch labelFirst>Modo compacto</app-switch>
+        <app-switch disabled [checked]="true">Bloqueado</app-switch>
+        <app-switch ariaLabel="Ativar linha" />
       </section>
 
       <!-- Select (aberto, com grupos) -->
@@ -107,6 +122,7 @@ interface Row { id: string; nome: string; tipo: string; }
 })
 class GalleryComponent {
   options = OPTIONS;
+  plans = [{ label: 'Básico', value: 'basic', description: 'Grátis' }, { label: 'Pro', value: 'pro' }, { label: 'Empresa', value: 'ent', disabled: true }];
   tree = TREE;
   steps = [{ label: 'Entrega', caption: 'Endereço' }, { label: 'Produto' }, { label: 'Resumo' }];
   columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }, { key: 'tipo', header: 'Tipo' }];
@@ -147,6 +163,10 @@ describe('Acessibilidade (axe-core)', () => {
   it('Button', async () => { await expectNoA11yViolations(section('button')); });
 
   it('Checkbox (todos os estados)', async () => { await expectNoA11yViolations(section('checkbox')); });
+
+  it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio')); });
+
+  it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch')); });
 
   it('Select fechado e aberto', async () => {
     await expectNoA11yViolations(section('select'));

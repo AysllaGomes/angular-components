@@ -1,0 +1,111 @@
+/* reaproveita os tokens do checkbox (--cb-*) para a mesma linguagem visual */
+.rg
+  margin: 0
+  padding: 0
+  border: 0
+  min-width: 0
+  display: grid
+  gap: .5rem
+  color: var(--fg)
+
+.rg__legend
+  padding: 0
+  margin-bottom: .5rem
+  font-size: .9rem
+  font-weight: 600
+
+.rg__req
+  margin-left: .5rem
+  font-size: .8rem
+  font-weight: 400
+  color: var(--muted)
+
+.rg__options
+  display: grid
+  gap: .35rem
+
+.rg.is-horizontal .rg__options
+  display: flex
+  flex-wrap: wrap
+  gap: .5rem 1.5rem
+
+.rg__option
+  position: relative
+  display: inline-flex
+  align-items: flex-start
+  gap: .6rem
+  min-height: 32px
+  cursor: pointer
+  &.is-disabled
+    color: var(--muted)
+    cursor: default
+
+/* input nativo invisível sobre o "dot" (continua focável e anunciado) */
+.rg__input
+  position: absolute
+  inset: 0
+  width: 100%
+  height: 100%
+  margin: 0
+  opacity: 0
+  cursor: inherit
+
+.rg__dot
+  --_border: var(--cb-border)
+  --_ring: transparent
+  flex: none
+  box-sizing: border-box
+  width: var(--cb-size)
+  height: var(--cb-size)
+  margin-top: .1rem
+  border-radius: 50%
+  border: 2px solid var(--_border)
+  background: var(--cb-bg)
+  box-shadow: 0 0 0 4px var(--_ring)
+  display: grid
+  place-items: center
+  transition: border-color .12s, box-shadow .12s
+  &::after
+    content: ""
+    width: 50%
+    height: 50%
+    border-radius: 50%
+    background: var(--cb-checked-bg)
+    transform: scale(0)
+    transition: transform .12s
+
+.rg__input:checked + .rg__dot
+  --_border: var(--cb-checked-bg)
+  &::after
+    transform: scale(1)
+
+.rg__option:not(.is-disabled):hover .rg__dot
+  --_border: var(--cb-checked-bg)
+  --_ring: var(--cb-hover-ring)
+
+.rg__input:focus-visible + .rg__dot
+  --_ring: var(--cb-focus-ring)
+
+.rg__input:disabled + .rg__dot
+  --_border: var(--cb-disabled-border)
+  background: var(--cb-disabled-bg)
+  &::after
+    background: var(--cb-disabled-checked-bg)
+
+.rg.is-error .rg__dot
+  --_border: var(--danger)
+
+.rg__text
+  display: grid
+  gap: .1rem
+  line-height: 1.4
+
+.rg__desc
+  font-size: .85rem
+  color: var(--muted)
+
+.rg__msg
+  font-size: .85rem
+  color: var(--muted)
+  &--error
+    color: var(--danger)

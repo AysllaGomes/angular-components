@@ -160,6 +160,7 @@
    (abaixo disso os grupos não cabem ao lado da marca e dos controles) */
 @media (max-width: 1023px)
   .hdr
+    position: static
     grid-template-columns: auto 1fr auto
     grid-template-areas: 'menu brand actions'
     row-gap: 8px
@@ -183,7 +184,8 @@
     width: 18px
     height: 18px
 
-  /* Drop-down ocupa 100vw, alinhado à viewport (com safe-area) */
+  /* drop-down ancorado no header (sticky = bloco de contenção): largura exata da página,
+     sem 100vw, que inclui a barra de rolagem e criava rolagem lateral */
   .nav
     position: absolute
     left: 0
@@ -192,8 +194,6 @@
     margin-top: 6px
     z-index: 60
 
-    width: 100vw
-    transform: translateX(calc(50% - 50vw))
 
     display: grid
     grid-auto-rows: min-content

@@ -1,0 +1,94 @@
+/* trilho e bolinha; cores dos tokens do checkbox (--cb-*) */
+:host
+  display: inline-grid
+  gap: .25rem
+  --sw-w: 40px
+  --sw-h: 22px
+  --sw-pad: 3px
+
+.sw
+  position: relative
+  display: inline-flex
+  align-items: center
+  gap: .65rem
+  min-height: 32px
+  color: var(--fg)
+  cursor: pointer
+  user-select: none
+  &.label-first
+    flex-direction: row-reverse
+    justify-content: space-between
+  &.is-disabled
+    color: var(--muted)
+    cursor: default
+
+/* input nativo invisível sobre o switch (focável e anunciado) */
+.sw__input
+  position: absolute
+  inset: 0
+  width: 100%
+  height: 100%
+  margin: 0
+  opacity: 0
+  cursor: inherit
+
+.sw__track
+  --_ring: transparent
+  flex: none
+  box-sizing: border-box
+  position: relative
+  width: var(--sw-w)
+  height: var(--sw-h)
+  border-radius: 9999px
+  border: 2px solid var(--cb-border)
+  background: var(--cb-bg)
+  box-shadow: 0 0 0 4px var(--_ring)
+  transition: background-color .15s, border-color .15s, box-shadow .15s
+
+.sw__thumb
+  position: absolute
+  top: 50%
+  left: var(--sw-pad)
+  width: calc(var(--sw-h) - 2 * var(--sw-pad) - 4px)
+  height: calc(var(--sw-h) - 2 * var(--sw-pad) - 4px)
+  border-radius: 50%
+  background: var(--cb-border)
+  transform: translateY(-50%)
+  transition: left .15s, background-color .15s
+
+.sw__input:checked + .sw__track
+  background: var(--cb-checked-bg)
+  border-color: var(--cb-checked-bg)
+  .sw__thumb
+    background: var(--cb-mark)
+    left: calc(100% - var(--sw-h) + var(--sw-pad) + 4px)
+
+.sw:not(.is-disabled):hover .sw__track
+  --_ring: var(--cb-hover-ring)
+
+.sw__input:focus-visible + .sw__track
+  --_ring: var(--cb-focus-ring)
+
+.sw__input:disabled + .sw__track
+  border-color: var(--cb-disabled-border)
+  background: var(--cb-disabled-bg)
+  .sw__thumb
+    background: var(--cb-disabled-border)
+
+.sw__input:disabled:checked + .sw__track
+  background: var(--cb-disabled-checked-bg)
+  border-color: var(--cb-disabled-checked-bg)
+  /* bolinha clara (como o ✓ do checkbox desabilitado), senão some no trilho cinza */
+  .sw__thumb
+    background: var(--cb-mark)
+
+.sw__label:empty
+  display: none
+
+.sw__hint
+  font-size: .85rem
+  color: var(--muted)
+
+@media (prefers-reduced-motion: reduce)
+  .sw__track, .sw__thumb
+    transition: none
