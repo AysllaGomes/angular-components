@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.6.0](https://github.com/AysllaGomes/angular-components/compare/v2.5.0...v2.6.0) (2026-11-19)
+### Features
+- **tabs:** novos `app-tabs` / `app-tab`: abas no padrão WAI-ARIA
+  (tablist/tab/tabpanel):
+  - teclado: Tab entra na aba aberta e vai para o painel; as setas trocam de aba
+    (pulando as desabilitadas, com volta), Home/End;
+  - `activation="manual"`: as setas só movem o foco, Enter/Espaço abrem a aba
+    (para conteúdo custoso);
+  - `[(selected)]` por chave, contador `badge` (lido como "Pedidos (3)"),
+    rótulo próprio com ícone (`appTabLabel`), abas desabilitadas;
+  - o conteúdo direto fica escondido (o estado é mantido); `<ng-template
+    appTabContent>` só é criado ao abrir, e `keepAlive` o mantém depois da
+    primeira visita;
+  - muitas abas: a lista rola na horizontal sem rolar a página e mantém a aba
+    aberta à vista (também depois de a fonte carregar ou o celular girar);
+    tokens `--tabs-*`.
+- **tree-select:** `loadChildren`: nós com `leaf: false` buscam os filhos ao
+  serem abertos (Promise ou Observable); anel girando com `aria-busy` e anúncio
+  para leitor de tela enquanto carrega; no erro, a mensagem aparece na linha e
+  abrir de novo tenta outra vez; dá para marcar um grupo antes de carregá-lo.
+- **tree-select:** `valueMode="summary"`: no checkbox, grupo com todas as folhas
+  marcadas vira a key do grupo (em qualquer nível), com um chip por grupo; key de
+  grupo vinda de fora marca o grupo inteiro.
+
+### Bug Fixes
+- **theme:** mensagens e bordas de erro (Select, TreeSelect, form-field, Checkbox,
+  Radio) tinham contraste de 3,8:1 no tema claro; agora 6,5:1 (WCAG AA).
+
+### Demo
+- Nova seção Tabs (contador, ícone, aba desabilitada, ativação manual com conteúdo
+  sob demanda, 12 meses rolando) e dois exemplos novos no TreeSelect: carregando
+  de uma API simulada (a Bahia falha na primeira vez) e valor resumido.
+
 ## [2.5.0](https://github.com/AysllaGomes/angular-components/compare/v2.4.0...v2.5.0) (2026-11-19)
 ### Features
 - **forms:** validação centralizada para formulários reativos, documentada em

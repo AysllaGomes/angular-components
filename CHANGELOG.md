@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.6.0](https://github.com/AysllaGomes/angular-components/compare/v2.5.0...v2.6.0) (2026-11-19)
+
+
+### Features
+
+* **tabs:** new `app-tabs` / `app-tab`: WAI-ARIA tabs (tablist/tab/tabpanel) ([985bf11](https://github.com/AysllaGomes/angular-components/commit/985bf11))
+  * keyboard: Tab enters the open tab and moves on to the panel; arrows switch tabs (skipping disabled ones, wrapping), Home/End
+  * `activation="manual"`: arrows only move focus, Enter/Space open the tab (for expensive content)
+  * `[(selected)]` by key, `badge` counter (read as "Orders (3)"), custom label with icon (`appTabLabel`), disabled tabs
+  * direct content is kept hidden (state survives); `<ng-template appTabContent>` is created only when opened, and `keepAlive` keeps it after the first visit
+  * many tabs: the list scrolls horizontally without scrolling the page and keeps the open tab in view (also after fonts load or the phone rotates); `--tabs-*` tokens
+* **tree-select:** `loadChildren`: nodes with `leaf: false` fetch their children when opened (Promise or Observable); spinner with `aria-busy` and screen-reader announcement while loading; on error the message shows on the row and opening again retries; a group can be checked before it is loaded ([e5c7bcf](https://github.com/AysllaGomes/angular-components/commit/e5c7bcf))
+* **tree-select:** `valueMode="summary"`: in checkbox mode a group with all leaves checked becomes the group key (at any level), with one chip per group; a group key coming from outside checks the whole group ([e5c7bcf](https://github.com/AysllaGomes/angular-components/commit/e5c7bcf))
+
+
+### Bug Fixes
+
+* **theme:** error messages and borders (Select, TreeSelect, form-field, Checkbox, Radio) had 3.8:1 contrast in the light theme; now 6.5:1 (WCAG AA) ([0564ed8](https://github.com/AysllaGomes/angular-components/commit/0564ed8))
+
+
+### Demo
+
+* New Tabs section (badge, icon, disabled tab, manual activation with on-demand content, 12 scrolling months) and two TreeSelect examples: loading from a simulated API (Bahia fails the first time) and summarized value ([985bf11](https://github.com/AysllaGomes/angular-components/commit/985bf11)), ([e5c7bcf](https://github.com/AysllaGomes/angular-components/commit/e5c7bcf))
+
 ## [2.5.0](https://github.com/AysllaGomes/angular-components/compare/v2.4.0...v2.5.0) (2026-11-19)
 
 
