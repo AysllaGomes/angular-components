@@ -2,7 +2,20 @@
   class="pg"
   [class.pg--compact]="compact() === true"
   [class.pg--auto]="compact() === 'auto'"
-  aria-label="Pagination">
+  aria-label="Pagination"
+  (keydown)="onKeydown($event)">
+  @if (showFirstLast()) {
+    <button
+      appButton="ghost"
+      size="sm"
+      type="button"
+      (click)="first()"
+      [disabled]="!canPrev"
+      aria-label="{{ 'pagination.first' | t }}">
+      «
+    </button>
+  }
+
   <button
     appButton="ghost"
     size="sm"
@@ -40,4 +53,16 @@
     aria-label="{{ 'pagination.next' | t }}">
     ›
   </button>
+
+  @if (showFirstLast()) {
+    <button
+      appButton="ghost"
+      size="sm"
+      type="button"
+      (click)="last()"
+      [disabled]="!canNext"
+      aria-label="{{ 'pagination.last' | t }}">
+      »
+    </button>
+  }
 </nav>

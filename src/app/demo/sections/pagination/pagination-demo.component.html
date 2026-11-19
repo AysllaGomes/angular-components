@@ -24,6 +24,7 @@
           [pageIndex]="pageIndex()"
           [maxVisible]="5"
           compact="auto"
+          showFirstLast
           (pageChange)="pageIndex.set($event)">
         </app-pagination>
       }
@@ -38,6 +39,7 @@
         [pageSize]="pageSize()"
         [pageIndex]="pageIndex()"
         compact
+        showFirstLast
         (pageChange)="pageIndex.set($event)">
       </app-pagination>
     </div>

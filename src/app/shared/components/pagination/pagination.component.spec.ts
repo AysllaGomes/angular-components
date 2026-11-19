@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaginationComponent } from './pagination.component';
@@ -145,5 +145,119 @@ describe('PaginationComponent', () => {
       expect(cmp.compact()).toBe(true);
       expect(nav().classList).toContain('pg--compact');
     });
+  });
+});
+
+// ===== Primeira/Última e teclado (com um pai que aplica a página emitida) =====
+
+@Component({
+  imports: [PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-pagination [total]="100" [pageSize]="10" [maxVisible]="3"
+                    [pageIndex]="page()" [showFirstLast]="firstLast()" [compact]="compact()"
+                    (pageChange)="page.set($event)" />
+  `
+})
+class PagerHostComponent {
+  page = signal(0);
+  firstLast = signal(true);
+  compact = signal<boolean | 'auto'>(false);
+}
+
+describe('PaginationComponent first/last and keyboard', () => {
+  let fixture: ComponentFixture<PagerHostComponent>;
+  let host: PagerHostComponent;
+  let el: HTMLElement;
+
+  const btn = (label: string) => el.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`);
+  const nav = () => el.querySelector<HTMLElement>('nav.pg')!;
+  const currentBtn = () => el.querySelector<HTMLButtonElement>('.pg-btn[aria-current="page"]')!;
+  const press = async (target: HTMLElement, key: string, init: KeyboardEventInit = {}) => {
+    target.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init }));
+    await fixture.whenStable();
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PagerHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(PagerHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  it('first/last buttons only render with showFirstLast', async () => {
+    expect(btn('Primeira')).not.toBeNull();
+    expect(btn('Última')).not.toBeNull();
+
+    host.firstLast.set(false);
+    await fixture.whenStable();
+    expect(btn('Primeira')).toBeNull();
+    expect(btn('Última')).toBeNull();
+  });
+
+  it('first/last jump to the ends and are disabled at them', async () => {
+    expect(btn('Primeira')!.disabled).toBe(true);
+
+    btn('Última')!.click();
+    await fixture.whenStable();
+    expect(host.page()).toBe(9);
+    expect(btn('Última')!.disabled).toBe(true);
+
+    btn('Primeira')!.click();
+    await fixture.whenStable();
+    expect(host.page()).toBe(0);
+  });
+
+  it('←/→ go to the previous/next page and Home/End to the ends', async () => {
+    currentBtn().focus();
+    await press(currentBtn(), 'ArrowRight');
+    expect(host.page()).toBe(1);
+    await press(currentBtn(), 'ArrowRight');
+    expect(host.page()).toBe(2);
+    await press(currentBtn(), 'ArrowLeft');
+    expect(host.page()).toBe(1);
+    await press(currentBtn(), 'End');
+    expect(host.page()).toBe(9);
+    await press(currentBtn(), 'Home');
+    expect(host.page()).toBe(0);
+  });
+
+  it('stays put at the ends and ignores keys with modifiers', async () => {
+    await press(currentBtn(), 'ArrowLeft');
+    expect(host.page()).toBe(0);
+
+    await press(currentBtn(), 'ArrowRight', { ctrlKey: true });
+    expect(host.page()).toBe(0);
+  });
+
+  it('keeps focus on the current page button when the number window slides', async () => {
+    // maxVisible=3: indo de 1 para 5, o botão "1" sai da janela
+    currentBtn().focus();
+    for (let i = 0; i < 4; i++) await press(document.activeElement as HTMLElement, 'ArrowRight');
+    expect(host.page()).toBe(4);
+    expect(document.activeElement).toBe(currentBtn());
+    expect(document.activeElement?.textContent?.trim()).toBe('5');
+  });
+
+  it('moves focus off a button that became disabled (prev at the first page)', async () => {
+    host.page.set(1);
+    await fixture.whenStable();
+    const prev = btn('Anterior')!;
+    prev.focus();
+
+    await press(prev, 'ArrowLeft');
+    expect(host.page()).toBe(0);
+    expect(prev.disabled).toBe(true);
+    expect(document.activeElement).not.toBe(prev);
+    expect(nav().contains(document.activeElement)).toBe(true);
+  });
+
+  it('the nav is the keyboard target (works from any button inside it)', async () => {
+    await press(btn('Próxima')!, 'ArrowRight');
+    expect(host.page()).toBe(1);
   });
 });

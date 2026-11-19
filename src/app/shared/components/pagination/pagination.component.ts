@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  afterNextRender,
+  booleanAttribute,
+  inject,
+  input,
+  output
+} from '@angular/core';
 
 import { TPipe } from '../../i18n/t.pipe';
 
@@ -32,6 +42,8 @@ export class PaginationComponent {
   readonly compact = input<boolean | 'auto', boolean | 'auto' | ''>(false, {
     transform: v => v === '' ? true : v
   });
+  /** mostra os botões « Primeira / Última » nas pontas */
+  readonly showFirstLast = input(false, { transform: booleanAttribute });
 
   /** emite o novo índice (0-based) */
   readonly pageChange = output<number>();
@@ -79,4 +91,49 @@ export class PaginationComponent {
   }
   prev() { if (this.canPrev) this.pageChange.emit(this.current - 1); }
   next() { if (this.canNext) this.pageChange.emit(this.current + 1); }
+  first() { this.goTo(0); }
+  last()  { this.goTo(this.pageCount - 1); }
+
+  // ---- teclado: ←/→ página anterior/próxima, Home/End primeira/última
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
+
+  onKeydown(e: KeyboardEvent) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const targets: Record<string, number> = {
+      ArrowLeft: this.current - 1,
+      ArrowRight: this.current + 1,
+      Home: 0,
+      End: this.pageCount - 1,
+    };
+    if (!(e.key in targets)) return;
+    e.preventDefault();
+    const target = targets[e.key];
+    if (target === this.current || target < 0 || target >= this.pageCount) return; // já está na ponta
+    this.pageChange.emit(target);
+    this.keepFocusAfterChange(target > this.current);
+  }
+
+  /**
+   * Depois que o pai aplicar a nova página e a view renderizar, garante que o foco
+   * não se perdeu: o botão focado pode ter saído da janela de números ou ficado
+   * desabilitado (ex.: "‹" na primeira página). Vai para a página atual; no modo
+   * compacto (números ocultos), para a seta habilitada mais próxima: indo para a
+   * frente, a última habilitada ("‹" quando "›"/"»" desabilitam); indo para trás, a primeira.
+   */
+  private keepFocusAfterChange(forward: boolean) {
+    afterNextRender(() => {
+      const root = this.host.nativeElement;
+      const active = document.activeElement as HTMLElement | null;
+      const lost = !active || !root.contains(active) || (active as HTMLButtonElement).disabled
+        || active.classList.contains('pg-btn');
+      if (!lost) return;
+      const isVisible = (el: HTMLElement | null) => !!el && el.getClientRects().length > 0;
+      const current = root.querySelector<HTMLElement>('.pg-btn[aria-current="page"]');
+      const arrows = Array.from(root.querySelectorAll<HTMLButtonElement>('button:not([disabled])'))
+        .filter(b => isVisible(b) && !b.classList.contains('pg-btn'));
+      const fallback = forward ? arrows[arrows.length - 1] : arrows[0];
+      (isVisible(current) ? current : fallback ?? current)?.focus();
+    }, { injector: this.injector });
+  }
 }

@@ -32,6 +32,7 @@ src/app/shared/components/pagination/
 | `pageIndex` | `number`    | `0`    | Índice da página atual (**0‑based**). |
 | `maxVisible`| `number`    | `5`    | Máximo de botões numéricos exibidos. |
 | `compact`   | `boolean \| 'auto'` | `false` | `true`: mostra "Página X de Y" entre as setas no lugar dos números. `'auto'`: só em telas ≤ 420px (CSS). Aceita o atributo vazio (`compact`). |
+| `showFirstLast` | `boolean` | `false` | Mostra os botões « Primeira / Última » nas pontas (desabilitados quando já está nela). Aceita o atributo vazio. |
 
 ### Outputs
 | Evento       | Payload   | Quando dispara |
@@ -44,6 +45,7 @@ src/app/shared/components/pagination/
 - Botões “‹/›” são desativados no início/fim.
 - Numeração exibida com janela deslizante até `maxVisible`.
 - No modo compacto, o texto "Página X de Y" tem `aria-live="polite"`: leitores de tela anunciam a troca de página.
+- **Teclado**: com o foco em qualquer botão da paginação, `←`/`→` vão para a página anterior/próxima e `Home`/`End` para a primeira/última. Depois da troca o foco vai para o botão da página atual (no modo compacto, para a seta habilitada mais próxima), então ele não se perde quando a janela de números desliza ou uma seta desabilita.
 - Acessível: `aria-label`/`aria-current`, foco visível.
 
 ---
@@ -127,6 +129,6 @@ Defina no wrapper (ou globalmente) — o componente já possui *fallbacks*:
 ---
 
 ## Roadmap
-- [ ] Botão “Primeira/Última” (opcional).
-- [ ] Atalhos de teclado (←/→).
+- [x] Botões “Primeira/Última” (`showFirstLast`).
+- [x] Atalhos de teclado (←/→, Home/End).
 - [x] Versão compacta (`compact` = `true` / `'auto'`).

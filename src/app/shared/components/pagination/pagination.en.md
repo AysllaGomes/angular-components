@@ -26,6 +26,7 @@ src/app/shared/components/pagination/
 | `pageIndex`  | `number`  | `0`    | Zero‑based page index. |
 | `maxVisible` | `number`  | `5`    | Maximum visible numeric buttons. |
 | `compact`    | `boolean \| 'auto'` | `false` | `true`: shows "Page X of Y" between the arrows instead of numbers. `'auto'`: only on screens ≤ 420px (CSS). Accepts the bare attribute (`compact`). |
+| `showFirstLast` | `boolean` | `false` | Shows the « First / Last » buttons at the ends (disabled when already there). Accepts the bare attribute. |
 
 ### Output
 | Output      | Payload  | When |
@@ -33,10 +34,11 @@ src/app/shared/components/pagination/
 | `pageChange`| `number` | Emits the new `pageIndex` (0‑based). |
 
 Behavior:
-- Only renders when `pageCount > 1`.
+- Always rendered; to hide it when there is a single page, wrap it in `@if` in the container (see the Table example).
 - Prev/Next disabled at bounds.
 - Sliding window for numeric buttons up to `maxVisible`.
 - In compact mode, the "Page X of Y" text has `aria-live="polite"`, so screen readers announce page changes.
+- **Keyboard**: with focus on any pagination button, `←`/`→` go to the previous/next page and `Home`/`End` to the first/last. After the change, focus moves to the current page button (in compact mode, to the nearest enabled arrow), so it is not lost when the number window slides or an arrow gets disabled.
 - Accessible labels and `aria-current="page"` on the active button.
 
 ---
@@ -92,6 +94,6 @@ pagedRows = computed(() => {
 ---
 
 ## Roadmap
-- [ ] First/Last buttons (optional)
-- [ ] Keyboard shortcuts (←/→)
+- [x] First/Last buttons (`showFirstLast`)
+- [x] Keyboard shortcuts (←/→, Home/End)
 - [x] Compact mode (`compact` = `true` / `'auto'`)
