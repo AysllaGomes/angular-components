@@ -1,12 +1,13 @@
-.pg .page.is-active
-  background: var(--pg-active-bg)
-  color: var(--pg-active-fg)
-
+/* resumo à esquerda, "itens por página" à direita; se não couber,
+   o seletor desce para a linha de baixo em vez de espremer os textos */
 .row
   display: flex
-  gap: 1rem
+  flex-wrap: wrap
+  gap: .5rem 1rem
   align-items: center
   justify-content: space-between
+  > *
+    white-space: nowrap
 
 .pager-wrap
   margin-top: .75rem
@@ -35,7 +36,7 @@
     transition: border-color .15s ease, box-shadow .15s ease, background .15s ease
 
     &:hover
-      background: color-mix(in srgb, var(--surface-2) 90%, white)
+      background: color-mix(in srgb, var(--surface-2) 92%, var(--fg))
 
     &:focus-visible
       outline: none
