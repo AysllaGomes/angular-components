@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0](https://github.com/AysllaGomes/angular-components/compare/v2.3.0...v2.4.0) (2026-11-19)
+
+
+### Features
+
+* **radio:** new `app-radio-group`: single choice built on a native `<fieldset>`/`<legend>` and radios (Tab enters/leaves the group, arrows change the option, skipping disabled ones); per-option `description`, vertical/horizontal `orientation`, required/hint/error (`aria-invalid`), `formControl`/`ngModel` ([cfae0b4](https://github.com/AysllaGomes/angular-components/commit/cfae0b4))
+* **switch:** new `app-switch`: native checkbox with `role="switch"` (announced as on/off); `labelFirst` layout for settings lists, hint, forms; respects reduced motion ([cfae0b4](https://github.com/AysllaGomes/angular-components/commit/cfae0b4))
+* **stepper:** `ariaLabel` (navigation name) and `doneLabel` (screen-reader text for completed steps) inputs ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+* **pagination:** `ariaLabel` input; the default name now comes from i18n ("Paginação"/"Pagination") ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+
+
+### Bug Fixes (accessibility)
+
+Found by the new automated checks (axe-core):
+
+* **stepper:** it pretended to be tabs (`tablist`/`tab`, `aria-selected`) with roles in the wrong places and `aria-valuenow` on a `<nav>`. Now a named navigation with an ordered list; the current step has `aria-current="step"` ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+* **table:** sortable headers were `<th role="button">` with `aria-sort` (invalid). The `<th>` stays a column header with `aria-sort` and a real `<button>` inside sorts ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+* **select:** the option list had no accessible name and the label was not read with the field ("Banana, button" → "Food, Banana") ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+* **pagination:** `role="list"` wrapping buttons removed; the name was hard-coded in English and identical for every pagination on the page ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+
+
+### Tests
+
+* Automated accessibility checks with axe-core for every component, in the states that matter (open, with error, disabled...), run by `npm run test:ci` and CI ([8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+
+
+### Demo
+
+* Header menu grouped by category (Forms, Data, Overlays, Navigation & actions) using the WAI-ARIA disclosure navigation pattern; compact (☰) menu below 1024px, without the horizontal scroll it used to cause ([58e842b](https://github.com/AysllaGomes/angular-components/commit/58e842b), [cfae0b4](https://github.com/AysllaGomes/angular-components/commit/cfae0b4))
+* New Radio group and Switch sections; README demo link fixed (it pointed to an old site) and a Quality section ([cfae0b4](https://github.com/AysllaGomes/angular-components/commit/cfae0b4), [8cf9c12](https://github.com/AysllaGomes/angular-components/commit/8cf9c12))
+* CI runs get readable titles ("Deploy do site · …", "Release v…", "CI · branch") ([63832f6](https://github.com/AysllaGomes/angular-components/commit/63832f6))
+
 ## [2.3.0](https://github.com/AysllaGomes/angular-components/compare/v2.2.0...v2.3.0) (2026-11-19)
 
 

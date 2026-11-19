@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0](https://github.com/AysllaGomes/angular-components/compare/v2.3.0...v2.4.0) (2026-11-19)
+### Features
+- **radio:** novo `app-radio-group`: escolha única sobre `<fieldset>`/`<legend>` e
+  radios nativos (Tab entra/sai do grupo, setas trocam a opção, pulando as
+  desabilitadas); `description` por opção, `orientation` vertical/horizontal,
+  obrigatório/dica/erro (`aria-invalid`), `formControl`/`ngModel`.
+- **switch:** novo `app-switch`: checkbox nativo com `role="switch"` (anunciado
+  como ligado/desligado); layout `labelFirst` para listas de configurações, dica,
+  formulários; respeita "reduzir movimento".
+- **stepper:** inputs `ariaLabel` (nome da navegação) e `doneLabel` (texto para
+  leitor de tela nas etapas concluídas).
+- **pagination:** input `ariaLabel`; o nome padrão agora vem do i18n
+  ("Paginação"/"Pagination").
+
+### Bug Fixes (acessibilidade)
+Encontrados pela nova checagem automática (axe-core):
+- **stepper:** fingia ser abas (`tablist`/`tab`, `aria-selected`), com papéis em
+  lugares errados e `aria-valuenow` num `<nav>`. Agora é uma navegação nomeada com
+  lista ordenada; a etapa atual tem `aria-current="step"`.
+- **table:** cabeçalhos ordenáveis eram `<th role="button">` com `aria-sort`
+  (inválido). O `<th>` continua cabeçalho de coluna com `aria-sort` e um
+  `<button>` de verdade dentro dele ordena.
+- **select:** a lista de opções não tinha nome acessível e o rótulo não era lido
+  com o campo ("Banana, botão" → "Comida, Banana").
+- **pagination:** removido o `role="list"` envolvendo botões; o nome era fixo em
+  inglês e igual em todas as paginações da página.
+
+### Tests
+- Checagem automática de acessibilidade com axe-core em todos os componentes, nos
+  estados que importam (aberto, com erro, desabilitado...), rodando no
+  `npm run test:ci` e no CI.
+
+### Demo
+- Menu do cabeçalho agrupado por categoria (Formulário, Dados, Sobreposições,
+  Navegação e ações) no padrão WAI-ARIA de "disclosure navigation"; menu compacto
+  (☰) abaixo de 1024px, sem a rolagem lateral que ele causava.
+- Novas seções Radio group e Switch; link da demo no README corrigido (apontava
+  para um site antigo) e seção de Qualidade.
+- Os runs do CI ganharam títulos legíveis ("Deploy do site · …", "Release v…",
+  "CI · branch").
+
 ## [2.3.0](https://github.com/AysllaGomes/angular-components/compare/v2.2.0...v2.3.0) (2026-11-19)
 ### Features
 - **checkbox:** novo `app-checkbox`: checkbox acessível com estado **parcial**
