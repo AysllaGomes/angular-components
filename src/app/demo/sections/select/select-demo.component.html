@@ -42,6 +42,24 @@
   </article>
 
   <article class="card">
+    <h3>{{ 'select.demo.groups.title' | t }}</h3>
+    <app-select
+      [label]="'select.food.label' | t"
+      [panelTitle]="'select.food.label' | t"
+      [placeholder]="'select.food.placeholder' | t"
+      [options]="groupedOptions()"
+      [value]="alimento()"
+      (valueChange)="alimento.set($event)"
+      [hint]="'select.demo.groups.hint' | t"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [responsive]="'auto'"
+      [sheetBreakpoint]="560"
+      [closeAriaLabel]="'select.close' | t">
+    </app-select>
+  </article>
+
+  <article class="card">
     <h3>{{ 'select.demo.disabled.title' | t }}</h3>
     <app-select
       [label]="'select.label' | t"

@@ -52,6 +52,23 @@ export const SELECT: Dict = {
 
   'select.filter.placeholder':     { pt: 'Filtrar…',        en: 'Filter…' },
 
+  // grupos + typeahead
+  'select.demo.groups.title': { pt: 'Com grupos e busca por digitação', en: 'With groups and type-to-select' },
+  'select.demo.groups.hint':  {
+    pt: 'Com o campo focado, digite a inicial (ex.: "b") para escolher sem abrir.',
+    en: 'With the field focused, type the first letter (e.g. "b") to pick without opening.'
+  },
+  'select.food.label':       { pt: 'Alimento',            en: 'Food' },
+  'select.food.placeholder': { pt: 'Selecione um alimento', en: 'Choose a food' },
+  'select.group.fruits':     { pt: 'Frutas',   en: 'Fruits' },
+  'select.group.veggies':    { pt: 'Legumes',  en: 'Vegetables' },
+  'select.food.banana':      { pt: 'Banana',   en: 'Banana' },
+  'select.food.pineapple':   { pt: 'Abacaxi',  en: 'Pineapple' },
+  'select.food.mango':       { pt: 'Manga',    en: 'Mango' },
+  'select.food.carrot':      { pt: 'Cenoura',  en: 'Carrot' },
+  'select.food.broccoli':    { pt: 'Brócolis', en: 'Broccoli' },
+  'select.food.potato':      { pt: 'Batata (indisponível)', en: 'Potato (unavailable)' },
+
   'select.demo.forms.title':   { pt: 'Com Reactive Forms (formControl)', en: 'With Reactive Forms (formControl)' },
   'select.demo.forms.disable': { pt: 'Desabilitar', en: 'Disable' },
   'select.demo.forms.enable':  { pt: 'Habilitar',   en: 'Enable' },

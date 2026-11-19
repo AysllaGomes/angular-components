@@ -13,6 +13,8 @@ A lightweight, accessible **select** themed with **CSS Variables**. Supports opt
 - Optional **filter** in the panel, diacritics/case-insensitive.
 - **A11y**: `role="listbox"`/`role="option"`, `aria-expanded`, `aria-selected`, `aria-invalid`, closes on *Escape* and outside click, managed focus.
 - **Keyboard**: arrows ↑/↓, Home/End, Enter, Escape, Tab/Shift+Tab.
+- **Type-to-select (typeahead)**: typing letters picks the option (closed) or moves the highlight (open).
+- **Groups**: options sharing a `group` are shown together under a heading.
 - **Theming**: inherits global tokens (`--accent`, `--surface`, `--fg`) and exposes `--sel-*` overrides.
 - **Validation**: external `error` takes precedence; built-in required check when `required` + `autoValidate`.
 - **New:** **Clearable** — optional (×) button inside the control to clear the selection.
@@ -37,7 +39,7 @@ A lightweight, accessible **select** themed with **CSS Variables**. Supports opt
 ```
 
 ```ts
-options = computed<SelectOption<string>>(() => [
+options = computed<SelectOption<string>[]>(() => [
   { label: i18n.t('select.option.hover'), value: 'hover' },
   { label: i18n.t('select.option.o1'),    value: 'o1' },
   { label: i18n.t('select.option.o2'),    value: 'o2' },
@@ -108,6 +110,23 @@ options = computed<SelectOption<string>>(() => [
 ```
 > Tip: localize the clear button with the `select.clear` key.
 
+### Groups and typeahead
+
+```ts
+foods: SelectOption<string>[] = [
+  { label: 'Banana',    value: 'banana',    group: 'Fruits' },
+  { label: 'Carrot',    value: 'carrot',    group: 'Vegetables' },
+  { label: 'Pineapple', value: 'pineapple', group: 'Fruits' }, // shown together with "Fruits"
+  { label: 'Potato',    value: 'potato',    group: 'Vegetables', disabled: true },
+];
+```
+
+```html
+<app-select label="Food" [options]="foods" [(value)]="food" />
+```
+
+Groups appear in the order they first show up in the list; options without `group` are not under any heading. Typeahead is always on, no setup: with the field focused, type `c` to pick "Carrot".
+
 ### Forms (Reactive Forms and `ngModel`)
 The component implements `ControlValueAccessor`, so it works with `formControl`, `formControlName` and `[(ngModel)]`:
 
@@ -158,7 +177,7 @@ categoryError(): string | null {
 | `requiredError`     | `string`            | `'Campo obrigatório'` | Built-in required message.                              |
 | `autoValidate`      | `boolean`           |                `true` | Validate on blur/close.                                 |
 | `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
-| `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled? }`.                  |
+| `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled?, group? }`.                |
 | `value`             | `T \| null`         |                `null` | Selected value (without forms).                         |
 
 ### Outputs
@@ -174,6 +193,7 @@ categoryError(): string | null {
 - **List**: `role="listbox"`, items with `role="option"` and `aria-selected`.
 - Closes on **Escape**, outside click and after selection.
 - **Keyboard**: `Enter`/`Space` to open; inside the panel use `↑/↓`, `Home/End`, `Enter` to select.
+- **Typeahead**: with the field focused and closed, typing picks the first option whose label starts with the text (accent/case-insensitive) without opening; repeating the same letter cycles through options with that initial. With the panel open, typing only moves the highlight (`Enter` confirms). Disabled options are skipped; the search resets after 500 ms of no typing. With `filterable`, text goes to the filter.
 - **Focus** returns to the button after selection.
 - **New (clearable)**: the clear button is focusable with `aria-label="{{ 'select.clear' | t }}"`. On keyboard, **Enter/Space** clears and returns focus to the control button.
 
@@ -239,8 +259,8 @@ The Select uses these variables (safe to override per scope):
 ## Roadmap / ideas
 - [x] **ControlValueAccessor** for `formControlName`/`ngModel`.
 - [x] **Clear button** (×) inside the control.
-- [ ] **Typeahead while closed**: typing moves selection.
-- [ ] **Groups** (optgroup) and separators.
+- [x] **Typeahead**: typing selects (closed) or highlights (open) the option.
+- [x] **Groups** (`group` field, with `role="group"`).
 - [ ] **Async** data + skeleton in panel.
 - [ ] **Virtual scroll** for large lists.
 - [ ] Optional **Portal/Overlay** to escape clipping containers.

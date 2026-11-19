@@ -71,23 +71,39 @@
             aria-label="Filtrar opções" />
           </div>
         }
-        <!-- lista -->
-        @for (p of filtered(); track p.i; let fi = $index) {
-          <div
-            class="option"
-            [id]="optionId(fi)"
-            role="option"
-            [attr.aria-selected]="p.opt.value===current()"
-            [class.is-selected]="p.opt.value===current()"
-            [class.is-active]="fi===highlighted()"
-            [class.is-disabled]="p.opt.disabled"
-            (mouseenter)="highlight(fi)"
-            (click)="select(p.opt, fi)">
-            {{ p.opt.label }}
-          </div>
+        <!-- lista (opções com `group` ficam sob um título, em role="group") -->
+        @for (sec of sections(); track $index; let si = $index) {
+          @if (sec.group !== null) {
+            <div class="group" role="group" [attr.aria-labelledby]="groupId(si)">
+              <div class="group-label" [id]="groupId(si)" role="presentation">{{ sec.group }}</div>
+              @for (p of sec.items; track p.i) {
+                <ng-container [ngTemplateOutlet]="optionTpl" [ngTemplateOutletContext]="{ $implicit: p }" />
+              }
+            </div>
+          } @else {
+            @for (p of sec.items; track p.i) {
+              <ng-container [ngTemplateOutlet]="optionTpl" [ngTemplateOutletContext]="{ $implicit: p }" />
+            }
+          }
         }
       </div>
     }
+
+    <ng-template #optionTpl let-p>
+      <div
+        class="option"
+        [id]="optionId(p.fi)"
+        role="option"
+        [attr.aria-selected]="p.opt.value===current()"
+        [attr.aria-disabled]="p.opt.disabled || null"
+        [class.is-selected]="p.opt.value===current()"
+        [class.is-active]="p.fi===highlighted()"
+        [class.is-disabled]="p.opt.disabled"
+        (mouseenter)="highlight(p.fi)"
+        (click)="select(p.opt, p.fi)">
+        {{ p.opt.label }}
+      </div>
+    </ng-template>
 
     @if (!displayError() && hint()) {
       <div class="hint">{{ hint() }}</div>

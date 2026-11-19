@@ -26,12 +26,27 @@ export class SelectDemoComponent {
   categoriaFilter  = signal<string | null>(null);
   categoriaDisabled= signal<string | null>('o1');
   categoriaNoReq   = signal<string | null>(null);
+  alimento         = signal<string | null>(null);
 
   options = computed<SelectOption<string>[]>(() => [
     { label: this.i18n.t('select.option.hover'), value: 'hover' },
     { label: this.i18n.t('select.option.o1'),    value: 'o1' },
     { label: this.i18n.t('select.option.o2'),    value: 'o2' },
   ]);
+
+  /** opções agrupadas (o campo `group` junta as opções sob um título) */
+  groupedOptions = computed<SelectOption<string>[]>(() => {
+    const fruits = this.i18n.t('select.group.fruits');
+    const veggies = this.i18n.t('select.group.veggies');
+    return [
+      { label: this.i18n.t('select.food.banana'),   value: 'banana',   group: fruits },
+      { label: this.i18n.t('select.food.pineapple'), value: 'pineapple', group: fruits },
+      { label: this.i18n.t('select.food.mango'),    value: 'mango',    group: fruits },
+      { label: this.i18n.t('select.food.carrot'),   value: 'carrot',   group: veggies },
+      { label: this.i18n.t('select.food.broccoli'), value: 'broccoli', group: veggies },
+      { label: this.i18n.t('select.food.potato'),   value: 'potato',   group: veggies, disabled: true },
+    ];
+  });
 
   // ===== Reactive Forms (ControlValueAccessor) =====
   categoriaCtrl = new FormControl<string | null>(null, Validators.required);

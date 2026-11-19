@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   computed,
   forwardRef,
   input,
@@ -12,6 +13,7 @@ import {
   signal,
   viewChild
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ResponsiveMode } from '../../model/type/responsive-mode.type';
@@ -20,10 +22,20 @@ import { SelectOption } from '../../model/interface/select/select-option.interfa
 
 let uid = 0;
 
+/** tempo (ms) sem digitar até o typeahead recomeçar a busca */
+export const TYPEAHEAD_RESET_MS = 500;
+
+/** opção com o índice original (`i`) */
+interface Indexed<T> { opt: SelectOption<T>; i: number; }
+/** opção com o índice original (`i`) e a posição na lista visível (`fi`) */
+interface Positioned<T> extends Indexed<T> { fi: number; }
+/** bloco de opções consecutivas do mesmo grupo (`group: null` = sem grupo) */
+interface Section<T> { group: string | null; items: Positioned<T>[]; }
+
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: [],
+  imports: [NgTemplateOutlet],
   templateUrl: './select.component.html',
   styleUrl: './select.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,7 +44,7 @@ let uid = 0;
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent), multi: true }
   ]
 })
-export class SelectComponent<T = any> implements AfterViewInit, ControlValueAccessor {
+export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, ControlValueAccessor {
   // ---- API
   readonly label = input('');
   readonly panelTitle = input<string | null>(null); // título no header da sheet
@@ -117,17 +129,82 @@ export class SelectComponent<T = any> implements AfterViewInit, ControlValueAcce
   private norm = (s: string) =>
     s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-  /** lista filtrada {opt, i} i = índice original */
-  readonly filtered = computed(() => {
+  /**
+   * Lista visível, na ordem de exibição: filtrada e com as opções de cada grupo
+   * juntas. `i` = índice original; a posição no array é o índice de navegação.
+   */
+  readonly filtered = computed<Indexed<T>[]>(() => {
     const q = this.norm(this.filter().trim());
     const all = this.options().map((opt, i) => ({ opt, i }));
-    if (!q) return all;
-    return all.filter(p => this.norm(String(p.opt.label)).includes(q));
+    return this.orderByGroup(q ? all.filter(p => this.norm(String(p.opt.label)).includes(q)) : all);
   });
+
+  /** a lista visível em blocos por grupo, para o template */
+  readonly sections = computed<Section<T>[]>(() => {
+    const out: Section<T>[] = [];
+    this.filtered().forEach((p, fi) => {
+      const group = p.opt.group ?? null;
+      let last = out[out.length - 1];
+      if (!last || last.group !== group) { last = { group, items: [] }; out.push(last); }
+      last.items.push({ ...p, fi });
+    });
+    return out;
+  });
+
+  /** junta as opções de cada grupo, mantendo a ordem de primeira aparição (sort estável) */
+  private orderByGroup(list: Indexed<T>[]): Indexed<T>[] {
+    const order = new Map<string | null, number>();
+    for (const p of list) {
+      const g = p.opt.group ?? null;
+      if (!order.has(g)) order.set(g, order.size);
+    }
+    if (order.size <= 1) return list;
+    return [...list].sort((a, b) => order.get(a.opt.group ?? null)! - order.get(b.opt.group ?? null)!);
+  }
 
   id = `sel-${++uid}`;
   get listboxId() { return `${this.id}-listbox`; }
   optionId(i: number) { return `${this.id}-opt-${i}`; }
+  groupId(si: number) { return `${this.id}-grp-${si}`; }
+
+  // ---- typeahead (digitar letras escolhe/destaca a opção, como no <select> nativo)
+  private typeBuffer = '';
+  private typeTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /** tecla imprimível sem modificadores; espaço só conta no meio de uma busca */
+  private isTypeaheadKey(e: KeyboardEvent): boolean {
+    if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return false;
+    return e.key !== ' ' || this.typeBuffer !== '';
+  }
+
+  private pushTypeahead(key: string) {
+    if (this.typeTimer) clearTimeout(this.typeTimer);
+    this.typeTimer = setTimeout(() => { this.typeBuffer = ''; this.typeTimer = null; }, TYPEAHEAD_RESET_MS);
+    this.typeBuffer += key;
+  }
+
+  /**
+   * Próxima opção habilitada cujo rótulo começa com o texto digitado (sem acento,
+   * sem caixa). A mesma letra repetida ("bbb") alterna entre as opções com essa
+   * inicial; um texto maior ("ban") continua na atual enquanto ela servir.
+   */
+  private typeaheadMatch(list: { opt: SelectOption<T> }[], current: number): number {
+    const buf = this.norm(this.typeBuffer);
+    if (!buf || !list.length) return -1;
+    const cycling = [...buf].every(c => c === buf[0]);
+    const query = cycling ? buf[0] : buf;
+    const from = cycling ? current + 1 : Math.max(current, 0);
+    for (let k = 0; k < list.length; k++) {
+      const idx = (from + k) % list.length;
+      const { opt } = list[idx];
+      if (!opt.disabled && this.norm(String(opt.label)).startsWith(query)) return idx;
+    }
+    return -1;
+  }
+
+  ngOnDestroy(): void {
+    if (this.typeTimer) clearTimeout(this.typeTimer);
+  }
 
   get selectedLabel(): string | null {
     const i = this.options().findIndex(o => o.value === this.current());
@@ -225,6 +302,16 @@ export class SelectComponent<T = any> implements AfterViewInit, ControlValueAcce
   // ---- keyboard
   onButtonKeydown(e: KeyboardEvent) {
     if (this.isDisabled()) return;
+    // fechado: digitar escolhe a opção direto, sem abrir o painel
+    if (this.isTypeaheadKey(e)) {
+      e.preventDefault();
+      this.pushTypeahead(e.key);
+      // mesma ordem da lista aberta (grupos juntos), sem filtro
+      const opts = this.orderByGroup(this.options().map((opt, i) => ({ opt, i })));
+      const idx = this.typeaheadMatch(opts, opts.findIndex(p => p.opt.value === this.current()));
+      if (idx >= 0 && opts[idx].opt.value !== this.current()) this.commit(opts[idx].opt.value);
+      return;
+    }
     if (e.key === 'Delete' || e.key === 'Backspace') {
       if (this.canClear()) { e.preventDefault(); this.clear(); return; }
     }
@@ -238,6 +325,14 @@ export class SelectComponent<T = any> implements AfterViewInit, ControlValueAcce
       return;
     }
     if (e.key === 'Escape') { e.preventDefault(); this.close(); this.btnEl()?.nativeElement.focus(); return; }
+    // aberto: digitar só move o destaque (Enter confirma)
+    if (this.isTypeaheadKey(e)) {
+      e.preventDefault();
+      this.pushTypeahead(e.key);
+      const idx = this.typeaheadMatch(this.filtered(), this.highlighted());
+      if (idx >= 0) this.highlight(idx);
+      return;
+    }
     const max = this.filtered().length - 1; if (max < 0) return;
     if (e.key === 'ArrowDown') { e.preventDefault(); this.highlight(Math.min(max, this.highlighted() + 1)); }
     if (e.key === 'ArrowUp')   { e.preventDefault(); this.highlight(Math.max(0, this.highlighted() - 1)); }

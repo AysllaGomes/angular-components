@@ -13,6 +13,8 @@ Componente de **select** leve, acessível e tematizável por **CSS Variables**. 
 - **Filtro (search)** opcional no painel, acento/maiúsculas-insensível.
 - **Acessibilidade**: `role="listbox"`/`role="option"`, `aria-expanded`, `aria-selected`, `aria-invalid`, fecha em *Escape* e clique externo, foco gerenciado.
 - **Teclado**: setas ↑/↓, Home/End, Enter, Escape, Tab/Shift+Tab.
+- **Busca por digitação (typeahead)**: digitar letras escolhe a opção (fechado) ou move o destaque (aberto).
+- **Grupos**: opções com `group` aparecem juntas sob um título.
 - **Temas**: herda tokens globais (`--accent`, `--surface`, `--fg` etc.) e permite overrides via `--sel-*`.
 - **Validação**: erro externo (`error`) tem prioridade; erro interno de obrigatório quando `required` e `autoValidate`.
 - **Novo:** **Clearable** — opcional (×) dentro do controle para limpar a seleção.
@@ -109,6 +111,23 @@ options = computed<SelectOption<string>[]>(() => [
 
 > Dica: para tradução do rótulo do botão de limpar, use a chave `select.clear`.
 
+### Grupos e typeahead
+
+```ts
+foods: SelectOption<string>[] = [
+  { label: 'Banana',  value: 'banana',  group: 'Frutas' },
+  { label: 'Cenoura', value: 'carrot',  group: 'Legumes' },
+  { label: 'Abacaxi', value: 'pineapple', group: 'Frutas' }, // vai para junto de "Frutas"
+  { label: 'Batata',  value: 'potato',  group: 'Legumes', disabled: true },
+];
+```
+
+```html
+<app-select label="Alimento" [options]="foods" [(value)]="alimento" />
+```
+
+Os grupos aparecem na ordem em que surgem na lista; opções sem `group` ficam fora de qualquer título. O typeahead já vem ligado, sem configuração: com o campo focado, digite `c` para escolher "Cenoura".
+
 ### Formulários (Reactive Forms e `ngModel`)
 O componente implementa `ControlValueAccessor`, então funciona com `formControl`, `formControlName` e `[(ngModel)]`:
 
@@ -159,7 +178,7 @@ erroCategoria(): string | null {
 | `requiredError`     | `string`            | `'Campo obrigatório'` | Mensagem interna de obrigatório.                           |
 | `autoValidate`      | `boolean`           |                `true` | Valida ao desfocar/fechar o painel.                        |
 | `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
-| `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled? }`.             |
+| `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled?, group? }`.           |
 | `value`             | `T \| null`         |                `null` | Valor selecionado (sem formulários).                       |
 
 ### Outputs
@@ -175,6 +194,7 @@ erroCategoria(): string | null {
 - **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`.
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
+- **Typeahead**: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (`Enter` confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com `filterable`, o texto vai para o filtro.
 - **Foco**: ao selecionar, o foco retorna ao botão.
 - **Novo (clearable)**: o botão de limpar é focável e tem `aria-label="{{ 'select.clear' | t }}"`. Em teclado, **Enter/Space** limpa e retorna o foco ao botão do controle.
 
@@ -243,8 +263,8 @@ O Select usa estas variáveis (podem ser sobrescritas por escopo):
 
 - [x] **ControlValueAccessor** (`formControlName`/`ngModel`) e estados `touched/dirty` do Angular Forms.
 - [x] **Clear button** opcional (×) dentro do controle.
-- [ ] **Typeahead “fechado”**: digitar com o painel fechado seleciona o primeiro match.
-- [ ] **Groups** (optgroup) e separadores.
+- [x] **Typeahead**: digitar seleciona (fechado) ou destaca (aberto) a opção.
+- [x] **Grupos** (campo `group`, com `role="group"`).
 - [ ] **Async** (carregamento remoto) + esqueleto dentro do painel.
 - [ ] **Virtual scroll** para listas grandes.
 - [ ] **Portal/Overlay** opcional para flutuar fora do fluxo (evitar `overflow: hidden` do container).
