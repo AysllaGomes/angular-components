@@ -8,20 +8,20 @@
     <form class="vform" [formGroup]="form" appFormValidation (validSubmit)="onValidSubmit($event)">
       <app-form-field required [label]="'validation.name' | t" [requiredLabel]="'form.required.label' | t"
                       [hint]="'validation.name.hint' | t" [error]="c.name | fieldError">
-        <input formControlName="name" autocomplete="name">
+        <input formControlName="name" autocomplete="name" [placeholder]="'validation.name.placeholder' | t">
       </app-form-field>
 
       <app-form-field required [label]="'validation.doc' | t" [requiredLabel]="'form.required.label' | t"
                       [hint]="'validation.doc.hint' | t" [error]="c.doc | fieldError">
-        <input appMask="cpfCnpj" formControlName="doc">
+        <input appMask="cpfCnpj" formControlName="doc" placeholder="000.000.000-00">
       </app-form-field>
 
       <div class="vform__row">
         <app-form-field [label]="'validation.phone' | t" [error]="c.phone | fieldError">
-          <input appMask="phone" formControlName="phone" type="tel">
+          <input appMask="phone" formControlName="phone" type="tel" placeholder="(00) 00000-0000">
         </app-form-field>
         <app-form-field [label]="'validation.cep' | t" [error]="c.cep | fieldError">
-          <input appMask="cep" formControlName="cep">
+          <input appMask="cep" formControlName="cep" placeholder="00000-000">
         </app-form-field>
       </div>
 

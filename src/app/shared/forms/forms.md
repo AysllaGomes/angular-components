@@ -151,6 +151,19 @@ providers: [
 - O cursor fica no lugar certo ao digitar ou editar no meio; máscaras só de dígitos abrem o **teclado numérico** no celular (`inputmode="numeric"`).
 - Funciona com `formControl`, `formControlName` e `ngModel` (é o *value accessor* do input).
 
+### Placeholder
+
+Use o atributo nativo para mostrar o **formato** esperado — ele some ao digitar, então nunca substitui o rótulo:
+
+```html
+<app-form-field label="CEP">
+  <input appMask="cep" formControlName="cep" placeholder="00000-000">
+</app-form-field>
+```
+
+- Coloque o formato ou um exemplo (`000.000.000-00`, `Ex.: Ana Lima`), não instruções: o que for importante continuar visível vai em `hint`.
+- A cor vem do token `--sel-placeholder` (a mesma do Select), com contraste AA nos dois temas.
+
 ---
 
 ## Campo de texto — `app-form-field`

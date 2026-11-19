@@ -151,6 +151,19 @@ providers: [
 - The caret stays in the right place when typing or editing in the middle; digit-only masks open the **numeric keyboard** on phones (`inputmode="numeric"`).
 - Works with `formControl`, `formControlName` and `ngModel` (it is the input's *value accessor*).
 
+### Placeholder
+
+Use the native attribute to show the expected **format** — it disappears while typing, so it never replaces the label:
+
+```html
+<app-form-field label="ZIP code (CEP)">
+  <input appMask="cep" formControlName="cep" placeholder="00000-000">
+</app-form-field>
+```
+
+- Put the format or an example (`000.000.000-00`, `E.g. Ana Lima`), not instructions: anything that must stay visible goes in `hint`.
+- The color comes from the `--sel-placeholder` token (the same as the Select), with AA contrast in both themes.
+
 ---
 
 ## Text field — `app-form-field`

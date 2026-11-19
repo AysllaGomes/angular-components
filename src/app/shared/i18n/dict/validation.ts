@@ -10,6 +10,7 @@ export const VALIDATION: Dict = {
   },
   'validation.demo.title': { pt: 'Cadastro', en: 'Sign-up' },
   'validation.name': { pt: 'Nome completo', en: 'Full name' },
+  'validation.name.placeholder': { pt: 'Ex.: Ana Lima', en: 'E.g. Ana Lima' },
   'validation.name.hint': { pt: 'Como está no documento.', en: 'As shown on the document.' },
   'validation.doc': { pt: 'CPF ou CNPJ', en: 'CPF or CNPJ' },
   'validation.doc.hint': { pt: 'Aceita CNPJ alfanumérico (ex.: 12.ABC.345/01DE-35).', en: 'Accepts the alphanumeric CNPJ (e.g. 12.ABC.345/01DE-35).' },
