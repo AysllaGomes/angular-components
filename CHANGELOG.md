@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.2.0](https://github.com/AysllaGomes/angular-components/compare/v2.1.0...v2.2.0) (2026-11-19)
+
+
+### Features
+
+* **dialog:** **focus restore**: on close (button, `Esc`, backdrop or `opened=false`), focus returns to the element that was focused before opening, usually the opener ([fa3a58f](https://github.com/AysllaGomes/angular-components/commit/fa3a58f))
+* **dialog:** **inert background**: while open, the rest of the page gets `inert` (no focus, clicks or screen reader access); on close only what the dialog marked is released ([fa3a58f](https://github.com/AysllaGomes/angular-components/commit/fa3a58f))
+* **actionbar:** the same modal behavior as the Dialog: focus restore, inert background and, new for the ActionBar, body scroll lock while open ([52d88c6](https://github.com/AysllaGomes/angular-components/commit/52d88c6))
+* **toast:** `app-toast-container` carries `data-dialog-keep-active`, so notifications stay announced and dismissable while a Dialog/ActionBar is open. Any element can opt out of the inert background with this attribute ([fa3a58f](https://github.com/AysllaGomes/angular-components/commit/fa3a58f))
+* **pagination:** `showFirstLast` input adds « First / Last » buttons, disabled at the ends ([d2e5af9](https://github.com/AysllaGomes/angular-components/commit/d2e5af9))
+* **pagination:** keyboard shortcuts: `←`/`→` previous/next page, `Home`/`End` first/last. Focus follows the current page button (in compact mode, the nearest enabled arrow), so it is not lost when the number window slides or an arrow gets disabled ([d2e5af9](https://github.com/AysllaGomes/angular-components/commit/d2e5af9))
+
+
+### Changed
+
+* Dialog and ActionBar share the modal logic in `src/app/shared/a11y/modal-session.ts` ([52d88c6](https://github.com/AysllaGomes/angular-components/commit/52d88c6))
+
+
+### Documentation
+
+* Dialog, ActionBar and Pagination docs describe the new behaviors; roadmap items checked. Fixed: ActionBar `auto` size threshold (436px) and the Pagination note that claimed it only renders with more than one page ([fa3a58f](https://github.com/AysllaGomes/angular-components/commit/fa3a58f), [d2e5af9](https://github.com/AysllaGomes/angular-components/commit/d2e5af9), [52d88c6](https://github.com/AysllaGomes/angular-components/commit/52d88c6))
+
 ## [2.1.0](https://github.com/AysllaGomes/angular-components/compare/v2.0.0...v2.1.0) (2026-11-19)
 
 

@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.2.0](https://github.com/AysllaGomes/angular-components/compare/v2.1.0...v2.2.0) (2026-11-19)
+### Features
+- **dialog:** **foco devolvido**: ao fechar (botão, `Esc`, backdrop ou
+  `opened=false`), o foco volta ao elemento que estava focado antes de abrir,
+  normalmente o botão que abriu.
+- **dialog:** **fundo inerte**: enquanto aberto, o resto da página recebe `inert`
+  (sem foco, clique ou leitor de tela); ao fechar, só o que o dialog marcou é
+  liberado.
+- **actionbar:** o mesmo comportamento modal do Dialog: foco devolvido, fundo
+  inerte e, novidade no ActionBar, rolagem da página travada enquanto aberto.
+- **toast:** o `app-toast-container` vem com `data-dialog-keep-active`, então os
+  avisos continuam sendo anunciados e podem ser fechados com um Dialog/ActionBar
+  aberto. Qualquer elemento pode ficar fora do fundo inerte com esse atributo.
+- **pagination:** input `showFirstLast` com os botões « Primeira / Última »,
+  desabilitados nas pontas.
+- **pagination:** atalhos de teclado: `←`/`→` página anterior/próxima,
+  `Home`/`End` primeira/última. O foco acompanha o botão da página atual (no modo
+  compacto, a seta habilitada mais próxima), sem se perder quando a janela de
+  números desliza ou uma seta desabilita.
+
+### Changed
+- Dialog e ActionBar compartilham a lógica modal em
+  `src/app/shared/a11y/modal-session.ts`.
+
+### Documentation
+- Documentação do Dialog, ActionBar e Paginação descreve os novos
+  comportamentos; itens do roadmap marcados. Corrigidos: limite do tamanho `auto`
+  do ActionBar (436px) e a nota da Paginação em inglês que dizia que ela só
+  aparece com mais de uma página.
+
 ## [2.1.0](https://github.com/AysllaGomes/angular-components/compare/v2.0.0...v2.1.0) (2026-11-19)
 ### Features
 - **dialog:** novo input `describedBy`, ligado ao `aria-describedby` (um id ou
