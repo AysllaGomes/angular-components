@@ -15,7 +15,7 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
 | Prop              | Type                             | Default      | Description                                                    |
 |-------------------|----------------------------------|--------------|----------------------------------------------------------------|
 | `title`           | `string`                         | `'Dialog'`   | Header title.                                                  |
-| `size`            | `'sm' \| 'md' \| 'lg' \| 'auto'` | `'auto'`     | Dialog width. `auto` adapts to content (via `ResizeObserver`). |
+| `size`            | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'auto'` | `'md'` | Dialog width. `auto` measures the content on open (via `ResizeObserver`) and picks `sm`…`xl`. |
 | `opened`          | `boolean`                        | `false`      | Controls visibility. Supports two‑way as `[(opened)]`.         |
 | `closeOnBackdrop` | `boolean`                        | `true`       | Close when clicking the backdrop.                              |
 | `describedBy`     | `string \| null`                 | `null`       | Id (or space-separated ids) of the text describing the dialog → `aria-describedby`. |
@@ -145,7 +145,7 @@ Suggested keys:
 - Keep titles and labels short and clear.
 - For forms, shift the initial focus to the first field after opening.
 - Avoid overly tall content; the body supports vertical scrolling.
-- On mobile (≤ 480px) the dialog stretches to full width and respects safe areas (already handled in Sass).
+- On mobile (≤ 480px) the dialog stretches to full width.
 
 ---
 
@@ -159,22 +159,22 @@ Suggested keys:
 ## Roadmap
 
 ### Now (0.x)
-- [x] **A11y**
-  - [x] Restore focus to the opener element on close.
+- [ ] **A11y**
+  - [ ] Restore focus to the opener element on close.
   - [x] Optional `aria-describedby` (`describedBy` input).
-  - [x] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
-- [x] **State API**
-  - [x] `afterOpen` / `afterClose` events (fire after animation).
-  - [x] Cancelable `beforeClose` event (`(beforeClose)="e.preventDefault()"`).
-  - [x] Busy inputs for buttons: `primaryBusy`, `secondaryBusy`.
-- [x] **UX**
-  - [x] Destructive variant (`[destructive]="true"`) adjusting primary tone.
-  - [x] Smart `autofocus` on the first interactive control.
-  - [x] Optional *sticky footer* (`[stickyFooter]="true"`).
-- [x] **Responsiveness**
-  - [x] New `full` size (mobile fullscreen).
-  - [x] iOS safe areas via `env(safe-area-inset-*)`.
-- [x] **Perf/SSR**
+  - [ ] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
+- [ ] **State API**
+  - [ ] `afterOpen` / `afterClose` events (fire after animation).
+  - [ ] Cancelable `beforeClose` event (`(beforeClose)="e.preventDefault()"`).
+  - [ ] Busy inputs for buttons: `primaryBusy`, `secondaryBusy`.
+- [ ] **UX**
+  - [ ] Destructive variant (`[destructive]="true"`) adjusting primary tone.
+  - [ ] Smart `autofocus` on the first interactive control.
+  - [ ] Optional *sticky footer* (`[stickyFooter]="true"`).
+- [ ] **Responsiveness**
+  - [ ] New `full` size (mobile fullscreen).
+  - [ ] iOS safe areas via `env(safe-area-inset-*)`.
+- [ ] **Perf/SSR**
   - [x] Extra guards for `ResizeObserver`/DOM (SSR friendly).
   - [x] Don’t render internals while `opened=false` (ngIf) yet keep animations.
 

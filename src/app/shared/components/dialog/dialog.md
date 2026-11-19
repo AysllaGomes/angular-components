@@ -15,7 +15,7 @@ Sheet/modal acessível e leve para confirmações e pequenos formulários. Const
 | Propriedade       | Tipo                             | Padrão       | Descrição                                                               |
 |-------------------|----------------------------------|--------------|-------------------------------------------------------------------------|
 | `title`           | `string`                         | `'Dialog'`   | Título mostrado no cabeçalho.                                           |
-| `size`            | `'sm' \| 'md' \| 'lg' \| 'auto'` | `'auto'`     | Largura do dialog. `auto` se adapta ao conteúdo (via `ResizeObserver`). |
+| `size`            | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'auto'` | `'md'` | Largura do dialog. `auto` mede o conteúdo ao abrir (via `ResizeObserver`) e escolhe entre `sm`…`xl`. |
 | `opened`          | `boolean`                        | `false`      | Controla abertura. Suporta two‑way via `[(opened)]`.                    |
 | `closeOnBackdrop` | `boolean`                        | `true`       | Fecha ao clicar no backdrop.                                            |
 | `describedBy`     | `string \| null`                 | `null`       | Id (ou ids separados por espaço) do texto que descreve o dialog → `aria-describedby`. |
@@ -149,7 +149,7 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 - Prefira textos curtos no cabeçalho e botões.
 - Para formulários, mantenha o foco no primeiro campo interativo após abrir.
 - Evite conteúdo muito alto; rolagem vertical é suportada no corpo.
-- Em mobile (≤ 480px) o dialog usa largura total e respeita `safe‑area` (seu Sass já cobre).
+- Em mobile (≤ 480px) o dialog usa largura total.
 
 ---
 
@@ -163,24 +163,24 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 ## Roadmap
 
 ### Agora (0.x)
-- [x] **A11y**
-  - [x] Retornar o foco ao elemento que abriu o diálogo (focus restore).
+- [ ] **A11y**
+  - [ ] Retornar o foco ao elemento que abriu o diálogo (focus restore).
   - [x] `aria-describedby` opcional (input `describedBy`).
-  - [x] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
-- [x] **API de estado**
-  - [x] Eventos `afterOpen` / `afterClose` (disparam após a animação).
-  - [x] Evento `beforeClose` cancelável (`(beforeClose)="e.preventDefault()"`).
-  - [x] Inputs para *busy state* dos botões: `primaryBusy`, `secondaryBusy`.
-- [x] **UX**
-  - [x] Variante “destrutiva” (`[destructive]="true"`) que muda *tone* do primário.
-  - [x] `autofocus` inteligente no primeiro controle interativo do corpo.
-  - [x] *Sticky footer* opt-in (`[stickyFooter]="true"`).
-- [x] **Responsividade**
-  - [x] Novo tamanho `full` (tela cheia em mobile).
-  - [x] *Safe areas* iOS com `env(safe-area-inset-*)`.
-- [x] **Perf/SSR**
+  - [ ] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
+- [ ] **API de estado**
+  - [ ] Eventos `afterOpen` / `afterClose` (disparam após a animação).
+  - [ ] Evento `beforeClose` cancelável (`(beforeClose)="e.preventDefault()"`).
+  - [ ] Inputs para *busy state* dos botões: `primaryBusy`, `secondaryBusy`.
+- [ ] **UX**
+  - [ ] Variante “destrutiva” (`[destructive]="true"`) que muda *tone* do primário.
+  - [ ] `autofocus` inteligente no primeiro controle interativo do corpo.
+  - [ ] *Sticky footer* opt-in (`[stickyFooter]="true"`).
+- [ ] **Responsividade**
+  - [ ] Novo tamanho `full` (tela cheia em mobile).
+  - [ ] *Safe areas* iOS com `env(safe-area-inset-*)`.
+- [ ] **Perf/SSR**
   - [x] *Guard* adicional para `ResizeObserver`/DOM (SSR).
-  - [x] Não renderizar nós internos quando `opened=false` (ngIf), mantendo animação.
+  - [x] Não renderizar nós internos quando `opened=false` (`@if`).
 
 ### Próximo (1.0)
 - [ ] **Serviço programático**

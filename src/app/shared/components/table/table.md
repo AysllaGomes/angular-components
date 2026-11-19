@@ -294,7 +294,8 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 ## Roadmap
 
 - [x] Ordenação por coluna
-- [x] Empty/Loading/Error states
+- [x] Estados vazio e carregando (`emptyMessage`, `loading`)
+- [ ] Estado de erro
 - [ ] Paginação
 - [ ] Ações em massa (seleção)
 - [ ] Responsivo com colunas colapsáveis

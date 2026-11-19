@@ -224,7 +224,8 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 
 ## Roadmap
 - [x] Sorting
-- [x] Empty/Loading/Error states
+- [x] Empty and loading states (`emptyMessage`, `loading`)
+- [ ] Error state
 - [ ] Pagination helpers & bulk actions
 - [ ] Responsive columns for small screens
 
