@@ -1,0 +1,65 @@
+<section id="tabs" class="demo-section">
+  <h2>{{ 'section.tabs.title' | t }}</h2>
+  <p class="lead">{{ 'section.tabs.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'tabs.demo.basic.title' | t }}</h3>
+    <app-tabs [ariaLabel]="'tabs.demo.account' | t" [(selected)]="account">
+      <app-tab key="overview" [label]="'tabs.overview' | t">
+        <p>{{ 'tabs.overview.text' | t }}</p>
+      </app-tab>
+
+      <app-tab key="activity" [label]="'tabs.activity' | t" [badge]="3">
+        <ul class="activity">
+          <li>{{ 'tabs.activity.1' | t }}</li>
+          <li>{{ 'tabs.activity.2' | t }}</li>
+          <li>{{ 'tabs.activity.3' | t }}</li>
+        </ul>
+      </app-tab>
+
+      <app-tab key="settings">
+        <ng-template appTabLabel>
+          <svg class="tab-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2-1.2L14.5 3h-4l-.4 2.6a7.6 7.6 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2 1.2l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z"/>
+          </svg>
+          {{ 'tabs.settings' | t }}
+        </ng-template>
+        <p>{{ 'tabs.settings.text' | t }}</p>
+        <app-switch [(checked)]="notify">{{ 'tabs.settings.notify' | t }}</app-switch>
+      </app-tab>
+
+      <app-tab key="archived" disabled [label]="'tabs.archived' | t" />
+    </app-tabs>
+    <code>{{ 'tabs.demo.value' | t:{ v: account() ?? 'null' } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'tabs.demo.lazy.title' | t }}</h3>
+    <p class="hint">{{ 'tabs.demo.lazy.hint' | t }}</p>
+    <app-switch [(checked)]="keepAlive">{{ 'tabs.demo.keepAlive' | t }}</app-switch>
+
+    <app-tabs activation="manual" [keepAlive]="keepAlive()" [ariaLabel]="'tabs.demo.reports' | t">
+      <app-tab key="summary" [label]="'tabs.summary' | t">
+        <p>{{ 'tabs.summary.text' | t }}</p>
+      </app-tab>
+      <app-tab key="report" [label]="'tabs.report' | t">
+        <ng-template appTabContent><app-tab-stamp [name]="'tabs.report' | t" /></ng-template>
+      </app-tab>
+      <app-tab key="charts" [label]="'tabs.charts' | t">
+        <ng-template appTabContent><app-tab-stamp [name]="'tabs.charts' | t" /></ng-template>
+      </app-tab>
+    </app-tabs>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'tabs.demo.many.title' | t }}</h3>
+    <app-tabs [ariaLabel]="'tabs.demo.months' | t" [(selected)]="month">
+      @for (m of months(); track m.key) {
+        <app-tab [key]="m.key" [label]="m.label">
+          <p>{{ 'tabs.month.text' | t:{ m: m.label } }}</p>
+        </app-tab>
+      }
+    </app-tabs>
+  </article>
+</section>

@@ -1,0 +1,97 @@
+/* abas sublinhadas; cores por tokens (sobrescreva em :root ou no próprio app-tabs) */
+:host
+  display: block
+  --tabs-border: var(--border)
+  --tabs-fg: var(--muted)
+  --tabs-fg-hover: var(--fg)
+  --tabs-active: var(--accent-text)
+  --tabs-indicator: var(--accent)
+  --tabs-hover-bg: color-mix(in srgb, var(--accent) 10%, transparent)
+  --tabs-badge-bg: var(--surface-2)
+  --tabs-badge-fg: var(--fg)
+  --tabs-badge-border: var(--border)
+
+.tabs__list
+  position: relative /* referência do offsetLeft das abas */
+  display: flex
+  gap: .25rem
+  overflow-x: auto
+  overflow-y: hidden
+  overscroll-behavior-x: contain
+  scrollbar-width: thin
+  scrollbar-color: var(--tabs-border) transparent /* barra discreta, sem as setas do Windows */
+  border-bottom: 1px solid var(--tabs-border)
+
+.tabs__tab
+  flex: none
+  position: relative
+  display: inline-flex
+  align-items: center
+  gap: .5rem
+  min-height: 44px
+  padding: .5rem .9rem
+  font: inherit
+  font-weight: 500
+  white-space: nowrap
+  color: var(--tabs-fg)
+  background: none
+  border: 0
+  border-radius: .5rem .5rem 0 0
+  cursor: pointer
+  transition: color .15s, background-color .15s
+  &::after
+    content: ''
+    position: absolute
+    inset: auto .5rem 0
+    height: 3px
+    border-radius: 3px 3px 0 0
+    background: transparent
+    transition: background-color .15s
+  &:hover:not(:disabled)
+    color: var(--tabs-fg-hover)
+    background: var(--tabs-hover-bg)
+  &.is-active
+    color: var(--tabs-active)
+    &::after
+      background: var(--tabs-indicator)
+  &:focus-visible
+    outline: 2px solid var(--tabs-indicator)
+    outline-offset: -2px /* dentro da aba: a lista rolável cortaria o anel por fora */
+  &:disabled
+    opacity: .5
+    cursor: default
+
+.tabs__label
+  display: inline-flex
+  align-items: center
+  gap: .4rem
+
+.tabs__badge
+  min-width: 1.4rem
+  padding: 0 .4rem
+  font-size: .75rem
+  line-height: 1.4rem
+  text-align: center
+  border-radius: 9999px
+  color: var(--tabs-badge-fg)
+  background: var(--tabs-badge-bg)
+  border: 1px solid var(--tabs-badge-border)
+
+.tabs__sr
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap
+
+.tabs__panels
+  padding-top: 1rem
+
+@media (forced-colors: active)
+  .tabs__tab.is-active::after
+    background: Highlight
+
+@media (prefers-reduced-motion: reduce)
+  .tabs__tab, .tabs__tab::after
+    transition: none

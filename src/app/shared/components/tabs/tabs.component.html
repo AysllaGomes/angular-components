@@ -1,0 +1,32 @@
+<div #list class="tabs__list" role="tablist" [attr.aria-label]="ariaLabel()" (focusout)="onFocusOut($event)">
+  @for (tab of tabs(); track tab) {
+    <button
+      type="button"
+      role="tab"
+      class="tabs__tab"
+      [id]="tab.tabId()"
+      [attr.aria-controls]="tab.panelId()"
+      [attr.aria-selected]="tab.active()"
+      [class.is-active]="tab.active()"
+      [tabIndex]="tab.id() === tabStop() ? 0 : -1"
+      [disabled]="tab.disabled()"
+      (click)="select(tab)"
+      (focus)="onFocus(tab)"
+      (keydown)="onKeydown($event, tab)">
+      @if (tab.labelTpl(); as tpl) {
+        <span class="tabs__label"><ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: tab.active() }" /></span>
+      } @else {
+        <span class="tabs__label">{{ tab.label() }}</span>
+      }
+      @if (tab.badge() !== null && tab.badge() !== '') {
+        <!-- o leitor lê "Pedidos (3)"; o número visível fica fora do nome para não virar "Pedidos3" -->
+        <span class="tabs__badge" aria-hidden="true">{{ tab.badge() }}</span>
+        <span class="tabs__sr"> ({{ tab.badge() }})</span>
+      }
+    </button>
+  }
+</div>
+
+<div class="tabs__panels">
+  <ng-content />
+</div>

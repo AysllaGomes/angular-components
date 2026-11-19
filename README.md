@@ -8,7 +8,7 @@
 
 # Angular Components (Standalone, HTML + Sass)
 
-> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
+> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
 - **Local demo:** `http://localhost:4200/demo`
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (theming), Vitest. Node 24 (`.nvmrc`).
@@ -26,6 +26,7 @@
 | **Switch**               | On/off for settings that apply immediately: native checkbox with `role="switch"`, label-first layout for settings lists, forms, hint. | [EN](src/app/shared/components/switch/switch.en.md) · [PT-BR](src/app/shared/components/switch/switch.md) | `/demo#switch` |
 | **Dialog**               | Accessible modal dialog with title, content, and primary/secondary actions. Sizes `sm`/`md`/`lg`/`auto`, focus trap, ESC/backdrop close, slots.  | [EN](src/app/shared/components/dialog/dialog.en.md) · [PT-BR](src/app/shared/components/dialog/dialog.md)                 | `/demo#dialog`     |
 | **Stepper**              | Horizontal, clickable stepper with states (active, done, disabled) and theme tokens.                                                             | [EN](src/app/shared/components/stepper/stepper.en.md) · [PT-BR](src/app/shared/components/stepper/stepper.md)             | `/demo#stepper`    |
+| **Tabs**                 | WAI-ARIA tabs: arrows/Home/End, automatic or manual activation, badge, custom label (icon), disabled tabs, on-demand content (`appTabContent`, `keepAlive`), horizontal scrolling that keeps the open tab visible. | [EN](src/app/shared/components/tabs/tabs.en.md) · [PT-BR](src/app/shared/components/tabs/tabs.md) | `/demo#tabs` |
 | **Table**                | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells.                         | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md)                     | `/demo#table`      |
 | **Pagination**           | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`.                                            | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT-BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
 | **Toast**                | Lightweight toast (service + container), accessible and themeable.                                                                               | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md)                     | `/demo#toast`      |

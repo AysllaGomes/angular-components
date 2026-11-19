@@ -22,6 +22,7 @@ import { MaskDirective } from '../forms/mask.directive';
 import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TreeSelectComponent } from './tree-select/tree-select.component';
+import { TABS_IMPORTS } from './tabs';
 import { ToastContainerComponent } from './toast/toast-container.component';
 
 /**
@@ -48,7 +49,7 @@ interface Row { id: string; nome: string; tipo: string; }
 @Component({
   imports: [
     ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
-    TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent,
+    TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
@@ -101,6 +102,17 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-tree-select label="Cidades" responsive="menu" selectionMode="checkbox" filterable
                          filterPlaceholder="Filtrar" [nodes]="tree" [value]="['santos']"
                          [expandedKeys]="['br', 'sp']" error="Revise a seleção" />
+      </section>
+
+      <!-- Tabs: contador, rótulo próprio, desabilitada, sob demanda -->
+      <section id="tabs">
+        <app-tabs ariaLabel="Conta" selected="pedidos">
+          <app-tab key="perfil" label="Perfil"><p>Dados</p></app-tab>
+          <app-tab key="pedidos" label="Pedidos" [badge]="3"><p>Lista</p></app-tab>
+          <app-tab key="config"><ng-template appTabLabel><svg aria-hidden="true" width="16" height="16"></svg> Configurações</ng-template><p>Opções</p></app-tab>
+          <app-tab key="arquivo" label="Arquivo" disabled />
+          <app-tab key="rel" label="Relatórios"><ng-template appTabContent><p>Relatório</p></ng-template></app-tab>
+        </app-tabs>
       </section>
 
       <!-- Stepper -->
@@ -193,6 +205,8 @@ describe('Acessibilidade (axe-core)', () => {
     await open(multi);
     await expectNoA11yViolations(section('treeselect'));
   });
+
+  it('Tabs (contador, rótulo com ícone, desabilitada, sob demanda)', async () => { await expectNoA11yViolations(section('tabs')); });
 
   it('Stepper', async () => { await expectNoA11yViolations(section('stepper')); });
 

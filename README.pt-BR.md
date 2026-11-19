@@ -8,7 +8,7 @@
 
 # Angular Components (Standalone, HTML + Sass)
 
-> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Table, Pagination, Toast) com **Angular Standalone** em **HTML + Sass**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
+> **Propósito:** criar **componentes de UI reutilizáveis** (ex.: **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast) com **Angular Standalone** em **HTML + Sass**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
 
 - **Demo local:** `http://localhost:4200/demo`
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (tematização), Vitest. Node 24 (`.nvmrc`).
@@ -26,6 +26,7 @@
 | **Switch**               | Liga/desliga para configurações que valem na hora: checkbox nativo com `role="switch"`, layout de lista de configurações, formulários, dica. | [PT-BR](src/app/shared/components/switch/switch.md) · [EN](src/app/shared/components/switch/switch.en.md) | `/demo#switch` |
 | **Dialog**               | Modal acessível com título, conteúdo e ações primária/secundária. Tamanhos `sm`/`md`/`lg`/`auto`, *focus trap*, fechar por ESC/backdrop, *slots*. | [PT-BR](src/app/shared/components/dialog/dialog.md) · [EN](src/app/shared/components/dialog/dialog.en.md)                 | `/demo#dialog`     |
 | **Stepper**              | Stepper horizontal, clicável, com estados (ativo, feito, desabilitado) e tokens de tema.                                                          | [PT-BR](src/app/shared/components/stepper/stepper.md) · [EN](src/app/shared/components/stepper/stepper.en.md)             | `/demo#stepper`    |
+| **Tabs**                 | Abas no padrão WAI-ARIA: setas/Home/End, ativação automática ou manual, contador, rótulo próprio (ícone), abas desabilitadas, conteúdo sob demanda (`appTabContent`, `keepAlive`), rolagem horizontal que mantém a aba aberta visível. | [PT-BR](src/app/shared/components/tabs/tabs.md) · [EN](src/app/shared/components/tabs/tabs.en.md) | `/demo#tabs` |
 | **Table**                | Tabela flexível com checkbox por linha, coluna de ações (declarativa via `[actions]` ou *slot* `appActions`), *chips* e células custom.           | [PT-BR](src/app/shared/components/table/table.md) · [EN](src/app/shared/components/table/table.en.md)                     | `/demo#table`      |
 | **Pagination**           | Paginação independente (bolhas numéricas + setas), controlada por `total`, `pageSize` e `pageIndex`.                                              | [PT-BR](src/app/shared/components/pagination/pagination.md) · [EN](src/app/shared/components/pagination/pagination.en.md) | `/demo#pagination` |
 | **Toast**                | Toast leve (serviço + container), acessível e tematizável.                                                                                        | [PT-BR](src/app/shared/components/toast/toast.md) · [EN](src/app/shared/components/toast/toast.en.md)                     | `/demo#toast`      |

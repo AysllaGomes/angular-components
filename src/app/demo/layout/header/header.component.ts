@@ -29,7 +29,7 @@ export class HeaderComponent {
     { id: 'forms',      label: 'nav.group.forms',      sections: ['select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation'] },
     { id: 'data',       label: 'nav.group.data',       sections: ['table', 'pagination'] },
     { id: 'overlays',   label: 'nav.group.overlays',   sections: ['dialog', 'actionbar', 'toast'] },
-    { id: 'navigation', label: 'nav.group.navigation', sections: ['stepper', 'button'] },
+    { id: 'navigation', label: 'nav.group.navigation', sections: ['stepper', 'tabs', 'button'] },
   ] as const;
 
   /** grupo aberto no desktop (só um por vez) */

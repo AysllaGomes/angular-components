@@ -5,6 +5,7 @@ import { CHECKBOX } from './checkbox';
 import { TREE_SELECT } from './tree-select';
 import { RADIO_SWITCH } from './radio-switch';
 import { VALIDATION } from './validation';
+import { TABS } from './tabs';
 import { COMMON } from './common';
 import { DIALOG } from './dialog';
 import { SELECT } from './select';
@@ -30,4 +31,5 @@ export const DICT: Dict = {
   ...TREE_SELECT,
   ...RADIO_SWITCH,
   ...VALIDATION,
+  ...TABS,
 };
