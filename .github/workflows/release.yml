@@ -5,6 +5,7 @@
 # - manual (Actions → gh-release → Run workflow): cria/atualiza a release de
 #   uma tag já existente, útil para releases que falharam
 name: gh-release
+run-name: "Release ${{ inputs.tag || github.ref_name }}"
 on:
   push:
     tags:

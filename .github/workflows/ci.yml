@@ -2,6 +2,7 @@
 # Valida PRs e branches de trabalho. Pushes na main são testados pelo
 # deploy.yml (testes → build → publicação), evitando runs duplicados.
 name: ci
+run-name: "CI · ${{ github.head_ref || github.ref_name }}"
 on:
   pull_request:
   push:

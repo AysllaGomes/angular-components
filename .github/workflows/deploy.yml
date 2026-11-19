@@ -1,5 +1,7 @@
 # .github/workflows/deploy.yml
 name: deploy-gh-pages
+# título na lista do Actions (o padrão repetia a mensagem do commit em todos os workflows)
+run-name: "Deploy do site · ${{ github.event.head_commit.message }}"
 on:
   push:
     branches: [main]
