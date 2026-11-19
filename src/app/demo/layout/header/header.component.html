@@ -1,4 +1,4 @@
-<a class="skip-link" href="#main">Pular para o conteúdo</a>
+<a class="skip-link" href="demo#main" data-target="main">Pular para o conteúdo</a>
 
 <header class="demo-header">
   <div class="container hdr">
@@ -24,7 +24,7 @@
       }
     </button>
 
-    <a class="brand" href="#top">{{ 'brand' | t }}</a>
+    <a class="brand" href="demo" data-target="top">{{ 'brand' | t }}</a>
 
     <nav
       id="demoNav"
@@ -32,14 +32,14 @@
       [class.is-open]="openNav()"
       aria-label="Seções da demo"
       (click)="onNavClick($event)">
-      <a href="#stepper">{{ 'nav.stepper' | t }}</a>
-      <a href="#table">{{ 'nav.table' | t }}</a>
-      <a href="#pagination">{{ 'nav.pagination' | t }}</a>
-      <a href="#toast">{{ 'nav.toast' | t }}</a>
-      <a href="#select">{{ 'nav.select' | t }}</a>
-      <a href="#actionbar">{{ 'nav.actionbar' | t }}</a>
-      <a href="#dialog">{{ 'nav.dialog' | t }}</a>
-      <a href="#button">{{ 'nav.button' | t }}</a>
+      <a href="demo#stepper" data-target="stepper">{{ 'nav.stepper' | t }}</a>
+      <a href="demo#table" data-target="table">{{ 'nav.table' | t }}</a>
+      <a href="demo#pagination" data-target="pagination">{{ 'nav.pagination' | t }}</a>
+      <a href="demo#toast" data-target="toast">{{ 'nav.toast' | t }}</a>
+      <a href="demo#select" data-target="select">{{ 'nav.select' | t }}</a>
+      <a href="demo#actionbar" data-target="actionbar">{{ 'nav.actionbar' | t }}</a>
+      <a href="demo#dialog" data-target="dialog">{{ 'nav.dialog' | t }}</a>
+      <a href="demo#button" data-target="button">{{ 'nav.button' | t }}</a>
     </nav>
 
     <div class="actions">

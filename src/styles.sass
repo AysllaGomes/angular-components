@@ -319,3 +319,8 @@ button, input, select, textarea
 /* quando navegar por #âncoras, não colar no header sticky */
 [id]
   scroll-margin-top: 76px
+
+/* alvos da navegação interna recebem foco programático (tabindex="-1") para
+   teclado/leitor de tela continuarem dali; não precisam de contorno */
+main[tabindex="-1"]:focus, .demo-section[tabindex="-1"]:focus
+  outline: none
