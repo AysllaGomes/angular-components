@@ -93,4 +93,69 @@ describe('HeaderComponent internal links', () => {
     const ev = click(link('stepper')); // não há #stepper nesta página de teste
     expect(ev.defaultPrevented).toBe(false);
   });
+
+  describe('grouped menu (disclosure navigation)', () => {
+    const groupBtn = (id: string) => el.querySelector<HTMLButtonElement>(`button[aria-controls="nav-${id}"]`)!;
+    const groupOf = (id: string) => groupBtn(id).closest('.group')!;
+    const openGroups = () => Array.from(el.querySelectorAll('.group.is-open'));
+
+    it('every section is inside a labelled list, and each group button controls its list', () => {
+      for (const id of ['forms', 'data', 'overlays', 'navigation']) {
+        const list = el.querySelector(`#nav-${id}`)!;
+        expect(list.tagName).toBe('UL');
+        expect(list.getAttribute('aria-label')).toBeTruthy();
+        expect(groupBtn(id).getAttribute('aria-expanded')).toBe('false');
+      }
+      expect(el.querySelector('#nav-forms a[data-target="treeselect"]')).not.toBeNull();
+    });
+
+    it('clicking a group opens it; only one group is open at a time', async () => {
+      groupBtn('forms').click();
+      await fixture.whenStable();
+      expect(groupBtn('forms').getAttribute('aria-expanded')).toBe('true');
+      expect(openGroups()).toEqual([groupOf('forms')]);
+
+      groupBtn('data').click();
+      await fixture.whenStable();
+      expect(groupBtn('forms').getAttribute('aria-expanded')).toBe('false');
+      expect(openGroups()).toEqual([groupOf('data')]);
+
+      groupBtn('data').click();
+      await fixture.whenStable();
+      expect(openGroups()).toEqual([]);
+    });
+
+    it('Escape closes the open group and returns focus to its button', async () => {
+      groupBtn('overlays').click();
+      await fixture.whenStable();
+      el.querySelector<HTMLAnchorElement>('#nav-overlays a')!.focus();
+
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      await fixture.whenStable();
+      expect(openGroups()).toEqual([]);
+      expect(document.activeElement).toBe(groupBtn('overlays'));
+    });
+
+    it('choosing a link closes the group', async () => {
+      groupBtn('overlays').click();
+      await fixture.whenStable();
+      click(link('toast'));
+      await fixture.whenStable();
+      expect(openGroups()).toEqual([]);
+    });
+
+    it('focus leaving the group (Tab) closes it; clicking outside too', async () => {
+      groupBtn('forms').click();
+      await fixture.whenStable();
+      groupOf('forms').dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: groupBtn('data') }));
+      await fixture.whenStable();
+      expect(openGroups()).toEqual([]);
+
+      groupBtn('forms').click();
+      await fixture.whenStable();
+      document.getElementById('toast')!.click();
+      await fixture.whenStable();
+      expect(openGroups()).toEqual([]);
+    });
+  });
 });

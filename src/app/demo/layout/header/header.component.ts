@@ -24,6 +24,32 @@ export class HeaderComponent {
   // estado do menu mobile
   openNav = signal(false);
 
+  /** seções da demo agrupadas no menu (ids = ids das <section>) */
+  readonly groups = [
+    { id: 'forms',      label: 'nav.group.forms',      sections: ['select', 'checkbox', 'treeselect'] },
+    { id: 'data',       label: 'nav.group.data',       sections: ['table', 'pagination'] },
+    { id: 'overlays',   label: 'nav.group.overlays',   sections: ['dialog', 'actionbar', 'toast'] },
+    { id: 'navigation', label: 'nav.group.navigation', sections: ['stepper', 'button'] },
+  ] as const;
+
+  /** grupo aberto no desktop (só um por vez) */
+  openGroup = signal<string | null>(null);
+
+  toggleGroup(id: string) { this.openGroup.update(g => g === id ? null : id); }
+
+  /** Tab/clique saindo do grupo fecha a lista dele */
+  onGroupFocusOut(e: FocusEvent, id: string) {
+    const group = e.currentTarget as HTMLElement;
+    const next = e.relatedTarget as Node | null;
+    if (this.openGroup() === id && next && !group.contains(next)) this.openGroup.set(null);
+  }
+
+  /** clique fora do cabeçalho fecha o grupo aberto */
+  @HostListener('document:click', ['$event'])
+  onDocClick(e: MouseEvent) {
+    if (this.openGroup() && !(e.target as HTMLElement | null)?.closest('.nav')) this.openGroup.set(null);
+  }
+
   toggleTheme() { this.theme.toggle(); }
   toggleLang()  { this.i18n.toggle(); }
   setAccent(a: 'teal'|'orange'|'violet'|'blue'|'rose') { this.theme.setAccent(a); }
@@ -33,7 +59,7 @@ export class HeaderComponent {
   // fecha quando clicar em qualquer <a> dentro do nav
   onNavClick(e: Event) {
     const a = (e.target as HTMLElement).closest('a');
-    if (a) this.openNav.set(false);
+    if (a) { this.openNav.set(false); this.openGroup.set(null); }
   }
 
   /**
@@ -68,9 +94,15 @@ export class HeaderComponent {
     target.focus({ preventScroll: true });
   }
 
-  // fecha com Esc
+  // Esc: fecha o grupo aberto (devolvendo o foco ao botão dele) e o menu mobile
   @HostListener('document:keydown', ['$event'])
   onKey(e: KeyboardEvent) {
-    if (e.key === 'Escape') this.openNav.set(false);
+    if (e.key !== 'Escape') return;
+    const open = this.openGroup();
+    if (open) {
+      this.openGroup.set(null);
+      document.querySelector<HTMLElement>(`[aria-controls="nav-${open}"]`)?.focus();
+    }
+    this.openNav.set(false);
   }
 }

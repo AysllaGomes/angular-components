@@ -31,6 +31,12 @@ export const COMMON: Dict = {
   'nav.button': { pt: 'Button', en: 'Button' },
   'nav.checkbox': { pt: 'Checkbox', en: 'Checkbox' },
 
+  // grupos do menu
+  'nav.group.forms':      { pt: 'Formulário',        en: 'Forms' },
+  'nav.group.data':       { pt: 'Dados',             en: 'Data' },
+  'nav.group.overlays':   { pt: 'Sobreposições',     en: 'Overlays' },
+  'nav.group.navigation': { pt: 'Navegação e ações', en: 'Navigation & actions' },
+
   'header.menu': {
     pt: 'Menu',
     en: 'Menu'

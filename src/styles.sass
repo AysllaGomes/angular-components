@@ -343,3 +343,32 @@ button, input, select, textarea
    teclado/leitor de tela continuarem dali; não precisam de contorno */
 main[tabindex="-1"]:focus, .demo-section[tabindex="-1"]:focus
   outline: none
+
+/* "Pular para o conteúdo" (cabeçalho da demo): só aparece com foco de teclado */
+.skip-link
+  position: absolute
+  left: -9999px
+  top: auto
+  width: 1px
+  height: 1px
+  overflow: hidden
+  &:focus
+    position: fixed
+    left: 16px
+    top: 16px
+    width: auto
+    height: auto
+    background: #111827
+    color: #fff
+    padding: .5rem .75rem
+    border-radius: .5rem
+    z-index: 999
+
+/* texto só para leitor de tela (componentes com encapsulamento definem o seu) */
+.sr-only
+  position: absolute !important
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap

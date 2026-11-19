@@ -32,16 +32,29 @@
       [class.is-open]="openNav()"
       aria-label="Seções da demo"
       (click)="onNavClick($event)">
-      <a href="demo#stepper" data-target="stepper">{{ 'nav.stepper' | t }}</a>
-      <a href="demo#table" data-target="table">{{ 'nav.table' | t }}</a>
-      <a href="demo#pagination" data-target="pagination">{{ 'nav.pagination' | t }}</a>
-      <a href="demo#toast" data-target="toast">{{ 'nav.toast' | t }}</a>
-      <a href="demo#select" data-target="select">{{ 'nav.select' | t }}</a>
-      <a href="demo#checkbox" data-target="checkbox">{{ 'nav.checkbox' | t }}</a>
-      <a href="demo#treeselect" data-target="treeselect">{{ 'nav.treeselect' | t }}</a>
-      <a href="demo#actionbar" data-target="actionbar">{{ 'nav.actionbar' | t }}</a>
-      <a href="demo#dialog" data-target="dialog">{{ 'nav.dialog' | t }}</a>
-      <a href="demo#button" data-target="button">{{ 'nav.button' | t }}</a>
+      <!--
+        Grupos no padrão "disclosure navigation" (WAI-ARIA): cada grupo é um botão
+        com aria-expanded que mostra/esconde uma lista de links. No menu compacto (☰)
+        os botões somem e os grupos aparecem abertos, com o nome como título.
+      -->
+      @for (g of groups; track g.id) {
+        <div class="group" [class.is-open]="openGroup() === g.id" (focusout)="onGroupFocusOut($event, g.id)">
+          <button
+            type="button"
+            class="group-btn"
+            [attr.aria-expanded]="openGroup() === g.id"
+            [attr.aria-controls]="'nav-' + g.id"
+            (click)="toggleGroup(g.id)">
+            {{ g.label | t }}<span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <span class="group-title" aria-hidden="true">{{ g.label | t }}</span>
+          <ul class="sub" [id]="'nav-' + g.id" [attr.aria-label]="g.label | t">
+            @for (s of g.sections; track s) {
+              <li><a [href]="'demo#' + s" [attr.data-target]="s">{{ 'nav.' + s | t }}</a></li>
+            }
+          </ul>
+        </div>
+      }
     </nav>
 
     <div class="actions">
