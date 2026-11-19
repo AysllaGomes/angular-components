@@ -1,0 +1,49 @@
+:host
+  display: inline-grid
+  gap: .25rem
+
+.cb
+  position: relative
+  display: inline-flex
+  align-items: center
+  gap: .6rem
+  min-height: 32px
+  color: var(--fg)
+  cursor: pointer
+  user-select: none
+
+/* input nativo invisível (continua focável e anunciado), sobre a caixa */
+.cb__input
+  position: absolute
+  inset: 0
+  width: 100%
+  height: 100%
+  margin: 0
+  opacity: 0
+  cursor: inherit
+
+/* hover da linha inteira e foco por teclado realçam a caixa */
+.cb:not(.is-disabled):hover app-checkbox-mark
+  --cbm-border: var(--cb-checked-bg)
+  --cbm-ring: var(--cb-hover-ring)
+
+.cb__input:focus-visible + app-checkbox-mark
+  --cbm-ring: var(--cb-focus-ring)
+
+.cb.is-error app-checkbox-mark
+  --cbm-border: var(--danger)
+
+.cb.is-disabled
+  color: var(--muted)
+  cursor: default
+
+.cb__label:empty
+  display: none
+
+.cb__msg
+  font-size: .85rem
+  color: var(--muted)
+  padding-left: calc(var(--cb-size) + .6rem)
+
+.cb__msg--error
+  color: var(--danger)

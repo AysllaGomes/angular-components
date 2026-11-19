@@ -1,0 +1,152 @@
+<p align="right"><a href="./checkbox.md">Português (BR)</a></p>
+
+# Checkbox
+
+Accessible checkbox with a **partial** (indeterminate) state, integrated with forms. Built with **Angular Standalone + HTML/Sass**, no UI libraries.
+
+- **Files:** `src/app/shared/components/checkbox/checkbox.component.ts` and `checkbox-mark.component.ts`
+- **Theme:** `--cb-*` tokens in `styles.sass`, following the accent color and light/dark theme.
+
+There are two components:
+
+| Component | Purpose |
+|---|---|
+| `app-checkbox` | The full checkbox: label, click, keyboard, forms, hint and error. |
+| `app-checkbox-mark` | **Only the visual box** (unchecked/checked/partial). For drawing checkboxes inside other components, such as a tree or a list, where the item itself announces the state. |
+
+---
+
+## Basic usage
+
+```html
+<app-checkbox [(checked)]="accepted">I accept the terms</app-checkbox>
+```
+
+The **label is the content**. With no visible text, use `ariaLabel`:
+
+```html
+<app-checkbox [(checked)]="selected" ariaLabel="Select row" />
+```
+
+---
+
+## API — `app-checkbox`
+
+### Inputs
+
+| Input           | Type             | Default | Description |
+|-----------------|------------------|---------|-------------|
+| `checked`       | `boolean`        | `false` | Checked. Two-way via `[(checked)]`. With forms, use `formControl`/`ngModel`. |
+| `indeterminate` | `boolean`        | `false` | **Partial** state ("−"). Visually wins over `checked`. Clicking leaves the partial state and checks it. Two-way via `[(indeterminate)]`. |
+| `disabled`      | `boolean`        | `false` | Disables it. Accepts the bare attribute. The form can disable it too (`control.disable()`). |
+| `required`      | `boolean`        | `false` | Passes `required` to the native input. To validate, use `Validators.requiredTrue`. |
+| `name`          | `string \| null` | `null`  | Native input `name`. |
+| `ariaLabel`     | `string \| null` | `null`  | Screen reader label when there is no visible text. |
+| `hint`          | `string \| null` | `null`  | Helper text below, linked via `aria-describedby`. |
+| `error`         | `string \| null` | `null`  | Error message: replaces the hint, turns the box red and sets `aria-invalid`. |
+
+### Outputs
+
+| Output                | Payload   | When |
+|-----------------------|-----------|------|
+| `checkedChange`       | `boolean` | The user checked/unchecked it. |
+| `indeterminateChange` | `boolean` | The user clicked a partial checkbox (it leaves the partial state). |
+
+### Forms
+
+Works with `formControl`, `formControlName` and `ngModel`; the value is a `boolean`:
+
+```ts
+terms = new FormControl(false, { nonNullable: true, validators: Validators.requiredTrue });
+```
+
+```html
+<app-checkbox required [formControl]="terms"
+  [error]="terms.touched && terms.invalid ? 'You need to accept the terms.' : null">
+  I have read and accept the terms of use
+</app-checkbox>
+```
+
+---
+
+## Example — "select all"
+
+This is what the partial state is for: the "parent" is partial when only some children are checked. The parent state is **derived** from the children:
+
+```ts
+allChecked  = computed(() => this.count() === this.items.length);
+someChecked = computed(() => this.count() > 0 && !this.allChecked());
+
+/** partial or empty → check all; all → uncheck all */
+setAll(value: boolean) {
+  const v = this.someChecked() ? true : value;
+  // ... apply v to every child
+}
+```
+
+```html
+<app-checkbox [checked]="allChecked()" [indeterminate]="someChecked()" (checkedChange)="setAll($event)">
+  All notifications
+</app-checkbox>
+```
+
+---
+
+## API — `app-checkbox-mark`
+
+| Input      | Type                                  | Default       | Description |
+|------------|---------------------------------------|---------------|-------------|
+| `state`    | `'unchecked' \| 'checked' \| 'mixed'` | `'unchecked'` | State to draw. |
+| `disabled` | `boolean`                             | `false`       | Disabled look. |
+
+It is **decorative** (`aria-hidden="true"`): whatever uses it must announce the state, e.g. a `role="treeitem"` with `aria-checked="true|false|mixed"`. To highlight the box when a whole row is hovered, override the variables on the element itself:
+
+```sass
+.row:hover app-checkbox-mark
+  --cbm-border: var(--cb-checked-bg)
+  --cbm-ring: var(--cb-hover-ring)
+```
+
+---
+
+## Accessibility
+
+- Underneath there is a **native `<input type="checkbox">`** (invisible, over the box): keyboard (`Space`), label click, `required` and focus come from the browser.
+- The partial state uses the **native `indeterminate` property**, which screen readers announce as "partially checked".
+- Hint and error linked via `aria-describedby`; error sets `aria-invalid="true"`.
+- Keyboard focus shows a ring on the box (`--cb-focus-ring`); hovering the whole row highlights the box.
+
+---
+
+## Tokens (CSS Custom Properties)
+
+```sass
+:root
+  --cb-size: 20px
+  --cb-radius: 5px
+  --cb-border: #6b7c80
+  --cb-bg: var(--surface)
+  --cb-checked-bg: var(--accent)
+  --cb-mark: #ffffff
+  --cb-disabled-bg: #eef0f2
+  --cb-disabled-border: #c4cacd
+  --cb-disabled-checked-bg: #c4cacd
+  --cb-hover-ring: color-mix(in srgb, var(--accent) 16%, transparent)
+  --cb-focus-ring: color-mix(in srgb, var(--accent) 45%, transparent)
+
+:root[data-theme="dark"]
+  --cb-border: #8a94a3
+  --cb-disabled-bg: #171924
+  --cb-disabled-border: #2e3340
+  --cb-disabled-checked-bg: #3a3f4b
+```
+
+---
+
+## Roadmap
+
+- [x] Checked / unchecked / partial states, disabled, hint and error.
+- [x] Forms (`formControl`, `ngModel`).
+- [x] Reusable box (`app-checkbox-mark`).
+- [ ] `app-tree-select`, using the box on each node (next component).
+- [ ] Checkbox group (`app-checkbox-group`) with a list value.

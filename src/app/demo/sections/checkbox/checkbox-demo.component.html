@@ -1,0 +1,56 @@
+<section id="checkbox" class="demo-section">
+  <h2>{{ 'section.checkbox.title' | t }}</h2>
+  <p class="lead">{{ 'section.checkbox.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'checkbox.demo.basic.title' | t }}</h3>
+    <app-checkbox [(checked)]="news">{{ 'checkbox.demo.basic.label' | t }}</app-checkbox>
+    <code class="muted">{{ 'checkbox.demo.basic.value' | t:{ v: news() ? 'true' : 'false' } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'checkbox.demo.all.title' | t }}</h3>
+    <div class="group">
+      <app-checkbox
+        [checked]="allChecked()"
+        [indeterminate]="someChecked()"
+        (checkedChange)="setAll($event)">
+        <b>{{ 'checkbox.demo.all.parent' | t }}</b>
+      </app-checkbox>
+      <div class="children">
+        @for (c of channels; track c) {
+          <app-checkbox [checked]="selected()[c]" (checkedChange)="setChannel(c, $event)">
+            {{ 'checkbox.demo.all.' + c | t }}
+          </app-checkbox>
+        }
+      </div>
+    </div>
+    <small class="muted">{{ 'checkbox.demo.all.hint' | t }}</small>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'checkbox.demo.states.title' | t }}</h3>
+    <div class="states">
+      <app-checkbox>{{ 'checkbox.demo.states.unchecked' | t }}</app-checkbox>
+      <app-checkbox [checked]="true">{{ 'checkbox.demo.states.checked' | t }}</app-checkbox>
+      <app-checkbox [indeterminate]="true">{{ 'checkbox.demo.states.mixed' | t }}</app-checkbox>
+      <app-checkbox disabled>{{ 'checkbox.demo.states.unchecked' | t }} ({{ 'checkbox.demo.states.disabled' | t }})</app-checkbox>
+      <app-checkbox disabled [checked]="true">{{ 'checkbox.demo.states.checked' | t }} ({{ 'checkbox.demo.states.disabled' | t }})</app-checkbox>
+      <app-checkbox disabled [indeterminate]="true">{{ 'checkbox.demo.states.mixed' | t }} ({{ 'checkbox.demo.states.disabled' | t }})</app-checkbox>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'checkbox.demo.forms.title' | t }}</h3>
+    <app-checkbox
+      required
+      [formControl]="terms"
+      [hint]="'checkbox.demo.forms.hint' | t"
+      [error]="showTermsError() ? ('checkbox.demo.forms.error' | t) : null">
+      {{ 'checkbox.demo.forms.label' | t }}
+    </app-checkbox>
+    <div>
+      <button appButton type="button" size="sm" (click)="submit()">{{ 'checkbox.demo.forms.submit' | t }}</button>
+    </div>
+  </article>
+</section>

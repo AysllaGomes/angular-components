@@ -1,0 +1,22 @@
+.muted
+  color: var(--muted)
+
+.group
+  display: grid
+  gap: .25rem
+
+/* filhos recuados sob o "selecionar todos" */
+.children
+  display: grid
+  gap: .25rem
+  padding-left: 1.75rem
+
+/* estados em grade: 3 colunas (desmarcado, marcado, parcial), 1 no celular */
+.states
+  display: grid
+  grid-template-columns: repeat(3, minmax(0, max-content))
+  gap: .5rem 2rem
+
+@media (max-width: 560px)
+  .states
+    grid-template-columns: minmax(0, 1fr)

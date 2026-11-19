@@ -29,6 +29,7 @@ export const COMMON: Dict = {
   'nav.actionbar': { pt: 'ActionBar', en: 'Action bar' },
   'nav.dialog': { pt: 'Dialog', en: 'Dialog' },
   'nav.button': { pt: 'Button', en: 'Button' },
+  'nav.checkbox': { pt: 'Checkbox', en: 'Checkbox' },
 
   'header.menu': {
     pt: 'Menu',

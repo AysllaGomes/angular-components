@@ -11,6 +11,7 @@ import { ActionBarDemoComponent } from './sections/actionbar/actionbar-demo.comp
 import { PaginationDemoComponent } from './sections/pagination/pagination-demo.component';
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
 import {ButtonDemoComponent} from './sections/button/button-demo.component';
+import { CheckboxDemoComponent } from './sections/checkbox/checkbox-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -27,6 +28,7 @@ import {ButtonDemoComponent} from './sections/button/button-demo.component';
     PaginationDemoComponent,
     ToastContainerComponent,
     ButtonDemoComponent,
+    CheckboxDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.Eager

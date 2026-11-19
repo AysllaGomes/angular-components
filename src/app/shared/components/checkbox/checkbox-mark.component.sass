@@ -1,0 +1,39 @@
+/* a própria tag é a caixa; o pai pode trocar --cbm-border / --cbm-ring (hover, foco) */
+:host
+  --cbm-border: var(--cb-border)
+  --cbm-ring: transparent
+  box-sizing: border-box
+  flex: none
+  display: inline-grid
+  place-items: center
+  width: var(--cb-size)
+  height: var(--cb-size)
+  border: 2px solid var(--cbm-border)
+  border-radius: var(--cb-radius)
+  background: var(--cb-bg)
+  color: var(--cb-mark)
+  box-shadow: 0 0 0 4px var(--cbm-ring)
+  transition: background-color .12s ease, border-color .12s ease, box-shadow .12s ease
+
+:host(.is-on)
+  --cbm-border: var(--cb-checked-bg)
+  background: var(--cb-checked-bg)
+
+:host(.is-disabled)
+  --cbm-border: var(--cb-disabled-border)
+  --cbm-ring: transparent
+  background: var(--cb-disabled-bg)
+
+:host(.is-on.is-disabled)
+  --cbm-border: var(--cb-disabled-checked-bg)
+  background: var(--cb-disabled-checked-bg)
+
+svg
+  width: 80%
+  height: 80%
+
+.bar
+  width: 55%
+  height: 2px
+  border-radius: 1px
+  background: currentColor

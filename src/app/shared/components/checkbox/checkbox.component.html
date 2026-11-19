@@ -1,0 +1,24 @@
+<label class="cb" [class.is-disabled]="isDisabled()" [class.is-error]="!!error()">
+  <input
+    class="cb__input"
+    type="checkbox"
+    [id]="inputId"
+    [attr.name]="name()"
+    [checked]="checked()"
+    [indeterminate]="indeterminate()"
+    [disabled]="isDisabled()"
+    [required]="required()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-invalid]="error() ? true : null"
+    [attr.aria-describedby]="describedBy()"
+    (change)="onToggle($event)"
+    (blur)="onTouched()" />
+  <app-checkbox-mark [state]="state()" [disabled]="isDisabled()" />
+  <span class="cb__label"><ng-content /></span>
+</label>
+
+@if (error()) {
+  <div class="cb__msg cb__msg--error" [id]="errorId">{{ error() }}</div>
+} @else if (hint()) {
+  <div class="cb__msg" [id]="hintId">{{ hint() }}</div>
+}

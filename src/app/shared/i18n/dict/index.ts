@@ -1,6 +1,7 @@
 import { TABLE } from './table';
 import { TOAST } from './toast';
 import { BUTTON } from './button';
+import { CHECKBOX } from './checkbox';
 import { COMMON } from './common';
 import { DIALOG } from './dialog';
 import { SELECT } from './select';
@@ -22,4 +23,5 @@ export const DICT: Dict = {
   ...ACTIONBAR,
   ...DIALOG,
   ...BUTTON,
+  ...CHECKBOX,
 };
