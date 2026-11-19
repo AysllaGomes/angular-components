@@ -1,5 +1,6 @@
 import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { stubLayout } from '../../../../testing/layout-stub';
 
@@ -11,7 +12,11 @@ import { DialogComponent } from './dialog.component';
   imports: [DialogComponent],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    <app-dialog title="Teste" [size]="size()" [opened]="opened()" [describedBy]="describedBy()">
+    <button id="opener" type="button">Abrir</button>
+    <p id="outside">Fundo</p>
+    <p id="already-inert" inert>Já inerte</p>
+    <p id="keep" data-dialog-keep-active>Avisos</p>
+    <app-dialog title="Teste" [size]="size()" [(opened)]="opened" [describedBy]="describedBy()">
       <p id="dlg-test-desc">Descrição do dialog.</p>
       <div [style.width.px]="contentWidth()" style="height: 10px"></div>
     </app-dialog>
@@ -105,7 +110,7 @@ describe('DialogComponent', () => {
   });
 
   it('emits openedChange only when the state changes', async () => {
-    const dlg = fixture.debugElement.children[0].componentInstance as DialogComponent;
+    const dlg = fixture.debugElement.query(By.directive(DialogComponent)).componentInstance as DialogComponent;
     const emitted: boolean[] = [];
     dlg.opened.subscribe(v => emitted.push(v)); // o model() é o próprio openedChange
 
@@ -160,5 +165,77 @@ describe('DialogComponent', () => {
     host.describedBy.set('a b');
     await settle(fixture);
     expect(dialogEl(fixture)?.getAttribute('aria-describedby')).toBe('a b');
+  });
+
+  describe('focus restore and inert background', () => {
+    const byId = (id: string) => document.getElementById(id) as HTMLElement;
+
+    it('focuses the close button on open and returns focus to the opener on close', async () => {
+      byId('opener').focus();
+      host.opened.set(true);
+      await settle(fixture);
+      expect(document.activeElement?.classList).toContain('dlg__close');
+
+      host.opened.set(false);
+      await settle(fixture);
+      expect(document.activeElement).toBe(byId('opener'));
+    });
+
+    it('also returns focus when closed from inside (Esc)', async () => {
+      byId('opener').focus();
+      host.opened.set(true);
+      await settle(fixture);
+
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      await settle(fixture);
+      expect(host.opened()).toBe(false);
+      expect(document.activeElement).toBe(byId('opener'));
+    });
+
+    it('does not throw nor steal focus if the opener was removed meanwhile', async () => {
+      byId('opener').focus();
+      host.opened.set(true);
+      await settle(fixture);
+      byId('opener').remove();
+
+      host.opened.set(false);
+      await settle(fixture);
+      expect(document.activeElement?.id).not.toBe('opener');
+    });
+
+    it('makes the background inert while open, but not the dialog itself', async () => {
+      host.opened.set(true);
+      await settle(fixture);
+
+      expect(byId('outside').hasAttribute('inert')).toBe(true);
+      expect(byId('opener').hasAttribute('inert')).toBe(true);
+      expect(dialogEl(fixture)!.closest('[inert]')).toBeNull();
+    });
+
+    it('keeps elements marked with data-dialog-keep-active interactive', async () => {
+      host.opened.set(true);
+      await settle(fixture);
+      expect(byId('keep').hasAttribute('inert')).toBe(false);
+    });
+
+    it('releases only what it marked: already-inert elements stay inert', async () => {
+      host.opened.set(true);
+      await settle(fixture);
+      host.opened.set(false);
+      await settle(fixture);
+
+      expect(byId('outside').hasAttribute('inert')).toBe(false);
+      expect(byId('opener').hasAttribute('inert')).toBe(false);
+      expect(byId('already-inert').hasAttribute('inert')).toBe(true);
+    });
+
+    it('releases the background if destroyed while open', async () => {
+      host.opened.set(true);
+      await settle(fixture);
+      const outside = byId('outside');
+
+      fixture.destroy();
+      expect(outside.hasAttribute('inert')).toBe(false);
+    });
   });
 });

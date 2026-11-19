@@ -14,7 +14,9 @@ import { Toast } from '../../model/interface/toast.interface';
   imports: [
     ButtonDirective
 ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  // um Dialog aberto deixa o resto da página inerte; os toasts continuam ativos
+  host: { 'data-dialog-keep-active': '' }
 })
 export class ToastContainerComponent {
   constructor(public toast: ToastService) {}

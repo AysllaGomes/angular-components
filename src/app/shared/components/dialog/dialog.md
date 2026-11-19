@@ -45,6 +45,8 @@ Sheet/modal acessível e leve para confirmações e pequenos formulários. Const
 - `aria-labelledby` aponta para o ID do título.
 - `aria-describedby` (opcional, via `describedBy`) aponta para o texto que descreve o dialog, lido junto com o título ao abrir.
 - **Foco inicial** vai para o botão “fechar”. **Trap de foco** mantém a navegação dentro do diálogo.
+- **Foco devolvido**: ao fechar (botão, `Esc`, backdrop ou `opened=false`), o foco volta ao elemento que estava focado antes de abrir — normalmente o botão que abriu —, se ele ainda estiver na página.
+- **Fundo inerte**: enquanto aberto, o resto da página recebe `inert` (sem foco, clique ou leitura por leitor de tela). Ao fechar, só os elementos marcados pelo dialog são liberados (o que já era `inert` continua). Para manter algo ativo — como avisos —, use o atributo `data-dialog-keep-active` nesse elemento; o `app-toast-container` já vem com ele.
 - **Teclado:** `Esc` fecha; `Tab`/`Shift+Tab` navega entre itens focáveis.
 - **Backdrop:** habilitado por padrão; pode ser desativado com `closeOnBackdrop=false`.
 
@@ -164,9 +166,9 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 
 ### Agora (0.x)
 - [ ] **A11y**
-  - [ ] Retornar o foco ao elemento que abriu o diálogo (focus restore).
+  - [x] Retornar o foco ao elemento que abriu o diálogo (focus restore).
   - [x] `aria-describedby` opcional (input `describedBy`).
-  - [ ] Tornar o *backdrop* realmente inerte ao foco (ex.: `inert`/`aria-hidden` no conteúdo por trás).
+  - [x] Tornar o *backdrop* realmente inerte ao foco (`inert` no conteúdo por trás).
 - [ ] **API de estado**
   - [ ] Eventos `afterOpen` / `afterClose` (disparam após a animação).
   - [ ] Evento `beforeClose` cancelável (`(beforeClose)="e.preventDefault()"`).

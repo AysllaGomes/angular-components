@@ -45,6 +45,8 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
 - `aria-labelledby` points to the title element ID.
 - `aria-describedby` (optional, via `describedBy`) points to the text describing the dialog, read together with the title when it opens.
 - **Initial focus** goes to the close button. **Focus trap** keeps tabbing inside.
+- **Focus restore**: on close (button, `Esc`, backdrop or `opened=false`), focus returns to the element that was focused before opening (usually the opener), if it is still in the page.
+- **Inert background**: while open, the rest of the page gets `inert` (no focus, clicks or screen reader access). On close, only the elements the dialog marked are released (already-`inert` ones stay inert). To keep something active (such as notifications), add the `data-dialog-keep-active` attribute to it; `app-toast-container` already has it.
 - **Keys:** `Esc` closes; `Tab`/`Shift+Tab` cycles focus.
 - **Backdrop:** enabled by default; can be disabled with `closeOnBackdrop=false`.
 
@@ -160,9 +162,9 @@ Suggested keys:
 
 ### Now (0.x)
 - [ ] **A11y**
-  - [ ] Restore focus to the opener element on close.
+  - [x] Restore focus to the opener element on close.
   - [x] Optional `aria-describedby` (`describedBy` input).
-  - [ ] Make the backdrop truly inert (e.g., `inert`/`aria-hidden` behind the dialog).
+  - [x] Make the backdrop truly inert (`inert` behind the dialog).
 - [ ] **State API**
   - [ ] `afterOpen` / `afterClose` events (fire after animation).
   - [ ] Cancelable `beforeClose` event (`(beforeClose)="e.preventDefault()"`).
@@ -176,7 +178,7 @@ Suggested keys:
   - [ ] iOS safe areas via `env(safe-area-inset-*)`.
 - [ ] **Perf/SSR**
   - [x] Extra guards for `ResizeObserver`/DOM (SSR friendly).
-  - [x] Don’t render internals while `opened=false` (ngIf) yet keep animations.
+  - [x] Don’t render internals while `opened=false` (`@if`).
 
 ### Next (1.0)
 - [ ] **Programmatic service**
