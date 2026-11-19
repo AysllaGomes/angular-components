@@ -191,6 +191,7 @@ categoryError(): string | null {
 
 - **Button** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`, `aria-invalid` when error.
 - **List**: `role="listbox"`, items with `role="option"` and `aria-selected`.
+- **Label**: `label` names the button (together with the value: "Food, Banana") and the list (`aria-labelledby`). On open, focus moves to the search or the list.
 - Closes on **Escape**, outside click and after selection.
 - **Keyboard**: `Enter`/`Space` to open; inside the panel use `↑/↓`, `Home/End`, `Enter` to select.
 - **Typeahead**: with the field focused and closed, typing picks the first option whose label starts with the text (accent/case-insensitive) without opening; repeating the same letter cycles through options with that initial. With the panel open, typing only moves the highlight (`Enter` confirms). Disabled options are skipped; the search resets after 500 ms of no typing. With `filterable`, text goes to the filter.

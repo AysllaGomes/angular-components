@@ -44,6 +44,7 @@
       <div class="tbl-footer">
         <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
         <app-pagination
+          [ariaLabel]="'pagination.nav.table' | t"
           [total]="rows.length"
           [pageSize]="pageSize"
           [pageIndex]="pageIndex()"

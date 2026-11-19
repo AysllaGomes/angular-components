@@ -192,6 +192,7 @@ erroCategoria(): string | null {
 
 - **Botão** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`, `aria-invalid` quando há erro.
 - **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`.
+- **Rótulo**: o `label` nomeia o botão (junto com o valor: "Comida, Banana") e a lista (`aria-labelledby`). Ao abrir, o foco vai para a busca ou para a lista.
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
 - **Typeahead**: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (`Enter` confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com `filterable`, o texto vai para o filtro.

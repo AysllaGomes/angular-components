@@ -6,6 +6,8 @@
     <h3>{{ 'stepper.demo.basic.title' | t }}</h3>
 
     <app-stepper
+      [ariaLabel]="'stepper.demo.basic.title' | t"
+      [doneLabel]="'stepper.done' | t"
       [steps]="steps()"
       [current]="current()"
       [clickable]="true"
@@ -40,6 +42,8 @@
   <article class="card">
     <h3>{{ 'stepper.demo.disabled.title' | t }}</h3>
     <app-stepper
+      [ariaLabel]="'stepper.demo.disabled.title' | t"
+      [doneLabel]="'stepper.done' | t"
       [steps]="stepsDisabled"
       [current]="current2()"
       [clickable]="true"
@@ -51,6 +55,8 @@
     <h3>{{ 'stepper.demo.compact.title' | t }}</h3>
     <div class="compact">
       <app-stepper
+        [ariaLabel]="'stepper.demo.compact.title' | t"
+        [doneLabel]="'stepper.done' | t"
         [steps]="steps()"
         [current]="current()"
         [clickable]="true"

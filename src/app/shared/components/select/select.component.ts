@@ -168,6 +168,8 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
 
   id = `sel-${++uid}`;
   get listboxId() { return `${this.id}-listbox`; }
+  get labelId() { return `${this.id}-label`; }
+  get valueId() { return `${this.id}-value`; }
   optionId(i: number) { return `${this.id}-opt-${i}`; }
   groupId(si: number) { return `${this.id}-grp-${si}`; }
 

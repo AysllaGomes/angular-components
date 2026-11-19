@@ -135,16 +135,20 @@ td.empty
   color: var(--tbl-muted)
   padding: 24px 14px
 
-/* cabeçalho clicável */
-.tbl thead th[role="button"]
+/* cabeçalho ordenável: <th> com um <button> que ocupa a célula */
+.tbl thead th.is-sortable:hover
+  background: var(--tbl-header-hover)
+
+.th-sort
+  all: inherit
+  position: static
+  display: inline
+  padding: 0
   cursor: pointer
   user-select: none
   &:focus-visible
     outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
     outline-offset: 2px
-
-.tbl thead th[role="button"]:hover
-  background: var(--tbl-header-hover)
 
 .tbl thead .sort
   margin-left: .25rem

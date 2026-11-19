@@ -10,7 +10,7 @@ Um **componente de etapas** leve e acessível, implementado em **HTML + Sass**, 
 
 - **Estados**: `pending`, `active`, `done`, `disabled`
 - **Interação**: clique opcional para navegar (`clickable`), regra padrão permite voltar e avançar até `current + 1`
-- **Acessibilidade**: `role="tablist"/"tab"`, `aria-selected`, `aria-disabled`
+- **Acessibilidade**: `nav` com nome (`ariaLabel`) e lista ordenada; etapa atual com `aria-current="step"`; concluídas anunciadas ("concluída")
 - **Theming**: via **CSS Custom Properties** (cores/tamanhos), com fallbacks
 - **Responsivo**: textos abaixo e centralizados em relação ao bullet; captions ocultas em telas pequenas
 
@@ -77,6 +77,8 @@ goTo(i: number) { this.current = i; }
 | `clickable`   | `boolean`  | `true` | Habilita clique para navegar (até `current + 1`). |
 | `showIndex`   | `boolean`  | `true` | Exibe número dentro do bullet nas etapas não concluídas. |
 | `showCaption` | `boolean`  | `true` | Exibe legenda abaixo do rótulo. |
+| `ariaLabel`   | `string`   | `'Etapas do fluxo'` | Nome da navegação para leitores de tela. |
+| `doneLabel`   | `string`   | `'concluída'` | Texto (só leitor de tela) das etapas concluídas. |
 
 ### Output
 
@@ -89,10 +91,10 @@ goTo(i: number) { this.current = i; }
 ## Estrutura HTML (resumo)
 
 ```
-nav.stepper (role="tablist")
+nav.stepper (aria-label)
 └─ ol.stepper-list
    └─ li.stepper-item
-      ├─ button.stepper-button (role="tab")
+      ├─ button.stepper-button (aria-current="step" na atual)
       │  ├─ span.bullet
       │  │  ├─ span.check (✓ se "done")
       │  │  └─ span.index (número)
@@ -165,8 +167,8 @@ steps = [
 
 ## Acessibilidade & Navegação
 
-- `aria-selected` marca a etapa atual.
-- `aria-disabled` quando o clique não é permitido.
+- É uma **navegação com lista ordenada** (não abas): `nav[aria-label] > ol > li > button`. Use nomes diferentes (`ariaLabel`) se houver mais de um stepper na página.
+- `aria-current="step"` marca a etapa atual; etapas concluídas têm um texto só para leitor de tela (`doneLabel`, padrão "concluída"). Etapas não alcançáveis ficam `disabled`.
 - Regra padrão de clique: voltar livre; avançar **até** `current + 1` (evita “pular” validações).  
   Ajuste essa regra no método `canClick()` conforme seu fluxo.
 

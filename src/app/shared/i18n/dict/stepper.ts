@@ -2,6 +2,7 @@ import { Dict } from '../../model/type/dict.type';
 
 export const STEPPER: Dict = {
   'stepper.demo.basic.title':     { pt: '1) Básico (clique habilitado)', en: '1) Basic (click enabled)' },
+  'stepper.done':                 { pt: 'concluída',                     en: 'completed' },
   'stepper.demo.basic.prev':      { pt: '← Voltar',                      en: '← Back' },
   'stepper.demo.basic.next':      { pt: 'Avançar →',                     en: 'Next →' },
 

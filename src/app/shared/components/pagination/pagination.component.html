@@ -2,7 +2,7 @@
   class="pg"
   [class.pg--compact]="compact() === true"
   [class.pg--auto]="compact() === 'auto'"
-  aria-label="Pagination"
+  [attr.aria-label]="ariaLabel() || ('pagination.nav' | t)"
   (keydown)="onKeydown($event)">
   @if (showFirstLast()) {
     <button
@@ -31,7 +31,7 @@
     {{ 'pagination.status' | t:{ page: current + 1, total: pageCount } }}
   </span>
 
-  <div class="pg-pages" role="list">
+  <div class="pg-pages">
     @for (p of pages(); track p) {
       <button
         type="button"

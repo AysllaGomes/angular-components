@@ -19,6 +19,10 @@ export const PAGINATION: Dict = {
   'pagination.next':        { pt: 'Próxima',  en: 'Next' },
   'pagination.last':        { pt: 'Última',   en: 'Last' },
   'pagination.status':      { pt: 'Página {{page}} de {{total}}', en: 'Page {{page}} of {{total}}' },
+  'pagination.nav':         { pt: 'Paginação', en: 'Pagination' },
+  'pagination.nav.demo':    { pt: 'Paginação de exemplo', en: 'Example pagination' },
+  'pagination.nav.compact': { pt: 'Paginação compacta', en: 'Compact pagination' },
+  'pagination.nav.table':   { pt: 'Paginação da tabela', en: 'Table pagination' },
 
   // demo do modo compacto
   'pagination.demo.compact.title': { pt: 'Compacto', en: 'Compact' },

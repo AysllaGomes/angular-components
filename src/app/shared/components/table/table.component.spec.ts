@@ -116,4 +116,20 @@ describe('TableComponent selection', () => {
       expect(host.selected()).toEqual([]);
     });
   });
+
+  it('sorting: the header stays a column header with aria-sort; a button inside sorts', async () => {
+    await create(true);
+    const th = el.querySelector<HTMLElement>('thead th.is-sortable')!;
+    const btn = th.querySelector<HTMLButtonElement>('button.th-sort')!;
+    expect(th.getAttribute('role')).toBeNull();
+    expect(th.getAttribute('aria-sort')).toBe('none');
+
+    btn.click();
+    await fixture.whenStable();
+    expect(th.getAttribute('aria-sort')).toBe('ascending');
+
+    btn.click();
+    await fixture.whenStable();
+    expect(th.getAttribute('aria-sort')).toBe('descending');
+  });
 });

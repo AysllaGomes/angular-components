@@ -176,3 +176,12 @@
     justify-self: start
   .stepper-item.is-active:last-child .texts
     justify-self: end
+
+/* texto só para leitor de tela (ex.: "concluída") */
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap

@@ -1,7 +1,7 @@
 <p align="right"><a href="./README.md">English</a></p>
 
 [![Deploy](https://github.com/AysllaGomes/angular-components/actions/workflows/deploy.yml/badge.svg)](.github/workflows/deploy.yml)
-### **[Demo](https://aysllagomes.github.io/angular-components.github.io/demo)**
+### **[Demo](https://aysllagomes.github.io/angular-components/demo)**
 
 - **[CHANGELOG.md](./CHANGELOG.pt-BR.md):**
 ---
@@ -31,6 +31,12 @@
 | **TreeSelect**           | Select com opções em árvore: modo único (mostra o caminho, `leafOnly` opcional) ou checkbox (seleção de grupo/parcial, valor = keys das folhas), filtro, teclado WAI-ARIA de árvore, formulários. | [PT-BR](src/app/shared/components/tree-select/tree-select.md) · [EN](src/app/shared/components/tree-select/tree-select.en.md) | `/demo#treeselect` |
 
 ---
+
+## Qualidade
+
+- `npm run test:ci` roda os testes unitários (Vitest) **e checagens automáticas de acessibilidade** ([axe-core](https://github.com/dequelabs/axe-core)) em cada componente, nos estados que importam (aberto, com erro, desabilitado...). Veja `src/app/shared/components/a11y.spec.ts`.
+- O CI roda tudo em cada push e pull request; o deploy só publica se passar.
+- O contraste de cores é conferido no navegador, nos dois temas (o jsdom não renderiza cores).
 
 ## Licença
 

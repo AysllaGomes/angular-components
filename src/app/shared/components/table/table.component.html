@@ -16,18 +16,22 @@
         }
 
         @for (col of columns(); track col.key) {
+          <!-- o th continua cabeçalho de coluna (com aria-sort); quem ordena é um <button> dentro dele -->
           <th
-            (click)="onHeaderClick(col)"
-            (keydown.enter)="onHeaderClick(col)"
-            (keydown.space)="onHeaderClick(col)"
-            tabindex="0" role="button"
             [style.width]="col.width || null"
+            [class.is-sortable]="isSortable(col)"
             [class.align-center]="col.align==='center'"
             [class.align-right]="col.align==='right'"
-            [attr.aria-sort]="activeSortKey()===col.key ? (activeSortDir()==='asc'?'ascending':'descending') : 'none'">
-            {{ col.header }}
-            @if (activeSortKey()===col.key) {
-              <span class="sort" [attr.title]="'Clique para ordenar'">{{ activeSortDir()==='asc' ? '▲' : '▼' }}</span>
+            [attr.aria-sort]="isSortable(col) ? (activeSortKey()===col.key ? (activeSortDir()==='asc'?'ascending':'descending') : 'none') : null">
+            @if (isSortable(col)) {
+              <button type="button" class="th-sort" (click)="onHeaderClick(col)">
+                {{ col.header }}
+                @if (activeSortKey()===col.key) {
+                  <span class="sort" aria-hidden="true">{{ activeSortDir()==='asc' ? '▲' : '▼' }}</span>
+                }
+              </button>
+            } @else {
+              {{ col.header }}
             }
           </th>
         }

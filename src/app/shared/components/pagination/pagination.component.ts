@@ -42,6 +42,8 @@ export class PaginationComponent {
   readonly compact = input<boolean | 'auto', boolean | 'auto' | ''>(false, {
     transform: v => v === '' ? true : v
   });
+  /** nome da navegação (padrão: "Paginação"); use nomes diferentes se houver mais de uma na página */
+  readonly ariaLabel = input<string | null>(null);
   /** mostra os botões « Primeira / Última » nas pontas */
   readonly showFirstLast = input(false, { transform: booleanAttribute });
 

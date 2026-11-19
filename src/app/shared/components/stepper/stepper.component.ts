@@ -10,14 +10,15 @@ import { StepItem } from '../../model/interface/step-item.interface';
   imports: [],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'role': 'tablist',
-    'aria-label': 'Etapas do fluxo'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepperComponent {
   readonly steps = input.required<StepItem[]>();
+
+  /** nome da navegação para leitores de tela */
+  readonly ariaLabel = input('Etapas do fluxo');
+  /** texto (só para leitor de tela) anexado às etapas concluídas */
+  readonly doneLabel = input('concluída');
 
   /** Índice base-0 da etapa ativa */
   readonly current = input(0);

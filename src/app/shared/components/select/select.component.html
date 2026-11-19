@@ -1,6 +1,6 @@
 <div class="field" [class.is-disabled]="isDisabled()" [class.is-error]="hasError()">
   <label class="label">
-    <span>{{ label() }}</span>
+    <span [id]="labelId">{{ label() }}</span>
     @if (required()) {
       <span class="req">{{ requiredLabel() }}</span>
     }
@@ -15,13 +15,14 @@
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-expanded]="open()"
       [attr.aria-controls]="listboxId"
+      [attr.aria-labelledby]="labelId + ' ' + valueId"
       [attr.aria-invalid]="hasError() || null"
       [attr.aria-disabled]="isDisabled() || null"
       [disabled]="isDisabled()"
       (click)="toggle()"
       (keydown)="onButtonKeydown($event)"
       (blur)="onControlBlur()">
-      <span class="value" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder() }}</span>
+      <span class="value" [id]="valueId" [class.placeholder]="!selectedLabel">{{ selectedLabel ?? placeholder() }}</span>
       <span class="caret" aria-hidden="true">▾</span>
     </button>
 
@@ -49,6 +50,7 @@
       [class.is-sheet]="sheet()"
       tabindex="0"
       role="listbox"
+      [attr.aria-labelledby]="labelId"
       [id]="listboxId"
       (keydown)="onPanelKeydown($event)"
       [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">

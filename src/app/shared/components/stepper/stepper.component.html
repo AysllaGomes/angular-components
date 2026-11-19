@@ -1,4 +1,9 @@
-<nav class="stepper" [attr.aria-valuenow]="current() + 1" [attr.aria-valuemax]="steps().length">
+<!--
+  Navegação com lista ordenada de etapas: a atual leva aria-current="step" e as
+  concluídas ganham um texto (só para leitor de tela). Não é role="tablist":
+  etapas não são abas (não há painéis ligados a elas).
+-->
+<nav class="stepper" [attr.aria-label]="ariaLabel()">
   <ol class="stepper-list">
     @for (step of steps(); track $index; let i = $index) {
       <li
@@ -10,9 +15,7 @@
         <button
           class="stepper-button"
           type="button"
-          role="tab"
-          [attr.aria-selected]="getState(i) === 'active'"
-          [attr.aria-disabled]="!canClick(i)"
+          [attr.aria-current]="getState(i) === 'active' ? 'step' : null"
           [disabled]="!canClick(i)"
           (click)="onStepClick(i)"
           >
@@ -28,6 +31,9 @@
             <span class="label">{{ step.label }}</span>
             @if (showCaption() && step.caption) {
               <span class="caption">{{ step.caption }}</span>
+            }
+            @if (getState(i) === 'done') {
+              <span class="sr-only">({{ doneLabel() }})</span>
             }
           </span>
         </button>

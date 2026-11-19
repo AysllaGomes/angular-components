@@ -33,6 +33,7 @@ src/app/shared/components/pagination/
 | `maxVisible`| `number`    | `5`    | Máximo de botões numéricos exibidos. |
 | `compact`   | `boolean \| 'auto'` | `false` | `true`: mostra "Página X de Y" entre as setas no lugar dos números. `'auto'`: só em telas ≤ 420px (CSS). Aceita o atributo vazio (`compact`). |
 | `showFirstLast` | `boolean` | `false` | Mostra os botões « Primeira / Última » nas pontas (desabilitados quando já está nela). Aceita o atributo vazio. |
+| `ariaLabel` | `string \| null` | `null` | Nome da navegação (padrão: "Paginação", via i18n). Use nomes diferentes se houver mais de uma paginação na página. |
 
 ### Outputs
 | Evento       | Payload   | Quando dispara |

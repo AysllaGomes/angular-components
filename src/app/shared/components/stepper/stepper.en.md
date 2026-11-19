@@ -35,6 +35,8 @@ src/app/shared/components/stepper/
 | `clickable`    | `boolean`                    | `false`| If `true`, allows clicking on previous/next steps. |
 | `showIndex`    | `boolean`                    | `true` | Show numeric index inside the bullet when not done. |
 | `showCaption`  | `boolean`                    | `true` | Show the caption under the label (hidden on narrow screens). |
+| `ariaLabel`    | `string`                     | `'Etapas do fluxo'` | Navigation name for screen readers. |
+| `doneLabel`    | `string`                     | `'concluída'` | Screen-reader-only text for completed steps. |
 
 ### Outputs
 | Output        | Payload    | When |
@@ -107,7 +109,8 @@ Define tokens globally (e.g. in `styles.sass`) or in a wrapper element. Defaults
 ---
 
 ## Accessibility
-- Semantic structure: `nav[aria-valuenow/aria-valuemax] > ol > li > button`.
+- Semantic structure: a **navigation with an ordered list** (not tabs): `nav[aria-label] > ol > li > button`. Give each stepper its own `ariaLabel` if there is more than one on the page.
+- The current step has `aria-current="step"`; completed steps carry screen-reader-only text (`doneLabel`, default "concluída"). Unreachable steps are `disabled`.
 - Focus visible on buttons; bullets use `aria-hidden` for decorative content.
 - Use short labels; captions are optional and collapse below ~720px.
 

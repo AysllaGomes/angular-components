@@ -174,8 +174,11 @@ export class TableComponent<T = any> {
     this.action.emit({ type: kind, row, index });
   }
 
+  /** colunas com dado simples podem ser ordenadas (custom não) */
+  isSortable(col: ColumnDef<T>) { return !!col.key && col.type !== 'custom'; }
+
   onHeaderClick(col: ColumnDef<T>) {
-    if (!col.key || col.type === 'custom') return;
+    if (!this.isSortable(col)) return;
     const key = String(col.key);
     const dir: SortDir = (this.activeSortKey() === key && this.activeSortDir() === 'asc') ? 'desc' : 'asc';
     this.activeSortKey.set(key);

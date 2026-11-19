@@ -19,6 +19,7 @@
     <div class="pager-wrap">
       @if (total() > pageSize()) {
         <app-pagination
+          [ariaLabel]="'pagination.nav.demo' | t"
           [total]="total()"
           [pageSize]="pageSize()"
           [pageIndex]="pageIndex()"
@@ -35,6 +36,7 @@
     <h3>{{ 'pagination.demo.compact.title' | t }}</h3>
     <div class="pager-wrap">
       <app-pagination
+        [ariaLabel]="'pagination.nav.compact' | t"
         [total]="total()"
         [pageSize]="pageSize()"
         [pageIndex]="pageIndex()"
