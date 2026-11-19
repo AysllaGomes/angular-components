@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.5.0](https://github.com/AysllaGomes/angular-components/compare/v2.4.0...v2.5.0) (2026-11-19)
+### Features
+- **forms:** validação centralizada para formulários reativos, documentada em
+  `src/app/shared/forms/forms.md`:
+  - `AppValidators.cpf()`, `cnpj()` e `cpfOrCnpj()`: aceitam o valor com ou sem
+    máscara e ignoram vazio (combine com `Validators.required`); o CNPJ aceita o
+    formato **alfanumérico** (IN RFB 2.229/2024), ex.: `12.ABC.345/01DE-35`.
+  - `FormErrorsService` + pipe `fieldError`: uma mensagem traduzida por tipo de
+    erro (`required` primeiro), exibida depois que o campo é tocado; mensagens
+    trocadas ou acrescentadas num lugar só com `provideFormErrorMessages()`
+    (texto, chave do i18n ou função).
+  - diretiva `appFormValidation`: no envio inválido mostra todos os erros e leva
+    o foco ao primeiro campo inválido na ordem da tela, inclusive dentro dos
+    componentes (Select, Radio...); no envio válido emite `validSubmit` com
+    `getRawValue()`. Sem toast: toast fica para erros do back-end.
+- **forms:** diretiva de máscara `appMask`: `cpf`, `cnpj`, `cpfCnpj` (vira CNPJ
+  sozinha), `phone`, `cep`, `date` ou padrão próprio (`0` dígito, `A` letra, `*`
+  alfanumérico); o formulário recebe o valor sem máscara, o cursor fica no lugar
+  ao editar no meio e o celular abre o teclado numérico.
+- **form-field:** novo `app-form-field`: rótulo, dica, erro e "requerido" em volta
+  de um `<input>`/`<textarea>`/`<select>` nativo, ligados por `for`/`id`,
+  `aria-describedby`, `aria-invalid` e `aria-required`; mesmo visual do Select.
+- **select:** `required`, `disabled`, `filterable` e `clearable` aceitam o
+  atributo sem valor (`<app-select required>`).
+
+### Bug Fixes
+- **theme:** o texto de placeholder (inputs, Select, TreeSelect) tinha contraste
+  de 3:1 no tema claro; agora 5,5:1 (WCAG AA).
+
+### Demo
+- Nova seção "Validação de formulário": cadastro completo (nome, CPF/CNPJ,
+  telefone, CEP, Select, Radio, Checkbox) com máscaras, placeholders de formato e
+  o payload que o back-end recebe.
+
 ## [2.4.0](https://github.com/AysllaGomes/angular-components/compare/v2.3.0...v2.4.0) (2026-11-19)
 ### Features
 - **radio:** novo `app-radio-group`: escolha única sobre `<fieldset>`/`<legend>` e

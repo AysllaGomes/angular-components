@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.5.0](https://github.com/AysllaGomes/angular-components/compare/v2.4.0...v2.5.0) (2026-11-19)
+
+
+### Features
+
+* **forms:** centralized validation for reactive forms, documented in `src/app/shared/forms/forms.md` ([fc51561](https://github.com/AysllaGomes/angular-components/commit/fc51561))
+  * `AppValidators.cpf()`, `cnpj()` and `cpfOrCnpj()`: accept masked or raw values and ignore empty ones (combine with `Validators.required`); CNPJ supports the **alphanumeric** format (IN RFB 2.229/2024), e.g. `12.ABC.345/01DE-35`
+  * `FormErrorsService` + `fieldError` pipe: one translated message per error type (`required` first), shown after the field is touched; override or add messages in one place with `provideFormErrorMessages()` (text, i18n key or function)
+  * `appFormValidation` directive: on an invalid submit it shows every error and moves focus to the first invalid field in screen order, including inside components (Select, Radio...); a valid submit emits `validSubmit` with `getRawValue()`. No toast: toasts are for back-end errors
+* **forms:** `appMask` input mask directive: `cpf`, `cnpj`, `cpfCnpj` (switches to CNPJ automatically), `phone`, `cep`, `date` or a custom pattern (`0` digit, `A` letter, `*` alphanumeric); the form receives the unmasked value, the caret stays in place when editing in the middle, numeric keyboard on phones ([fc51561](https://github.com/AysllaGomes/angular-components/commit/fc51561))
+* **form-field:** new `app-form-field`: label, hint, error and "required" around a native `<input>`/`<textarea>`/`<select>`, wired with `for`/`id`, `aria-describedby`, `aria-invalid` and `aria-required`; same look as the Select ([fc51561](https://github.com/AysllaGomes/angular-components/commit/fc51561))
+* **select:** `required`, `disabled`, `filterable` and `clearable` accept the bare attribute (`<app-select required>`) ([fc51561](https://github.com/AysllaGomes/angular-components/commit/fc51561))
+
+
+### Bug Fixes
+
+* **theme:** placeholder text (inputs, Select, TreeSelect) had 3:1 contrast in the light theme; now 5.5:1 (WCAG AA) ([1c74b3e](https://github.com/AysllaGomes/angular-components/commit/1c74b3e))
+
+
+### Demo
+
+* New "Form validation" section: a full sign-up form (name, CPF/CNPJ, phone, ZIP code, Select, Radio, Checkbox) with masks, format placeholders and the payload the back-end receives ([fc51561](https://github.com/AysllaGomes/angular-components/commit/fc51561), [1c74b3e](https://github.com/AysllaGomes/angular-components/commit/1c74b3e))
+
 ## [2.4.0](https://github.com/AysllaGomes/angular-components/compare/v2.3.0...v2.4.0) (2026-11-19)
 
 
