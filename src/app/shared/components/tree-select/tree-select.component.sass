@@ -1,0 +1,193 @@
+/* mesmo visual do app-select (tokens --sel-*), para ficarem lado a lado em formulários */
+.anchor
+  position: relative
+
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap
+
+.field
+  display: grid
+  gap: .35rem
+
+.label
+  display: flex
+  justify-content: space-between
+  align-items: baseline
+  font-size: .9rem
+  color: var(--sel-fg)
+  .req
+    font-size: .8rem
+    color: var(--muted)
+
+.control-wrap
+  display: grid
+  grid-template-columns: minmax(0, 1fr) auto
+  align-items: center
+  > .clear-btn
+    margin-left: .5rem
+
+.control
+  width: 100%
+  display: grid
+  grid-template-columns: minmax(0, 1fr) auto
+  align-items: center
+  gap: .5rem
+  padding: .45rem .7rem
+  min-height: 44px
+  text-align: left
+  border-radius: .5rem
+  border: 1px solid var(--sel-border)
+  background: var(--sel-bg)
+  color: var(--sel-fg)
+  cursor: pointer
+  &:focus-visible
+    outline: none
+    border-color: var(--accent)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+  .caret
+    color: var(--sel-caret)
+
+.value
+  display: flex
+  flex-wrap: wrap
+  gap: .3rem
+  min-width: 0
+  overflow-wrap: anywhere
+  &.placeholder
+    color: var(--sel-placeholder)
+
+.chip
+  padding: .1rem .5rem
+  border-radius: 9999px
+  font-size: .85rem
+  background: var(--sel-option-hover)
+  white-space: nowrap
+  &--more
+    font-weight: 600
+
+.clear-btn, .sheet-close
+  border: 0
+  width: 36px
+  height: 36px
+  border-radius: 9999px
+  cursor: pointer
+  background: var(--sel-disabled-bg)
+  color: var(--sel-caret)
+  font-size: 18px
+  &:focus-visible
+    outline: none
+    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+
+.field.is-disabled .control
+  background: var(--sel-disabled-bg)
+  color: var(--muted)
+  cursor: default
+
+.field.is-error .control
+  border-color: var(--sel-error)
+
+.backdrop
+  position: fixed
+  inset: 0
+  z-index: 60
+  background: rgba(0,0,0,.35)
+
+.panel
+  position: absolute
+  top: 100%
+  left: 0
+  right: 0
+  z-index: 61
+  margin-top: .35rem
+  background: var(--sel-menu-bg)
+  border: 1px solid var(--sel-menu-border)
+  border-radius: .5rem
+  box-shadow: 0 12px 24px rgba(0,0,0,.12)
+  max-height: 340px
+  overflow: auto
+  &.is-sheet
+    position: fixed
+    top: auto
+    bottom: 0
+    margin: 0
+    max-height: min(70vh, 480px)
+    border-radius: 16px 16px 0 0
+
+.sheet-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: .75rem .85rem
+  font-weight: 600
+  border-bottom: 1px solid var(--sel-menu-border)
+
+.filter
+  position: sticky
+  top: 0
+  z-index: 1
+  padding: .5rem
+  background: var(--sel-menu-bg)
+  border-bottom: 1px solid var(--sel-menu-border)
+  input
+    box-sizing: border-box
+    width: 100%
+    min-height: 40px
+    padding: 0 .65rem
+    border: 1px solid var(--sel-border)
+    border-radius: .4rem
+    background: var(--sel-bg)
+    color: var(--sel-fg)
+    &:focus-visible
+      outline: none
+      border-color: var(--accent)
+
+.tree
+  padding: .25rem 0
+  &:focus-visible
+    outline: none
+    .node.is-active
+      box-shadow: inset 3px 0 0 var(--accent)
+
+/* recuo por nível via --level (definido no template) */
+.node
+  display: flex
+  align-items: center
+  gap: .45rem
+  padding: .45rem .75rem .45rem calc(.5rem + (var(--level) - 1) * 1.25rem)
+  cursor: pointer
+  user-select: none
+  &.is-active
+    background: var(--sel-option-hover)
+  &.is-selected
+    background: var(--sel-option-active)
+    font-weight: 600
+  &.is-disabled
+    color: var(--muted)
+    cursor: default
+  &:not(.is-disabled):hover app-checkbox-mark
+    --cbm-border: var(--cb-checked-bg)
+    --cbm-ring: var(--cb-hover-ring)
+
+.twisty
+  width: 1rem
+  flex: none
+  text-align: center
+  color: var(--sel-caret)
+  transition: transform .12s ease
+  &.is-open
+    transform: rotate(90deg)
+
+.empty
+  padding: .75rem
+  color: var(--muted)
+
+.hint, .error
+  font-size: .85rem
+
+.error
+  color: var(--sel-error)

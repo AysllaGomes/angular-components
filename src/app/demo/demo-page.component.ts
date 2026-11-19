@@ -12,6 +12,7 @@ import { PaginationDemoComponent } from './sections/pagination/pagination-demo.c
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
 import {ButtonDemoComponent} from './sections/button/button-demo.component';
 import { CheckboxDemoComponent } from './sections/checkbox/checkbox-demo.component';
+import { TreeSelectDemoComponent } from './sections/tree-select/tree-select-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -29,6 +30,7 @@ import { CheckboxDemoComponent } from './sections/checkbox/checkbox-demo.compone
     ToastContainerComponent,
     ButtonDemoComponent,
     CheckboxDemoComponent,
+    TreeSelectDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.Eager

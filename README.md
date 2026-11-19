@@ -28,6 +28,7 @@
 | **Pagination**           | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`.                                            | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT-BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
 | **Toast**                | Lightweight toast (service + container), accessible and themeable.                                                                               | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md)                     | `/demo#toast`      |
 | **Select**               | Accessible select with optional filter bar and inline clear (“×”), mobile-friendly panel, and i18n-ready labels/errors.                          | [EN](src/app/shared/components/select/select.en.md) · [PT-BR](src/app/shared/components/select/select.md)                 | `/demo#select`     |
+| **TreeSelect**           | Select whose options form a tree: single (shows the path, optional `leafOnly`) or checkbox mode (group/partial selection, value = leaf keys), filter, WAI-ARIA tree keyboard, forms. | [EN](src/app/shared/components/tree-select/tree-select.en.md) · [PT-BR](src/app/shared/components/tree-select/tree-select.md) | `/demo#treeselect` |
 
 ---
 

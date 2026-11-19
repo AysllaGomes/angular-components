@@ -2,6 +2,7 @@ import { TABLE } from './table';
 import { TOAST } from './toast';
 import { BUTTON } from './button';
 import { CHECKBOX } from './checkbox';
+import { TREE_SELECT } from './tree-select';
 import { COMMON } from './common';
 import { DIALOG } from './dialog';
 import { SELECT } from './select';
@@ -24,4 +25,5 @@ export const DICT: Dict = {
   ...DIALOG,
   ...BUTTON,
   ...CHECKBOX,
+  ...TREE_SELECT,
 };

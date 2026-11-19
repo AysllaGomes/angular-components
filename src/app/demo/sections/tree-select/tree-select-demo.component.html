@@ -1,0 +1,54 @@
+<section id="treeselect" class="demo-section">
+  <h2>{{ 'section.treeselect.title' | t }}</h2>
+  <p class="lead">{{ 'section.treeselect.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'treeselect.demo.single.title' | t }}</h3>
+    <app-tree-select
+      [label]="'treeselect.demo.single.label' | t"
+      [placeholder]="'treeselect.demo.single.placeholder' | t"
+      [hint]="'treeselect.demo.single.hint' | t"
+      [nodes]="places"
+      [(value)]="city"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [closeAriaLabel]="'select.close' | t"
+      [emptyMessage]="'treeselect.empty' | t" />
+    <code>{{ 'treeselect.demo.value' | t:{ v: show(city()) } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'treeselect.demo.leafonly.title' | t }}</h3>
+    <app-tree-select
+      leafOnly
+      filterable
+      [label]="'treeselect.demo.single.label' | t"
+      [placeholder]="'treeselect.demo.single.placeholder' | t"
+      [filterPlaceholder]="'treeselect.filter' | t"
+      [nodes]="places"
+      [expandedKeys]="['br']"
+      [(value)]="leafCity"
+      [closeAriaLabel]="'select.close' | t"
+      [emptyMessage]="'treeselect.empty' | t" />
+    <code>{{ 'treeselect.demo.value' | t:{ v: show(leafCity()) } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'treeselect.demo.checkbox.title' | t }}</h3>
+    <app-tree-select
+      selectionMode="checkbox"
+      filterable
+      [label]="'treeselect.demo.checkbox.label' | t"
+      [placeholder]="'treeselect.demo.checkbox.placeholder' | t"
+      [filterPlaceholder]="'treeselect.filter' | t"
+      [hint]="'treeselect.demo.checkbox.hint' | t"
+      [nodes]="permissions()"
+      [expandedKeys]="['sales', 'finance']"
+      [(value)]="perms"
+      [clearable]="true"
+      [clearAriaLabel]="'select.clear' | t"
+      [closeAriaLabel]="'select.close' | t"
+      [emptyMessage]="'treeselect.empty' | t" />
+    <code>{{ 'treeselect.demo.value' | t:{ v: show(perms()) } }}</code>
+  </article>
+</section>

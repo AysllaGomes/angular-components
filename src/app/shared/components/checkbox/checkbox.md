@@ -148,5 +148,5 @@ setAll(value: boolean) {
 - [x] Estados marcado / desmarcado / parcial, desabilitado, dica e erro.
 - [x] Formulários (`formControl`, `ngModel`).
 - [x] Caixa reutilizável (`app-checkbox-mark`).
-- [ ] `app-tree-select`, usando a caixa em cada nó (próximo componente).
+- [x] `app-tree-select`, usando a caixa em cada nó.
 - [ ] Grupo de checkboxes (`app-checkbox-group`) com valor em lista.

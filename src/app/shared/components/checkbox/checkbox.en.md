@@ -148,5 +148,5 @@ It is **decorative** (`aria-hidden="true"`): whatever uses it must announce the 
 - [x] Checked / unchecked / partial states, disabled, hint and error.
 - [x] Forms (`formControl`, `ngModel`).
 - [x] Reusable box (`app-checkbox-mark`).
-- [ ] `app-tree-select`, using the box on each node (next component).
+- [x] `app-tree-select`, using the box on each node.
 - [ ] Checkbox group (`app-checkbox-group`) with a list value.

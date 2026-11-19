@@ -1,0 +1,128 @@
+<div class="field" [class.is-disabled]="isDisabled()" [class.is-error]="hasError()">
+  <div class="label" [id]="labelId">
+    <span>{{ label() }}</span>
+    @if (required()) {
+      <span class="req">{{ requiredLabel() }}</span>
+    }
+  </div>
+
+  <!-- âncora: o painel abre colado no controle (não abaixo da dica) -->
+  <div class="anchor">
+  <div class="control-wrap">
+    <button
+      #button
+      class="control"
+      type="button"
+      aria-haspopup="tree"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="treeId"
+      [attr.aria-labelledby]="labelId + ' ' + valueId"
+      [attr.aria-invalid]="hasError() || null"
+      [attr.aria-required]="required() || null"
+      [disabled]="isDisabled()"
+      (click)="toggle()"
+      (keydown)="onButtonKeydown($event)"
+      (blur)="onControlBlur()">
+      <span class="value" [id]="valueId" [class.placeholder]="isEmpty()">
+        @if (isEmpty()) {
+          {{ placeholder() }}
+        } @else if (isCheckbox()) {
+          <!-- ", " invisível: o leitor de tela lê "A, B, +1" em vez de "AB+1" -->
+          @for (c of chips(); track $index; let last = $last) {
+            <span class="chip">{{ c }}</span>@if (!last || moreCount() > 0) {<span class="sr-only">, </span>}
+          }
+          @if (moreCount() > 0) {
+            <span class="chip chip--more">+{{ moreCount() }}</span>
+          }
+        } @else {
+          {{ selectedPath() }}
+        }
+      </span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </button>
+
+    @if (canClear()) {
+      <button class="clear-btn" type="button" [attr.aria-label]="clearAriaLabel()" (click)="clear($event)">×</button>
+    }
+  </div>
+
+  @if (open() && sheet()) {
+    <div class="backdrop" (click)="close()"></div>
+  }
+
+  @if (open()) {
+    <div class="panel" [class.is-sheet]="sheet()">
+      @if (sheet()) {
+        <div class="sheet-header">
+          <div class="title">{{ panelTitle() || label() }}</div>
+          <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel()">×</button>
+        </div>
+      }
+
+      @if (filterable()) {
+        <div class="filter">
+          <input
+            #filterInput
+            type="text"
+            [placeholder]="filterPlaceholder()"
+            [attr.aria-label]="filterPlaceholder() || null"
+            [attr.aria-controls]="treeId"
+            [value]="filter()"
+            (input)="onFilterInput($any($event.target).value)"
+            (keydown)="onFilterKeydown($event)" />
+        </div>
+      }
+
+      <div
+        #tree
+        class="tree"
+        role="tree"
+        tabindex="0"
+        [id]="treeId"
+        [attr.aria-labelledby]="labelId"
+        [attr.aria-multiselectable]="isCheckbox() || null"
+        [attr.aria-activedescendant]="activeId()"
+        (keydown)="onTreeKeydown($event)">
+        @for (row of rows(); track row.key) {
+          <div
+            class="node"
+            role="treeitem"
+            [id]="rowId(row.key)"
+            [style.--level]="row.level"
+            [attr.aria-level]="row.level"
+            [attr.aria-posinset]="row.posinset"
+            [attr.aria-setsize]="row.setsize"
+            [attr.aria-expanded]="row.hasChildren ? row.expanded : null"
+            [attr.aria-selected]="isCheckbox() ? null : current() === row.key"
+            [attr.aria-checked]="isCheckbox() ? ariaChecked(row.key) : null"
+            [attr.aria-disabled]="isRowDisabled(row.key) || null"
+            [class.is-active]="row.key === activeKey()"
+            [class.is-selected]="!isCheckbox() && current() === row.key"
+            [class.is-disabled]="isRowDisabled(row.key)"
+            (mouseenter)="activeKey.set(row.key)"
+            (click)="onRowClick(row)">
+            @if (row.hasChildren) {
+              <span class="twisty" [class.is-open]="row.expanded" aria-hidden="true" (click)="toggleExpand(row.key, $event)">▸</span>
+            } @else {
+              <span class="twisty" aria-hidden="true"></span>
+            }
+            @if (isCheckbox()) {
+              <app-checkbox-mark [state]="stateOf(row.key)" [disabled]="isRowDisabled(row.key)" />
+            }
+            <span class="node-label">{{ row.node.label }}</span>
+          </div>
+        } @empty {
+          <div class="empty">{{ emptyMessage() }}</div>
+        }
+      </div>
+    </div>
+  }
+
+  </div>
+  @if (!displayError() && hint()) {
+    <div class="hint">{{ hint() }}</div>
+  }
+  @if (displayError()) {
+    <div class="error">{{ displayError() }}</div>
+  }
+</div>
