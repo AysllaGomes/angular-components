@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.1.0](https://github.com/AysllaGomes/angular-components/compare/v2.0.0...v2.1.0) (2026-11-19)
+
+
+### Features
+
+* **dialog:** new `describedBy` input wired to `aria-describedby` (one id or space-separated ids); screen readers read that text together with the title on open. Empty/`null` renders no attribute ([cbde09a](https://github.com/AysllaGomes/angular-components/commit/cbde09a))
+* **select:** **typeahead**: with the field focused and closed, typing picks the matching option without opening (like a native `<select>`); with the panel open it moves the highlight. Repeating a letter cycles through matches; accents/case are ignored, disabled options are skipped, the search resets after 500 ms ([21aeaa9](https://github.com/AysllaGomes/angular-components/commit/21aeaa9))
+* **select:** **option groups**: optional `group` field on `SelectOption`; options of the same group are shown together under a heading (`role="group"`), in first-appearance order. Disabled options now expose `aria-disabled` ([21aeaa9](https://github.com/AysllaGomes/angular-components/commit/21aeaa9))
+* **pagination:** **compact mode**: `compact` input shows "Page X of Y" between the arrows instead of page numbers; `compact="auto"` does it only on screens ≤ 420px (pure CSS, SSR-safe). The status text uses `aria-live="polite"` ([f459fac](https://github.com/AysllaGomes/angular-components/commit/f459fac))
+* **stepper:** `--stepper-label-size`, `--stepper-caption-size` and `--stepper-color-label-active` CSS variables for local theming ([d32923d](https://github.com/AysllaGomes/angular-components/commit/d32923d), [6acfcef](https://github.com/AysllaGomes/angular-components/commit/6acfcef))
+* **theme:** `--accent-text` token (accent used as text/border; lighter in dark mode) and `color-scheme` per theme, so native checkboxes and scrollbars follow it ([6acfcef](https://github.com/AysllaGomes/angular-components/commit/6acfcef))
+
+
+### Bug Fixes
+
+* **stepper:** no more scrollbar inside the component; connectors now link bullet centers; long labels wrap instead of overflowing; on screens ≤ 560px only the bullets and the active label are shown (other labels stay available to screen readers); captions really hide on ≤ 720px ([d32923d](https://github.com/AysllaGomes/angular-components/commit/d32923d))
+* **theme:** dark mode contrast: Button ghost/outline/link, Stepper labels, Table rows/chips/skeleton/actions and Pagination no longer use hard-coded light colors ([fbb000d](https://github.com/AysllaGomes/angular-components/commit/fbb000d), [6acfcef](https://github.com/AysllaGomes/angular-components/commit/6acfcef))
+* **table:** the built-in `edit` action icon (box + pen) follows the accent color (`currentColor`); no external SVG needed ([6acfcef](https://github.com/AysllaGomes/angular-components/commit/6acfcef))
+* **table:** on mobile cards, labels and values are always start-aligned, regardless of the column alignment ([14ab049](https://github.com/AysllaGomes/angular-components/commit/14ab049))
+* **dialog, actionbar:** the host element takes no space in the layout while closed ([14ab049](https://github.com/AysllaGomes/angular-components/commit/14ab049))
+* **select:** the clear (×) button no longer reserves space when hidden ([14ab049](https://github.com/AysllaGomes/angular-components/commit/14ab049))
+
+
+### Demo
+
+* Responsive layout that fits 390px screens, consistent cards and spacing across sections, real **Inter** font, form controls inherit the page font ([14ab049](https://github.com/AysllaGomes/angular-components/commit/14ab049), [d32923d](https://github.com/AysllaGomes/angular-components/commit/d32923d))
+* New examples: Select with groups and typeahead, compact Pagination; Stepper "Compact" example and "Next" button fixed ([21aeaa9](https://github.com/AysllaGomes/angular-components/commit/21aeaa9), [f459fac](https://github.com/AysllaGomes/angular-components/commit/f459fac), [d32923d](https://github.com/AysllaGomes/angular-components/commit/d32923d))
+* Fixed labels/texts, icons that match their actions, footer, Toast buttons in dark mode, Pagination toolbar on mobile ([14ab049](https://github.com/AysllaGomes/angular-components/commit/14ab049), [6319e4f](https://github.com/AysllaGomes/angular-components/commit/6319e4f), [6acfcef](https://github.com/AysllaGomes/angular-components/commit/6acfcef), [73184f3](https://github.com/AysllaGomes/angular-components/commit/73184f3))
+
+
+### Documentation
+
+* Dialog and Table roadmaps aligned with the code (items marked as done that did not exist were unchecked); Dialog `size` default documented as `'md'`, with `'xl'` ([ee2bcaf](https://github.com/AysllaGomes/angular-components/commit/ee2bcaf))
+
 ## [2.0.0](https://github.com/AysllaGomes/angular-components/compare/v1.8.0...v2.0.0) (2026-11-18)
 
 

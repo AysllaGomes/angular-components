@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.1.0](https://github.com/AysllaGomes/angular-components/compare/v2.0.0...v2.1.0) (2026-11-19)
+### Features
+- **dialog:** novo input `describedBy`, ligado ao `aria-describedby` (um id ou
+  vários separados por espaço); leitores de tela leem esse texto junto com o
+  título ao abrir. Vazio/`null` não gera o atributo.
+- **select:** **typeahead**: com o campo focado e fechado, digitar escolhe a
+  opção sem abrir o painel (como no `<select>` nativo); com o painel aberto, move
+  o destaque. Repetir a letra alterna entre as opções com essa inicial; ignora
+  acentos e maiúsculas, pula opções desabilitadas e recomeça após 500 ms.
+- **select:** **grupos de opções**: campo opcional `group` em `SelectOption`;
+  opções do mesmo grupo aparecem juntas sob um título (`role="group"`), na ordem
+  em que o grupo aparece primeiro. Opções desabilitadas agora têm `aria-disabled`.
+- **pagination:** **modo compacto**: o input `compact` mostra "Página X de Y"
+  entre as setas no lugar dos números; `compact="auto"` faz isso só em telas de
+  até 420px (só CSS, funciona com SSR). O texto usa `aria-live="polite"`.
+- **stepper:** variáveis CSS `--stepper-label-size`, `--stepper-caption-size` e
+  `--stepper-color-label-active` para tema local.
+- **theme:** token `--accent-text` (destaque usado como texto/borda, mais claro
+  no tema escuro) e `color-scheme` por tema, para checkboxes e barras de rolagem
+  nativas acompanharem.
+
+### Bug Fixes
+- **stepper:** sem barra de rolagem dentro do componente; os conectores ligam o
+  centro dos círculos; rótulos longos quebram linha em vez de vazar; em telas de
+  até 560px aparecem só os círculos e o rótulo da etapa ativa (os demais
+  continuam disponíveis para leitores de tela); as legendas somem de fato até 720px.
+- **theme:** contraste no tema escuro: Button (fantasma/contornado/link), rótulos
+  do Stepper, linhas/chips/skeleton/ações da Tabela e Paginação não usam mais
+  cores claras fixas.
+- **table:** o ícone padrão da ação `edit` (caixa com caneta) segue a cor de
+  destaque (`currentColor`), sem precisar de SVG externo.
+- **table:** nos cards do mobile, rótulo e valor ficam sempre alinhados à
+  esquerda, independentemente do alinhamento da coluna.
+- **dialog, actionbar:** o elemento não ocupa espaço no layout quando fechado.
+- **select:** o botão de limpar (×) não reserva espaço quando está oculto.
+
+### Demo
+- Layout responsivo que cabe em telas de 390px, cards e espaçamentos iguais em
+  todas as seções, fonte **Inter** carregada de fato e controles de formulário
+  herdando a fonte da página.
+- Novos exemplos: Select com grupos e typeahead, Paginação compacta; exemplo
+  "Compacto" do Stepper e botão "Avançar" corrigidos.
+- Textos e rótulos corrigidos, ícones coerentes com as ações, rodapé, botões do
+  Toast no tema escuro e linha da Paginação no mobile.
+
+### Documentation
+- Roadmaps do Dialog e da Tabela alinhados ao código (itens marcados como feitos
+  que não existiam foram desmarcados); padrão do `size` do Dialog documentado
+  como `'md'`, incluindo `'xl'`.
+
 ## [2.0.0](https://github.com/AysllaGomes/angular-components/compare/v1.8.0...v2.0.0) (2026-11-18)
 ### ⚠ Breaking Changes
 - **Angular 22 passa a ser obrigatório** (antes Angular 20). Os componentes usam
