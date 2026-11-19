@@ -104,7 +104,8 @@
   --sel-disabled-bg: var(--surface-2)
   --sel-disabled-border: var(--border)
   --sel-caret: var(--muted)
-  --sel-error: #ef4444
+  // erro com contraste AA (6,5:1 no branco; #ef4444 dava 3,8:1)
+  --sel-error: #b91c1c
   --sel-focus-ring: color-mix(in srgb, var(--accent) 60%, transparent)
   --sel-menu-bg: var(--surface)
   --sel-menu-border: var(--border)
@@ -132,7 +133,7 @@
 
   /* Button */
   --neutral: #64748b           /* slate-500 */
-  --danger:  #ef4444           /* vermelho consistente */
+  --danger:  #b91c1c           /* vermelho dos erros: 6,5:1 no branco (AA) */
 
   /* Checkbox (app-checkbox / app-checkbox-mark) */
   --cb-size: 20px
