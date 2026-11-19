@@ -1,0 +1,66 @@
+<section id="validation" class="demo-section">
+  <h2>{{ 'section.validation.title' | t }}</h2>
+  <p class="lead">{{ 'section.validation.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'validation.demo.title' | t }}</h3>
+
+    <form class="vform" [formGroup]="form" appFormValidation (validSubmit)="onValidSubmit($event)">
+      <app-form-field required [label]="'validation.name' | t" [requiredLabel]="'form.required.label' | t"
+                      [hint]="'validation.name.hint' | t" [error]="c.name | fieldError">
+        <input formControlName="name" autocomplete="name">
+      </app-form-field>
+
+      <app-form-field required [label]="'validation.doc' | t" [requiredLabel]="'form.required.label' | t"
+                      [hint]="'validation.doc.hint' | t" [error]="c.doc | fieldError">
+        <input appMask="cpfCnpj" formControlName="doc">
+      </app-form-field>
+
+      <div class="vform__row">
+        <app-form-field [label]="'validation.phone' | t" [error]="c.phone | fieldError">
+          <input appMask="phone" formControlName="phone" type="tel">
+        </app-form-field>
+        <app-form-field [label]="'validation.cep' | t" [error]="c.cep | fieldError">
+          <input appMask="cep" formControlName="cep">
+        </app-form-field>
+      </div>
+
+      <app-select
+        formControlName="state"
+        required
+        responsive="auto"
+        [label]="'validation.state' | t"
+        [requiredLabel]="'form.required.label' | t"
+        [placeholder]="'validation.state.placeholder' | t"
+        [options]="states"
+        [autoValidate]="false"
+        [error]="c.state | fieldError"
+        [closeAriaLabel]="'select.close' | t" />
+
+      <app-radio-group
+        formControlName="plan"
+        required
+        orientation="horizontal"
+        [label]="'validation.plan' | t"
+        [requiredLabel]="'form.required.label' | t"
+        [options]="plans()"
+        [error]="c.plan | fieldError" />
+
+      <app-checkbox formControlName="terms" required [error]="c.terms | fieldError">
+        {{ 'validation.terms' | t }}
+      </app-checkbox>
+
+      <div class="vform__actions">
+        <button appButton type="submit">{{ 'validation.submit' | t }}</button>
+        <button appButton="ghost" tone="neutral" type="button" (click)="reset()">{{ 'validation.reset' | t }}</button>
+      </div>
+    </form>
+
+    @if (sent(); as payload) {
+      <div class="vform__result">
+        <strong>{{ 'validation.payload' | t }}</strong>
+        <pre>{{ payload }}</pre>
+      </div>
+    }
+  </article>
+</section>

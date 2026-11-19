@@ -17,6 +17,8 @@ import { StepperComponent } from './stepper/stepper.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { SwitchComponent } from './switch/switch.component';
 import { RadioGroupComponent } from './radio/radio-group.component';
+import { FormFieldComponent } from './form-field/form-field.component';
+import { MaskDirective } from '../forms/mask.directive';
 import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TreeSelectComponent } from './tree-select/tree-select.component';
@@ -45,7 +47,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
 @Component({
   imports: [
-    ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, SelectComponent, TreeSelectComponent, StepperComponent,
+    ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
     TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -65,6 +67,13 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-checkbox disabled [checked]="true">Bloqueado</app-checkbox>
         <app-checkbox hint="Obrigatório" error="Você precisa aceitar">Termos</app-checkbox>
         <app-checkbox ariaLabel="Selecionar linha" />
+      </section>
+
+      <!-- Campos de texto (form-field + máscara) -->
+      <section id="formfield">
+        <app-form-field label="Nome" required hint="Como no documento"><input></app-form-field>
+        <app-form-field label="CPF" error="CPF inválido"><input appMask="cpf"></app-form-field>
+        <app-form-field label="Obs."><textarea></textarea></app-form-field>
       </section>
 
       <!-- Radio group e Switch -->
@@ -167,6 +176,8 @@ describe('Acessibilidade (axe-core)', () => {
   it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio')); });
 
   it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch')); });
+
+  it('Form field (dica, erro, máscara, textarea)', async () => { await expectNoA11yViolations(section('formfield')); });
 
   it('Select fechado e aberto', async () => {
     await expectNoA11yViolations(section('select'));

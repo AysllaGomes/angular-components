@@ -1,0 +1,29 @@
+.vform
+  display: grid
+  gap: 1.1rem
+  max-width: 640px
+
+.vform__row
+  display: grid
+  grid-template-columns: repeat(2, minmax(0, 1fr))
+  gap: 1rem
+
+.vform__actions
+  display: flex
+  gap: .5rem
+  flex-wrap: wrap
+
+.vform__result
+  max-width: 640px
+  pre
+    margin: .5rem 0 0
+    padding: .75rem
+    overflow: auto
+    font-size: .85rem
+    border-radius: .5rem
+    background: var(--surface-2)
+    border: 1px solid var(--border)
+
+@media (max-width: 560px)
+  .vform__row
+    grid-template-columns: minmax(0, 1fr)

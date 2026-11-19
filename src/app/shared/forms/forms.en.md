@@ -1,0 +1,172 @@
+<p align="right"><a href="./forms.md">Português (BR)</a></p>
+
+# Forms: centralized validation and input masks
+
+Pieces for reactive forms (Angular Forms) that work with every component of the library (`app-select`, `app-tree-select`, `app-checkbox`, `app-radio-group`, `app-switch`) and with native inputs.
+
+```ts
+import { AppValidators, FieldErrorPipe, FormValidationDirective, MaskDirective } from 'src/app/shared/forms';
+import { FormFieldComponent } from 'src/app/shared/components/form-field/form-field.component';
+```
+
+| Piece | Purpose |
+|---|---|
+| `AppValidators` | CPF, CNPJ (including alphanumeric) and CPF/CNPJ validators |
+| `FormErrorsService` + `provideFormErrorMessages()` | A translated message per error type, in one place |
+| `fieldError` pipe | Message ready for the components' `error` input |
+| `appFormValidation` directive | Submit: shows every error and focuses the first invalid field |
+| `appMask` directive | Input mask for `<input>` |
+| `app-form-field` | Label, hint and error around a native `<input>` |
+
+---
+
+## Full example
+
+```ts
+form = new FormGroup({
+  name:  new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
+  doc:   new FormControl('', { nonNullable: true, validators: [Validators.required, AppValidators.cpfOrCnpj()] }),
+  phone: new FormControl('', { nonNullable: true }),
+  plan:  new FormControl<string | null>(null, Validators.required),
+  terms: new FormControl(false, { nonNullable: true, validators: Validators.requiredTrue }),
+});
+```
+
+```html
+<form [formGroup]="form" appFormValidation (validSubmit)="save($event)">
+  <app-form-field label="Full name" required [error]="form.controls.name | fieldError">
+    <input formControlName="name" autocomplete="name">
+  </app-form-field>
+
+  <app-form-field label="CPF or CNPJ" required [error]="form.controls.doc | fieldError">
+    <input appMask="cpfCnpj" formControlName="doc">
+  </app-form-field>
+
+  <app-form-field label="Phone">
+    <input appMask="phone" formControlName="phone" type="tel">
+  </app-form-field>
+
+  <app-radio-group label="Plan" required [options]="plans" formControlName="plan"
+                   [error]="form.controls.plan | fieldError" />
+
+  <app-checkbox formControlName="terms" required [error]="form.controls.terms | fieldError">
+    I accept the terms
+  </app-checkbox>
+
+  <button appButton type="submit">Submit</button>
+</form>
+```
+
+```ts
+save(value: typeof this.form.value) {
+  // only reached with a valid form; "doc" arrives unmasked ("12ABC34501DE35")
+  this.api.save(value).subscribe({
+    error: () => this.toast.error('Could not save.'), // toast = back-end response
+  });
+}
+```
+
+---
+
+## Validators — `AppValidators`
+
+| Validator | Error | Rule |
+|---|---|---|
+| `AppValidators.cpf()` | `{ cpf: true }` | 11 digits with correct check digits |
+| `AppValidators.cnpj()` | `{ cnpj: true }` | 14 characters; numeric **or alphanumeric** |
+| `AppValidators.cpfOrCnpj()` | `{ cpfCnpj: true }` | 11 characters → CPF; 14 → CNPJ |
+
+- They accept the value **with or without the mask**.
+- They **ignore empty values**: combine with `Validators.required` when the field is required.
+- **Alphanumeric CNPJ** (IN RFB 2.229/2024, issued since Jul/2026): the first 12 positions may contain letters; the 2 check digits are always numbers. E.g. `12.ABC.345/01DE-35`.
+- Standalone helpers: `isValidCpf()`, `isValidCnpj()`, `onlyDigits()`, `onlyAlnum()`.
+
+---
+
+## Messages — `FormErrorsService` and the `fieldError` pipe
+
+```html
+<app-select formControlName="state" [error]="form.controls.state | fieldError" />
+```
+
+- The pipe only shows a message after the field was **touched** (the user left it) or when the form was submitted through `appFormValidation`.
+- With more than one error, `required` comes first; the rest follow the control order.
+- Default messages (i18n, `form.error.<type>`), with the error data as params:
+
+| Error | Message (EN) |
+|---|---|
+| `required` (includes `Validators.requiredTrue`) | This field is required |
+| `email` | Invalid email |
+| `minlength` / `maxlength` | At least / At most {{requiredLength}} characters |
+| `min` / `max` | The minimum is {{min}} / The maximum is {{max}} |
+| `pattern` | Invalid format |
+| `cpf` / `cnpj` / `cpfCnpj` | Invalid CPF / Invalid CNPJ / Invalid CPF or CNPJ |
+| anything else | Invalid value |
+
+### Change or add messages (in one place)
+
+```ts
+// app.config.ts
+providers: [
+  provideFormErrorMessages({
+    required: 'Please fill in this field',                  // text
+    cpf: 'my.dictionary.cpf',                               // i18n key
+    weakPassword: 'Use {{min}}+ characters',                 // custom error, with param
+    minlength: e => `${e.requiredLength - e.actualLength} characters to go`, // function
+  }),
+]
+```
+
+> To show the message somewhere else, use the service: `inject(FormErrorsService).messageFor(control.errors)`.
+
+---
+
+## Submit — `appFormValidation` directive
+
+```html
+<form [formGroup]="form" appFormValidation (validSubmit)="save($event)" (invalidSubmit)="...">
+```
+
+- **Invalid:** marks every field as touched (all messages show up) and **moves focus to the first invalid field**, in screen order — including inside components (the Select button, the group's radio...), scrolling to it.
+- **Valid:** emits `validSubmit` with `form.getRawValue()`.
+- No toast: toasts are for back-end errors.
+
+---
+
+## Masks — `appMask` directive
+
+```html
+<input appMask="cpf"     formControlName="cpf">     <!-- 000.000.000-00 -->
+<input appMask="cnpj"    formControlName="cnpj">    <!-- SS.SSS.SSS/SSSS-00 (alphanumeric) -->
+<input appMask="cpfCnpj" formControlName="doc">     <!-- CPF; becomes CNPJ after 11 characters or when a letter is typed -->
+<input appMask="phone"   formControlName="phone">   <!-- (00) 0000-0000 or (00) 00000-0000 -->
+<input appMask="cep"     formControlName="cep">     <!-- 00000-000 -->
+<input appMask="date"    formControlName="date">    <!-- 00/00/0000 -->
+<input appMask="000-AAA" formControlName="code">    <!-- custom pattern -->
+```
+
+- **Custom pattern:** `0` digit · `A` letter · `*` letter or digit (uppercased); anything else is a literal.
+- **The form receives the unmasked value** (`"52998224725"`) while the screen shows it formatted. To keep the formatted text: `[unmask]="false"`.
+- Values coming from the form (`setValue`, `patchValue`) are displayed formatted.
+- The caret stays in the right place when typing or editing in the middle; digit-only masks open the **numeric keyboard** on phones (`inputmode="numeric"`).
+- Works with `formControl`, `formControlName` and `ngModel` (it is the input's *value accessor*).
+
+---
+
+## Text field — `app-form-field`
+
+```html
+<app-form-field label="Email" required hint="Used to recover your password" [error]="ctrl | fieldError">
+  <input type="email" [formControl]="ctrl" autocomplete="email">
+</app-form-field>
+```
+
+| Input           | Type             | Default       | Description |
+|-----------------|------------------|---------------|-------------|
+| `label`         | `string`         | `''`          | Label (linked to the field via `for`/`id`). |
+| `required`      | `boolean`        | `false`       | Shows "required" and sets `aria-required`. |
+| `hint`          | `string \| null` | `null`        | Helper text (`aria-describedby`). |
+| `error`         | `string \| null` | `null`        | Error: replaces the hint, turns the border red and sets `aria-invalid`. |
+| `requiredLabel` | `string`         | `'requerido'` | Indicator text (i18n). |
+
+The projected field stays **native** (`<input>`, `<textarea>` or `<select>`): forms, `appMask` and browser *autocomplete* work as usual. An existing `id` on the field is kept. Look: Select tokens (`--sel-*`).

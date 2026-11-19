@@ -23,6 +23,9 @@ export class I18nService {
     }
   }
 
+  /** a chave existe no dicionário? */
+  has(key: string): boolean { return key in DICT; }
+
   t(key: string, params?: Record<string, string | number>): string {
     const entry = DICT[key];
     let text = entry ? entry[this._lang()] : key;

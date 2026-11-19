@@ -1,0 +1,18 @@
+<div class="ff" [class.is-error]="!!error()">
+  <label class="ff__label">
+    <span>{{ label() }}</span>
+    @if (required()) {
+      <span class="ff__req">{{ requiredLabel() }}</span>
+    }
+  </label>
+
+  <div class="ff__control">
+    <ng-content />
+  </div>
+
+  @if (error()) {
+    <div class="ff__msg ff__msg--error" [id]="errorId">{{ error() }}</div>
+  } @else if (hint()) {
+    <div class="ff__msg" [id]="hintId">{{ hint() }}</div>
+  }
+</div>

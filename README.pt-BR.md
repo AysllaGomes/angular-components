@@ -31,6 +31,7 @@
 | **Toast**                | Toast leve (serviço + container), acessível e tematizável.                                                                                        | [PT-BR](src/app/shared/components/toast/toast.md) · [EN](src/app/shared/components/toast/toast.en.md)                     | `/demo#toast`      |
 | **Select**               | Select acessível com filtro opcional e botão de limpar (“×”), painel amigável no mobile e rótulos/erros prontos para i18n.                        | [PT-BR](src/app/shared/components/select/select.md) · [EN](src/app/shared/components/select/select.en.md)                 | `/demo#select`     |
 | **TreeSelect**           | Select com opções em árvore: modo único (mostra o caminho, `leafOnly` opcional) ou checkbox (seleção de grupo/parcial, valor = keys das folhas), filtro, teclado WAI-ARIA de árvore, formulários. | [PT-BR](src/app/shared/components/tree-select/tree-select.md) · [EN](src/app/shared/components/tree-select/tree-select.en.md) | `/demo#treeselect` |
+| **Formulários (validação e máscaras)** | `AppValidators` (CPF, CNPJ inclusive alfanumérico), mensagens de erro centralizadas e traduzidas (pipe `fieldError`, `provideFormErrorMessages`), `appFormValidation` (foco no primeiro erro ao enviar), máscaras `appMask` e `app-form-field`. | [PT-BR](src/app/shared/forms/forms.md) · [EN](src/app/shared/forms/forms.en.md) | `/demo#validation` |
 
 ---
 

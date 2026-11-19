@@ -7,6 +7,7 @@ import {
   Injector,
   OnDestroy,
   afterNextRender,
+  booleanAttribute,
   computed,
   forwardRef,
   inject,
@@ -51,17 +52,17 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   // ---- API
   readonly label = input('');
   readonly panelTitle = input<string | null>(null); // título no header da sheet
-  readonly required = input(false);
+  readonly required = input(false, { transform: booleanAttribute });
   readonly placeholder = input('');
 
-  readonly disabled = input(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
   /** desabilitado pelo formulário (setDisabledState) */
   private readonly formDisabled = signal(false);
   /** estado efetivo: input `disabled` ou formulário */
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
   /** filtro opcional no painel */
-  readonly filterable = input(false);
+  readonly filterable = input(false, { transform: booleanAttribute });
   readonly filterPlaceholder = input('');
 
   /** Mensagens / validação */
@@ -73,7 +74,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   readonly hint = input<string | null>(null);
 
   /** Clear (×) */
-  readonly clearable = input(false);
+  readonly clearable = input(false, { transform: booleanAttribute });
   readonly clearAriaLabel = input('Limpar seleção');
 
   /** Responsividade (sheet) */

@@ -31,6 +31,7 @@
 | **Toast**                | Lightweight toast (service + container), accessible and themeable.                                                                               | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md)                     | `/demo#toast`      |
 | **Select**               | Accessible select with optional filter bar and inline clear (“×”), mobile-friendly panel, and i18n-ready labels/errors.                          | [EN](src/app/shared/components/select/select.en.md) · [PT-BR](src/app/shared/components/select/select.md)                 | `/demo#select`     |
 | **TreeSelect**           | Select whose options form a tree: single (shows the path, optional `leafOnly`) or checkbox mode (group/partial selection, value = leaf keys), filter, WAI-ARIA tree keyboard, forms. | [EN](src/app/shared/components/tree-select/tree-select.en.md) · [PT-BR](src/app/shared/components/tree-select/tree-select.md) | `/demo#treeselect` |
+| **Forms (validation & masks)** | `AppValidators` (CPF, CNPJ incl. alphanumeric), centralized i18n error messages (`fieldError` pipe, `provideFormErrorMessages`), `appFormValidation` (focus first error on submit), `appMask` input masks and `app-form-field`. | [EN](src/app/shared/forms/forms.en.md) · [PT-BR](src/app/shared/forms/forms.md) | `/demo#validation` |
 
 ---
 
