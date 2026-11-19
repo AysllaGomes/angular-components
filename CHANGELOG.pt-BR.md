@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0](https://github.com/AysllaGomes/angular-components/compare/v2.2.0...v2.3.0) (2026-11-19)
+### Features
+- **checkbox:** novo `app-checkbox`: checkbox acessível com estado **parcial**
+  (indeterminado), feito sobre um `<input type="checkbox">` nativo (teclado,
+  clique no rótulo e anúncio de "parcialmente marcado" de graça).
+  `[(checked)]`/`[(indeterminate)]`, `formControl`/`ngModel` (use
+  `Validators.requiredTrue`), `hint`/`error` com `aria-describedby`/`aria-invalid`;
+  tokens `--cb-*` para tema claro/escuro.
+- **checkbox:** novo `app-checkbox-mark`: só a caixa visual
+  (desmarcado/marcado/parcial), decorativa (`aria-hidden`), para desenhar
+  checkboxes dentro de outros componentes.
+- **tree-select:** novo `app-tree-select`: select cujas opções formam uma árvore.
+  - Modo `single`: valor = key do nó; o campo mostra o caminho ("Brasil › São
+    Paulo › Campinas"); qualquer nó pode ser escolhido, ou só folhas com `leafOnly`.
+  - Modo `checkbox`: valor = keys das **folhas** marcadas, na ordem da árvore;
+    marcar um grupo marca as folhas habilitadas, grupo parcial mostra "−"
+    (`aria-checked="mixed"`) e clicar nele completa o grupo; com busca ativa, só as
+    folhas visíveis são afetadas; chips com "+N" no campo.
+  - Busca sem acento/caixa, teclado no padrão WAI-ARIA de árvore (setas,
+    Home/End, Enter/Espaço, letras, Esc, Tab), `expandedKeys`, limpar,
+    obrigatório/erro/dica, *sheet* no mobile, formulários.
+
+### Bug Fixes
+- **select:** abrir o painel agora foca a busca ou a lista de opções. Antes o foco
+  caía no `<body>`: era preciso clicar no filtro, e sem filtro o teclado não
+  navegava pela lista (`↓`/`Enter` só funcionavam com o mouse).
+- **demo:** os links do cabeçalho não recarregam mais a página no GitHub Pages: com
+  `<base href>`, `#secao` apontava para outra página; agora rolam na própria
+  página, atualizam o # e movem o foco. "Pular para o conteúdo" e a marca passaram
+  a ter alvo.
+
+### Demo
+- Novas seções Checkbox e TreeSelect (PT/EN); links do cabeçalho mais compactos e
+  menu compacto (☰) abaixo de 1120px, para os links caberem numa linha.
+
 ## [2.2.0](https://github.com/AysllaGomes/angular-components/compare/v2.1.0...v2.2.0) (2026-11-19)
 ### Features
 - **dialog:** **foco devolvido**: ao fechar (botão, `Esc`, backdrop ou

@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0](https://github.com/AysllaGomes/angular-components/compare/v2.2.0...v2.3.0) (2026-11-19)
+
+
+### Features
+
+* **checkbox:** new `app-checkbox`: accessible checkbox with a **partial** (indeterminate) state, built on a native `<input type="checkbox">` (keyboard, label click and "partially checked" announcement for free). `[(checked)]`/`[(indeterminate)]`, `formControl`/`ngModel` (use `Validators.requiredTrue`), `hint`/`error` with `aria-describedby`/`aria-invalid`; `--cb-*` theme tokens for light/dark ([e8a6394](https://github.com/AysllaGomes/angular-components/commit/e8a6394))
+* **checkbox:** new `app-checkbox-mark`: just the visual box (unchecked/checked/partial), decorative (`aria-hidden`), for drawing checkboxes inside other components ([e8a6394](https://github.com/AysllaGomes/angular-components/commit/e8a6394))
+* **tree-select:** new `app-tree-select`: a select whose options form a tree ([75ffb17](https://github.com/AysllaGomes/angular-components/commit/75ffb17))
+  * `single` mode: value = the node key; the field shows the path ("Brasil › São Paulo › Campinas"); any node can be picked, or only leaves with `leafOnly`
+  * `checkbox` mode: value = the checked **leaf** keys in tree order; checking a group checks its enabled leaves, partial groups show "−" (`aria-checked="mixed"`) and clicking them completes the group; with an active search, only visible leaves are affected; chips with "+N" in the field
+  * accent/case-insensitive filter, WAI-ARIA tree keyboard (arrows, Home/End, Enter/Space, type-ahead, Esc, Tab), `expandedKeys`, clear, required/error/hint, mobile sheet, forms
+
+
+### Bug Fixes
+
+* **select:** opening the panel now focuses the filter input or the option list. Before, focus fell to `<body>`: the filter had to be clicked, and without a filter the keyboard could not navigate the list at all (`↓`/`Enter` only worked with the mouse) ([1ce9ad0](https://github.com/AysllaGomes/angular-components/commit/1ce9ad0))
+* **demo:** header links no longer reload the page on GitHub Pages: with `<base href>`, `#section` resolved to another page; links now scroll in place, update the hash and move focus. "Skip to content" and the brand link now have targets ([781c86d](https://github.com/AysllaGomes/angular-components/commit/781c86d))
+
+
+### Demo
+
+* New Checkbox and TreeSelect sections (PT/EN); header links tightened, and the compact (☰) menu is used below 1120px so the links fit in one row ([e8a6394](https://github.com/AysllaGomes/angular-components/commit/e8a6394), [75ffb17](https://github.com/AysllaGomes/angular-components/commit/75ffb17))
+
 ## [2.2.0](https://github.com/AysllaGomes/angular-components/compare/v2.1.0...v2.2.0) (2026-11-19)
 
 
