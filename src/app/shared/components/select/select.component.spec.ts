@@ -376,4 +376,26 @@ describe('SelectComponent typeahead and groups', () => {
     // a tecla não moveu o destaque (continua na primeira) nem selecionou nada
     expect(activeLabel()).toBe('Banana');
   });
+
+  it('opening focuses the list (no filter): Enter → ↓ → Enter picks with the keyboard only', async () => {
+    button().focus();
+    button().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    await fixture.whenStable();
+    expect(document.activeElement).toBe(panel());
+
+    await type(panel()!, '');
+    panel()!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    await fixture.whenStable();
+    panel()!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    await fixture.whenStable();
+    expect(host.value).toBe('pineapple'); // ordem visual: Banana → Abacaxi
+  });
+
+  it('opening a filterable select focuses the filter input', async () => {
+    host.filterable.set(true);
+    await fixture.whenStable();
+    button().click();
+    await fixture.whenStable();
+    expect(document.activeElement).toBe(el.querySelector('.filter input'));
+  });
 });

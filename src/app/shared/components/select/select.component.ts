@@ -4,9 +4,12 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Injector,
   OnDestroy,
+  afterNextRender,
   computed,
   forwardRef,
+  inject,
   input,
   linkedSignal,
   output,
@@ -111,6 +114,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
     this.onChange(v);
   }
 
+  private readonly injector = inject(Injector);
   private readonly panelEl = viewChild<ElementRef<HTMLDivElement>>('panel');
   private readonly btnEl = viewChild<ElementRef<HTMLButtonElement>>('button');
   private readonly filterInputEl = viewChild<ElementRef<HTMLInputElement>>('filterInput');
@@ -254,7 +258,12 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
     if (this.open()) {
       this.filter.set('');
       this.syncHighlight();
-      queueMicrotask(() => this.filterInputEl()?.nativeElement?.focus());
+      // depois que o painel (@if) for desenhado: foco no filtro ou na lista,
+      // senão o teclado (↑/↓/Enter) continua no botão e não navega
+      afterNextRender(
+        () => (this.filterInputEl()?.nativeElement ?? this.panelEl()?.nativeElement)?.focus(),
+        { injector: this.injector }
+      );
     }
   }
   close() { this.open.set(false); this.markTouchedAndValidate(); }
