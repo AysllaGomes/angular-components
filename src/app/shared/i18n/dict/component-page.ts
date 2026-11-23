@@ -2,6 +2,10 @@ import { Dict } from '../../model/type/dict.type';
 
 /** textos da página de componente (/componentes/:id) e da página de acessibilidade */
 export const COMPONENT_PAGE: Dict = {
+  // cabeçalho do site
+  'header.nav': { pt: 'Principal', en: 'Main' },
+  'header.demo': { pt: 'Demo', en: 'Demo' },
+
   'cp.title': { pt: '{{name}} · Angular Components', en: '{{name}} · Angular Components' },
   'cp.home': { pt: 'Início', en: 'Home' },
   'cp.components': { pt: 'Componentes', en: 'Components' },

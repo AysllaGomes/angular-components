@@ -56,6 +56,12 @@ h4
     text-align: right
     white-space: nowrap
     font-variant-numeric: tabular-nums
+  // no celular os títulos das colunas quebram em duas linhas, sem estourar a página
+  thead .num
+    white-space: normal
+  @media (max-width: 480px)
+    th, td
+      padding: .5rem .25rem
   .bad
     color: var(--danger, #b91c1c)
     font-weight: 700

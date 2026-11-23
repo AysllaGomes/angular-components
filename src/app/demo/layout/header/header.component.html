@@ -24,38 +24,49 @@
       }
     </button>
 
-    <!-- a marca leva à apresentação (home); as seções do menu levam à demo -->
+    <!-- a marca leva à apresentação (home) -->
     <a class="brand" routerLink="/">{{ 'brand' | t }}</a>
 
     <nav
       id="demoNav"
       class="nav"
       [class.is-open]="openNav()"
-      aria-label="Seções da demo"
+      [attr.aria-label]="'header.nav' | t"
       (click)="onNavClick($event)">
       <!--
-        Grupos no padrão "disclosure navigation" (WAI-ARIA): cada grupo é um botão
-        com aria-expanded que mostra/esconde uma lista de links. No menu compacto (☰)
-        os botões somem e os grupos aparecem abertos, com o nome como título.
+        "Componentes" no padrão "disclosure navigation" (WAI-ARIA): um botão com
+        aria-expanded mostra/esconde o painel com os grupos, e cada item leva à página
+        do componente. No menu compacto (☰) o botão some e os grupos aparecem abertos.
       -->
-      @for (g of groups; track g.id) {
-        <div class="group" [class.is-open]="openGroup() === g.id" (focusout)="onGroupFocusOut($event, g.id)">
-          <button
-            type="button"
-            class="group-btn"
-            [attr.aria-expanded]="openGroup() === g.id"
-            [attr.aria-controls]="'nav-' + g.id"
-            (click)="toggleGroup(g.id)">
-            {{ g.label | t }}<span class="chev" aria-hidden="true">▾</span>
-          </button>
-          <span class="group-title" aria-hidden="true">{{ g.label | t }}</span>
-          <ul class="sub" [id]="'nav-' + g.id" [attr.aria-label]="g.label | t">
-            @for (s of g.sections; track s) {
-              <li><a [href]="'demo#' + s" [attr.data-target]="s">{{ 'nav.' + s | t }}</a></li>
-            }
-          </ul>
+      <div class="group" [class.is-open]="openGroup() === 'components'" (focusout)="onGroupFocusOut($event, 'components')">
+        <button
+          type="button"
+          class="group-btn"
+          [class.is-active]="inComponents()"
+          [attr.aria-expanded]="openGroup() === 'components'"
+          aria-controls="nav-components"
+          (click)="toggleGroup('components')">
+          {{ 'cp.components' | t }}<span class="chev" aria-hidden="true">▾</span>
+        </button>
+        <span class="group-title" aria-hidden="true">{{ 'cp.components' | t }}</span>
+        <div class="sub mega" id="nav-components">
+          @for (g of groups(); track g.id) {
+            <div>
+              <p class="mega__title" [id]="'navg-' + g.id">{{ g.label }}</p>
+              <ul [attr.aria-labelledby]="'navg-' + g.id">
+                @for (c of g.items; track c.id) {
+                  <li>
+                    <a [routerLink]="['/componentes', c.id]" routerLinkActive="is-active" ariaCurrentWhenActive="page">{{ c.name }}</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
         </div>
-      }
+      </div>
+
+      <a class="nav-link" routerLink="/demo" routerLinkActive="is-active" ariaCurrentWhenActive="page">{{ 'header.demo' | t }}</a>
+      <a class="nav-link" routerLink="/acessibilidade" routerLinkActive="is-active" ariaCurrentWhenActive="page">{{ 'cp.a11y' | t }}</a>
     </nav>
 
     <div class="actions">

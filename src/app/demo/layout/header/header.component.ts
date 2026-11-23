@@ -1,5 +1,7 @@
-import { Router, RouterLink } from '@angular/router';
-import { Component, HostListener, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter, map } from 'rxjs';
+import { Component, HostListener, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
 
@@ -7,12 +9,13 @@ import { Accent } from '../../../shared/model/type/accent.type';
 
 import { I18nService } from '../../../shared/services/i18n.service';
 import { ThemeService } from '../../../shared/services/theme.service';
+import { SITE_COMPONENTS, SITE_GROUPS } from '../../../site/site-components';
 
 @Component({
   selector: 'app-demo-header',
   standalone: true,
   templateUrl: './header.component.html',
-  imports: [TPipe, RouterLink],
+  imports: [TPipe, RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.component.sass'
 })
@@ -24,13 +27,21 @@ export class HeaderComponent {
   // estado do menu mobile
   openNav = signal(false);
 
-  /** seções da demo agrupadas no menu (ids = ids das <section>) */
-  readonly groups = [
-    { id: 'forms',      label: 'nav.group.forms',      sections: ['select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation'] },
-    { id: 'data',       label: 'nav.group.data',       sections: ['table', 'pagination'] },
-    { id: 'overlays',   label: 'nav.group.overlays',   sections: ['dialog', 'actionbar', 'toast', 'tooltip'] },
-    { id: 'navigation', label: 'nav.group.navigation', sections: ['stepper', 'tabs', 'button'] },
-  ] as const;
+  /** o painel "Componentes": os grupos do site, cada item levando à página do componente */
+  readonly groups = computed(() => {
+    this.i18n.lang();
+    return SITE_GROUPS.map(g => ({
+      id: g,
+      label: this.i18n.t('nav.group.' + g),
+      items: SITE_COMPONENTS.filter(c => c.group === g).map(c => ({ id: c.id, name: this.i18n.t('nav.' + c.id) })),
+    }));
+  });
+
+  /** numa página de componente, "Componentes" aparece como a seção atual */
+  readonly inComponents = toSignal(
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd), map(() => this.router.url.startsWith('/componentes/'))),
+    { initialValue: this.router.url.startsWith('/componentes/') }
+  );
 
   /** grupo aberto no desktop (só um por vez) */
   openGroup = signal<string | null>(null);

@@ -56,105 +56,95 @@ describe('HeaderComponent internal links', () => {
     window.scrollTo = originalScrollTo;
   });
 
-  it('hrefs point to the demo route, not to a bare "#id" (which <base href> sends to another page)', () => {
-    for (const id of ['stepper', 'table', 'pagination', 'toast', 'select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation', 'tabs', 'actionbar', 'dialog', 'tooltip', 'button', 'main']) {
-      expect(link(id).getAttribute('href')).toBe(`demo#${id}`);
-    }
+  it('the skip link points to the demo route, not to a bare "#main" (which <base href> sends to another page)', () => {
+    expect(link('main').getAttribute('href')).toBe('demo#main');
   });
 
   it('the brand leads to the home page', () => {
     expect(el.querySelector('a.brand')!.getAttribute('href')).toBe('/');
   });
 
-  it('a normal click scrolls in place, updates the hash and focuses the section (no navigation)', () => {
-    const ev = click(link('toast'));
-
+  it('the skip link focuses <main> in place, without navigating', () => {
+    const ev = click(link('main'));
     expect(ev.defaultPrevented).toBe(true);
-    expect(scrolled).toEqual(['toast']);
-    expect(location.hash).toBe('#toast');
-    expect(document.activeElement?.id).toBe('toast');
-  });
-
-  it('the skip link focuses <main>', () => {
-    click(link('main'));
+    expect(scrolled).toEqual(['main']);
     expect(document.activeElement?.id).toBe('main');
   });
 
   it('ctrl/cmd-click is left to the browser (open in a new tab)', () => {
-    const ev = click(link('toast'), { ctrlKey: true });
+    const ev = click(link('main'), { ctrlKey: true });
     expect(ev.defaultPrevented).toBe(false);
     expect(scrolled).toEqual([]);
   });
 
-  it('outside the demo (section not on the page) it navigates to /demo#id through the router', () => {
+  it('a page without <main> sends the skip link to /demo#main through the router', () => {
+    document.getElementById('main')!.id = 'other';
     const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
-    const ev = click(link('stepper')); // não há #stepper nesta página de teste
+    const ev = click(link('main'));
     expect(ev.defaultPrevented).toBe(true);
-    expect(navigate).toHaveBeenCalledWith(['/demo'], { fragment: 'stepper' });
+    expect(navigate).toHaveBeenCalledWith(['/demo'], { fragment: 'main' });
   });
 
-  describe('grouped menu (disclosure navigation)', () => {
-    const groupBtn = (id: string) => el.querySelector<HTMLButtonElement>(`button[aria-controls="nav-${id}"]`)!;
-    const groupOf = (id: string) => groupBtn(id).closest('.group')!;
-    const openGroups = () => Array.from(el.querySelectorAll('.group.is-open'));
+  it('direct links to the demo and to the accessibility page', () => {
+    const links = Array.from(el.querySelectorAll<HTMLAnchorElement>('nav > a.nav-link')).map(a => a.getAttribute('href'));
+    expect(links).toEqual(['/demo', '/acessibilidade']);
+  });
 
-    it('every section is inside a labelled list, and each group button controls its list', () => {
-      for (const id of ['forms', 'data', 'overlays', 'navigation']) {
-        const list = el.querySelector(`#nav-${id}`)!;
-        expect(list.tagName).toBe('UL');
-        expect(list.getAttribute('aria-label')).toBeTruthy();
-        expect(groupBtn(id).getAttribute('aria-expanded')).toBe('false');
-      }
-      expect(el.querySelector('#nav-forms a[data-target="treeselect"]')).not.toBeNull();
+  describe('"Components" menu (disclosure navigation)', () => {
+    const btn = () => el.querySelector<HTMLButtonElement>('button[aria-controls="nav-components"]')!;
+    const isOpen = () => btn().closest('.group')!.classList.contains('is-open');
+    const pageLink = (id: string) => el.querySelector<HTMLAnchorElement>(`#nav-components a[href="/componentes/${id}"]`)!;
+
+    it('lists every component page, in labelled groups', () => {
+      expect(btn().getAttribute('aria-expanded')).toBe('false');
+      const lists = Array.from(el.querySelectorAll('#nav-components ul'));
+      expect(lists.length).toBe(4);
+      for (const ul of lists) expect(el.querySelector('#' + ul.getAttribute('aria-labelledby'))!.textContent).toBeTruthy();
+      expect(el.querySelectorAll('#nav-components a').length).toBe(15);
+      expect(pageLink('treeselect')).not.toBeNull();
+      expect(pageLink('table').textContent).toBe('Tabela');
     });
 
-    it('clicking a group opens it; only one group is open at a time', async () => {
-      groupBtn('forms').click();
+    it('the button opens and closes the panel', async () => {
+      btn().click();
       await fixture.whenStable();
-      expect(groupBtn('forms').getAttribute('aria-expanded')).toBe('true');
-      expect(openGroups()).toEqual([groupOf('forms')]);
-
-      groupBtn('data').click();
+      expect(btn().getAttribute('aria-expanded')).toBe('true');
+      expect(isOpen()).toBe(true);
+      btn().click();
       await fixture.whenStable();
-      expect(groupBtn('forms').getAttribute('aria-expanded')).toBe('false');
-      expect(openGroups()).toEqual([groupOf('data')]);
-
-      groupBtn('data').click();
-      await fixture.whenStable();
-      expect(openGroups()).toEqual([]);
+      expect(isOpen()).toBe(false);
     });
 
-    it('Escape closes the open group and returns focus to its button', async () => {
-      groupBtn('overlays').click();
+    it('Escape closes it and returns focus to the button', async () => {
+      btn().click();
       await fixture.whenStable();
-      el.querySelector<HTMLAnchorElement>('#nav-overlays a')!.focus();
-
+      pageLink('toast').focus();
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
       await fixture.whenStable();
-      expect(openGroups()).toEqual([]);
-      expect(document.activeElement).toBe(groupBtn('overlays'));
+      expect(isOpen()).toBe(false);
+      expect(document.activeElement).toBe(btn());
     });
 
-    it('choosing a link closes the group', async () => {
-      groupBtn('overlays').click();
+    it('choosing a component closes the panel', async () => {
+      btn().click();
       await fixture.whenStable();
-      click(link('toast'));
+      pageLink('toast').dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
       await fixture.whenStable();
-      expect(openGroups()).toEqual([]);
+      expect(isOpen()).toBe(false);
     });
 
-    it('focus leaving the group (Tab) closes it; clicking outside too', async () => {
-      groupBtn('forms').click();
+    it('focus leaving the panel (Tab) closes it; clicking outside too', async () => {
+      btn().click();
       await fixture.whenStable();
-      groupOf('forms').dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: groupBtn('data') }));
+      btn().closest('.group')!.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: el.querySelector('a.nav-link') }));
       await fixture.whenStable();
-      expect(openGroups()).toEqual([]);
+      expect(isOpen()).toBe(false);
 
-      groupBtn('forms').click();
+      btn().click();
       await fixture.whenStable();
       document.getElementById('toast')!.click();
       await fixture.whenStable();
-      expect(openGroups()).toEqual([]);
+      expect(isOpen()).toBe(false);
     });
   });
 });
