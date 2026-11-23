@@ -12,6 +12,9 @@
 
 :root
   color-scheme: light
+  /* largura do site: o mesmo limite e a mesma margem no cabeçalho, no rodapé e em todas as páginas */
+  --page-max: 1600px
+  --page-gutter: 1.5rem
   /* cor de marca/acento base (padrão = teal) */
   --accent: #058075
   /* destaque usado como TEXTO/BORDA sobre a superfície (no escuro fica mais claro p/ contraste) */
@@ -291,11 +294,16 @@ html, body
 button, input, select, textarea
   font: inherit
 
+/* no celular a margem cai para 16px: com 24px o cabeçalho (menu, marca, idioma, tema e 5 cores) vaza em 390px */
+@media (max-width: 30rem)
+  :root
+    --page-gutter: 1rem
+
 /* largura padrão das seções */
 .container
-  max-width: 1100px
+  max-width: var(--page-max)
   margin: 0 auto
-  padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right))
+  padding-inline: max(var(--page-gutter), env(safe-area-inset-left)) max(var(--page-gutter), env(safe-area-inset-right))
 
 /* ==========================================================
    Layout da demo (compartilhado por todas as seções)
