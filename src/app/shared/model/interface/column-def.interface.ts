@@ -11,4 +11,9 @@ export interface ColumnDef<T = any> {
   width?: string;
   align?: Align;
   chipMap?: Record<string, ChipMapEntry>;
+  /**
+   * Prioridade quando falta largura: 1 (padrão) nunca some; números maiores somem
+   * primeiro e o valor vai para a linha de detalhes ("Mostrar detalhes").
+   */
+  priority?: number;
 }

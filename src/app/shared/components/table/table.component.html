@@ -38,7 +38,12 @@
           </th>
         }
 
-        @for (col of columns(); track col.key) {
+        <!-- colunas recolhidas: botão por linha que abre os detalhes -->
+        @if (hasHidden()) {
+          <th class="col-expand"><span class="sr-only">{{ detailsLabel() }}</span></th>
+        }
+
+        @for (col of visibleColumns(); track col.key) {
           <!-- o th continua cabeçalho de coluna (com aria-sort); quem ordena é um <button> dentro dele -->
           <th
             [style.width]="col.width || null"
@@ -78,7 +83,10 @@
         <!-- rows(): a fatia da página (paginação local) ou `data` inteiro; `i` é sempre a posição em `data` -->
         @for (row of rows(); track rowId(row, offset() + $index)) {
           @let i = offset() + $index;
-          <tr>
+          @let alt = $index % 2 === 1;
+          @let open = hasHidden() && isExpanded(row, i);
+          <!-- is-alt: listra por classe, para a linha de detalhes ter a cor da linha dela -->
+          <tr [class.is-alt]="alt">
             @if (selectable()) {
               <td
                 class="col-select"
@@ -91,40 +99,26 @@
                   aria-label="Selecionar linha">
                 </td>
               }
-              @for (col of columns(); track col.key) {
+              @if (hasHidden()) {
+                <td class="col-expand">
+                  <!-- aria-controls só quando a linha de detalhes existe -->
+                  <button type="button" class="icon-btn icon-btn--ghost expand-btn"
+                    [attr.aria-expanded]="open"
+                    [attr.aria-controls]="open ? detailId(i) : null"
+                    [attr.aria-label]="expandLabel()"
+                    (click)="toggleExpand(row, i)">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                      <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </td>
+              }
+              @for (col of visibleColumns(); track col.key) {
                 <td
                   [attr.data-label]="col.header"
                   [class.align-center]="col.align==='center'"
                   [class.align-right]="col.align==='right'">
-                  @switch (col.type || 'text') {
-                    <!-- CHIP -->
-                    @case ('chip') {
-                      <span
-                        [class]="chipClass(col, $any(row)[$any(col).key])">
-                        {{ chipLabel(col, $any(row)[$any(col).key]) }}
-                      </span>
-                    }
-                    <!-- CUSTOM -->
-                    @case ('custom') {
-                      @if (getTemplate(String(col.key)); as tpl) {
-                        <ng-container
-                          [ngTemplateOutlet]="tpl"
-              [ngTemplateOutletContext]="{
-                $implicit: $any(row)[$any(col).key],
-                row: row,
-                value: $any(row)[$any(col).key],
-                index: i
-              }">
-                        </ng-container>
-                      } @else {
-                        {{ $any(row)[$any(col).key] }}
-                      }
-                    }
-                    <!-- TEXT -->
-                    @default {
-                      {{ $any(row)[$any(col).key] }}
-                    }
-                  }
+                  <ng-container [ngTemplateOutlet]="cellTpl" [ngTemplateOutletContext]="{ $implicit: col, row: row, i: i }" />
                 </td>
               }
               <!-- AÇÕES -->
@@ -195,6 +189,19 @@
                 </td>
               }
             </tr>
+            <!-- DETALHES: as colunas recolhidas desta linha, como "Rótulo: valor" -->
+            @if (open) {
+              <tr class="tbl-detail" [class.is-alt]="alt" [id]="detailId(i)">
+                <!-- células vazias embaixo da seleção e do botão: os detalhes alinham com a primeira coluna -->
+                @if (selectable()) {
+                  <td class="col-select" [style.width]="selectW" [style.minWidth]="selectW"></td>
+                }
+                <td class="col-expand"></td>
+                <td [attr.colspan]="visibleColumns().length + (hasActions ? 1 : 0)">
+                  <app-table-detail [columns]="hiddenColumns()" [row]="row" [index]="i" [cell]="cellTpl" />
+                </td>
+              </tr>
+            }
           }
         </tbody>
       } @else {
@@ -206,7 +213,10 @@
                 @if (selectable()) {
                   <td class="col-select"><span class="sk sk--circle"></span></td>
                 }
-                @for (col of columns(); track col.key) {
+                @if (hasHidden()) {
+                  <td class="col-expand"></td>
+                }
+                @for (col of visibleColumns(); track col.key) {
                   <td><span class="sk sk--line"></span></td>
                 }
                 @if (hasActions) {
@@ -265,3 +275,26 @@
     (pageChange)="goToPage($event)"
     (pageSizeChange)="onPageSize($event)" />
 }
+
+<!-- conteúdo de uma célula (texto, chip ou custom): usado na coluna e na linha de detalhes -->
+<ng-template #cellTpl let-col let-row="row" let-i="i">
+  @switch (col.type || 'text') {
+    @case ('chip') {
+      <span [class]="chipClass(col, $any(row)[$any(col).key])">
+        {{ chipLabel(col, $any(row)[$any(col).key]) }}
+      </span>
+    }
+    @case ('custom') {
+      @if (getTemplate(String(col.key)); as tpl) {
+        <ng-container
+          [ngTemplateOutlet]="tpl"
+          [ngTemplateOutletContext]="{ $implicit: $any(row)[$any(col).key], row: row, value: $any(row)[$any(col).key], index: i }" />
+      } @else {
+        {{ $any(row)[$any(col).key] }}
+      }
+    }
+    @default {
+      {{ $any(row)[$any(col).key] }}
+    }
+  }
+</ng-template>

@@ -78,6 +78,7 @@ export class TableDemoComponent {
   /** documentos selecionados (rowKey="documento"): sobrevive a ordenação e paginação */
   selected = signal<string[]>([]);
 
+  /** priority: sem espaço, somem primeiro as de número maior (limite → nome impresso → tipo); nome e documento ficam */
   columns: ColumnDef<AdicionalRow>[] = [
     { key: 'nome',        header: 'Nome do adicional' },
     {
@@ -86,14 +87,15 @@ export class TableDemoComponent {
       type: 'chip',
       align: 'center',
       width: '180px',
+      priority: 2,
       chipMap: {
         'Correntista':     { label: 'Correntista',     variant: 'orange' },
         'Não correntista': { label: 'Não correntista', variant: 'teal'   },
       }
     },
     { key: 'documento',   header: 'Documento',         width: '160px' },
-    { key: 'limite',      header: 'Limite atribuído',  width: '220px' },
-    { key: 'nomeImpresso',header: 'Nome impresso',     width: '180px' },
+    { key: 'limite',      header: 'Limite atribuído',  width: '220px', priority: 3 },
+    { key: 'nomeImpresso',header: 'Nome impresso',     width: '180px', priority: 2 },
   ];
 
   /** paginação integrada (paginate="client"): a tabela fatia, ajusta a página e volta à primeira ao ordenar */

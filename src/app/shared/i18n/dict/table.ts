@@ -39,6 +39,8 @@ export const TABLE: Dict = {
     en: 'the selection has account holders, who can only be removed by the branch'
   },
   'table.actions': { pt: 'Ações', en: 'Actions' },
+  'table.details': { pt: 'Detalhes', en: 'Details' },
+  'table.details.show': { pt: 'Mostrar detalhes', en: 'Show details' },
   'table.action.edit': { pt: 'Editar', en: 'Edit' },
   'table.action.delete': { pt: 'Excluir', en: 'Delete' },
   'table.action.delete.blocked': { pt: 'correntistas só podem ser removidos pela agência', en: 'account holders can only be removed by the branch' },

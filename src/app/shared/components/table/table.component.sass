@@ -6,6 +6,11 @@
   min-width: min-content
   --_a: var(--tbl-action, #058075)
 
+// contorno de foco das ações (agrupado num seletor só pelo @extend)
+%focus-ring
+  outline: 2px solid var(--_a)
+  outline-offset: 2px
+
 /* reset leve só pra botões internos */
 button
   border: none !important
@@ -22,8 +27,7 @@ button
   &:focus
     outline: none
   &:focus-visible
-    outline: 2px solid var(--_a)
-    outline-offset: 2px
+    @extend %focus-ring
 
   /* dá espaço mínimo pra permitir scroll quando apertar */
   thead th,
@@ -45,7 +49,7 @@ button
     border-bottom: 1px solid var(--tbl-row-border)
     background: var(--tbl-row-gray-medium)
 
-  tbody tr:nth-child(even) td
+  tbody tr.is-alt td
     background: var(--tbl-row-bg)
 
   .col-actions
@@ -66,7 +70,6 @@ input[type="checkbox"]
 .chip
   display: inline-flex
   align-items: center
-  justify-content: center
   height: var(--chip-h)
   padding: 0 var(--chip-pad-x)
   border-radius: var(--chip-radius)
@@ -92,8 +95,6 @@ input[type="checkbox"]
 
 .icon-btn
   appearance: none
-  -webkit-appearance: none
-  box-shadow: none
   padding: 0
   width: 32px
   height: 32px
@@ -123,20 +124,13 @@ input[type="checkbox"]
   &:hover
     background: transparent
 
-.icon-btn::-moz-focus-inner
-  border: 0
-  padding: 0
-
 @keyframes skPulse
-  0%
-    opacity: .6
   50%
     opacity: 1
-  100%
-    opacity: .6
 
 .sk
   display: inline-block
+  opacity: .6
   background: var(--border, #e5e7eb)
   border-radius: .375rem
   animation: skPulse 1.2s ease-in-out infinite
@@ -145,22 +139,20 @@ input[type="checkbox"]
   height: 14px
   width: 60%
   max-width: 240px
-  display: inline-block
 
 .sk--circle
   width: 16px
   height: 16px
   border-radius: 9999px
-  display: inline-block
+
+td.empty, td.state-error
+  padding: 24px 14px
 
 td.empty
   text-align: center
   color: var(--tbl-muted)
-  padding: 24px 14px
 
 // erro ao carregar: ícone + mensagem + "Tentar novamente", centralizados
-td.state-error
-  padding: 24px 14px
 
 .state-error__box
   display: grid
@@ -186,8 +178,7 @@ td.state-error
   &:hover
     background: color-mix(in oklab, var(--_a) 12%, transparent)
   &:focus-visible
-    outline: 2px solid var(--_a)
-    outline-offset: 2px
+    @extend %focus-ring
 
 /* cabeçalho ordenável: <th> com um <button> que ocupa a célula */
 .tbl thead th.is-sortable:hover
@@ -315,3 +306,26 @@ td.state-error
   overflow: hidden
   clip-path: inset(50%)
   white-space: nowrap
+
+// ===== colunas recolhidas: botão de detalhes e linha de detalhes =====
+// mesmos elementos de "thead th, tbody td" + a classe: vence o min-width/padding deles
+// (com o encapsulamento, cada parte do seletor ganha um atributo e soma especificidade)
+.tbl thead th.col-expand, .tbl tbody td.col-expand
+  width: 40px
+  min-width: 40px
+  padding-inline: 4px
+  text-align: center
+
+// o resto vem de .icon-btn (tamanho, cor, hover, foco)
+.expand-btn[aria-expanded="true"] svg
+  rotate: 90deg
+
+// a linha aberta e os detalhes formam um bloco só (sem a borda entre eles)
+.tbl tbody tr:has(+ .tbl-detail) td
+  border-bottom: 0
+
+// a lista "Rótulo: valor" é do app-table-detail (estilo próprio)
+
+@media (prefers-reduced-motion: no-preference)
+  .expand-btn svg
+    transition: rotate .15s

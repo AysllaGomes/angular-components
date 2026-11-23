@@ -14,6 +14,7 @@ src/app/shared/components/table/
   ├─ table.component.sass
   ├─ table-bulk-bar.component.*   # bulk actions bar (internal)
   ├─ table-footer.component.*     # paginated footer (internal)
+  ├─ table-detail.component.ts    # details row of collapsed columns (internal)
   └─ table.directives.ts   # appCell / appActions / appBulkActions
 ```
 
@@ -37,6 +38,7 @@ export interface ColumnDef<T = any> {
   width?: string;
   align?: Align;
   chipMap?: Record<string, ChipMapEntry>; // for type='chip'
+  priority?: number;  // without room: 1 (default) never hides; higher hides first
 }
 ```
 
@@ -77,6 +79,8 @@ export interface ColumnDef<T = any> {
 | `rangeLabel`     | `(start, end, total) => string`  | `'Mostrando 1–5 de 6'`  | Footer range text (announced on page change).                                         |
 | `pageSizeLabel`  | `string`                         | `'Itens por página'`    | Selector label.                                                                       |
 | `paginationLabel` | `string`                        | `'Paginação da tabela'` | Name of the page navigation.                                                          |
+| `detailsLabel`   | `string`                         | `'Detalhes'`            | Screen-reader name of the details button column.                                      |
+| `expandLabel`    | `string`                         | `'Mostrar detalhes'`    | Name of the button that opens the details row.                                        |
 
 ### Outputs
 | Output           | Payload                                   | When                                                  |
@@ -112,6 +116,27 @@ export interface ColumnDef<T = any> {
     <button type="button" (click)="archive(keys); clear()">Archive</button>
   </ng-template>
   ```
+
+---
+
+## Collapsible columns
+
+When the table gets wider than the available space, instead of scrolling horizontally it hides columns by `ColumnDef.priority`, and a **Mostrar detalhes** button on each row opens the hidden values.
+
+```ts
+columns: ColumnDef<Row>[] = [
+  { key: 'nome',      header: 'Name' },                     // priority 1 (default): never hides
+  { key: 'tipo',      header: 'Type', type: 'chip', priority: 2 },
+  { key: 'documento', header: 'Document' },
+  { key: 'limite',    header: 'Limit', priority: 3 },       // hides first
+];
+```
+
+- **By the table width**, not the screen: the table measures its wrapper (the same as the paginated footer), so it also works inside a narrow card. The highest `priority` hides first (ties: the rightmost); when there is room again, they come back in reverse order.
+- **Details:** the button (`aria-expanded`, `aria-controls`) opens a row right below with "Label: value" for the hidden columns, aligned with the first data column. Chips and custom cells (`appCell`) show as in the column.
+- With no column above priority 1, nothing changes (the table scrolls as before). In card mode (≤ 640px) every field shows, so nothing collapses.
+- On the server (SSR) every column renders; collapsing starts in the browser after the first measurement.
+- Texts: `detailsLabel` (screen-reader name of the button column) and `expandLabel`.
 
 ---
 
@@ -382,6 +407,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
 - Error state: announced message (`role="alert"`), `aria-busy` on the table while loading, and focus is not lost on retry.
+- Collapsed columns: "Mostrar detalhes" button with `aria-expanded` and `aria-controls` pointing to the details row; the button column has a name (`detailsLabel`).
 - Bulk actions: bar with `role="group"` and a name (`bulkActionsLabel`), announced counter (`aria-live="polite"`), and focus moves to "select all" when the buttons go away.
 - Declarative actions: the name is also a tooltip; unavailable actions use `aria-disabled` (focusable, with the reason) and the actions column header has a screen-reader name (`actionsLabel`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
@@ -407,7 +433,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - [x] Error state (`error`, `retry`)
 - [x] Bulk actions (`bulkActions`, `appBulkActions`)
 - [x] Pagination (`paginate` client/server, `pageSizeOptions`)
-- [ ] Responsive columns for small screens
+- [x] Collapsible columns (`priority`, "Mostrar detalhes")
 
 ---
 
@@ -423,6 +449,8 @@ Wrap the table with a `.tbl-wrap` container to allow horizontal scrolling when c
 ```
 
 The demo Sass ships those gradients and the rounded corners.
+
+With `priority` on columns, the table hides columns instead of scrolling (see **Collapsible columns**).
 
 ### 2) Mobile / “Stack layout” (≤ 640px)
 Below `640px`, each `<tr>` becomes a card-like block and each `<td>` shows its column label using the `data-label` attribute.  

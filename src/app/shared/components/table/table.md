@@ -11,6 +11,7 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 - **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
 - **Seleção**: checkbox por linha + “selecionar tudo”.
 - **Paginação integrada**: local ou no servidor, com intervalo, “Itens por página” e páginas (`paginate`).
+- **Colunas que se recolhem**: sem espaço, somem as de `priority` mais alta e os valores vão para “Mostrar detalhes”.
 - **Ações em massa**: barra acima da tabela (“3 selecionados”, Limpar seleção e botões; sem seleção, `bulkBarIdle` decide: espaço guardado, texto ou escondida), via `[bulkActions]` ou *slot* `appBulkActions`.
 - **Ações**:
   - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
@@ -32,6 +33,7 @@ src/app/shared/components/table/
   ├─ table.component.sass
   ├─ table-bulk-bar.component.*   # barra de ações em massa (uso interno)
   ├─ table-footer.component.*     # rodapé paginado (uso interno)
+  ├─ table-detail.component.ts    # linha de detalhes das colunas recolhidas (uso interno)
   └─ table.directives.ts   # appCell, appActions e appBulkActions (standalone)
 ```
 
@@ -118,6 +120,7 @@ export interface ColumnDef<T = any> {
   width?: string;
   align?: Align;
   chipMap?: Record<string, ChipMapEntry>; // para type='chip'
+  priority?: number;  // sem espaço: 1 (padrão) nunca some; maiores somem primeiro
 }
 
 // Ações declarativas
@@ -167,6 +170,8 @@ export interface TableAction<T = any> {
 | `rangeLabel`    | `(start, end, total) => string` |                                                     `'Mostrando 1–5 de 6'`                                                          | Texto do intervalo no rodapé (anunciado ao trocar de página).                                                |
 | `pageSizeLabel` | `string`                        |                                                         `'Itens por página'`                                                        | Rótulo do seletor.                                                                                           |
 | `paginationLabel` | `string`                      |                                                       `'Paginação da tabela'`                                                       | Nome da navegação de páginas.                                                                                |
+| `detailsLabel`  | `string`                        |                                                             `'Detalhes'`                                                            | Nome (para leitor de tela) da coluna do botão de detalhes.                                                   |
+| `expandLabel`   | `string`                        |                                                         `'Mostrar detalhes'`                                                        | Nome do botão que abre a linha de detalhes.                                                                  |
 
 ### Outputs
 | Evento            | Payload                                         | Quando dispara                                            |
@@ -203,6 +208,27 @@ export interface TableAction<T = any> {
     <button type="button" (click)="arquivar(keys); clear()">Arquivar</button>
   </ng-template>
   ```
+
+---
+
+## Colunas que se recolhem
+
+Quando a tabela fica mais larga que o espaço disponível, em vez de rolar na horizontal ela esconde colunas pela `priority` do `ColumnDef`, e um botão **Mostrar detalhes** em cada linha abre os valores escondidos.
+
+```ts
+columns: ColumnDef<Adicional>[] = [
+  { key: 'nome',      header: 'Nome' },                     // priority 1 (padrão): nunca some
+  { key: 'tipo',      header: 'Tipo', type: 'chip', priority: 2 },
+  { key: 'documento', header: 'Documento' },
+  { key: 'limite',    header: 'Limite', priority: 3 },      // some primeiro
+];
+```
+
+- **Pela largura da tabela**, não da tela: a tabela mede o wrapper (o mesmo do rodapé paginado), então também funciona dentro de um card estreito. Some primeiro a de `priority` maior (empate: a mais à direita); quando há espaço de novo, elas voltam na ordem inversa.
+- **Detalhes:** o botão (`aria-expanded`, `aria-controls`) abre uma linha logo abaixo com "Rótulo: valor" das colunas escondidas, alinhada com a primeira coluna de dados. Chips e células custom (`appCell`) aparecem como na coluna.
+- Sem nenhuma coluna com `priority` maior que 1, nada muda (a tabela rola como antes). No modo cartão (≤ 640px) todos os campos aparecem, então nada se recolhe.
+- No servidor (SSR) todas as colunas são renderizadas; o recolhimento começa no navegador, depois da primeira medida.
+- Textos: `detailsLabel` (nome da coluna do botão, para leitor de tela) e `expandLabel`.
 
 ---
 
@@ -414,6 +440,7 @@ No Sass do componente essas variáveis já são usadas em header, linhas, bordas
 ## Acessibilidade
 - Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
 - Estado de erro: mensagem anunciada (`role="alert"`), `aria-busy` na tabela enquanto carrega e o foco não se perde ao tentar de novo.
+- Colunas recolhidas: botão "Mostrar detalhes" com `aria-expanded` e `aria-controls` apontando para a linha de detalhes; a coluna do botão tem nome (`detailsLabel`).
 - Ações em massa: barra com `role="group"` e nome (`bulkActionsLabel`), contador anunciado (`aria-live="polite"`) e o foco vai para "Selecionar tudo" quando os botões somem.
 - Ações declarativas: o nome também aparece como dica; ações indisponíveis usam `aria-disabled` (focáveis, com o motivo) e o cabeçalho da coluna de ações tem nome para leitor de tela (`actionsLabel`).
 
@@ -473,7 +500,7 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 - [x] Estado de erro (`error`, `retry`)
 - [x] Paginação (`paginate` local/servidor, `pageSizeOptions`)
 - [x] Ações em massa (`bulkActions`, `appBulkActions`)
-- [ ] Responsivo com colunas colapsáveis
+- [x] Colunas que se recolhem (`priority`, "Mostrar detalhes")
 
 ---
 
@@ -495,6 +522,8 @@ Envolva a tabela com um contêiner `.tbl-wrap` para permitir rolagem horizontal 
 ```
 
 O Sass da demo já inclui os gradientes e `border-radius` do contêiner.
+
+Com `priority` nas colunas, a tabela esconde colunas em vez de rolar (ver **Colunas que se recolhem**).
 
 ### 2) Mobile / “Stack layout” (≤ 640px)
 Abaixo de `640px` a tabela é transformada em cartões: cada `<tr>` vira um bloco e cada `<td>` usa `data-label` para exibir o rótulo da coluna.  

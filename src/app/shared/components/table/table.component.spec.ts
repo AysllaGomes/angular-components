@@ -1,5 +1,6 @@
 import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
@@ -686,5 +687,123 @@ describe('TableComponent pagination', () => {
     await settle();
     expect(names().length).toBe(5);
     expect(el.querySelector('app-table-footer')).toBeNull();
+  });
+});
+
+interface Wide { id: string; nome: string; tipo: string; doc: string; cidade: string; }
+const WIDE: Wide[] = [
+  { id: 'a', nome: 'Ana', tipo: 'Titular', doc: '111', cidade: 'Recife' },
+  { id: 'b', nome: 'Bruno', tipo: 'Adicional', doc: '222', cidade: 'Natal' }
+];
+
+@Component({
+  imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `<app-table [columns]="columns()" [data]="rows" [selectable]="true" rowKey="id" />`
+})
+class CollapseHostComponent {
+  columns = signal<ColumnDef<Wide>[]>([
+    { key: 'nome', header: 'Nome' },
+    { key: 'tipo', header: 'Tipo', type: 'chip', chipMap: { Titular: { label: 'Titular', variant: 'teal' } }, priority: 2 },
+    { key: 'doc', header: 'Documento', priority: 3 },
+    { key: 'cidade', header: 'Cidade', priority: 2 }
+  ]);
+  rows = WIDE;
+}
+
+describe('TableComponent collapsible columns', () => {
+  let fixture: ComponentFixture<CollapseHostComponent>;
+  let el: HTMLElement;
+  let table: any;
+  const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
+  const headers = () => Array.from(el.querySelectorAll('thead th')).map(th => th.textContent!.trim());
+  const expandBtns = () => Array.from(el.querySelectorAll<HTMLButtonElement>('tbody .expand-btn'));
+  /** sem layout no jsdom: cada coluna "mede" 100px, a de detalhes 40px e a de seleção 40px */
+  const fakeLayout = () => {
+    const tbl = el.querySelector('table')!;
+    Object.defineProperty(tbl, 'offsetWidth', {
+      configurable: true,
+      get: () => Array.from(tbl.querySelectorAll('thead th'))
+        .reduce((w, th) => w + (th.classList.contains('col-expand') || th.classList.contains('col-select') ? 40 : 100), 0)
+    });
+  };
+  const setWidth = async (w: number) => { table.availWidth.set(w); await settle(); await settle(); };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CollapseHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(CollapseHostComponent);
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+    table = fixture.debugElement.query(By.directive(TableComponent)).componentInstance;
+    fakeLayout();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('with room, every column shows and there is no details button', async () => {
+    await setWidth(1000); // 40 + 4 × 100 = 440
+    expect(headers()).toEqual(['', 'Nome', 'Tipo', 'Documento', 'Cidade']);
+    expect(expandBtns().length).toBe(0);
+  });
+
+  it('hides the highest priority first, ties from the right; priority 1 never hides', async () => {
+    await setWidth(400); // 440 → some "Documento" (3) → 40 + 40 + 300 = 380
+    expect(headers()).toEqual(['', 'Detalhes', 'Nome', 'Tipo', 'Cidade']);
+
+    await setWidth(300); // 380 → some "Cidade" (2, mais à direita) → 280
+    expect(headers()).toEqual(['', 'Detalhes', 'Nome', 'Tipo']);
+
+    await setWidth(100); // some "Tipo"; "Nome" (1) fica mesmo sem caber
+    expect(headers()).toEqual(['', 'Detalhes', 'Nome']);
+  });
+
+  it('columns come back when there is room again (same order they left)', async () => {
+    await setWidth(300);
+    expect(headers()).toEqual(['', 'Detalhes', 'Nome', 'Tipo']);
+    await setWidth(380); // precisava de 380 com "Cidade"
+    expect(headers()).toEqual(['', 'Detalhes', 'Nome', 'Tipo', 'Cidade']);
+    await setWidth(440);
+    expect(headers()).toEqual(['', 'Nome', 'Tipo', 'Documento', 'Cidade']);
+  });
+
+  it('details row: aria-expanded/aria-controls and the hidden values (chip rendered as in the column)', async () => {
+    await setWidth(200); // escondidas: Documento, Cidade, Tipo
+    const btn = expandBtns()[0];
+    expect(btn.getAttribute('aria-label')).toBe('Mostrar detalhes');
+    expect(btn.getAttribute('aria-expanded')).toBe('false');
+    expect(btn.hasAttribute('aria-controls')).toBe(false);
+
+    btn.click();
+    await settle();
+    expect(btn.getAttribute('aria-expanded')).toBe('true');
+    const detail = el.querySelector<HTMLElement>(`#${btn.getAttribute('aria-controls')}`)!;
+    expect(detail.classList).toContain('tbl-detail');
+    expect(Array.from(detail.querySelectorAll('dt')).map(d => d.textContent!.trim())).toEqual(['Tipo', 'Documento', 'Cidade']);
+    expect(detail.querySelector('dd .chip--teal')!.textContent!.trim()).toBe('Titular');
+    expect(detail.textContent).toContain('111');
+    // seleção e botão ficam vazios; os detalhes ocupam as colunas de dados (aqui só "Nome")
+    expect(detail.querySelectorAll('td').length).toBe(3);
+    expect(detail.querySelector('td[colspan]')!.getAttribute('colspan')).toBe('1');
+
+    btn.click();
+    await settle();
+    expect(el.querySelector('.tbl-detail')).toBeNull();
+  });
+
+  it('card mode (≤ 640px) and tables without priority never hide columns', async () => {
+    await setWidth(200);
+    table.cardMode.set(true);
+    await settle();
+    await settle();
+    expect(headers()).toEqual(['', 'Nome', 'Tipo', 'Documento', 'Cidade']);
+
+    table.cardMode.set(false);
+    fixture.componentInstance.columns.update(cols => cols.map(c => ({ ...c, priority: undefined })));
+    await settle();
+    await setWidth(150);
+    expect(headers()).toEqual(['', 'Nome', 'Tipo', 'Documento', 'Cidade']);
   });
 });

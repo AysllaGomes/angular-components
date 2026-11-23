@@ -32,6 +32,7 @@ import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-b
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkBarComponent } from './table-bulk-bar.component';
 import { TableFooterComponent } from './table-footer.component';
+import { TableDetailComponent } from './table-detail.component';
 import {
   TableActionsTemplateDirective,
   TableBulkActionsContext,
@@ -50,7 +51,7 @@ const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent, TableFooterComponent],
+  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent, TableFooterComponent, TableDetailComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -136,6 +137,37 @@ export class TableComponent<T = any> {
   });
   /** rodapé: com paginação, sem erro e com algo para contar */
   readonly showFooter = computed(() => !!this.paginate() && this.state() !== 'error' && this.totalCount() > 0);
+
+  // ===== colunas que se recolhem =====
+  /** nome da coluna do botão de detalhes, para leitor de tela */
+  readonly detailsLabel = input('Detalhes');
+  /** nome do botão que abre a linha com as colunas escondidas */
+  readonly expandLabel = input('Mostrar detalhes');
+
+  /** largura visível do wrapper (0 até medir; no servidor e sem ResizeObserver, nada se recolhe) */
+  private readonly availWidth = signal(0);
+  /** ≤ 640px: modo cartão, que já mostra todos os campos */
+  private readonly cardMode = signal(false);
+  /** colunas escondidas, na ordem em que sumiram */
+  private readonly hiddenOrder = signal<string[]>([]);
+  /** largura que a tabela precisava com cada coluna escondida ainda visível */
+  private readonly neededWidth = new Map<string, number>();
+
+  readonly visibleColumns = computed(() => {
+    const hidden = this.hiddenOrder();
+    return this.columns().filter(c => !hidden.includes(String(c.key)));
+  });
+  /** escondidas, na ordem das colunas (é a ordem da linha de detalhes) */
+  readonly hiddenColumns = computed(() => {
+    const hidden = this.hiddenOrder();
+    return this.columns().filter(c => hidden.includes(String(c.key)));
+  });
+  readonly hasHidden = computed(() => this.hiddenColumns().length > 0);
+
+  /** linhas com os detalhes abertos (por `rowId`) */
+  private readonly expanded = signal<unknown[]>([]);
+  private static nextUid = 0;
+  readonly uid = `tbl-${++TableComponent.nextUid}`;
 
   /** Ordenação controlada pelo container (o clique no cabeçalho atualiza o estado local e emite `sortChange`). */
   readonly sortKey = input<string | undefined>(undefined);
@@ -250,13 +282,57 @@ export class TableComponent<T = any> {
       if (!parent || typeof ResizeObserver === 'undefined') return;
       const measure = () => {
         const cs = getComputedStyle(parent);
-        const w = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-        host.style.setProperty('--tbl-vw', `${Math.max(0, w)}px`);
+        const w = Math.max(0, parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+        host.style.setProperty('--tbl-vw', `${w}px`);
+        this.availWidth.set(w);
       };
       const ro = new ResizeObserver(measure);
       ro.observe(parent);
       measure();
       this.destroyRef.onDestroy(() => ro.disconnect());
+
+      const mq = this.doc.defaultView?.matchMedia?.('(max-width: 640px)');
+      if (mq) {
+        const sync = () => this.cardMode.set(mq.matches);
+        sync();
+        mq.addEventListener('change', sync);
+        this.destroyRef.onDestroy(() => mq.removeEventListener('change', sync));
+      }
+    });
+
+    // Colunas que se recolhem: se a tabela passa da largura visível, esconde a coluna de
+    // maior `priority` e guarda a largura que precisava; com espaço de novo, ela volta.
+    // Roda depois de cada render que muda largura, colunas ou conteúdo.
+    afterRenderEffect(() => {
+      const avail = this.availWidth();
+      const order = this.hiddenOrder();
+      const cols = this.columns();
+      this.rows();
+      this.state();
+      const table = this.tableEl()?.nativeElement;
+      if (!table || !avail) return;
+
+      if (this.cardMode() || !cols.some(c => (c.priority ?? 1) > 1)) {
+        if (order.length) this.hiddenOrder.set([]);
+        return;
+      }
+
+      const width = table.offsetWidth;
+      if (width > avail + 1) {
+        const candidate = this.visibleColumns()
+          .filter(c => (c.priority ?? 1) > 1)
+          .reduce<ColumnDef<T> | null>((best, c) => (!best || (c.priority ?? 1) >= (best.priority ?? 1) ? c : best), null);
+        if (candidate) {
+          const key = String(candidate.key);
+          this.neededWidth.set(key, width);
+          this.hiddenOrder.set([...order, key]);
+        }
+        return;
+      }
+      const last = order.at(-1);
+      if (last !== undefined && avail >= (this.neededWidth.get(last) ?? Infinity)) {
+        this.hiddenOrder.set(order.slice(0, -1));
+      }
     });
 
     // O botão some enquanto carrega: sem isso o foco cairia no <body>.
@@ -319,9 +395,24 @@ export class TableComponent<T = any> {
     this.retryPending.set(false);
   }
 
-  /** colunas ocupadas pelas linhas de estado (vazio/erro) */
+  /** colunas ocupadas pelas linhas de estado (vazio/erro) e de detalhes */
   get colspan(): number {
-    return this.columns().length + (this.selectable() ? 1 : 0) + (this.hasActions ? 1 : 0);
+    return this.visibleColumns().length + (this.selectable() ? 1 : 0)
+      + (this.hasHidden() ? 1 : 0) + (this.hasActions ? 1 : 0);
+  }
+
+  isExpanded(row: T, i: number): boolean {
+    return this.expanded().includes(this.rowId(row, i));
+  }
+
+  toggleExpand(row: T, i: number) {
+    const id = this.rowId(row, i);
+    this.expanded.update(list => (list.includes(id) ? list.filter(x => x !== id) : [...list, id]));
+  }
+
+  /** id da linha de detalhes (alvo do aria-controls) */
+  detailId(i: number): string {
+    return `${this.uid}-detail-${i}`;
   }
 
   get skeletonArray() {
