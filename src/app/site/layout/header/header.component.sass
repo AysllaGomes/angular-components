@@ -249,9 +249,9 @@
     pointer-events: none
     transition: max-height .2s, opacity .2s
 
+    // bloco já ocupa a largura toda; width: 100% + padding vazava 11px (rolagem lateral no menu)
     a
       display: block
-      width: 100%
       padding: .5rem .6rem
       border-radius: .5rem
       &:hover
@@ -287,3 +287,23 @@
     overflow: auto
     opacity: 1
     pointer-events: auto
+
+.menu-accent
+  display: none
+
+/* ============== CELULAR ESTREITO < 480px ==============
+   menu, marca, idioma, tema e 5 cores não cabem numa linha de 360px:
+   as cores saem da barra e entram no menu ☰, maiores (alvo de toque de 28px) */
+@media (max-width: 30rem)
+  .accent-picker--bar
+    display: none
+  .menu-accent
+    display: block
+    padding-bottom: .5rem
+  .accent-picker--menu
+    margin: 0
+    padding: .35rem .6rem
+    gap: 12px
+    .swatch
+      width: 28px
+      height: 28px

@@ -67,6 +67,12 @@
 
       <a class="nav-link" routerLink="/demo" routerLinkActive="is-active" ariaCurrentWhenActive="page">{{ 'header.demo' | t }}</a>
       <a class="nav-link" routerLink="/acessibilidade" routerLinkActive="is-active" ariaCurrentWhenActive="page">{{ 'cp.a11y' | t }}</a>
+
+      <!-- celular estreito (< 480px): as cores não cabem na barra e ficam aqui, maiores -->
+      <div class="menu-accent">
+        <span class="group-title" aria-hidden="true">{{ 'header.accent' | t }}</span>
+        <ng-container [ngTemplateOutlet]="accentPicker" [ngTemplateOutletContext]="{ $implicit: 'menu' }" />
+      </div>
     </nav>
 
     <div class="actions">
@@ -105,44 +111,25 @@
         </span>
       </button>
 
-      <!-- accent picker -->
-      <div class="accent-picker" role="group" [attr.aria-label]="'header.accent' | t">
-        <button
-          class="swatch swatch--teal"
-          [class.is-active]="theme.accent()==='teal'"
-          (click)="setAccent('teal')"
-          [title]="'accent.teal'|t"
-          aria-label="Teal">
-        </button>
-        <button
-          class="swatch swatch--orange"
-          [class.is-active]="theme.accent()==='orange'"
-          (click)="setAccent('orange')"
-          [title]="'accent.orange'|t"
-          aria-label="Orange">
-        </button>
-        <button
-          class="swatch swatch--violet"
-          [class.is-active]="theme.accent()==='violet'"
-          (click)="setAccent('violet')"
-          [title]="'accent.violet'|t"
-          aria-label="Violet">
-        </button>
-        <button
-          class="swatch swatch--blue"
-          [class.is-active]="theme.accent()==='blue'"
-          (click)="setAccent('blue')"
-          [title]="'accent.blue'|t"
-          aria-label="Blue">
-        </button>
-        <button
-          class="swatch swatch--rose"
-          [class.is-active]="theme.accent()==='rose'"
-          (click)="setAccent('rose')"
-          [title]="'accent.rose'|t"
-          aria-label="Rose">
-        </button>
-      </div>
+      <!-- cores de destaque na barra (no celular estreito elas vão para o menu ☰) -->
+      <ng-container [ngTemplateOutlet]="accentPicker" [ngTemplateOutletContext]="{ $implicit: 'bar' }" />
     </div>
   </div>
 </header>
+
+<!-- as 5 cores, usadas na barra e no menu; só uma das duas cópias aparece (CSS) -->
+<ng-template #accentPicker let-place>
+  <div class="accent-picker accent-picker--{{ place }}" role="group" [attr.aria-label]="'header.accent' | t">
+    @for (a of accents; track a) {
+      <button
+        type="button"
+        class="swatch swatch--{{ a }}"
+        [class.is-active]="theme.accent() === a"
+        [attr.aria-pressed]="theme.accent() === a"
+        (click)="setAccent(a)"
+        [title]="'accent.' + a | t"
+        [attr.aria-label]="'accent.' + a | t">
+      </button>
+    }
+  </div>
+</ng-template>

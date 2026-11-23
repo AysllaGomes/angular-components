@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 
 import { HeaderComponent } from './header.component';
+import { I18nService } from '../../services/i18n.service';
+import { ThemeService } from '../../services/theme.service';
 
 /** Página mínima: o header + as seções-alvo dos links internos. */
 @Component({
@@ -145,6 +147,40 @@ describe('HeaderComponent internal links', () => {
       document.getElementById('toast')!.click();
       await fixture.whenStable();
       expect(isOpen()).toBe(false);
+    });
+  });
+
+  describe('accent colors', () => {
+    const swatches = (place: 'bar' | 'menu') => Array.from(el.querySelectorAll<HTMLButtonElement>(`.accent-picker--${place} .swatch`));
+    let initial: ReturnType<ThemeService['accent']>;
+
+    beforeEach(() => { initial = TestBed.inject(ThemeService).accent(); });
+    afterEach(() => TestBed.inject(ThemeService).setAccent(initial));
+
+    it('the same 5 colors on the bar and in the ☰ menu (CSS shows one of them by width)', () => {
+      expect(swatches('bar')).toHaveLength(5);
+      expect(swatches('menu')).toHaveLength(5);
+      expect(el.querySelector('nav .menu-accent .accent-picker--menu')).not.toBeNull();
+    });
+
+    it('each color is named in the page language and says which one is chosen', async () => {
+      const i18n = TestBed.inject(I18nService);
+      const theme = TestBed.inject(ThemeService);
+      theme.setAccent('orange');
+      await fixture.whenStable();
+      for (const place of ['bar', 'menu'] as const) {
+        const list = swatches(place);
+        expect(list.map(b => b.getAttribute('aria-label'))).toEqual(['teal', 'orange', 'violet', 'blue', 'rose'].map(a => i18n.t('accent.' + a)));
+        expect(list.map(b => b.getAttribute('aria-pressed'))).toEqual(['false', 'true', 'false', 'false', 'false']);
+        expect(list.every(b => b.type === 'button')).toBe(true);
+      }
+    });
+
+    it('choosing a color in the menu changes the accent', async () => {
+      swatches('menu')[3].click();
+      await fixture.whenStable();
+      expect(TestBed.inject(ThemeService).accent()).toBe('blue');
+      expect(swatches('bar')[3].getAttribute('aria-pressed')).toBe('true');
     });
   });
 });

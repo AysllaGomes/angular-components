@@ -1,11 +1,12 @@
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../i18n/t.pipe';
 
-import { Accent } from '../../services/theme.types';
+import { ACCENTS, Accent } from '../../services/theme.types';
 
 import { I18nService } from '../../services/i18n.service';
 import { ThemeService } from '../../services/theme.service';
@@ -15,7 +16,7 @@ import { SITE_COMPONENTS, SITE_GROUPS } from '../../site-components';
   selector: 'app-demo-header',
   standalone: true,
   templateUrl: './header.component.html',
-  imports: [TPipe, RouterLink, RouterLinkActive],
+  imports: [TPipe, RouterLink, RouterLinkActive, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.component.sass'
 })
@@ -23,6 +24,8 @@ export class HeaderComponent {
   theme = inject(ThemeService);
   i18n  = inject(I18nService);
   private router = inject(Router);
+
+  readonly accents = ACCENTS;
 
   // estado do menu mobile
   openNav = signal(false);
@@ -63,7 +66,7 @@ export class HeaderComponent {
 
   toggleTheme() { this.theme.toggle(); }
   toggleLang()  { this.i18n.toggle(); }
-  setAccent(a: 'teal'|'orange'|'violet'|'blue'|'rose') { this.theme.setAccent(a); }
+  setAccent(a: Accent) { this.theme.setAccent(a); }
 
   toggleMenu() { this.openNav.update(v => !v); }
 
