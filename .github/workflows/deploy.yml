@@ -35,6 +35,8 @@ jobs:
       - run: npm run check:css
       # "O que copiar" de cada documento bate com os imports de verdade
       - run: npm run check:copy
+      # e basta: só o que ela lista, numa pasta vazia, compila (TypeScript estrito)
+      - run: npm run check:copy-compile
       # páginas de componente geradas dos .md, em dia com eles
       - run: npm run check:pages
 

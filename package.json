@@ -15,6 +15,7 @@
     "check:css": "node scripts/check-css-fallbacks.mjs",
     "docs:copy": "node scripts/copy-manifest.mjs",
     "check:copy": "node scripts/copy-manifest.mjs --check",
+    "check:copy-compile": "node scripts/check-copy-compile.mjs",
     "docs:pages": "node scripts/build-component-docs.mjs",
     "check:pages": "node scripts/build-component-docs.mjs --check"
   },

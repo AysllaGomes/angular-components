@@ -56,7 +56,7 @@ It also accepts a function returning a signal, to follow your app language live.
 - CI runs them on every push and pull request; the deploy only publishes when they pass.
 - Color contrast is checked in the browser, in both themes (jsdom does not render colors).
 - `npm run check:css` makes sure every CSS variable the components use has a default (`var(--x, value)`), so a component copied into another project keeps its look without this project's `styles.sass`; CI runs it before the tests. The global theme still overrides those defaults (light/dark, accent colors).
-- Each component's docs have a **What to copy** section generated from the real imports (`npm run docs:copy`): its folder, the components and types it uses, and any global style. `npm run check:copy` fails in CI if a section gets out of date.
+- Each component's docs have a **What to copy** section generated from the real imports (`npm run docs:copy`): its folder (types included), the components and helper files it uses, and any global style. `npm run check:copy` fails in CI if a section gets out of date, and `npm run check:copy-compile` copies only what each section lists into an empty folder and compiles it (strict TypeScript), so the list is proven to be enough.
 
 ## License
 
