@@ -1,7 +1,7 @@
 <p align="right"><a href="./README.pt-BR.md">Português (BR)</a></p>
 
 [![Deploy](https://github.com/AysllaGomes/angular-components/actions/workflows/deploy.yml/badge.svg)](.github/workflows/deploy.yml)
-### **[Demo](https://aysllagomes.github.io/angular-components/demo)**
+### **[Site](https://aysllagomes.github.io/angular-components/)** · **[Demo](https://aysllagomes.github.io/angular-components/demo)**
 
 - **[CHANGELOG.md](./CHANGELOG.md):**
 ---
@@ -10,7 +10,7 @@
 
 > **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast, Tooltip) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
-- **Local demo:** `http://localhost:4200/demo`
+- **Local:** `http://localhost:4200/` (presentation) and `http://localhost:4200/demo` (every component, live)
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (theming), Vitest. Node 24 (`.nvmrc`).
 
 ---

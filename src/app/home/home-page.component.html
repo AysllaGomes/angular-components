@@ -1,0 +1,33 @@
+<app-demo-header />
+<app-toast-container />
+
+<main id="main" tabindex="-1">
+  <!-- DESTAQUE -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__text">
+      <p class="eyebrow">{{ 'home.hero.eyebrow' | t }}</p>
+      <h1 id="hero-title">{{ 'home.hero.title' | t }}</h1>
+      <p class="lead">{{ 'home.hero.lead' | t }}</p>
+      <div class="ctas">
+        <a class="btn btn--primary" routerLink="/" fragment="componentes">{{ 'home.hero.cta' | t }}</a>
+        <a class="btn" routerLink="/" fragment="como-usar">{{ 'home.hero.howto' | t }}</a>
+        <a class="btn btn--link" routerLink="/demo">{{ 'home.hero.demo' | t }} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <app-home-showcase class="hero__showcase" />
+  </section>
+
+  <!-- NÚMEROS -->
+  <section class="proof" [attr.aria-label]="'home.proof.label' | t">
+    <ul>
+      @for (p of proofs; track p.key) {
+        <li><strong>{{ p.value }}</strong><span>{{ p.key | t }}</span></li>
+      }
+    </ul>
+  </section>
+
+  <app-home-views />
+  <app-home-catalog />
+</main>
+
+<app-demo-footer />

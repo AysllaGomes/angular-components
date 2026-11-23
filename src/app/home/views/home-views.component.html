@@ -1,0 +1,36 @@
+<section id="como-usar" class="views" aria-labelledby="views-title">
+  <div class="head">
+    <h2 id="views-title">{{ 'home.views.title' | t }}</h2>
+    <p>{{ 'home.views.lead' | t }}</p>
+  </div>
+
+  <app-tabs [ariaLabel]="'home.views.tabs' | t" [(selected)]="view">
+    <app-tab key="dev" [label]="'home.views.dev' | t">
+      <ol class="cards">
+        @for (s of steps; track s.key; let i = $index) {
+          <li class="card">
+            <span class="num" aria-hidden="true">{{ i + 1 }}</span>
+            <h3>{{ 'home.dev.' + s.key + '.title' | t }}</h3>
+            <p>{{ 'home.dev.' + s.key + '.text' | t }}</p>
+            <pre><code>{{ s.code }}</code></pre>
+          </li>
+        }
+      </ol>
+    </app-tab>
+
+    <app-tab key="about" [label]="'home.views.about' | t">
+      <div class="cards">
+        @for (a of about; track a) {
+          <article class="card">
+            <h3>{{ 'home.about.' + a + '.title' | t }}</h3>
+            <ul>
+              <li>{{ 'home.about.' + a + '.1' | t }}</li>
+              <li>{{ 'home.about.' + a + '.2' | t }}</li>
+              <li>{{ 'home.about.' + a + '.3' | t }}</li>
+            </ul>
+          </article>
+        }
+      </div>
+    </app-tab>
+  </app-tabs>
+</section>

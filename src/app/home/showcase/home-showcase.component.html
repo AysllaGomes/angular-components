@@ -1,0 +1,16 @@
+<figure class="showcase" [attr.aria-label]="'home.showcase.label' | t">
+  <!-- a Tabela da biblioteca; os textos dela seguem o idioma pelo provideUiLabels -->
+  <app-table
+    [columns]="columns()"
+    [data]="rows"
+    rowKey="doc"
+    [selectable]="true"
+    [selected]="selected()"
+    (selectedChange)="selected.set($event)"
+    [bulkActions]="bulkActions()"
+    (bulkAction)="onBulk($event)"
+    paginate="client"
+    [pageSize]="3"
+    [(pageIndex)]="page" />
+  <figcaption>{{ 'home.showcase.caption' | t }}</figcaption>
+</figure>

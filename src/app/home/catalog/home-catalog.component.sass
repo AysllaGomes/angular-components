@@ -1,0 +1,62 @@
+.catalog
+  background: var(--surface-2)
+  border-top: 1px solid var(--border)
+
+.inner
+  max-width: 1200px
+  margin: 0 auto
+  padding: 4.5rem 1.5rem
+  display: flex
+  flex-direction: column
+  gap: 1.75rem
+
+.head
+  display: flex
+  flex-wrap: wrap
+  align-items: flex-end
+  gap: .75rem 1.5rem
+  > div
+    flex: 1 1 26rem
+  h2
+    margin: 0 0 .5rem
+    font-size: 2.125rem
+    letter-spacing: -.02em
+  p
+    margin: 0
+    color: var(--muted)
+    font-size: 1.125rem
+
+a
+  min-height: 2.75rem
+  display: inline-flex
+  align-items: center
+  gap: .25rem
+  color: var(--accent-text)
+  font-weight: 600
+
+.grid
+  list-style: none
+  margin: 0
+  padding: 0
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr))
+  gap: 1rem
+
+.item
+  padding: 1.25rem
+  border: 1px solid var(--border)
+  border-radius: .875rem
+  background: var(--surface)
+  display: flex
+  flex-direction: column
+  gap: .375rem
+  h3
+    margin: 0
+    font-size: 1.0625rem
+  p
+    margin: 0
+    flex-grow: 1
+    color: var(--muted)
+    font-size: .9375rem
+  a
+    font-size: .9375rem

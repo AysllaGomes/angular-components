@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
 
 import { HeaderComponent } from './header.component';
 
@@ -41,7 +42,7 @@ describe('HeaderComponent internal links', () => {
 
     await TestBed.configureTestingModule({
       imports: [PageComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideRouter([])]
     }).compileComponents();
     fixture = TestBed.createComponent(PageComponent);
     el = fixture.nativeElement;
@@ -59,7 +60,10 @@ describe('HeaderComponent internal links', () => {
     for (const id of ['stepper', 'table', 'pagination', 'toast', 'select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation', 'tabs', 'actionbar', 'dialog', 'tooltip', 'button', 'main']) {
       expect(link(id).getAttribute('href')).toBe(`demo#${id}`);
     }
-    expect(link('top').getAttribute('href')).toBe('demo');
+  });
+
+  it('the brand leads to the home page', () => {
+    expect(el.querySelector('a.brand')!.getAttribute('href')).toBe('/');
   });
 
   it('a normal click scrolls in place, updates the hash and focuses the section (no navigation)', () => {
@@ -76,22 +80,17 @@ describe('HeaderComponent internal links', () => {
     expect(document.activeElement?.id).toBe('main');
   });
 
-  it('the brand goes back to the top and clears the hash', () => {
-    click(link('toast'));
-    click(link('top'));
-    expect(scrolled).toEqual(['toast', 'top']);
-    expect(location.hash).toBe('');
-  });
-
   it('ctrl/cmd-click is left to the browser (open in a new tab)', () => {
     const ev = click(link('toast'), { ctrlKey: true });
     expect(ev.defaultPrevented).toBe(false);
     expect(scrolled).toEqual([]);
   });
 
-  it('a link whose target does not exist falls back to the normal link', () => {
+  it('outside the demo (section not on the page) it navigates to /demo#id through the router', () => {
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
     const ev = click(link('stepper')); // não há #stepper nesta página de teste
-    expect(ev.defaultPrevented).toBe(false);
+    expect(ev.defaultPrevented).toBe(true);
+    expect(navigate).toHaveBeenCalledWith(['/demo'], { fragment: 'stepper' });
   });
 
   describe('grouped menu (disclosure navigation)', () => {

@@ -37,27 +37,15 @@ jobs:
       # use o script do package.json (já com --base-href /angular-components/)
       - run: npm run build
 
-      # normaliza a saída SSR (index.csr.html -> index.html) e cria o fallback 404.html
-      - name: Normalize SSR index and create 404 fallback
+      # a raiz é a home pré-renderizada (index.html) e /demo/ a demo (demo/index.html).
+      # 404.html = a casca sem conteúdo pré-renderizado (index.csr.html): num endereço
+      # desconhecido o roteador decide o que mostrar, sem conflito com a hidratação.
+      - name: Check prerendered pages and create 404 fallback
         run: |
           B=dist/angular-components/browser
-          if [ ! -f "$B/index.html" ] && [ -f "$B/index.csr.html" ]; then
-            cp "$B/index.csr.html" "$B/index.html"
-          fi
-          cp "$B/index.html" "$B/404.html"
-
-      - name: Make root redirect to /<repo>/demo/
-        run: |
-          B=dist/angular-components/browser
-          REPO=${{ github.event.repository.name }}
-          cat > "$B/index.html" <<EOF
-          <!doctype html><meta charset="utf-8">
-          <meta http-equiv="refresh" content="0; url=/$REPO/demo/">
-          <script>location.replace('/$REPO/demo/');</script>
-          <title>Redirecting…</title>
-          <p>Redirecting to <a href="/$REPO/demo/">/$REPO/demo/</a></p>
-          EOF
-          cp "$B/index.html" "$B/404.html"
+          test -f "$B/index.html" || { echo "::error::home (index.html) não foi pré-renderizada"; exit 1; }
+          test -f "$B/demo/index.html" || { echo "::error::demo (demo/index.html) não foi pré-renderizada"; exit 1; }
+          if [ -f "$B/index.csr.html" ]; then cp "$B/index.csr.html" "$B/404.html"; else cp "$B/index.html" "$B/404.html"; fi
 
       - uses: actions/configure-pages@v6
         with:

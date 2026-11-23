@@ -1,3 +1,4 @@
+import { Router, RouterLink } from '@angular/router';
 import { Component, HostListener, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { TPipe } from '../../../shared/i18n/t.pipe';
@@ -11,15 +12,14 @@ import { ThemeService } from '../../../shared/services/theme.service';
   selector: 'app-demo-header',
   standalone: true,
   templateUrl: './header.component.html',
-  imports: [
-    TPipe
-],
+  imports: [TPipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.component.sass'
 })
 export class HeaderComponent {
   theme = inject(ThemeService);
   i18n  = inject(I18nService);
+  private router = inject(Router);
 
   // estado do menu mobile
   openNav = signal(false);
@@ -70,6 +70,8 @@ export class HeaderComponent {
    * um "#toast" puro virava "/angular-components/#toast", outra página, e recarregava.
    * Aqui: rola (suave, salvo "reduzir movimento"), atualiza o # da URL sem criar
    * histórico e leva o foco para a seção (teclado e leitor de tela continuam dali).
+   * Fora da demo (ex.: na home), a seção não existe na página: navega para /demo#id
+   * pelo roteador, sem recarregar.
    */
   @HostListener('click', ['$event'])
   onInternalLink(e: MouseEvent) {
@@ -78,17 +80,20 @@ export class HeaderComponent {
     if (!a || e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
 
     const id = a.dataset['target']!;
-    const target = id === 'top' ? null : document.getElementById(id);
-    if (id !== 'top' && !target) return; // alvo inexistente: segue o link normalmente
-
+    const target = document.getElementById(id);
     e.preventDefault();
     this.openNav.set(false);
 
+    if (!target) {
+      this.openGroup.set(null);
+      this.router.navigate(['/demo'], { fragment: id });
+      return;
+    }
+
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const behavior: ScrollBehavior = reduce ? 'auto' : 'smooth';
-    history.replaceState(history.state, '', location.pathname + location.search + (target ? `#${id}` : ''));
+    history.replaceState(history.state, '', location.pathname + location.search + `#${id}`);
 
-    if (!target) { window.scrollTo({ top: 0, behavior }); return; }
     target.scrollIntoView({ behavior, block: 'start' });
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.focus({ preventScroll: true });

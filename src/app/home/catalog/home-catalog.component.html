@@ -1,0 +1,23 @@
+<section id="componentes" class="catalog" aria-labelledby="catalog-title">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <h2 id="catalog-title">{{ 'home.catalog.title' | t }}</h2>
+        <p>{{ 'home.catalog.lead' | t }}</p>
+      </div>
+      <a class="all" routerLink="/demo">{{ 'home.catalog.all' | t }} <span aria-hidden="true">→</span></a>
+    </div>
+
+    <ul class="grid">
+      @for (id of items; track id) {
+        @let name = 'nav.' + id | t;
+        <li class="item">
+          <h3>{{ name }}</h3>
+          <p>{{ 'home.catalog.' + id | t }}</p>
+          <!-- o nome do componente no link: "Ver na demo" sozinho repetiria 15 vezes para o leitor de tela -->
+          <a routerLink="/demo" [fragment]="id">{{ 'home.catalog.see' | t:{ name: name } }} <span aria-hidden="true">→</span></a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

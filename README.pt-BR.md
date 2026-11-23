@@ -1,7 +1,7 @@
 <p align="right"><a href="./README.md">English</a></p>
 
 [![Deploy](https://github.com/AysllaGomes/angular-components/actions/workflows/deploy.yml/badge.svg)](.github/workflows/deploy.yml)
-### **[Demo](https://aysllagomes.github.io/angular-components/demo)**
+### **[Site](https://aysllagomes.github.io/angular-components/)** · **[Demo](https://aysllagomes.github.io/angular-components/demo)**
 
 - **[CHANGELOG.md](./CHANGELOG.pt-BR.md):**
 ---
@@ -10,7 +10,7 @@
 
 > **Propósito:** criar **componentes de UI reutilizáveis** (ex.: **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast, Tooltip) com **Angular Standalone** em **HTML + Sass**, **sem depender de frameworks de UI**. Base leve, acessível e fácil de portar/“desencapsular”.
 
-- **Demo local:** `http://localhost:4200/demo`
+- **Local:** `http://localhost:4200/` (apresentação) e `http://localhost:4200/demo` (todos os componentes, ao vivo)
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (tematização), Vitest. Node 24 (`.nvmrc`).
 
 ---

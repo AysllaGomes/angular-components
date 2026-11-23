@@ -1,0 +1,68 @@
+.views
+  max-width: 1200px
+  margin: 0 auto
+  padding: 4.5rem 1.5rem
+  display: flex
+  flex-direction: column
+  gap: 1.75rem
+
+.head
+  display: flex
+  flex-direction: column
+  gap: .5rem
+  h2
+    margin: 0
+    font-size: 2.125rem
+    letter-spacing: -.02em
+  p
+    margin: 0
+    color: var(--muted)
+    font-size: 1.125rem
+
+.cards
+  list-style: none
+  margin: 1.25rem 0 0
+  padding: 0
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr))
+  gap: 1.25rem
+
+.card
+  padding: 1.5rem
+  border: 1px solid var(--border)
+  border-radius: .875rem
+  background: var(--surface)
+  display: flex
+  flex-direction: column
+  gap: .75rem
+  h3
+    margin: 0
+    font-size: 1.25rem
+  p
+    margin: 0
+    color: var(--muted)
+  ul
+    margin: 0
+    padding-left: 1.25rem
+    color: var(--muted)
+    display: grid
+    gap: .375rem
+
+.num
+  width: 2rem
+  height: 2rem
+  border-radius: 999px
+  display: grid
+  place-items: center
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface))
+  color: var(--accent-text)
+  font-weight: 700
+
+pre
+  margin: 0
+  padding: .875rem
+  border-radius: .625rem
+  background: #0f1720
+  color: #e7eaf0
+  font: .8125rem/1.6 ui-monospace, "SFMono-Regular", Consolas, monospace
+  overflow-x: auto

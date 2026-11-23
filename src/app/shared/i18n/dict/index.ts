@@ -1,24 +1,26 @@
+import { TABS } from './tabs';
+import { HOME } from './home';
 import { TABLE } from './table';
 import { TOAST } from './toast';
 import { BUTTON } from './button';
-import { CHECKBOX } from './checkbox';
-import { TREE_SELECT } from './tree-select';
-import { RADIO_SWITCH } from './radio-switch';
-import { VALIDATION } from './validation';
-import { TABS } from './tabs';
-import { TOOLTIP } from './tooltip';
 import { COMMON } from './common';
 import { DIALOG } from './dialog';
 import { SELECT } from './select';
+import { TOOLTIP } from './tooltip';
 import { STEPPER } from './stepper';
+import { CHECKBOX } from './checkbox';
 import { SECTIONS } from './sections';
 import { ACTIONBAR } from './action-bar';
+import { VALIDATION } from './validation';
 import { PAGINATION } from './pagination';
+import { TREE_SELECT } from './tree-select';
+import { RADIO_SWITCH } from './radio-switch';
 
 import { Dict } from '../../model/type/dict.type';
 
 export const DICT: Dict = {
   ...COMMON,
+  ...HOME,
   ...SECTIONS,
   ...STEPPER,
   ...TABLE,

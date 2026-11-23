@@ -1,5 +1,5 @@
 import { ApplicationConfig, computed, inject, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay, withNoIncrementalHydration } from '@angular/platform-browser';
@@ -11,7 +11,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes), provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
+    // anchorScrolling: links com fragmento (/demo#table, /#componentes) rolam até a seção
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
+    provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
     // textos dos componentes acompanham o idioma da demo (os componentes não conhecem o i18n dela)
     provideUiLabels(() => {
       const i18n = inject(I18nService);
