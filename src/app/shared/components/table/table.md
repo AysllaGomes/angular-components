@@ -145,6 +145,8 @@ export interface TableAction<T = any> {
 | `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
 | `loadingRows`   | `number`                        |                                                                 `5`                                                                 | Quantidade de linhas do skeleton.                                                                            |
 | `emptyMessage`  | `string`                        |                                                    `Nenhum registro encontrado`                                                     | Mensagem para o estado vazio.                                                                                |
+| `error`         | `string \| null`               |                                                                `null`                                                               | Mensagem de falha ao buscar os dados: mostra o erro no lugar das linhas (anunciado). `loading` vence.        |
+| `retryLabel`    | `string \| null`               |                                                         `'Tentar novamente'`                                                          | Texto do botão que emite `retry`; `null` esconde o botão.                                                    |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 
@@ -153,6 +155,7 @@ export interface TableAction<T = any> {
 |-------------------|-------------------------------------------------|-----------------------------------------------------------|
 | `selectedChange`  | `any[]` (chaves ou índices)                     | Alterou seleção (linha ou “selecionar tudo”).             |
 | `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
+| `retry`           | `void`                                          | Clicou em "Tentar novamente" no estado de erro.           |
 | `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
 
 ### Templates projetáveis
@@ -206,10 +209,7 @@ const sortedRows = computed(() => {
 ```
 
 ---
-## Loading e Empty
-
-```md
-### Loading e vazio
+## Carregando, vazio e erro
 
 ```html
 <app-table
@@ -217,9 +217,36 @@ const sortedRows = computed(() => {
   [data]="rows"
   [loading]="loading()"
   [loadingRows]="5"
-  [emptyMessage]="'Sem registros para exibir'">
+  [emptyMessage]="'Sem registros para exibir'"
+  [error]="erro()"
+  (retry)="carregar()">
 </app-table>
 ```
+
+O corpo da tabela mostra um estado por vez, nesta ordem de precedência: **carregando** (skeleton) > **erro** > **dados** > **vazio**.
+
+### Erro ao carregar
+
+Quando a busca falha, passe a mensagem em `error`. Sem isso, a tabela mostraria "Sem registros", o que dá a entender que não há dados, quando na verdade houve um erro.
+
+```ts
+erro = signal<string | null>(null);
+
+carregar() {
+  this.loading.set(true);
+  this.api.listar().subscribe({
+    next: rows => { this.rows.set(rows); this.erro.set(null); this.loading.set(false); },
+    error: () => { this.erro.set('Não foi possível carregar os adicionais.'); this.loading.set(false); },
+  });
+}
+```
+
+- A mensagem aparece no lugar das linhas, com ícone, e é anunciada ao leitor de tela (`role="alert"`).
+- **"Tentar novamente"** emite `retry`; o texto vem de `retryLabel` (`null` esconde o botão, para erros que não adianta repetir).
+- Não precisa limpar `error` antes de tentar de novo: `loading` vence, e a mensagem só volta se `error` continuar preenchido quando `loading` terminar.
+- **Foco:** o botão some enquanto carrega, então o foco vai para a tabela; se falhar de novo, volta para "Tentar novamente". Para isso, ligue `loading` dentro do handler do `(retry)` (como no exemplo acima).
+- "Selecionar tudo" fica desabilitado sem linhas visíveis (carregando, erro ou vazio). Esconda a paginação enquanto houver erro.
+- Se o app também mostra um toast para erros de requisição, o estado da tabela continua necessário: o toast some e a tabela ficaria parecendo vazia.
 
 ---
 
@@ -259,6 +286,7 @@ No Sass do componente essas variáveis já são usadas em header, linhas, bordas
 
 ## Acessibilidade
 - Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
+- Estado de erro: mensagem anunciada (`role="alert"`), `aria-busy` na tabela enquanto carrega e o foco não se perde ao tentar de novo.
 - Ações declarativas: o nome também aparece como dica; ações indisponíveis usam `aria-disabled` (focáveis, com o motivo) e o cabeçalho da coluna de ações tem nome para leitor de tela (`actionsLabel`).
 
 ---
@@ -314,7 +342,7 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 
 - [x] Ordenação por coluna
 - [x] Estados vazio e carregando (`emptyMessage`, `loading`)
-- [ ] Estado de erro
+- [x] Estado de erro (`error`, `retry`)
 - [ ] Paginação
 - [ ] Ações em massa (seleção)
 - [ ] Responsivo com colunas colapsáveis

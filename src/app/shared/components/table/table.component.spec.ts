@@ -199,3 +199,120 @@ describe('TableComponent declarative actions', () => {
     expect(fixture.componentInstance.events).toEqual(['delete:Bruno']);
   });
 });
+
+@Component({
+  imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <button id="before" type="button">Antes</button>
+    <app-table [columns]="columns" [data]="data()" [selectable]="true" [loading]="loading()"
+               [error]="error()" [retryLabel]="retryLabel()" (retry)="retries = retries + 1" />
+  `
+})
+class ErrorHostComponent {
+  columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }];
+  data = signal<Row[]>(ALL.slice(0, 2));
+  loading = signal(false);
+  error = signal<string | null>('Não foi possível carregar os adicionais.');
+  retryLabel = signal<string | null>('Tentar novamente');
+  retries = 0;
+}
+
+describe('TableComponent error state', () => {
+  let fixture: ComponentFixture<ErrorHostComponent>;
+  let host: ErrorHostComponent;
+  let el: HTMLElement;
+  const retryBtn = () => el.querySelector<HTMLButtonElement>('.state-error__retry');
+  const bodyText = () => el.querySelector('tbody')?.textContent?.trim() ?? '';
+  const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ErrorHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(ErrorHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('replaces the rows with an announced message and a retry button', () => {
+    expect(el.querySelectorAll('tbody tr').length).toBe(1);
+    const msg = el.querySelector('.state-error__msg')!;
+    expect(msg.getAttribute('role')).toBe('alert');
+    expect(msg.textContent).toContain('Não foi possível carregar');
+    expect(retryBtn()!.textContent).toContain('Tentar novamente');
+    expect(el.querySelector<HTMLInputElement>('thead input')!.disabled).toBe(true);
+  });
+
+  it('wins over the empty message, but loading wins over it (aria-busy)', async () => {
+    host.data.set([]);
+    await settle();
+    expect(bodyText()).toContain('Não foi possível carregar');
+    expect(bodyText()).not.toContain('Nenhum registro');
+
+    host.loading.set(true);
+    await settle();
+    expect(el.querySelector('.state-error')).toBeNull();
+    expect(el.querySelector('table')!.getAttribute('aria-busy')).toBe('true');
+  });
+
+  it('without an error shows the rows again; blank text is not an error', async () => {
+    host.error.set('   ');
+    await settle();
+    expect(el.querySelector('.state-error')).toBeNull();
+    expect(el.querySelectorAll('tbody tr').length).toBe(2);
+    expect(el.querySelector<HTMLInputElement>('thead input')!.disabled).toBe(false);
+    expect(el.querySelector('table')!.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  it('retryLabel null hides the button', async () => {
+    host.retryLabel.set(null);
+    await settle();
+    expect(retryBtn()).toBeNull();
+    expect(el.querySelector('.state-error__msg')).not.toBeNull();
+  });
+
+  it('retry: emits, keeps focus on the table while loading and returns it to the button if it fails again', async () => {
+    retryBtn()!.focus();
+    retryBtn()!.click();
+    expect(host.retries).toBe(1);
+
+    host.loading.set(true);
+    await settle();
+    const table = el.querySelector('table')!;
+    expect(document.activeElement).toBe(table);
+
+    host.loading.set(false);
+    await settle();
+    expect(document.activeElement).toBe(retryBtn());
+  });
+
+  it('retry that does not start loading does not move focus later', async () => {
+    retryBtn()!.focus();
+    retryBtn()!.click();
+    await settle();
+    expect(document.activeElement).toBe(retryBtn());
+
+    retryBtn()!.blur();
+    host.error.set(null);
+    await settle();
+    expect(el.querySelectorAll('tbody tr').length).toBe(2);
+    expect(document.activeElement).toBe(document.body);
+  });
+
+  it('retry that succeeds leaves focus on the table', async () => {
+    retryBtn()!.focus();
+    retryBtn()!.click();
+    host.loading.set(true);
+    await settle();
+    host.error.set(null);
+    host.loading.set(false);
+    await settle();
+    expect(el.querySelectorAll('tbody tr').length).toBe(2);
+    expect(document.activeElement).toBe(el.querySelector('table'));
+  });
+});

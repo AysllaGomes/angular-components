@@ -57,6 +57,8 @@ export interface ColumnDef<T = any> {
 | `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
 | `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
 | `emptyMessage`   | `string`                         | `No records to display` | Empty-state message.                                                                  |
+| `error`          | `string \| null`                |         `null`          | Load failure message: shown instead of the rows (announced). `loading` wins.          |
+| `retryLabel`     | `string \| null`                | `'Tentar novamente'`    | Text of the button that emits `retry`; `null` hides it.                               |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
 
@@ -65,6 +67,7 @@ export interface ColumnDef<T = any> {
 |------------------|-------------------------------------------|-------------------------------------------------------|
 | `selectedChange` | `any[]` (keys or indices)                 | Row or “select all” changes.                          |
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
+| `retry`          | `void`                                    | The retry button was clicked in the error state.      |
 | `sortChange`     | `{ key: string; dir: 'asc'                | 'desc' }`                                             | User clicked a header and changed sorting. |
 
 ### Projectable templates
@@ -118,7 +121,7 @@ const sortedRows = computed(() => {
 
 ---
 
-### Loading & Empty
+### Loading, empty and error
 
 ```html
 <app-table
@@ -126,9 +129,36 @@ const sortedRows = computed(() => {
   [data]="rows"
   [loading]="loading()"
   [loadingRows]="5"
-  [emptyMessage]="'No records to display'">
+  [emptyMessage]="'No records to display'"
+  [error]="error()"
+  (retry)="load()">
 </app-table>
 ```
+
+The table body shows one state at a time, in this order of precedence: **loading** (skeleton) > **error** > **data** > **empty**.
+
+#### Load error
+
+When fetching fails, pass the message in `error`. Otherwise the table would show "No records", implying there is no data when there was actually an error.
+
+```ts
+error = signal<string | null>(null);
+
+load() {
+  this.loading.set(true);
+  this.api.list().subscribe({
+    next: rows => { this.rows.set(rows); this.error.set(null); this.loading.set(false); },
+    error: () => { this.error.set('Could not load the records.'); this.loading.set(false); },
+  });
+}
+```
+
+- The message replaces the rows, with an icon, and is announced to screen readers (`role="alert"`).
+- **"Tentar novamente"** emits `retry`; its text comes from `retryLabel` (`null` hides the button, for errors that retrying won't fix).
+- No need to clear `error` before retrying: `loading` wins, and the message only comes back if `error` is still set when `loading` ends.
+- **Focus:** the button disappears while loading, so focus moves to the table; if it fails again, focus returns to the retry button. For this, set `loading` inside the `(retry)` handler (as in the example above).
+- "Select all" is disabled without visible rows (loading, error or empty). Hide the pagination while there is an error.
+- If the app also shows a toast for request errors, the table state is still needed: the toast goes away and the table would look empty.
 
 ---
 
@@ -227,6 +257,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 ## Accessibility
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
+- Error state: announced message (`role="alert"`), `aria-busy` on the table while loading, and focus is not lost on retry.
 - Declarative actions: the name is also a tooltip; unavailable actions use `aria-disabled` (focusable, with the reason) and the actions column header has a screen-reader name (`actionsLabel`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
 - Clickable header with `aria-sort="ascending|descending|none"` and visible focus on the `th` (Enter/Space toggles).
@@ -248,7 +279,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 ## Roadmap
 - [x] Sorting
 - [x] Empty and loading states (`emptyMessage`, `loading`)
-- [ ] Error state
+- [x] Error state (`error`, `retry`)
 - [ ] Pagination helpers & bulk actions
 - [ ] Responsive columns for small screens
 

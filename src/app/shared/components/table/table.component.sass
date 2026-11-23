@@ -10,6 +10,13 @@ button
   border-spacing: 0
   color: var(--tbl-fg)
 
+  // recebe o foco (tabindex="-1") ao "Tentar novamente"; sem contorno no clique do mouse
+  &:focus
+    outline: none
+  &:focus-visible
+    outline: 2px solid var(--tbl-action, #058075)
+    outline-offset: 2px
+
   /* dá espaço mínimo pra permitir scroll quando apertar */
   thead th,
   tbody td
@@ -143,6 +150,37 @@ td.empty
   color: var(--tbl-muted)
   padding: 24px 14px
 
+// erro ao carregar: ícone + mensagem + "Tentar novamente", centralizados
+td.state-error
+  padding: 24px 14px
+
+.state-error__box
+  display: grid
+  justify-items: center
+  gap: .5rem
+  text-align: center
+
+.state-error__icon
+  color: var(--tbl-error, var(--danger, #b91c1c))
+
+.state-error__msg
+  margin: 0
+  max-width: 48ch
+
+// borda por box-shadow: o reset de <button> deste componente zera border com !important
+.state-error__retry
+  padding: .45rem .9rem
+  border-radius: .5rem
+  box-shadow: inset 0 0 0 1px currentColor
+  color: var(--tbl-action, #058075)
+  font-weight: 600
+  cursor: pointer
+  &:hover
+    background: color-mix(in oklab, var(--tbl-action, #058075) 12%, transparent)
+  &:focus-visible
+    outline: 2px solid var(--tbl-action, #058075)
+    outline-offset: 2px
+
 /* cabeçalho ordenável: <th> com um <button> que ocupa a célula */
 .tbl thead th.is-sortable:hover
   background: var(--tbl-header-hover)
@@ -239,9 +277,11 @@ td.empty
       img, svg
         max-width: 100%
 
-    /* select/actions como linhas independentes */
+    /* select/actions como linhas independentes; vazio/erro ocupam o card todo */
     .col-select,
-    .col-actions
+    .col-actions,
+    .empty,
+    .state-error
       grid-template-columns: 1fr
       &::before
         content: none

@@ -2,13 +2,19 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DOCUMENT,
+  ElementRef,
   TemplateRef,
+  afterRenderEffect,
   computed,
   contentChild,
   contentChildren,
+  inject,
   input,
   linkedSignal,
-  output
+  output,
+  signal,
+  viewChild
 } from '@angular/core';
 
 import { ActionKind } from '../../model/type/action-kind.type';
@@ -44,6 +50,24 @@ export class TableComponent<T = any> {
   readonly loading = input(false);
   readonly loadingRows = input(5);
   readonly emptyMessage = input('Nenhum registro encontrado');
+
+  /**
+   * Falha ao buscar os dados: com uma mensagem, a tabela mostra o erro (anunciado ao
+   * leitor de tela) no lugar das linhas e do "vazio". `loading` continua vencendo,
+   * então dá para manter a mensagem enquanto tenta de novo.
+   */
+  readonly error = input<string | null | undefined>(null);
+  /** texto do botão que emite `retry`; vazio ou `null` esconde o botão */
+  readonly retryLabel = input<string | null>('Tentar novamente');
+  /** o usuário pediu para buscar de novo */
+  readonly retry = output<void>();
+
+  /** o que o corpo da tabela mostra (precedência: carregando > erro > dados > vazio) */
+  readonly state = computed<'loading' | 'error' | 'data' | 'empty'>(() => {
+    if (this.loading()) return 'loading';
+    if (this.error()?.trim()) return 'error';
+    return this.data().length > 0 ? 'data' : 'empty';
+  });
 
   /** Ordenação controlada pelo container (o clique no cabeçalho atualiza o estado local e emite `sortChange`). */
   readonly sortKey = input<string | undefined>(undefined);
@@ -91,6 +115,52 @@ export class TableComponent<T = any> {
   private readonly cellTplMap = computed(() =>
     new Map(this.cellTemplates().map(d => [String(d.name()), d.tpl] as const))
   );
+
+  private readonly doc = inject(DOCUMENT);
+  private readonly tableEl = viewChild<ElementRef<HTMLTableElement>>('tbl');
+  private readonly retryBtn = viewChild<ElementRef<HTMLButtonElement>>('retryBtn');
+  /** clicou em "Tentar novamente" e o resultado ainda não chegou */
+  private readonly retryPending = signal(false);
+  /** já passou por `loading` desde o clique (senão o retry não buscou de novo) */
+  private retrySawLoading = false;
+
+  constructor() {
+    // O botão some enquanto carrega: sem isso o foco cairia no <body>.
+    // Carregando ou deu certo → foco na tabela; falhou de novo → no botão.
+    afterRenderEffect(() => {
+      const state = this.state();
+      const btn = this.retryBtn()?.nativeElement;
+      if (!this.retryPending()) return;
+
+      if (state === 'error') {
+        // Ainda em erro sem ter carregado: o (retry) não ligou o `loading`.
+        // O botão continua com o foco; só encerra, para a flag não ficar presa.
+        if (this.retrySawLoading) btn?.focus();
+        this.endRetry();
+        return;
+      }
+      const active = this.doc.activeElement;
+      if (!active || active === this.doc.body) this.tableEl()?.nativeElement.focus();
+      if (state === 'loading') this.retrySawLoading = true;
+      else this.endRetry();
+    });
+  }
+
+  onRetry() {
+    this.retrySawLoading = false;
+    this.retryPending.set(true);
+    this.retry.emit();
+  }
+
+  private endRetry() {
+    this.retrySawLoading = false;
+    this.retryPending.set(false);
+  }
+
+  /** colunas ocupadas pelas linhas de estado (vazio/erro) */
+  get colspan(): number {
+    return this.columns().length + (this.selectable() ? 1 : 0) + (this.hasActions ? 1 : 0);
+  }
 
   get skeletonArray() {
     return Array.from({ length: Math.max(1, this.loadingRows()) });

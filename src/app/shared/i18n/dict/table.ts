@@ -11,11 +11,17 @@ export const TABLE: Dict = {
   // toolbar da demo
   'table.toolbar.simulate':         { pt: 'Simular loading (1.5s)', en: 'Simulate loading (1.5s)' },
   'table.toolbar.simulate.loading': { pt: 'Carregando…',            en: 'Loading…' },
+  'table.toolbar.simulateError':    { pt: 'Simular erro',           en: 'Simulate error' },
   'table.toolbar.toggleEmpty.show': { pt: 'Mostrar vazio',          en: 'Show empty' },
   'table.toolbar.toggleEmpty.hide': { pt: 'Mostrar dados',          en: 'Show data' },
 
   // mensagens/labels
   'table.empty': { pt: 'Sem registros para exibir', en: 'No records to display' },
+  'table.error.load': {
+    pt: 'Não foi possível carregar os adicionais. Verifique a conexão e tente de novo.',
+    en: 'Could not load the additional cardholders. Check your connection and try again.'
+  },
+  'table.retry': { pt: 'Tentar novamente', en: 'Try again' },
   'table.actions': { pt: 'Ações', en: 'Actions' },
   'table.action.edit': { pt: 'Editar', en: 'Edit' },
   'table.action.delete': { pt: 'Excluir', en: 'Delete' },

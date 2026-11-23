@@ -114,11 +114,30 @@ export class TableDemoComponent {
     if (e.type === 'delete') console.log('excluir', e.index, e.row);
   }
 
+  /** erro simulado: guarda a chave, então a mensagem acompanha o idioma da demo */
+  errorKey = signal<string | null>(null);
+
   simulateLoad() {
     if (this.loading()) return;
-    this.loading.set(true);
-    setTimeout(() => this.loading.set(false), 1500);
+    this.load(true);
   }
+
+  /** a busca falha; "Tentar novamente" (retry) busca de novo e dá certo */
+  simulateError() {
+    if (this.loading()) return;
+    this.load(false);
+  }
+
+  /** a mensagem continua no estado: enquanto carrega, a tabela mostra o skeleton */
+  private load(ok: boolean) {
+    this.loading.set(true);
+    setTimeout(() => {
+      this.loading.set(false);
+      this.errorKey.set(ok ? null : 'table.error.load');
+    }, 1500);
+  }
+
+  retryLoad() { this.load(true); }
 
   toggleEmpty() {
     this.empty.update(v => !v);

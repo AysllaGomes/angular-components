@@ -11,6 +11,10 @@
         : ('table.toolbar.simulate' | t) }}
       </button>
 
+      <button class="pill" type="button" (click)="simulateError()" [disabled]="loading()">
+        {{ 'table.toolbar.simulateError' | t }}
+      </button>
+
       <button class="pill" type="button" (click)="toggleEmpty()">
         {{ empty()
         ? ('table.toolbar.toggleEmpty.hide' | t)
@@ -25,6 +29,9 @@
         [loading]="loading()"
         [loadingRows]="pageSize"
         [emptyMessage]="'table.empty' | t"
+        [error]="errorKey() ? ('table.error.load' | t) : null"
+        [retryLabel]="'table.retry' | t"
+        (retry)="retryLoad()"
         [selectable]="true"
         [selectColWidth]="20"
         [actions]="actions()"
@@ -41,7 +48,8 @@
       </app-table>
     </div>
 
-    @if (rows.length > pageSize) {
+    <!-- com erro não há páginas para navegar -->
+    @if (rows.length > pageSize && !errorKey()) {
       <div class="tbl-footer">
         <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
         <app-pagination
