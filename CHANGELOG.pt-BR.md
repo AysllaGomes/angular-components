@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.10.0](https://github.com/AysllaGomes/angular-components/compare/v2.9.0...v2.10.0) (2026-11-23)
+### Features
+- **table:** paginação integrada com `paginate`: rodapé com o intervalo
+  ("Mostrando 1–5 de 6"), seletor opcional de itens por página e as páginas:
+  - `'client'`: passe todas as linhas em `data` e a tabela mostra a fatia da
+    página; ordenar volta para a primeira página e, se `data` encolher (ex.:
+    exclusão na última página), a tabela corrige `pageIndex` (não enquanto
+    `loading`);
+  - `'server'`: `data` é a página atual e o total vem de `totalItems`; a tabela
+    só emite `pageIndexChange`/`pageSizeChange`;
+  - `[(pageIndex)]` e `[(pageSize)]` nos dois sentidos; `pageSizeOptions` mostra
+    um `<select>` nativo e, ao trocar o tamanho, mantém na tela a primeira linha
+    que estava visível;
+  - o rodapé some com erro e sem linhas, o intervalo é anunciado ao leitor de
+    tela e ele fica inteiro à vista quando a tabela rola na horizontal (a tabela
+    mede a largura do wrapper);
+  - com `paginate="client"`, o `index` de `(action)`, de `appCell`/`appActions`
+    e da seleção por índice é a posição em `data`, não na página; tabelas sem
+    `paginate` não mudam;
+  - textos: `rangeLabel`, `pageSizeLabel`, `paginationLabel`.
+
+### Demo
+- A seção da tabela usa a paginação integrada (2/5/10 por página) em vez de
+  fatiar e montar o rodapé à mão.
+
+### CI
+- Deploy do site separado nos jobs `build` e `deploy`: num job só, o
+  `deploy-pages` às vezes procurava o artefato logo depois do upload e não
+  achava (actions/deploy-pages#451), o que quebrou o deploy da v2.9.0.
+- Actions atualizadas para as versões em Node 24 (checkout v7, setup-node v7,
+  configure-pages v6, upload-pages-artifact v5, deploy-pages v5,
+  action-gh-release v3), sem o aviso de Node 20 obsoleto.
+
 ## [2.9.0](https://github.com/AysllaGomes/angular-components/compare/v2.8.0...v2.9.0) (2026-11-23)
 ### Features
 - **table:** ações em massa na seleção: com `selectable` e `[bulkActions]`, uma

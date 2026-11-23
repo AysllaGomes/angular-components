@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.10.0](https://github.com/AysllaGomes/angular-components/compare/v2.9.0...v2.10.0) (2026-11-23)
+
+### Features
+
+* **table:** built-in pagination with `paginate`: a footer with the range ("Mostrando 1–5 de 6"), an optional rows-per-page selector and the pages ([e3244d0](https://github.com/AysllaGomes/angular-components/commit/e3244d0))
+  * `'client'`: pass all rows in `data` and the table shows the page slice; sorting goes back to the first page, and if `data` shrinks (e.g. a delete on the last page) the table fixes `pageIndex` (not while `loading`)
+  * `'server'`: `data` is the current page and the total comes from `totalItems`; the table only emits `pageIndexChange`/`pageSizeChange`
+  * `[(pageIndex)]` and `[(pageSize)]` two-way bindings; `pageSizeOptions` shows a native `<select>` and keeps the first visible row on screen when the size changes
+  * the footer is hidden on error and without rows, the range is announced to screen readers, and it stays fully in view when the table scrolls horizontally (the table measures the wrapper width)
+  * with `paginate="client"`, the `index` in `(action)`, `appCell`/`appActions` and the index-based selection is the position in `data`, not on the page; tables without `paginate` are unchanged
+  * texts: `rangeLabel`, `pageSizeLabel`, `paginationLabel`
+
+### Demo
+
+* The table section uses the built-in pagination (2/5/10 per page) instead of slicing and building the footer by hand ([e3244d0](https://github.com/AysllaGomes/angular-components/commit/e3244d0))
+
+### CI
+
+* Site deploy split into `build` and `deploy` jobs: in a single job, `deploy-pages` sometimes looked for the artifact right after the upload and found none (actions/deploy-pages#451), which broke the v2.9.0 deploy ([f75d436](https://github.com/AysllaGomes/angular-components/commit/f75d436))
+* Actions updated to their Node 24 versions (checkout v7, setup-node v7, configure-pages v6, upload-pages-artifact v5, deploy-pages v5, action-gh-release v3), removing the Node 20 deprecation warning ([73d49e4](https://github.com/AysllaGomes/angular-components/commit/73d49e4))
+
 ## [2.9.0](https://github.com/AysllaGomes/angular-components/compare/v2.8.0...v2.9.0) (2026-11-23)
 
 ### Features
