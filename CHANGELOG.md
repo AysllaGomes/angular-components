@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.8.0](https://github.com/AysllaGomes/angular-components/compare/v2.7.0...v2.8.0) (2026-11-23)
+
+### Features
+
+* **table:** error state: with `error`, the table shows the message instead of the rows and the empty message, with an icon, announced to screen readers (`role="alert"`) ([f2074b3](https://github.com/AysllaGomes/angular-components/commit/f2074b3))
+  * precedence: loading > error > data > empty; no need to clear `error` before retrying, the message only comes back if it is still set when `loading` ends
+  * `retryLabel` (default "Tentar novamente") sets the button that emits `retry`; `null` hides it, for errors that retrying won't fix
+  * focus is not lost on retry: it moves to the table while loading (`tabindex="-1"`, visible outline only from the keyboard) and back to the button if it fails again
+  * `aria-busy` on the table while loading; "select all" is disabled without visible rows (loading, error or empty); in the mobile card mode the message takes the whole card
+
+### Demo
+
+* "Simulate error" button in the table section: the fetch fails, "Tentar novamente" fetches again and succeeds; the pagination is hidden while there is an error ([f2074b3](https://github.com/AysllaGomes/angular-components/commit/f2074b3))
+
+### Tests
+
+* `npm run test:shuffle` runs the specs in random order (they share one environment and CI uses another order); the seed is printed and `SEED=<n>` repeats it ([6c8a49c](https://github.com/AysllaGomes/angular-components/commit/6c8a49c))
+* **tooltip:** fake timers only for `setTimeout`, so they no longer freeze other specs ([2beed9f](https://github.com/AysllaGomes/angular-components/commit/2beed9f))
+
 ## [2.7.0](https://github.com/AysllaGomes/angular-components/compare/v2.6.0...v2.7.0) (2026-11-23)
 
 ### Features

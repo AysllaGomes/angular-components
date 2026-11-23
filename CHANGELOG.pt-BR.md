@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.8.0](https://github.com/AysllaGomes/angular-components/compare/v2.7.0...v2.8.0) (2026-11-23)
+### Features
+- **table:** estado de erro: com `error`, a tabela mostra a mensagem no lugar das
+  linhas e do "vazio", com ícone, anunciada ao leitor de tela (`role="alert"`):
+  - precedência: carregando > erro > dados > vazio; não precisa limpar `error`
+    antes de tentar de novo, a mensagem só volta se continuar preenchida quando
+    `loading` terminar;
+  - `retryLabel` (padrão "Tentar novamente") define o botão que emite `retry`;
+    `null` esconde, para erros que não adianta repetir;
+  - o foco não se perde ao tentar de novo: vai para a tabela enquanto carrega
+    (`tabindex="-1"`, contorno só pelo teclado) e volta ao botão se falhar;
+  - `aria-busy` na tabela enquanto carrega; "Selecionar tudo" fica desabilitado
+    sem linhas visíveis (carregando, erro ou vazio); no modo cartão (celular) a
+    mensagem ocupa o cartão todo.
+
+### Demo
+- Botão "Simular erro" na seção da tabela: a busca falha, "Tentar novamente"
+  busca de novo e dá certo; a paginação some enquanto houver erro.
+
+### Testes
+- `npm run test:shuffle` roda os specs em ordem aleatória (eles compartilham o
+  ambiente e o CI usa outra ordem); a semente aparece no início e `SEED=<n>`
+  repete a ordem.
+- **tooltip:** fake timers só para `setTimeout`, sem travar outros specs.
+
 ## [2.7.0](https://github.com/AysllaGomes/angular-components/compare/v2.6.0...v2.7.0) (2026-11-23)
 ### Features
 - **tooltip:** nova diretiva `appTooltip`: dica curta ao passar o mouse ou focar
