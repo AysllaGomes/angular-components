@@ -16,6 +16,7 @@ const DOCS = [
   { doc: 'components/actionbar/actionbar', name: { pt: 'o ActionBar', en: 'the ActionBar' }, entries: ['components/actionbar/actionbar.component.ts'] },
   { doc: 'components/button/button', name: { pt: 'o Button', en: 'the Button' }, entries: ['components/button/button.directive.ts'] },
   { doc: 'components/checkbox/checkbox', name: { pt: 'o Checkbox', en: 'the Checkbox' }, entries: ['components/checkbox/checkbox.component.ts'] },
+  { doc: 'components/checkbox-group/checkbox-group', name: { pt: 'o Checkbox group', en: 'the Checkbox group' }, entries: ['components/checkbox-group/checkbox-group.component.ts'] },
   { doc: 'components/dialog/dialog', name: { pt: 'o Dialog', en: 'the Dialog' }, entries: ['components/dialog/dialog.component.ts'] },
   { doc: 'components/pagination/pagination', name: { pt: 'a Paginação', en: 'the Pagination' }, entries: ['components/pagination/pagination.component.ts'] },
   { doc: 'components/radio/radio-group', name: { pt: 'o Radio group', en: 'the Radio group' }, entries: ['components/radio/radio-group.component.ts'] },
@@ -71,7 +72,20 @@ const folderOf = r => (r.startsWith('components/') ? r.split('/').slice(0, 2).jo
 const folderFiles = folder => readdirSync(join(shared, folder)).filter(n => !n.endsWith('.spec.ts') && !n.endsWith('.md')).map(n => join(shared, folder, n));
 
 function manifest(def) {
-  const { files, external } = closure(def.entries);
+  // pastas de componente vão inteiras: os imports de todos os arquivos delas contam,
+  // não só os do arquivo de entrada (repete até não aparecer pasta nova)
+  let entries = [...def.entries];
+  let result;
+  for (;;) {
+    result = closure(entries);
+    const folders = new Set(result.files.map(rel).map(folderOf).filter(Boolean));
+    const more = [...folders]
+      .flatMap(f => folderFiles(f).filter(p => p.endsWith('.ts')).map(rel))
+      .filter(r => !entries.includes(r));
+    if (!more.length) break;
+    entries = [...entries, ...more];
+  }
+  const { files, external } = result;
   const rels = files.map(rel);
   // pastas "do componente" (os tipos públicos ficam dentro delas, em <x>.types.ts)
   const mainFolders = new Set(def.entries.map(e => folderOf(e) ?? e.split('/')[0]));

@@ -38,7 +38,7 @@ To use the Select in another Angular project, copy into a `shared/` folder **kee
 | The component | `components/select/` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 6 files, ~948 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 6 files, ~952 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Features

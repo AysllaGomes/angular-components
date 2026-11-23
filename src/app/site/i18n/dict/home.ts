@@ -11,8 +11,8 @@ export const HOME: Dict = {
     en: 'Accessible Angular components, with no dependency but Angular itself.'
   },
   'home.hero.lead': {
-    pt: '15 componentes para copiar para o seu projeto, tematizar com variáveis CSS e usar em português ou inglês. Testados com axe nos estados que importam.',
-    en: '15 components to copy into your project, theme with CSS variables and use in English or Portuguese. Tested with axe in the states that matter.'
+    pt: '16 componentes para copiar para o seu projeto, tematizar com variáveis CSS e usar em português ou inglês. Testados com axe nos estados que importam.',
+    en: '16 components to copy into your project, theme with CSS variables and use in English or Portuguese. Tested with axe in the states that matter.'
   },
   'home.hero.cta': { pt: 'Ver os componentes', en: 'See the components' },
   'home.hero.howto': { pt: 'Como usar', en: 'How to use' },
@@ -149,6 +149,10 @@ export const HOME: Dict = {
   'home.catalog.checkbox': {
     pt: 'Estado parcial, integração com formulários, dica e erro.',
     en: 'Partial state, forms integration, hint and error.'
+  },
+  'home.catalog.checkboxgroup': {
+    pt: 'Escolha múltipla com fieldset nativo, valor em lista e "Selecionar todos".',
+    en: 'Multiple choice with a native fieldset, list value and "Select all".'
   },
   'home.catalog.radio': {
     pt: 'Escolha única com fieldset nativo, setas e descrições.',

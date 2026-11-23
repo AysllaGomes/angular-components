@@ -30,6 +30,7 @@ const DOCS = {
   actionbar: 'components/actionbar/actionbar',
   button: 'components/button/button',
   checkbox: 'components/checkbox/checkbox',
+  checkboxgroup: 'components/checkbox-group/checkbox-group',
   dialog: 'components/dialog/dialog',
   pagination: 'components/pagination/pagination',
   radio: 'components/radio/radio-group',

@@ -54,3 +54,30 @@
     </div>
   </article>
 </section>
+
+<section id="checkboxgroup" class="demo-section">
+  <h2>{{ 'section.checkboxgroup.title' | t }}</h2>
+  <p class="lead">{{ 'section.checkboxgroup.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'cbg.demo.all.title' | t }}</h3>
+    <app-checkbox-group [label]="'cbg.demo.all.label' | t" selectAll [options]="topics()" [(value)]="alerts" />
+    <code class="muted">{{ 'cbg.demo.value' | t:{ v: json(alerts()) } }}</code>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'cbg.demo.horizontal.title' | t }}</h3>
+    <app-checkbox-group [label]="'cbg.demo.horizontal.label' | t" orientation="horizontal"
+      [options]="days()" [(value)]="chosenDays" [hint]="'cbg.demo.horizontal.hint' | t" />
+  </article>
+
+  <article class="card">
+    <h3>{{ 'cbg.demo.forms.title' | t }}</h3>
+    <app-checkbox-group [label]="'cbg.demo.forms.label' | t" required
+      [options]="topics()" [formControl]="alertsCtrl"
+      [error]="showAlertsError() ? ('cbg.demo.forms.error' | t) : null" />
+    <div>
+      <button appButton type="button" size="sm" (click)="submitAlerts()">{{ 'checkbox.demo.forms.submit' | t }}</button>
+    </div>
+  </article>
+</section>

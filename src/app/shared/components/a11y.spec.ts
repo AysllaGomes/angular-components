@@ -19,6 +19,7 @@ import { StepperComponent } from './stepper/stepper.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { SwitchComponent } from './switch/switch.component';
 import { RadioGroupComponent } from './radio/radio-group.component';
+import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import { FormFieldComponent } from './form-field/form-field.component';
 import { MaskDirective } from '../forms/mask.directive';
 import { ActionBarComponent } from './actionbar/actionbar.component';
@@ -51,7 +52,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
 @Component({
   imports: [
-    ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
+    ButtonDirective, CheckboxComponent, CheckboxGroupComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
     TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS, TooltipDirective,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -78,6 +79,13 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-form-field label="Nome" required hint="Como no documento"><input></app-form-field>
         <app-form-field label="CPF" error="CPF inválido"><input appMask="cpf"></app-form-field>
         <app-form-field label="Obs."><textarea></textarea></app-form-field>
+      </section>
+
+      <!-- Checkbox group -->
+      <section id="checkboxgroup">
+        <app-checkbox-group label="Avisos" selectAll required [options]="plans" [value]="['basic']" hint="Escolha quantos quiser" />
+        <app-checkbox-group label="Dias" orientation="horizontal" [options]="plans" error="Escolha pelo menos um" />
+        <app-checkbox-group label="Bloqueado" disabled [options]="plans" [value]="['pro']" />
       </section>
 
       <!-- Radio group e Switch -->
@@ -207,6 +215,7 @@ describe('Acessibilidade (axe-core)', () => {
 
   it('Checkbox (todos os estados)', async () => { await expectNoA11yViolations(section('checkbox'), { component: 'checkbox', state: { pt: 'marcado, parcial, desabilitado, com erro e só aria-label', en: 'checked, partial, disabled, with error and aria-label only' } }); });
 
+  it('Checkbox group (selecionar todos parcial, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('checkboxgroup'), { component: 'checkboxgroup', state: { pt: 'selecionar todos parcial, horizontal com erro e desabilitado', en: 'partial select all, horizontal with error and disabled' } }); });
   it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio'), { component: 'radio', state: { pt: 'obrigatório, horizontal com erro e desabilitado', en: 'required, horizontal with error and disabled' } }); });
 
   it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch'), { component: 'switch', state: { pt: 'ligado, rótulo antes, desabilitado e só aria-label', en: 'on, label first, disabled and aria-label only' } }); });

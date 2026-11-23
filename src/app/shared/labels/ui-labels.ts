@@ -21,6 +21,8 @@ export interface UiLabels {
   filterOptions: string;
   /** título da folha do Select no celular, quando não há `panelTitle` nem `label` */
   selectTitle: string;
+  /** caixa "marcar todas" do CheckboxGroup (`selectAll`) */
+  selectAll: string;
   /** nome da pilha de notificações (Toast) */
   notifications: string;
 
@@ -67,6 +69,7 @@ export const UI_LABELS_EN: UiLabels = {
   clearSelection: 'Clear selection',
   filterOptions: 'Filter options',
   selectTitle: 'Select an option',
+  selectAll: 'Select all',
   notifications: 'Notifications',
   stepper: { label: 'Steps', done: 'completed' },
   treeSelect: {
@@ -116,6 +119,7 @@ export const UI_LABELS_PT: UiLabels = {
   clearSelection: 'Limpar seleção',
   filterOptions: 'Filtrar opções',
   selectTitle: 'Selecionar',
+  selectAll: 'Selecionar todos',
   notifications: 'Notificações',
   stepper: { label: 'Etapas do fluxo', done: 'concluída' },
   treeSelect: {

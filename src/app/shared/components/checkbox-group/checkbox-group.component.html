@@ -1,0 +1,62 @@
+<fieldset
+  class="cbg"
+  [class.is-horizontal]="orientation() === 'horizontal'"
+  [class.is-disabled]="isDisabled()"
+  [class.is-error]="!!error()"
+  [disabled]="isDisabled()">
+  @if (label()) {
+    <legend class="cbg__legend">
+      {{ label() }}
+      @if (required()) {
+        <span class="cbg__req">{{ requiredLabel() }}</span>
+      }
+    </legend>
+  }
+
+  @if (selectAll() && options().length) {
+    <label class="cbg__option cbg__all" [attr.for]="allId">
+      <input
+        class="cbg__input"
+        type="checkbox"
+        [id]="allId"
+        [checked]="allState() === 'checked'"
+        [indeterminate]="allState() === 'mixed'"
+        [attr.aria-controls]="controlsIds()"
+        (change)="toggleAll()"
+        (blur)="onTouched()" />
+      <app-checkbox-mark [state]="allState()" [disabled]="isDisabled()" />
+      <span class="cbg__label">{{ selectAllLabel() }}</span>
+    </label>
+  }
+
+  <div class="cbg__options" [class.is-nested]="selectAll()">
+    @for (opt of options(); track $index; let i = $index) {
+      <label class="cbg__option" [class.is-disabled]="opt.disabled || isDisabled()" [attr.for]="optionId(i)">
+        <input
+          class="cbg__input"
+          type="checkbox"
+          [id]="optionId(i)"
+          [name]="groupName()"
+          [checked]="isChecked(opt)"
+          [disabled]="opt.disabled || isDisabled()"
+          [attr.aria-invalid]="error() ? true : null"
+          [attr.aria-describedby]="optionDescribedBy(i, opt)"
+          (change)="toggle(opt, $any($event.target).checked)"
+          (blur)="onTouched()" />
+        <app-checkbox-mark [state]="stateOf(opt)" [disabled]="opt.disabled || isDisabled()" />
+        <span class="cbg__text">
+          <span class="cbg__label">{{ opt.label }}</span>
+          @if (opt.description) {
+            <span class="cbg__desc" [id]="descId(i)">{{ opt.description }}</span>
+          }
+        </span>
+      </label>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="cbg__msg cbg__msg--error" [id]="errorId">{{ error() }}</div>
+  } @else if (hint()) {
+    <div class="cbg__msg" [id]="hintId">{{ hint() }}</div>
+  }
+</fieldset>

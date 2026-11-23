@@ -1,0 +1,87 @@
+/* mesma linguagem do Radio group e a caixa do Checkbox (tokens --cb-*) */
+.cbg
+  margin: 0
+  padding: 0
+  border: 0
+  min-width: 0
+  display: grid
+  gap: .5rem
+  color: var(--fg, #14171a)
+
+.cbg__legend
+  padding: 0
+  margin-bottom: .5rem
+  font-size: .9rem
+  font-weight: 600
+
+.cbg__req
+  margin-left: .5rem
+  font-size: .8rem
+  font-weight: 400
+  color: var(--muted, #5f6a75)
+
+.cbg__options
+  display: grid
+  gap: .35rem
+
+/* com "Selecionar todos", as opções ficam recuadas sob ele */
+.cbg__options.is-nested
+  padding-left: calc(var(--cb-size, 20px) + .6rem)
+
+.cbg.is-horizontal .cbg__options
+  display: flex
+  flex-wrap: wrap
+  gap: .5rem 1.5rem
+
+.cbg__option
+  position: relative
+  display: inline-flex
+  align-items: flex-start
+  gap: .6rem
+  min-height: 32px
+  cursor: pointer
+  user-select: none
+  &.is-disabled
+    color: var(--muted, #5f6a75)
+    cursor: default
+  app-checkbox-mark
+    margin-top: .1rem
+
+.cbg__all
+  font-weight: 600
+
+/* input nativo invisível sobre a caixa (continua focável e anunciado) */
+.cbg__input
+  position: absolute
+  inset: 0
+  width: 100%
+  height: 100%
+  margin: 0
+  opacity: 0
+  cursor: inherit
+
+/* hover da linha inteira e foco por teclado realçam a caixa */
+.cbg__option:not(.is-disabled):hover app-checkbox-mark
+  --cbm-border: var(--cb-checked-bg, #058075)
+  --cbm-ring: var(--cb-hover-ring, color-mix(in srgb, #058075 16%, transparent))
+
+.cbg__input:focus-visible + app-checkbox-mark
+  --cbm-ring: var(--cb-focus-ring, color-mix(in srgb, #058075 45%, transparent))
+
+.cbg.is-error .cbg__options app-checkbox-mark
+  --cbm-border: var(--danger, #b91c1c)
+
+.cbg__text
+  display: grid
+  gap: .1rem
+  line-height: 1.4
+
+.cbg__desc
+  font-size: .85rem
+  color: var(--muted, #5f6a75)
+
+.cbg__msg
+  font-size: .85rem
+  color: var(--muted, #5f6a75)
+  &--error
+    color: var(--danger, #b91c1c)

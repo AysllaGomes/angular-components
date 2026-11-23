@@ -3,7 +3,7 @@
 import { ComponentDocs } from './component-docs.types';
 
 /** componentes com página completa (têm "Por que existe" nos dois idiomas) */
-export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation"];
+export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","checkboxgroup","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation"];
 
 export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "actionbar": {
@@ -157,7 +157,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~892 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~896 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -311,7 +311,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~892 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~896 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -520,6 +520,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "preferOther": [
         "Ligar ou desligar algo que vale na hora: use o <a href=\"/componentes/switch\">Switch</a>.",
         "Escolher uma única opção entre poucas: use o <a href=\"/componentes/radio\">Radio group</a>.",
+        "Várias opções de uma lista, com o valor em lista: use o <a href=\"/componentes/checkboxgroup\">Checkbox group</a>.",
         "Muitas opções em níveis: use o <a href=\"/componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-checkbox [(checked)]=\"aceito\">Aceito os termos</app-checkbox>",
@@ -675,6 +676,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "preferOther": [
         "Turning something on or off right away: use the <a href=\"/componentes/switch\">Switch</a>.",
         "Picking one option among a few: use the <a href=\"/componentes/radio\">Radio group</a>.",
+        "Several options from a list, with a list value: use the <a href=\"/componentes/checkboxgroup\">Checkbox group</a>.",
         "Many options in levels: use the <a href=\"/componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-checkbox [(checked)]=\"accepted\">I accept the terms</app-checkbox>",
@@ -816,6 +818,314 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 5 files, ~246 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox/checkbox.en.md"
+    }
+  },
+  "checkboxgroup": {
+    "pt": {
+      "lead": "Escolha <strong>múltipla</strong> entre opções visíveis: o valor é a lista do que está marcado. Construído sobre <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> e <code>&lt;input type=&quot;checkbox&quot;&gt;</code> <strong>nativos</strong>, com a mesma caixa do Checkbox (<code>app-checkbox-mark</code>, tokens <code>--cb-*</code>) e um &quot;Selecionar todos&quot; opcional.",
+      "why": [
+        "Uma lista de checkboxes parece simples, mas o grupo precisa de <code>&lt;fieldset&gt;</code> com <code>&lt;legend&gt;</code>, um valor em lista que não dependa da ordem dos cliques, erro e dica ligados a cada caixa e integração com formulários; e o &quot;Selecionar todos&quot; precisa do estado parcial e não pode mexer nas opções desabilitadas. Este componente monta tudo isso a partir de uma lista de opções, com o mesmo visual do Checkbox."
+      ],
+      "useWhen": [
+        "A pessoa pode marcar várias opções, ou nenhuma, entre poucas (até umas 10).",
+        "Vale mostrar todas as opções de uma vez, como preferências de aviso ou permissões."
+      ],
+      "preferOther": [
+        "Só uma opção pode ser escolhida: use o <a href=\"/componentes/radio\">Radio group</a>.",
+        "Um único sim/não, como aceitar os termos: use o <a href=\"/componentes/checkbox\">Checkbox</a>.",
+        "Muitas opções, ou organizadas em grupos dentro de grupos: use o <a href=\"/componentes/treeselect\">TreeSelect</a> no modo <code>checkbox</code>.",
+        "A mudança vale na hora, como ligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>."
+      ],
+      "example": "<app-checkbox-group label=\"Avisos por e-mail\" selectAll required\n  [options]=\"topicos\" [formControl]=\"avisos\"\n  [error]=\"avisos.touched && avisos.invalid ? 'Escolha pelo menos um aviso.' : null\" />\n\n<!-- sem formulário -->\n<app-checkbox-group label=\"Interesses\" orientation=\"horizontal\" [options]=\"interesses\" [(value)]=\"escolhidos\" />",
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>options</code>",
+              "<code>CheckboxOption&lt;T&gt;[]</code>",
+              "—",
+              "<code>{ label, value, disabled?, description? }</code>."
+            ],
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Nome do grupo (vira o <code>&lt;legend&gt;</code>)."
+            ],
+            [
+              "<code>value</code>",
+              "<code>T[] | null</code>",
+              "<code>null</code>",
+              "Two-way via <code>[(value)]</code>; com formulários, use <code>formControl</code>/<code>ngModel</code>."
+            ],
+            [
+              "<code>orientation</code>",
+              "<code>'vertical' | 'horizontal'</code>",
+              "<code>'vertical'</code>",
+              "Disposição das opções (horizontal quebra linha se faltar espaço)."
+            ],
+            [
+              "<code>name</code>",
+              "<code>string | null</code>",
+              "gerado",
+              "<code>name</code> dos inputs (único por grupo por padrão)."
+            ],
+            [
+              "<code>selectAll</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Mostra a caixa &quot;Selecionar todos&quot; acima das opções."
+            ],
+            [
+              "<code>selectAllLabel</code>",
+              "<code>string</code>",
+              "<code>labels.selectAll</code>",
+              "Texto da caixa &quot;Selecionar todos&quot; (i18n)."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Desabilita o grupo inteiro (o formulário também pode)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Mostra &quot;requerido&quot; no rótulo. Para validar, use <code>Validators.required</code>."
+            ],
+            [
+              "<code>hint</code> / <code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Texto de apoio / erro (erro marca <code>aria-invalid</code>)."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Texto do indicador (i18n)."
+            ]
+          ]
+        },
+        {
+          "title": "Outputs",
+          "head": [
+            "Evento",
+            "Payload",
+            "Quando dispara"
+          ],
+          "rows": [
+            [
+              "<code>valueChange</code>",
+              "<code>T[]</code>",
+              "O usuário marcou ou desmarcou uma opção (ou usou &quot;Selecionar todos&quot;)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "<code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>: o leitor de tela anuncia o nome do grupo ao entrar nele.",
+        "Checkboxes <strong>nativos</strong>: <code>Tab</code> passa por cada caixa (pulando as desabilitadas) e <code>Espaço</code> marca/desmarca; clicar no texto também marca.",
+        "&quot;Selecionar todos&quot; é um checkbox nativo com estado <strong>parcial</strong> (<code>indeterminate</code>), anunciado como &quot;parcialmente marcado&quot;, e aponta para as caixas que controla (<code>aria-controls</code>).",
+        "A <code>description</code> de cada opção, a dica e o erro são ligados por <code>aria-describedby</code>; o erro marca <code>aria-invalid</code> em cada caixa."
+      ],
+      "tokens": [
+        "--cb-size",
+        "--cb-border",
+        "--cb-bg",
+        "--cb-checked-bg",
+        "--cb-hover-ring",
+        "--cb-focus-ring",
+        "--cb-disabled-border",
+        "--cb-disabled-bg",
+        "--danger"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "O componente",
+            "items": [
+              "<code>components/checkbox-group/</code>"
+            ]
+          },
+          {
+            "what": "Componentes que ele usa",
+            "items": [
+              "<code>components/checkbox/</code>"
+            ]
+          },
+          {
+            "what": "Textos padrão",
+            "items": [
+              "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 11 arquivos, ~776 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.md"
+    },
+    "en": {
+      "lead": "<strong>Multiple</strong> choice among visible options: the value is the list of what is checked. Built on <strong>native</strong> <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> and <code>&lt;input type=&quot;checkbox&quot;&gt;</code>, with the same box as the Checkbox (<code>app-checkbox-mark</code>, <code>--cb-*</code> tokens) and an optional &quot;Select all&quot;.",
+      "why": [
+        "A list of checkboxes looks simple, but the group needs a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>, a list value that does not depend on the click order, error and hint linked to every box, and forms integration; and &quot;Select all&quot; needs the partial state and must not touch disabled options. This component builds all of that from a list of options, with the same look as the Checkbox."
+      ],
+      "useWhen": [
+        "People can check several options, or none, among a few (up to about 10).",
+        "It helps to show every option at once, like notification preferences or permissions."
+      ],
+      "preferOther": [
+        "Only one option can be chosen: use the <a href=\"/componentes/radio\">Radio group</a>.",
+        "A single yes/no, like accepting the terms: use the <a href=\"/componentes/checkbox\">Checkbox</a>.",
+        "Many options, or groups within groups: use the <a href=\"/componentes/treeselect\">TreeSelect</a> in <code>checkbox</code> mode.",
+        "The change applies right away, like turning a setting on: use the <a href=\"/componentes/switch\">Switch</a>."
+      ],
+      "example": "<app-checkbox-group label=\"Email alerts\" selectAll required\n  [options]=\"topics\" [formControl]=\"alerts\"\n  [error]=\"alerts.touched && alerts.invalid ? 'Choose at least one alert.' : null\" />\n\n<!-- without forms -->\n<app-checkbox-group label=\"Interests\" orientation=\"horizontal\" [options]=\"interests\" [(value)]=\"chosen\" />",
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Property",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>options</code>",
+              "<code>CheckboxOption&lt;T&gt;[]</code>",
+              "—",
+              "<code>{ label, value, disabled?, description? }</code>."
+            ],
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Group name (becomes the <code>&lt;legend&gt;</code>)."
+            ],
+            [
+              "<code>value</code>",
+              "<code>T[] | null</code>",
+              "<code>null</code>",
+              "Two-way via <code>[(value)]</code>; with forms, use <code>formControl</code>/<code>ngModel</code>."
+            ],
+            [
+              "<code>orientation</code>",
+              "<code>'vertical' | 'horizontal'</code>",
+              "<code>'vertical'</code>",
+              "Layout of the options (horizontal wraps when space runs out)."
+            ],
+            [
+              "<code>name</code>",
+              "<code>string | null</code>",
+              "generated",
+              "<code>name</code> of the inputs (unique per group by default)."
+            ],
+            [
+              "<code>selectAll</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Shows the &quot;Select all&quot; box above the options."
+            ],
+            [
+              "<code>selectAllLabel</code>",
+              "<code>string</code>",
+              "<code>labels.selectAll</code>",
+              "Text of the &quot;Select all&quot; box (i18n)."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Disables the whole group (the form can too)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Shows &quot;required&quot; on the label. To validate, use <code>Validators.required</code>."
+            ],
+            [
+              "<code>hint</code> / <code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Helper text / error (error sets <code>aria-invalid</code>)."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Marker text (i18n)."
+            ]
+          ]
+        },
+        {
+          "title": "Outputs",
+          "head": [
+            "Event",
+            "Payload",
+            "When it fires"
+          ],
+          "rows": [
+            [
+              "<code>valueChange</code>",
+              "<code>T[]</code>",
+              "The user checked or unchecked an option (or used &quot;Select all&quot;)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "<code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>: screen readers announce the group name when entering it.",
+        "<strong>Native</strong> checkboxes: <code>Tab</code> goes through each box (skipping disabled ones) and <code>Space</code> checks/unchecks; clicking the text checks too.",
+        "&quot;Select all&quot; is a native checkbox with a <strong>partial</strong> state (<code>indeterminate</code>), announced as &quot;partially checked&quot;, and points to the boxes it controls (<code>aria-controls</code>).",
+        "Each option's <code>description</code>, the hint and the error are linked by <code>aria-describedby</code>; the error sets <code>aria-invalid</code> on each box."
+      ],
+      "tokens": [
+        "--cb-size",
+        "--cb-border",
+        "--cb-bg",
+        "--cb-checked-bg",
+        "--cb-hover-ring",
+        "--cb-focus-ring",
+        "--cb-disabled-border",
+        "--cb-disabled-bg",
+        "--danger"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "The component",
+            "items": [
+              "<code>components/checkbox-group/</code>"
+            ]
+          },
+          {
+            "what": "Components it uses",
+            "items": [
+              "<code>components/checkbox/</code>"
+            ]
+          },
+          {
+            "what": "Default texts",
+            "items": [
+              "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 11 files, ~776 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.en.md"
     }
   },
   "dialog": {
@@ -979,7 +1289,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~632 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~636 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1142,7 +1452,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~632 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~636 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -1271,7 +1581,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~752 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~756 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.md"
     },
@@ -1398,7 +1708,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~752 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~756 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.en.md"
     }
@@ -1416,7 +1726,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "preferOther": [
         "Muitas opções, ou pouco espaço: use o <a href=\"/componentes/select\">Select</a>.",
         "Ligar ou desligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>.",
-        "Várias opções ao mesmo tempo: use o <a href=\"/componentes/checkbox\">Checkbox</a>."
+        "Várias opções ao mesmo tempo: use o <a href=\"/componentes/checkboxgroup\">Checkbox group</a>."
       ],
       "example": "<app-radio-group label=\"Plano\" [options]=\"plans\" [(value)]=\"plano\" />\n\n<app-radio-group label=\"Entrega\" orientation=\"horizontal\" required\n  [options]=\"entregas\" [formControl]=\"entrega\"\n  [error]=\"entrega.touched && entrega.invalid ? 'Escolha uma forma de entrega.' : null\" />",
       "api": [
@@ -1523,7 +1833,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~481 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~485 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.md"
     },
@@ -1539,7 +1849,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "preferOther": [
         "Many options, or little space: use the <a href=\"/componentes/select\">Select</a>.",
         "Turning a setting on or off: use the <a href=\"/componentes/switch\">Switch</a>.",
-        "Several options at the same time: use the <a href=\"/componentes/checkbox\">Checkbox</a>."
+        "Several options at the same time: use the <a href=\"/componentes/checkboxgroup\">Checkbox group</a>."
       ],
       "example": "<app-radio-group label=\"Plan\" [options]=\"plans\" [(value)]=\"plan\" />\n\n<app-radio-group label=\"Shipping\" orientation=\"horizontal\" required\n  [options]=\"methods\" [formControl]=\"shipping\"\n  [error]=\"shipping.touched && shipping.invalid ? 'Choose a shipping method.' : null\" />",
       "api": [
@@ -1646,7 +1956,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~481 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~485 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.en.md"
     }
@@ -1840,7 +2150,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~948 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~952 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.md"
     },
@@ -2032,7 +2342,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~948 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~952 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md"
     }
@@ -2159,7 +2469,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~535 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~539 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.md"
     },
@@ -2282,7 +2592,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~535 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~539 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.en.md"
     }
@@ -2830,7 +3140,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2851 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2855 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3154,7 +3464,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2851 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2855 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }
@@ -3528,7 +3838,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~711 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~715 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.md"
     },
@@ -3628,7 +3938,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~711 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~715 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md"
     }
@@ -4043,7 +4353,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 12 arquivos, ~1589 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 12 arquivos, ~1593 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.md"
     },
@@ -4264,7 +4574,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 12 files, ~1589 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 12 files, ~1593 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.en.md"
     }
@@ -4437,7 +4747,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 12 arquivos, ~760 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 12 arquivos, ~764 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.md"
     },
@@ -4608,7 +4918,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 12 files, ~760 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 12 files, ~764 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.en.md"
     }

@@ -7,6 +7,8 @@ import { SelectOption } from '../../shared/components/select/select.types';
 import { TreeSelectComponent } from '../../shared/components/tree-select/tree-select.component';
 import { TreeNode } from '../../shared/components/tree-select/tree-select.types';
 import { CheckboxComponent } from '../../shared/components/checkbox/checkbox.component';
+import { CheckboxGroupComponent } from '../../shared/components/checkbox-group/checkbox-group.component';
+import { CheckboxOption } from '../../shared/components/checkbox-group/checkbox-group.types';
 import { RadioGroupComponent } from '../../shared/components/radio/radio-group.component';
 import { RadioOption } from '../../shared/components/radio/radio.types';
 import { SwitchComponent } from '../../shared/components/switch/switch.component';
@@ -89,6 +91,46 @@ export class TreeSelectExampleComponent {
 export class CheckboxExampleComponent {
   readonly isEn = injectIsEn();
   readonly accepted = signal(false);
+}
+
+/** checkbox-group.md → ## Uso */
+@Component({
+  selector: 'app-checkboxgroup-example',
+  imports: [CheckboxGroupComponent, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @let en = isEn();
+    <app-checkbox-group [label]="en ? 'Email alerts' : 'Avisos por e-mail'" selectAll required
+      [options]="topics()" [formControl]="alerts"
+      [error]="alerts.touched && alerts.invalid ? (en ? 'Choose at least one alert.' : 'Escolha pelo menos um aviso.') : null" />
+
+    <!-- sem formulário -->
+    <app-checkbox-group [label]="en ? 'Interests' : 'Interesses'" orientation="horizontal" [options]="interests()" [(value)]="chosen" />
+  `,
+  styles: `
+:host
+  display: grid
+  gap: 1.5rem
+`
+})
+export class CheckboxGroupExampleComponent {
+  readonly isEn = injectIsEn();
+  readonly alerts = new FormControl<string[]>(['security'], { nonNullable: true, validators: Validators.required });
+  readonly chosen = signal<string[]>(['design']);
+  readonly topics = computed<CheckboxOption<string>[]>(() => this.isEn()
+    ? [
+      { label: 'News', value: 'news', description: 'Once a month' },
+      { label: 'Deals', value: 'deals' },
+      { label: 'Account security', value: 'security', disabled: true },
+    ]
+    : [
+      { label: 'Novidades', value: 'news', description: 'Uma vez por mês' },
+      { label: 'Promoções', value: 'deals' },
+      { label: 'Segurança da conta', value: 'security', disabled: true },
+    ]);
+  readonly interests = computed<CheckboxOption<string>[]>(() => this.isEn()
+    ? [{ label: 'Design', value: 'design' }, { label: 'Code', value: 'code' }, { label: 'Product', value: 'product' }]
+    : [{ label: 'Design', value: 'design' }, { label: 'Código', value: 'code' }, { label: 'Produto', value: 'product' }]);
 }
 
 /** radio-group.md → ## Uso */

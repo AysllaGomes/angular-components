@@ -59,11 +59,12 @@ Para as mensagens de erro de formulário, `provideFormErrorMessages` vem antes d
 | Chave | Onde aparece | Inglês (padrão) | `UI_LABELS_PT` |
 |---|---|---|---|
 | `close` | botão de fechar (Dialog, ActionBar, Toast, folha do Select/TreeSelect) | Close | Fechar |
-| `required` | marcador ao lado do rótulo (FormField, RadioGroup, Select, TreeSelect) | required | requerido |
+| `required` | marcador ao lado do rótulo (FormField, RadioGroup, CheckboxGroup, Select, TreeSelect) | required | requerido |
 | `requiredError` | erro automático de obrigatório (Select, TreeSelect) | This field is required | Campo obrigatório |
 | `clearSelection` | botão que limpa (Select, TreeSelect, ações em massa da Tabela) | Clear selection | Limpar seleção |
 | `filterOptions` | campo de busca do Select | Filter options | Filtrar opções |
 | `selectTitle` | título da folha do Select no celular, sem `panelTitle` nem `label` | Select an option | Selecionar |
+| `selectAll` | caixa "marcar todas" do CheckboxGroup (`selectAll`) | Select all | Selecionar todos |
 | `notifications` | nome da pilha de Toasts | Notifications | Notificações |
 | `stepper.label` / `stepper.done` | nome da navegação / etapa concluída (leitor de tela) | Steps / completed | Etapas do fluxo / concluída |
 | `treeSelect.loading` / `loadError` / `empty` | carregamento sob demanda e busca vazia | Loading… / Could not load… / No items found | Carregando… / Não foi possível carregar… / Nenhum item encontrado |

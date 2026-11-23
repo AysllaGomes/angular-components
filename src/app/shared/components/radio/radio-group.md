@@ -30,7 +30,7 @@ Radios nativos já são acessíveis, mas o grupo precisa de `<fieldset>` com `<l
 
 - Muitas opções, ou pouco espaço: use o [Select](../select/select.md).
 - Ligar ou desligar uma configuração: use o [Switch](../switch/switch.md).
-- Várias opções ao mesmo tempo: use o [Checkbox](../checkbox/checkbox.md).
+- Várias opções ao mesmo tempo: use o [Checkbox group](../checkbox-group/checkbox-group.md).
 
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
@@ -42,7 +42,7 @@ Para usar o Radio group em outro projeto Angular, copie para dentro de uma pasta
 | O componente | `components/radio/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~481 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~485 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso

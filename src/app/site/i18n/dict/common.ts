@@ -30,6 +30,7 @@ export const COMMON: Dict = {
   'nav.dialog': { pt: 'Dialog', en: 'Dialog' },
   'nav.button': { pt: 'Button', en: 'Button' },
   'nav.checkbox': { pt: 'Checkbox', en: 'Checkbox' },
+  'nav.checkboxgroup': { pt: 'Checkbox group', en: 'Checkbox group' },
 
   // grupos do menu
   'nav.group.forms':      { pt: 'Formulário',        en: 'Forms' },

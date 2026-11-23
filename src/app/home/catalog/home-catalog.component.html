@@ -14,7 +14,7 @@
         <li class="item">
           <h3>{{ name }}</h3>
           <p>{{ 'home.catalog.' + id | t }}</p>
-          <!-- o nome do componente no link: "Ver na demo" sozinho repetiria 15 vezes para o leitor de tela -->
+          <!-- o nome do componente no link: "Ver na demo" sozinho repetiria 16 vezes para o leitor de tela -->
           <a [routerLink]="['/componentes', id]">{{ 'home.catalog.see' | t:{ name: name } }} <span aria-hidden="true">→</span></a>
         </li>
       }

@@ -25,6 +25,7 @@ export const SITE_COMPONENTS: readonly SiteComponent[] = [
   { id: 'stepper', group: 'navigation', aliases: ['stepper', 'etapas', 'passos', 'steps', 'wizard'] },
   { id: 'pagination', group: 'data', aliases: ['pagination', 'paginacao', 'paginas', 'paginator'] },
   { id: 'checkbox', group: 'forms', aliases: ['checkbox', 'caixa', 'caixadeselecao'] },
+  { id: 'checkboxgroup', group: 'forms', aliases: ['checkboxgroup', 'checkboxes', 'caixas', 'multipla', 'multiplaescolha'] },
   { id: 'radio', group: 'forms', aliases: ['radio', 'radiogroup', 'opcoes'] },
   { id: 'switch', group: 'forms', aliases: ['switch', 'toggle', 'chave'] },
   { id: 'button', group: 'navigation', aliases: ['button', 'botao', 'botoes', 'buttons'] },

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 
-import { CheckboxExampleComponent, RadioExampleComponent, SelectExampleComponent, SwitchExampleComponent, TreeSelectExampleComponent, ValidationExampleComponent } from './forms.examples';
+import { CheckboxExampleComponent, CheckboxGroupExampleComponent, RadioExampleComponent, SelectExampleComponent, SwitchExampleComponent, TreeSelectExampleComponent, ValidationExampleComponent } from './forms.examples';
 import { PaginationExampleComponent, TableExampleComponent } from './data.examples';
 import { ActionBarExampleComponent, DialogExampleComponent, ToastExampleComponent, TooltipExampleComponent } from './overlays.examples';
 import { ButtonExampleComponent, StepperExampleComponent, TabsExampleComponent } from './navigation.examples';
@@ -16,6 +16,7 @@ export const LIVE_EXAMPLES: Record<string, Type<unknown>> = {
   select: SelectExampleComponent,
   treeselect: TreeSelectExampleComponent,
   checkbox: CheckboxExampleComponent,
+  checkboxgroup: CheckboxGroupExampleComponent,
   radio: RadioExampleComponent,
   switch: SwitchExampleComponent,
   validation: ValidationExampleComponent,

@@ -102,7 +102,7 @@ describe('HeaderComponent internal links', () => {
       const lists = Array.from(el.querySelectorAll('#nav-components ul'));
       expect(lists.length).toBe(4);
       for (const ul of lists) expect(el.querySelector('#' + ul.getAttribute('aria-labelledby'))!.textContent).toBeTruthy();
-      expect(el.querySelectorAll('#nav-components a').length).toBe(15);
+      expect(el.querySelectorAll('#nav-components a').length).toBe(16);
       expect(pageLink('treeselect')).not.toBeNull();
       expect(pageLink('table').textContent).toBe('Tabela');
     });

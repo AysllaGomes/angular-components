@@ -32,6 +32,7 @@ O checkbox nativo não tem o estado parcial no HTML (só por JavaScript), é dif
 
 - Ligar ou desligar algo que vale na hora: use o [Switch](../switch/switch.md).
 - Escolher uma única opção entre poucas: use o [Radio group](../radio/radio-group.md).
+- Várias opções de uma lista, com o valor em lista: use o [Checkbox group](../checkbox-group/checkbox-group.md).
 - Muitas opções em níveis: use o [TreeSelect](../tree-select/tree-select.md).
 
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
@@ -179,4 +180,4 @@ setAll(value: boolean) {
 - [x] Formulários (`formControl`, `ngModel`).
 - [x] Caixa reutilizável (`app-checkbox-mark`).
 - [x] `app-tree-select`, usando a caixa em cada nó.
-- [ ] Grupo de checkboxes (`app-checkbox-group`) com valor em lista.
+- [x] Grupo de checkboxes com valor em lista: [Checkbox group](../checkbox-group/checkbox-group.md).
