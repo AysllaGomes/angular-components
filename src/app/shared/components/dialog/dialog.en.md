@@ -133,51 +133,40 @@ On close, focus returns to the "Delete order" button. For translated texts, pass
 
 ## Examples
 
-### 1) Basic (with i18n)
+### 1) Basic
 
 ```html
-<article class="card" style="display:grid;gap:.5rem;">
-  <button class="pill" type="button" (click)="openDlg=true">
-    {{ 'dialog.open' | t }}
-  </button>
-</article>
+<button appButton type="button" (click)="openDlg = true">Delete order</button>
 
 <app-dialog
-  [title]="'dialog.title.delete' | t"
+  title="Delete order?"
   size="auto"
   [(opened)]="openDlg"
   describedBy="dlg-delete-desc"
-  [primaryLabel]="'dialog.primary.confirm' | t"
-  [secondaryLabel]="'dialog.secondary.cancel' | t"
+  primaryLabel="Delete"
+  secondaryLabel="Cancel"
   (primary)="confirmDelete()">
-  <p id="dlg-delete-desc">{{ 'dialog.body.delete' | t }}</p>
+  <p id="dlg-delete-desc">This action cannot be undone.</p>
 </app-dialog>
 ```
 
-Suggested keys:
-```ts
-'dialog.open':             { pt: 'Abrir diálogo',   en: 'Open dialog' },
-'dialog.title.delete':     { pt: 'Confirmar exclusão', en: 'Confirm delete' },
-'dialog.body.delete':      { pt: 'Tem certeza? Esta ação não pode ser desfeita.', en: 'Are you sure? This action cannot be undone.' },
-'dialog.primary.confirm':  { pt: 'Confirmar',       en: 'Confirm' },
-'dialog.secondary.cancel': { pt: 'Cancelar',        en: 'Cancel' },
-```
+> The texts are your app's, already in its language (plain text, the translation pipe you use, or a signal). The close (×) button uses `labels.close` from [`provideUiLabels`](../../labels/labels.en.md).
 
 ### 2) Custom actions
 
 ```html
 <app-dialog
-  [title]="'dialog.title.delete' | t"
+  title="Delete order?"
   size="md"
   [(opened)]="openDlg">
-  <p>{{ 'dialog.body.delete' | t }}</p>
+  <p>This action cannot be undone.</p>
 
   <div dialog-actions>
     <button class="btn--ghost btn" type="button" (click)="openDlg=false">
-      {{ 'dialog.secondary.cancel' | t }}
+      Cancel
     </button>
     <button class="btn" type="button" (click)="confirmDelete()">
-      {{ 'dialog.primary.confirm' | t }}
+      Delete
     </button>
   </div>
 </app-dialog>

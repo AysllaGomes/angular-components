@@ -85,6 +85,7 @@ Um botão `disabled` não recebe foco nem eventos de mouse, então a dica nunca 
 ### Texto dinâmico / i18n
 
 ```html
+<!-- "t": o pipe de tradução da sua app (qualquer um) -->
 <button [appTooltip]="'acoes.editar' | t" tooltipAsLabel>…</button>
 <button [appTooltip]="podeSalvar() ? null : 'Preencha os campos obrigatórios'">Salvar</button>
 ```

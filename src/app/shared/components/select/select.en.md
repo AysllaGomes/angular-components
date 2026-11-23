@@ -88,10 +88,10 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 ### With filter
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Category"
+  placeholder="Select"
   [filterable]="true"
-  [filterPlaceholder]="'select.filter.placeholder' | t"
+  filterPlaceholder="Filter categories"
   [options]="options()"
   [value]="categoryFilter()"
   (valueChange)="categoryFilter.set($event)">
@@ -101,7 +101,7 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 ### Disabled
 ```html
 <app-select
-  [label]="'select.label' | t"
+  label="Category"
   [disabled]="true"
   [options]="options()"
   [value]="'o1'">
@@ -110,11 +110,10 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 
 ### No placeholder
 ```html
+<!-- the "required" marker and the error message come from provideUiLabels -->
 <app-select
-  [label]="'select.label' | t"
+  label="Category"
   [required]="true"
-  [requiredLabel]="'form.required.label' | t"
-  [requiredError]="'form.required.error' | t"
   [options]="options()"
   [value]="category()"
   (valueChange)="category.set($event)">
@@ -124,9 +123,9 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 ### Not required
 ```html
 <app-select
-  [label]="'select.label' | t"
+  label="Category"
   [options]="options()"
-  [placeholder]="'select.placeholder' | t"
+  placeholder="Select"
   [value]="categoryNoReq()"
   (valueChange)="categoryNoReq.set($event)">
 </app-select>
@@ -135,15 +134,15 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 ### New: Clearable
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Category"
+  placeholder="Select"
   [clearable]="true"
   [options]="options()"
   [value]="categoryClear()"
   (valueChange)="categoryClear.set($event)">
 </app-select>
 ```
-> Tip: localize the clear button with the `select.clear` key.
+> The clear button name comes from `labels.clearSelection` ([`provideUiLabels`](../../labels/labels.en.md)); `clearAriaLabel` changes it for one instance.
 
 ### Groups and typeahead
 
@@ -264,13 +263,17 @@ The Select uses these variables (safe to override per scope):
 
 ---
 
-## i18n keys
-- `section.select.title`, `section.select.lead`
-- `select.demo.*.title`
-- `select.label`, `select.placeholder`, `select.filter.placeholder`
-- `form.required.label`, `form.required.error`, `form.hint`
-- `select.option.*`
-- **New**: `select.clear`
+## Texts
+The Select does not depend on any translation library. The texts you pass (`label`, `placeholder`, `hint`, `filterPlaceholder`, `panelTitle`, the options) are already in your app's language. The internal texts come from [`provideUiLabels`](../../labels/labels.en.md), in English by default, and each one has an input to change it for one instance:
+
+| Text | Label | Input |
+|---|---|---|
+| Marker next to the label when `required` | `labels.required` | `requiredLabel` |
+| Required message | `labels.requiredError` | `requiredError` |
+| Clear button (×) name | `labels.clearSelection` | `clearAriaLabel` |
+| Close button name of the sheet (phones) | `labels.close` | `closeAriaLabel` |
+| Sheet title, without `panelTitle` or `label` | `labels.selectTitle` | `panelTitle` |
+| Filter field name | `labels.filterOptions` | — |
 
 ---
 

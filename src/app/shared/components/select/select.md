@@ -88,10 +88,10 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 ### Com filtro
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Categoria"
+  placeholder="Selecione"
   [filterable]="true"
-  [filterPlaceholder]="'select.filter.placeholder' | t"
+  filterPlaceholder="Filtrar categorias"
   [options]="options()"
   [value]="categoriaFilter()"
   (valueChange)="categoriaFilter.set($event)">
@@ -101,7 +101,7 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 ### Desabilitado
 ```html
 <app-select
-  [label]="'select.label' | t"
+  label="Categoria"
   [disabled]="true"
   [options]="options()"
   [value]="'o1'">
@@ -110,11 +110,10 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 
 ### Sem placeholder
 ```html
+<!-- o marcador "obrigatório" e a mensagem de erro vêm de provideUiLabels -->
 <app-select
-  [label]="'select.label' | t"
+  label="Categoria"
   [required]="true"
-  [requiredLabel]="'form.required.label' | t"
-  [requiredError]="'form.required.error' | t"
   [options]="options()"
   [value]="categoria()"
   (valueChange)="categoria.set($event)">
@@ -124,9 +123,9 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 ### Não obrigatório
 ```html
 <app-select
-  [label]="'select.label' | t"
+  label="Categoria"
   [options]="options()"
-  [placeholder]="'select.placeholder' | t"
+  placeholder="Selecione"
   [value]="categoriaNoReq()"
   (valueChange)="categoriaNoReq.set($event)">
 </app-select>
@@ -135,8 +134,8 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 ### Novo: Clearable (limpar seleção)
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Categoria"
+  placeholder="Selecione"
   [clearable]="true"
   [options]="options()"
   [value]="categoriaClear()"
@@ -144,7 +143,7 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 </app-select>
 ```
 
-> Dica: para tradução do rótulo do botão de limpar, use a chave `select.clear`.
+> O nome do botão de limpar vem de `labels.clearSelection` ([`provideUiLabels`](../../labels/labels.md)); `clearAriaLabel` troca numa instância.
 
 ### Grupos e typeahead
 
@@ -266,13 +265,17 @@ O Select usa estas variáveis (podem ser sobrescritas por escopo):
 
 ---
 
-## i18n (chaves usadas)
-- `section.select.title`, `section.select.lead`
-- `select.demo.*.title`
-- `select.label`, `select.placeholder`, `select.filter.placeholder`
-- `form.required.label`, `form.required.error`, `form.hint`
-- `select.option.*` (labels das opções)
-- Novo: `select.clear`
+## Textos
+O Select não depende de nenhuma biblioteca de tradução. Os textos que você passa (`label`, `placeholder`, `hint`, `filterPlaceholder`, `panelTitle`, as opções) já vêm no idioma da sua app. Os textos internos vêm de [`provideUiLabels`](../../labels/labels.md), em inglês por padrão, e cada um tem um input para trocar numa instância:
+
+| Texto | Label | Input |
+|---|---|---|
+| Marcador ao lado do rótulo quando `required` | `labels.required` | `requiredLabel` |
+| Mensagem de obrigatório | `labels.requiredError` | `requiredError` |
+| Nome do botão de limpar (×) | `labels.clearSelection` | `clearAriaLabel` |
+| Nome do botão de fechar a folha (celular) | `labels.close` | `closeAriaLabel` |
+| Título da folha, sem `panelTitle` nem `label` | `labels.selectTitle` | `panelTitle` |
+| Nome do campo de filtro | `labels.filterOptions` | — |
 
 ---
 

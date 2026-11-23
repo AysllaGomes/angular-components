@@ -135,53 +135,40 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
 
 ## Exemplos
 
-### 1) Básico (com i18n)
+### 1) Básico
 
 ```html
-<article class="card" style="display:grid;gap:.5rem;">
-  <button class="pill" type="button" (click)="openDlg=true">
-    {{ 'dialog.open' | t }}
-  </button>
-</article>
+<button appButton type="button" (click)="openDlg = true">Excluir pedido</button>
 
 <app-dialog
-  [title]="'dialog.title.delete' | t"
+  title="Excluir pedido?"
   size="auto"
   [(opened)]="openDlg"
   describedBy="dlg-delete-desc"
-  [primaryLabel]="'dialog.primary.confirm' | t"
-  [secondaryLabel]="'dialog.secondary.cancel' | t"
+  primaryLabel="Excluir"
+  secondaryLabel="Cancelar"
   (primary)="confirmDelete()">
-  <p id="dlg-delete-desc">{{ 'dialog.body.delete' | t }}</p>
+  <p id="dlg-delete-desc">Esta ação não pode ser desfeita.</p>
 </app-dialog>
 ```
 
-**Sugestão de chaves (PT‑BR/EN):**  
-```ts
-// SELECTOR: COMMON/ DIALOG
-'dialog.open':              { pt: 'Abrir diálogo',           en: 'Open dialog' },
-'dialog.title.delete':      { pt: 'Confirmar exclusão',      en: 'Confirm delete' },
-'dialog.body.delete':       { pt: 'Tem certeza? Esta ação não pode ser desfeita.',
-                              en: 'Are you sure? This action cannot be undone.' },
-'dialog.primary.confirm':   { pt: 'Confirmar',               en: 'Confirm' },
-'dialog.secondary.cancel':  { pt: 'Cancelar',                en: 'Cancel' },
-```
+> Os textos são os da sua app, já no idioma dela (texto fixo, o pipe de tradução que você usa ou um signal). O botão de fechar (×) usa `labels.close` de [`provideUiLabels`](../../labels/labels.md).
 
 ### 2) Ações customizadas
 
 ```html
 <app-dialog
-  [title]="'dialog.title.delete' | t"
+  title="Excluir pedido?"
   size="md"
   [(opened)]="openDlg">
-  <p>{{ 'dialog.body.delete' | t }}</p>
+  <p>Esta ação não pode ser desfeita.</p>
 
   <div dialog-actions>
     <button class="btn--ghost btn" type="button" (click)="openDlg=false">
-      {{ 'dialog.secondary.cancel' | t }}
+      Cancelar
     </button>
     <button class="btn" type="button" (click)="confirmDelete()">
-      {{ 'dialog.primary.confirm' | t }}
+      Excluir
     </button>
   </div>
 </app-dialog>

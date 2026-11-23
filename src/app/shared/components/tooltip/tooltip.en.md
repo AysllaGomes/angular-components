@@ -85,6 +85,7 @@ A `disabled` button gets neither focus nor pointer events, so the hint would nev
 ### Dynamic text / i18n
 
 ```html
+<!-- "t": your app's translation pipe (any) -->
 <button [appTooltip]="'actions.edit' | t" tooltipAsLabel>…</button>
 <button [appTooltip]="canSave() ? null : 'Fill in the required fields'">Save</button>
 ```
