@@ -40,6 +40,7 @@
 ## Qualidade
 
 - `npm run test:ci` roda os testes unitários (Vitest) **e checagens automáticas de acessibilidade** ([axe-core](https://github.com/dequelabs/axe-core)) em cada componente, nos estados que importam (aberto, com erro, desabilitado...). Veja `src/app/shared/components/a11y.spec.ts`.
+- `npm run test:shuffle` roda a mesma suíte com os arquivos de teste em ordem aleatória, um de cada vez. Os specs compartilham o ambiente, então um teste que deixa algo para trás (timers falsos, listeners, elementos no `<body>`) só quebra outro em certas ordens, como pode acontecer no CI. A semente aparece no início; para repetir uma ordem que falhou: `SEED=1234 npm run test:shuffle` (PowerShell: `$env:SEED=1234; npm run test:shuffle`).
 - O CI roda tudo em cada push e pull request; o deploy só publica se passar.
 - O contraste de cores é conferido no navegador, nos dois temas (o jsdom não renderiza cores).
 

@@ -40,6 +40,7 @@
 ## Quality
 
 - `npm run test:ci` runs the unit tests (Vitest) **and automated accessibility checks** ([axe-core](https://github.com/dequelabs/axe-core)) on every component, in the states that matter (open, with error, disabled...). See `src/app/shared/components/a11y.spec.ts`.
+- `npm run test:shuffle` runs the same suite with the spec files in random order, one at a time. Specs share one environment, so a test that leaves something behind (fake timers, listeners, elements in `<body>`) only breaks another one in some orders — as can happen in CI. The seed is printed at the start; repeat a failing order with `SEED=1234 npm run test:shuffle` (PowerShell: `$env:SEED=1234; npm run test:shuffle`).
 - CI runs them on every push and pull request; the deploy only publishes when they pass.
 - Color contrast is checked in the browser, in both themes (jsdom does not render colors).
 

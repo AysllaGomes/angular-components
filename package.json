@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
+    "test:shuffle": "ng test --watch=false --runner-config=vitest-shuffle.config.mts",
     "release": "commit-and-tag-version",
     "release:rc": "commit-and-tag-version --prerelease rc",
     "serve:ssr:angular-components": "node dist/angular-components/server/server.mjs"
