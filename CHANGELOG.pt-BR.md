@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.5.0](https://github.com/AysllaGomes/angular-components/compare/v3.4.0...v3.5.0) (2026-11-23)
+### Features
+- **docs:** os outros 12 componentes ganharam "Por que existe" e "Quando usar",
+  e as 15 páginas de componente ficam completas nos dois idiomas:
+  - **Button:** documentação reescrita com Uso, Acessibilidade e a API
+    completa, incluindo `block`, `iconOnly`, `busy` e `disabled`, que
+    estavam na diretiva mas não no doc; corrige `variante=` no doc em PT;
+  - **Dialog:** o exemplo não usa mais o pipe `| t` da demo e funciona em
+    qualquer projeto;
+  - **Pagination:** o doc em inglês ganhou o exemplo de uso independente;
+  - **Forms:** novas seções de API e Acessibilidade; **Toast:** métodos do
+    serviço em tabela; **Tooltip:** tabela de entradas sob `### Inputs`.
+- **site:** cabeçalho, rodapé e todas as páginas têm a mesma largura (até
+  1600px) e a mesma margem lateral (24px; 16px no celular); em telas largas
+  sobra menos espaço vazio nas laterais, e o cabeçalho fica alinhado com o
+  menu lateral.
+- **site:** no desktop, o menu do topo fica logo ao lado de "Angular
+  Components", e idioma, tema e cores ficam à direita.
+
+### Interno
+- o gerador das páginas usa a seção "Exemplos" quando não há "Uso", acha
+  "acessibilidade" em qualquer posição do título, aceita `## API — <nome>`, e
+  o resumo não pula mais parágrafos que começam em negrito.
+
 ## [3.4.0](https://github.com/AysllaGomes/angular-components/compare/v3.3.0...v3.4.0) (2026-11-23)
 ### Features
 - **site:** cada componente tem a própria página em `/componentes/<id>` (os

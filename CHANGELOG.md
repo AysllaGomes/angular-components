@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.5.0](https://github.com/AysllaGomes/angular-components/compare/v3.4.0...v3.5.0) (2026-11-23)
+
+### Features
+
+* **docs:** the other 12 components got "Why it exists" and "When to use", so all 15 component pages are complete in both languages ([426050e](https://github.com/AysllaGomes/angular-components/commit/426050e))
+  * **Button:** docs rewritten with Usage, Accessibility and the full API, including `block`, `iconOnly`, `busy` and `disabled`, which the directive had but the docs did not; fixes `variante=` in the PT docs
+  * **Dialog:** the example no longer uses the demo's `| t` pipe and works in any project
+  * **Pagination:** the EN docs got the standalone usage example
+  * **Forms:** new API and Accessibility sections; **Toast:** service methods in a table; **Tooltip:** inputs table under `### Inputs`
+* **site:** header, footer and every page share the same width (up to 1600px) and side margin (24px; 16px on phones); on wide screens there is less empty space at the sides, and the header lines up with the side menu ([c77339b](https://github.com/AysllaGomes/angular-components/commit/c77339b))
+* **site:** on desktop the top menu sits right next to "Angular Components", and language, theme and colors stay on the right ([e2b1b4e](https://github.com/AysllaGomes/angular-components/commit/e2b1b4e))
+
+### Internal
+
+* the page generator takes the example from "Examples" when there is no "Usage", finds "accessibility" anywhere in a heading, accepts `## API — <name>`, and the summary no longer skips paragraphs that start in bold ([426050e](https://github.com/AysllaGomes/angular-components/commit/426050e))
+
 ## [3.4.0](https://github.com/AysllaGomes/angular-components/compare/v3.3.0...v3.4.0) (2026-11-23)
 
 ### Features
