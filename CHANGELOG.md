@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.0](https://github.com/AysllaGomes/angular-components/compare/v3.6.0...v3.7.0) (2026-11-23)
+
+### Features
+
+* **site:** every component page now has a live example: all 15, not just Tabs, Table and Select ([1621269](https://github.com/AysllaGomes/angular-components/commit/1621269))
+  * each one reproduces the "Usage" code the "Code" tab shows, in the page's language
+  * Dialog and ActionBar come with the button that opens them and a status line after confirming; Toast has success and error buttons
+  * tested: every site component has an example, and each one renders and passes axe
+
+### Internal
+
+* **ci:** new `npm run check:copy-compile`, in CI and deploy: for each component it copies only what "What to copy" lists into an empty folder and compiles it with strict TypeScript, and checks every `templateUrl`/`styleUrl` came along, so the list is proven to be enough (~4 s for all 15) ([a6ef574](https://github.com/AysllaGomes/angular-components/commit/a6ef574))
+
 ## [3.6.0](https://github.com/AysllaGomes/angular-components/compare/v3.5.0...v3.6.0) (2026-11-23)
 
 ### ⚠ Changed paths (if you copied components before)

@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.0](https://github.com/AysllaGomes/angular-components/compare/v3.6.0...v3.7.0) (2026-11-23)
+### Features
+- **site:** todas as páginas de componente agora têm exemplo ao vivo: as 15,
+  não só Tabs, Tabela e Select:
+  - cada um reproduz o código de "Uso" que a aba "Código" mostra, no idioma
+    da página;
+  - Dialog e ActionBar vêm com o botão que os abre e uma linha de status
+    depois de confirmar; o Toast tem botões de sucesso e de erro;
+  - testado: todo componente do site tem exemplo, e cada um aparece na página
+    e passa no axe.
+
+### Interno
+- **ci:** novo `npm run check:copy-compile`, no CI e no deploy: para cada
+  componente, copia só o que "O que copiar" lista para uma pasta vazia e
+  compila com TypeScript estrito, e confere que todo `templateUrl`/`styleUrl`
+  veio junto, provando que a lista basta (~4 s para os 15).
+
 ## [3.6.0](https://github.com/AysllaGomes/angular-components/compare/v3.5.0...v3.6.0) (2026-11-23)
 ### ⚠ Caminhos que mudaram (se você já copiou componentes)
 - os tipos públicos agora ficam junto de cada componente, em `<x>.types.ts`
