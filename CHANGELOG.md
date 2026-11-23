@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.3.0](https://github.com/AysllaGomes/angular-components/compare/v3.2.0...v3.3.0) (2026-11-23)
+
+### Features
+
+* **components:** they now work when copied into another project, without this project's `styles.sass`: every CSS variable they use has a default (`var(--x, value)`, the resolved light-theme value), 268 uses in 18 files ([a19f2ca](https://github.com/AysllaGomes/angular-components/commit/a19f2ca))
+  * the global theme still overrides the defaults (light/dark, the 5 accents); without it, components keep their look in the default teal
+  * checked in the browser with the global stylesheet disabled: Switch, Radio, Table, Pagination and Stepper keep their look
+  * `npm run check:css` fails if a component uses a variable without a default, and runs in CI and deploy before the tests
+* **docs:** each component's docs have a **What to copy** section generated from the real imports: its folder, the components it uses (including indirect ones, e.g. Table → Button via Pagination), the types file by file, `labels/`, services, the global styles to add (Button, Tooltip), and the total ([93b3a37](https://github.com/AysllaGomes/angular-components/commit/93b3a37))
+  * `npm run docs:copy` regenerates the sections; `npm run check:copy` fails in CI and deploy when one is out of date
+  * checked: the 33 files listed for the Table compile on their own in an isolated folder, and removing any one fails
+* **site:** the home's "Copy the component" step now points to that list instead of claiming every component lives in its own folder ([93b3a37](https://github.com/AysllaGomes/angular-components/commit/93b3a37))
+
+### Internal
+
+* Table chips moved to an internal `app-table-chip` (same `chip` / `chip--<variant>` classes), and the Table styles were trimmed (private `:host` tokens, dead breakpoint widths removed) to stay within the 5 kB budget with the new defaults ([a19f2ca](https://github.com/AysllaGomes/angular-components/commit/a19f2ca))
+
 ## [3.2.0](https://github.com/AysllaGomes/angular-components/compare/v3.1.0...v3.2.0) (2026-11-23)
 
 ### Features

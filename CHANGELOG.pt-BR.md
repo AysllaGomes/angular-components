@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.3.0](https://github.com/AysllaGomes/angular-components/compare/v3.2.0...v3.3.0) (2026-11-23)
+### Features
+- **components:** agora funcionam copiados para outro projeto, sem o
+  `styles.sass` deste: toda variável CSS que usam tem valor padrão
+  (`var(--x, valor)`, o valor do tema claro já resolvido), 268 usos em 18
+  arquivos:
+  - o tema global continua sobrescrevendo os padrões (claro/escuro, as 5
+    cores); sem ele, os componentes mantêm o visual no teal padrão;
+  - conferido no navegador com a folha global desligada: Switch, Radio, Tabela,
+    Paginação e Stepper mantêm o visual;
+  - `npm run check:css` falha se um componente usar variável sem padrão, e roda
+    no CI e no deploy antes dos testes.
+- **docs:** a documentação de cada componente tem a seção **O que copiar**,
+  gerada a partir dos imports de verdade: a pasta dele, os componentes que ele
+  usa (inclusive os indiretos, ex.: Tabela → Button pela Paginação), os tipos
+  arquivo por arquivo, `labels/`, serviços, os estilos globais a acrescentar
+  (Button, Tooltip) e o total:
+  - `npm run docs:copy` regenera as seções; `npm run check:copy` falha no CI e
+    no deploy quando alguma fica desatualizada;
+  - conferido: os 33 arquivos listados para a Tabela compilam sozinhos numa
+    pasta isolada, e tirar qualquer um faz falhar.
+- **site:** o passo "Copie o componente" da home agora aponta para essa lista,
+  em vez de dizer que todo componente vive na própria pasta.
+
+### Interno
+- Os chips da Tabela foram para um `app-table-chip` interno (mesmas classes
+  `chip` / `chip--<variante>`), e o estilo da Tabela foi enxugado (tokens
+  privados no `:host`, larguras mortas dos breakpoints removidas) para caber no
+  orçamento de 5 kB com os novos padrões.
+
 ## [3.2.0](https://github.com/AysllaGomes/angular-components/compare/v3.1.0...v3.2.0) (2026-11-23)
 ### Features
 - **site:** página 404 de verdade: endereços desconhecidos não caem mais na home
