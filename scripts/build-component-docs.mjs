@@ -9,9 +9,10 @@
 //   resumo         primeiro parágrafo depois do título
 //   por que existe ## Por que existe / ## Why it exists
 //   quando usar    ## Quando usar → ### Use quando + ### Prefira outro (e o inglês)
-//   exemplo        primeiro bloco ```html de ## Uso / ## Usage
-//   API            cada tabela debaixo de ## API (o ### dela vira o nome da aba)
-//   acessibilidade os itens de toda seção que começa com "Acessibilidade" / "Accessibility"
+//   exemplo        primeiro bloco ```html de ## Uso / ## Usage (sem ele, da primeira seção de exemplos)
+//   API            cada tabela debaixo de ## API ou ## API — <nome> (o ### dela vira o nome da aba;
+//                  uma tabela direto no ## API — <nome> vira a aba <nome>)
+//   acessibilidade os itens de toda seção com "Acessibilidade" / "Accessibility" no título
 //   tema           as variáveis CSS citadas em seções de tema/tokens
 //   o que copiar   a seção gerada por `npm run docs:copy`
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -45,8 +46,8 @@ const DOCS = {
 const idByDoc = Object.fromEntries(Object.entries(DOCS).map(([id, doc]) => [doc, id]));
 
 const T = {
-  pt: { why: /^Por que existe$/, when: /^Quando usar$/, use: /^Use quando$/, other: /^Prefira outro$/, usage: /^Uso/, a11y: /^Acessibilidade/, theme: /Tokens|Theming|Tema/ },
-  en: { why: /^Why it exists$/, when: /^When to use$/, use: /^Use when$/, other: /^Prefer another$/, usage: /^(Basic )?[Uu]sage/, a11y: /^Accessibility/, theme: /Tokens|Theming|Theme/ },
+  pt: { why: /^Por que existe$/, when: /^Quando usar$/, use: /^Use quando$/, other: /^Prefira outro$/, usage: /^Uso/, examples: /^Exemplo/, a11y: /acessibilidade/i, theme: /Tokens|Theming|Tema/ },
+  en: { why: /^Why it exists$/, when: /^When to use$/, use: /^Use when$/, other: /^Prefer another$/, usage: /^(Basic )?[Uu]sage/, examples: /^(Full )?[Ee]xamples?\b/, a11y: /accessibility/i, theme: /Tokens|Theming|Theme/ },
 };
 
 // ---------- markdown simples → HTML (só o que os documentos usam), escapando o resto
@@ -131,7 +132,8 @@ function tableFrom(lines) {
 function lead(md, docPath) {
   const afterTitle = md.split(/^# .*$/m)[1] ?? '';
   const intro = afterTitle.split(/^## /m)[0];
-  const p = paragraphs(intro.split('\n')).find(x => !/^(>|<|-|\*|```|\||---)/.test(x));
+  // pula citação, HTML, lista, código, tabela e régua; "**Single** choice…" é parágrafo
+  const p = paragraphs(intro.split('\n')).find(x => !/^(>|<|- |\* |```|\||---)/.test(x));
   return p ? inline(p.replace(/\n/g, ' '), docPath) : '';
 }
 
@@ -160,20 +162,22 @@ function parse(id, lang) {
 
   const why = find(t.why);
   const when = find(t.when);
-  const usage = find(t.usage);
-  const api = find(/^API$/);
+  const apis = secs.filter(s => /^API(\s|$)/.test(s.title));
   const a11y = secs.filter(s => t.a11y.test(s.title));
   const theme = [...secs.filter(s => t.theme.test(s.title)).map(allLines), ...secs.flatMap(s => s.subs.filter(x => t.theme.test(x.title)).map(x => x.lines))];
 
-  const example = usage ? (allLines(usage).join('\n').match(/```html\n([\s\S]*?)```/) ?? [])[1]?.trimEnd() ?? null : null;
-  const apiTables = api
-    ? api.subs.flatMap(s => tablesFrom(s.lines).map((table, i) => ({
-        // uma seção com duas tabelas (ex.: inputs e eventos): a segunda vira outra aba
-        title: inline(i === 0 ? s.title : `${s.title} · ${table.head[0]}`, docPath),
-        head: table.head.map(h => inline(h, docPath)),
-        rows: table.rows.map(r => r.map(c => inline(c, docPath))),
-      })))
-    : [];
+  const htmlOf = sec => (allLines(sec).join('\n').match(/```html\n([\s\S]*?)```/) ?? [])[1]?.trimEnd() ?? null;
+  const example = [find(t.usage), find(t.examples)].filter(Boolean).map(htmlOf).find(Boolean) ?? null;
+  const apiTables = apis.flatMap(api => {
+    // "## API — `app-checkbox-mark`" com a tabela logo abaixo: a aba leva o nome dele
+    const own = { title: api.title.replace(/^API\s*[—–:-]?\s*/, '') || 'API', lines: api.lines };
+    return [own, ...api.subs].flatMap(s => tablesFrom(s.lines).map((table, i) => ({
+      // uma seção com duas tabelas (ex.: inputs e eventos): a segunda vira outra aba
+      title: inline(i === 0 ? s.title : `${s.title} · ${table.head[0]}`, docPath),
+      head: table.head.map(h => inline(h, docPath)),
+      rows: table.rows.map(r => r.map(c => inline(c, docPath))),
+    })));
+  });
 
   return {
     lead: lead(md, docPath),

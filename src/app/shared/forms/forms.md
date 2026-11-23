@@ -22,6 +22,23 @@ import { FormFieldComponent } from 'src/app/shared/components/form-field/form-fi
 
 ---
 
+## Por que existe
+
+Sem um lugar central, cada tela escreve as mensagens de erro de novo, valida CPF/CNPJ de um jeito diferente e, ao enviar, deixa a pessoa procurando o campo com problema. Estas peças juntam as mensagens num lugar só (e traduzidas), mostram todos os erros e focam o primeiro campo inválido no envio, e funcionam igual nos componentes da biblioteca e nos inputs nativos.
+
+## Quando usar
+
+### Use quando
+
+- Qualquer formulário reativo com validação.
+- Campos de documento brasileiro (CPF, CNPJ, inclusive o alfanumérico).
+- Campos com formato fixo que ficam mais claros com máscara (telefone, CEP).
+
+### Prefira outro
+
+- Avisar o resultado do envio (salvo, falhou): use o [Toast](../components/toast/toast.md).
+- Validação que depende do servidor: faça a chamada e mostre o erro no campo com a mesma mensagem central.
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 
@@ -85,11 +102,7 @@ salvar(valor: typeof this.form.value) {
 
 ## Validadores — `AppValidators`
 
-| Validador | Erro | Regra |
-|---|---|---|
-| `AppValidators.cpf()` | `{ cpf: true }` | 11 dígitos e dígitos verificadores corretos |
-| `AppValidators.cnpj()` | `{ cnpj: true }` | 14 caracteres; numérico **ou alfanumérico** |
-| `AppValidators.cpfOrCnpj()` | `{ cpfCnpj: true }` | 11 caracteres → CPF; 14 → CNPJ |
+Tabela completa na [API](#api), abaixo.
 
 - Aceitam o valor **com ou sem máscara**.
 - **Ignoram vazio**: combine com `Validators.required` quando o campo for obrigatório.
@@ -188,6 +201,48 @@ Use o atributo nativo para mostrar o **formato** esperado — ele some ao digita
 </app-form-field>
 ```
 
+Tabela completa na [API](#api), abaixo.
+
+O campo projetado continua **nativo** (`<input>`, `<textarea>` ou `<select>`): formulários, `appMask` e o *autocomplete* do navegador funcionam normalmente. Se o campo já tiver `id`, ele é mantido. Visual: tokens do Select (`--sel-*`).
+
+---
+
+## API
+
+### `AppValidators`
+
+| Validador | Erro | Regra |
+|---|---|---|
+| `AppValidators.cpf()` | `{ cpf: true }` | 11 dígitos e dígitos verificadores corretos |
+| `AppValidators.cnpj()` | `{ cnpj: true }` | 14 caracteres; numérico **ou alfanumérico** |
+| `AppValidators.cpfOrCnpj()` | `{ cpfCnpj: true }` | 11 caracteres → CPF; 14 → CNPJ |
+
+### `appFormValidation` · Outputs
+
+| Evento | Payload | Quando dispara |
+|---|---|---|
+| `validSubmit` | `form.getRawValue()` | Formulário enviado e válido. |
+| `invalidSubmit` | `void` | Formulário enviado e inválido; o foco já foi para o primeiro campo com erro. |
+
+Seletor: `form[formGroup][appFormValidation]`.
+
+### `appMask` · Inputs
+
+| Propriedade | Tipo | Padrão | Descrição |
+|---|---|---|---|
+| `appMask` | `'cpf' \| 'cnpj' \| 'cpfCnpj' \| 'phone' \| 'cep' \| 'date' \| string` | obrigatório | Máscara pronta ou padrão próprio (`0` dígito, `A` letra, `*` letra ou dígito). |
+| `unmask` | `boolean` | `true` | O formulário recebe o valor sem máscara. Com `false`, recebe o texto formatado. |
+
+Seletor: `input[appMask]`.
+
+### Pipe `fieldError`
+
+| Uso | Retorno | Descrição |
+|---|---|---|
+| `control \| fieldError` | `string \| null` | Mensagem do primeiro erro (`required` antes dos outros), só depois que o campo foi tocado ou o formulário enviado. |
+
+### `app-form-field`
+
 | Propriedade     | Tipo             | Padrão        | Descrição |
 |-----------------|------------------|---------------|-----------|
 | `label`         | `string`         | `''`          | Rótulo (ligado ao campo por `for`/`id`). |
@@ -196,4 +251,11 @@ Use o atributo nativo para mostrar o **formato** esperado — ele some ao digita
 | `error`         | `string \| null` | `null`        | Erro: substitui a dica, deixa a borda vermelha e marca `aria-invalid`. |
 | `requiredLabel` | `string`         | `labels.required` | Texto do indicador (i18n). |
 
-O campo projetado continua **nativo** (`<input>`, `<textarea>` ou `<select>`): formulários, `appMask` e o *autocomplete* do navegador funcionam normalmente. Se o campo já tiver `id`, ele é mantido. Visual: tokens do Select (`--sel-*`).
+## Acessibilidade
+
+- O erro de cada campo fica ligado a ele por `aria-describedby` e o campo recebe `aria-invalid`, nos componentes da biblioteca e no `app-form-field`.
+- As mensagens só aparecem depois que a pessoa sai do campo, para ninguém ser interrompido no meio da digitação.
+- Ao enviar com erro, o foco vai para o primeiro campo inválido na ordem da tela (inclusive dentro do Select, do Radio group...), rolando até ele. Não há toast: o erro fica junto do campo.
+- `app-form-field` liga rótulo e campo por `for`/`id` e marca `aria-required` quando obrigatório.
+- `appMask` mantém o cursor no lugar ao editar e abre o teclado numérico no celular (`inputmode="numeric"`) nas máscaras só de dígitos.
+- Placeholder mostra só o formato e nunca substitui o rótulo; a cor tem contraste AA nos dois temas.

@@ -16,6 +16,24 @@ São dois componentes:
 
 ---
 
+## Por que existe
+
+O checkbox nativo não tem o estado parcial no HTML (só por JavaScript), é difícil de estilizar e não traz dica nem erro. Este componente acrescenta o estado parcial (indeterminado), integra com Reactive Forms e `ngModel` e liga rótulo, dica e erro ao campo, sem perder o comportamento nativo de teclado e leitor de tela.
+
+## Quando usar
+
+### Use quando
+
+- Aceitar algo antes de enviar (termos, consentimento).
+- Marcar vários itens de uma lista, com um "selecionar todos" que fica parcial.
+- Escolhas que só valem ao enviar o formulário.
+
+### Prefira outro
+
+- Ligar ou desligar algo que vale na hora: use o [Switch](../switch/switch.md).
+- Escolher uma única opção entre poucas: use o [Radio group](../radio/radio-group.md).
+- Muitas opções em níveis: use o [TreeSelect](../tree-select/tree-select.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

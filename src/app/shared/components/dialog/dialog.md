@@ -10,6 +10,24 @@ Sheet/modal acessível e leve para confirmações e pequenos formulários. Const
 
 ---
 
+## Por que existe
+
+Um modal precisa de mais do que uma caixa por cima da página: foco que entra, fica preso dentro e volta ao botão que abriu, `Esc` para fechar, fundo inerte para o leitor de tela e título ligado ao diálogo. Esquecer qualquer um deixa quem usa teclado ou leitor de tela perdido. Este componente faz isso sozinho, com tamanhos e ações padrão.
+
+## Quando usar
+
+### Use quando
+
+- A pessoa precisa confirmar uma ação antes de seguir (excluir, descartar alterações).
+- Um formulário pequeno que não justifica trocar de página.
+- A tarefa deve ser resolvida antes de voltar ao resto da tela.
+
+### Prefira outro
+
+- Formulário ou revisão mais longos, ao lado do conteúdo: use o [ActionBar](../actionbar/actionbar.md).
+- Avisar que algo aconteceu, sem interromper: use o [Toast](../toast/toast.md).
+- Uma explicação curta sobre um elemento: use o [Tooltip](../tooltip/tooltip.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 
@@ -23,6 +41,24 @@ Para usar o Dialog em outro projeto Angular, copie para dentro de uma pasta `sha
 
 Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~630 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
+
+## Uso
+
+```html
+<button appButton type="button" (click)="aberto = true">Excluir pedido</button>
+
+<app-dialog
+  title="Excluir pedido?"
+  [(opened)]="aberto"
+  describedBy="excluir-desc"
+  primaryLabel="Excluir"
+  secondaryLabel="Cancelar"
+  (primary)="excluir()">
+  <p id="excluir-desc">Esta ação não pode ser desfeita.</p>
+</app-dialog>
+```
+
+Ao fechar, o foco volta ao botão "Excluir pedido". Para textos traduzidos, passe as strings do seu i18n nos inputs.
 
 ## API
 

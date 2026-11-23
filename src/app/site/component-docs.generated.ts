@@ -3,16 +3,25 @@
 import { ComponentDocs } from './component-docs.types';
 
 /** componentes com página completa (têm "Por que existe" nos dois idiomas) */
-export const COMPONENT_PAGES_READY: readonly string[] = ["select","table","tabs"];
+export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation"];
 
 export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "actionbar": {
     "pt": {
       "lead": "Sheet lateral com título, conteúdo e ações. Abre da <strong>direita para a esquerda</strong>, herda as cores do tema atual e respeita o <strong>accent</strong>.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
+      "why": [
+        "Painéis laterais têm os mesmos cuidados de um modal (foco preso e devolvido, <code>Esc</code>, fundo inerte, rolagem da página travada) e ainda precisam de largura que se adapte ao conteúdo. Este componente resolve isso uma vez, com título, conteúdo rolável e ações fixas no rodapé."
+      ],
+      "useWhen": [
+        "Fluxos de revisão, confirmação ou edição que não justificam trocar de rota.",
+        "Formulários auxiliares e wizards curtos, mantendo a tela de origem à vista.",
+        "O conteúdo é maior do que cabe confortavelmente num Dialog."
+      ],
+      "preferOther": [
+        "Uma confirmação curta: use o <a href=\"/componentes/dialog\">Dialog</a>.",
+        "Conteúdo muito longo ou navegação completa: use uma página."
+      ],
+      "example": "<app-actionbar\n  [title]=\"'Título do actionbar'\"\n  size=\"md\"\n  [(opened)]=\"open\"\n  primaryLabel=\"Confirmar\"\n  secondaryLabel=\"Cancelar\"\n  (primary)=\"onConfirm()\"\n  (secondary)=\"open=false\">\n  <!-- seu conteúdo -->\n</app-actionbar>",
       "api": [
         {
           "title": "Inputs",
@@ -157,10 +166,19 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "Right‑side sheet with header, scrollable content and footer actions. It inherits the current theme and respects the <strong>accent</strong>.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
+      "why": [
+        "Side panels need the same care as a modal (focus trapped and returned, <code>Esc</code>, inert background, page scroll locked) and also a width that adapts to the content. This component solves it once, with a title, scrollable content and actions fixed at the bottom."
+      ],
+      "useWhen": [
+        "Review, confirm or edit flows that do not deserve a route change.",
+        "Auxiliary forms and short wizards, keeping the original screen in view.",
+        "The content is larger than fits comfortably in a Dialog."
+      ],
+      "preferOther": [
+        "A short confirmation: use the <a href=\"/componentes/dialog\">Dialog</a>.",
+        "Very long content or full navigation: use a page."
+      ],
+      "example": "<app-actionbar\n  [title]=\"'Action bar title'\"\n  size=\"md\"\n  [(opened)]=\"open\"\n  primaryLabel=\"Confirm\"\n  secondaryLabel=\"Cancel\"\n  (primary)=\"onConfirm()\"\n  (secondary)=\"open=false\">\n  <!-- your content -->\n</app-actionbar>",
       "api": [
         {
           "title": "Inputs",
@@ -306,13 +324,82 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   },
   "button": {
     "pt": {
-      "lead": "Diretiva reutilizável para estilizar <code>&lt;button&gt;</code>/<code>&lt;a&gt;</code> com tokens do tema.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
-      "api": [],
-      "a11y": [],
+      "lead": "Diretiva que dá o visual do tema a um <code>&lt;button&gt;</code> ou <code>&lt;a&gt;</code> nativo: variante, tom e tamanho, com estados de carregando e desabilitado.",
+      "why": [
+        "Um componente de botão que envolve o <code>&lt;button&gt;</code> costuma esconder atributos nativos (<code>type</code>, <code>disabled</code>, <code>aria-*</code>) e atrapalhar formulários e links. Como diretiva, o <code>appButton</code> só aplica o visual (variante, tom e tamanho com os tokens do tema) e deixa o elemento nativo fazer o resto: teclado, foco, envio de formulário e navegação."
+      ],
+      "useWhen": [
+        "Qualquer ação na tela: use num <code>&lt;button&gt;</code>.",
+        "Um link que precisa parecer botão: use num <code>&lt;a href&gt;</code>, que continua sendo link.",
+        "Ações destrutivas: use <code>tone=&quot;danger&quot;</code>."
+      ],
+      "preferOther": [
+        "Um botão só com ícone: use o botão e dê o nome com o <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
+        "Ir para outra página dentro de um texto: use um link comum, sem <code>appButton</code>."
+      ],
+      "example": "<button appButton type=\"submit\">Salvar</button>\n<button appButton=\"ghost\" tone=\"neutral\" type=\"button\">Voltar</button>\n<button appButton=\"outline\" tone=\"danger\" type=\"button\">Excluir</button>\n<button appButton [busy]=\"salvando()\" type=\"submit\">Enviar</button>\n<a appButton variant=\"link\" href=\"/ajuda\">Saiba mais</a>",
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>appButton</code> / <code>variant</code>",
+              "<code>'solid' | 'outline' | 'ghost' | 'pill' | 'link'</code>",
+              "<code>'solid'</code>",
+              "Forma do botão. <code>variant</code> vence <code>appButton</code>."
+            ],
+            [
+              "<code>tone</code>",
+              "<code>'accent' | 'neutral' | 'danger'</code>",
+              "<code>'accent'</code>",
+              "Paleta: destaque do tema, neutra ou de ação destrutiva."
+            ],
+            [
+              "<code>size</code>",
+              "<code>'xs' | 'sm' | 'md' | 'lg'</code>",
+              "<code>'md'</code>",
+              "Tamanho."
+            ],
+            [
+              "<code>block</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Ocupa a largura toda. Aceita o atributo vazio."
+            ],
+            [
+              "<code>iconOnly</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Quadrado para um ícone só. Precisa de nome (<code>aria-label</code> ou Tooltip com <code>tooltipAsLabel</code>)."
+            ],
+            [
+              "<code>busy</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Carregando: mostra um spinner, marca <code>aria-busy</code> e bloqueia o clique."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Desabilita. No <code>&lt;button&gt;</code> usa o <code>disabled</code> nativo; no <code>&lt;a&gt;</code>, <code>aria-disabled</code> e sai da ordem do Tab."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "Continua sendo o <code>&lt;button&gt;</code> ou <code>&lt;a&gt;</code> nativo: Enter e Espaço, envio de formulário e navegação funcionam sem nada a mais.",
+        "<code>busy</code> e <code>disabled</code> bloqueiam o clique. No <code>&lt;button&gt;</code> viram o atributo <code>disabled</code>; no <code>&lt;a&gt;</code>, que não tem <code>disabled</code>, viram <code>aria-disabled=&quot;true&quot;</code> e <code>tabindex=&quot;-1&quot;</code>.",
+        "<code>busy</code> marca <code>aria-busy=&quot;true&quot;</code>; o texto do botão continua lá para o leitor de tela.",
+        "Anel de foco (<code>:focus-visible</code>) na cor de destaque do tema, só no foco por teclado.",
+        "Botão só com ícone (<code>iconOnly</code>) não tem texto visível: dê o nome com <code>aria-label</code> ou com o <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
+      ],
       "tokens": [],
       "copy": {
         "rows": [
@@ -339,13 +426,82 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.md"
     },
     "en": {
-      "lead": "Reusable directive to style <code>&lt;button&gt;</code>/<code>&lt;a&gt;</code> with theme tokens.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
-      "api": [],
-      "a11y": [],
+      "lead": "Directive that gives a native <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code> the theme look: variant, tone and size, with busy and disabled states.",
+      "why": [
+        "A button component that wraps <code>&lt;button&gt;</code> often hides native attributes (<code>type</code>, <code>disabled</code>, <code>aria-*</code>) and gets in the way of forms and links. As a directive, <code>appButton</code> only applies the look (variant, tone and size with the theme tokens) and lets the native element do the rest: keyboard, focus, form submission and navigation."
+      ],
+      "useWhen": [
+        "Any action on the screen: use it on a <code>&lt;button&gt;</code>.",
+        "A link that has to look like a button: use it on an <code>&lt;a href&gt;</code>, which is still a link.",
+        "Destructive actions: use <code>tone=&quot;danger&quot;</code>."
+      ],
+      "preferOther": [
+        "An icon-only button: use the button and name it with the <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
+        "Going to another page inside a sentence: use a plain link, without <code>appButton</code>."
+      ],
+      "example": "<button appButton type=\"submit\">Save</button>\n<button appButton=\"ghost\" tone=\"neutral\" type=\"button\">Back</button>\n<button appButton=\"outline\" tone=\"danger\" type=\"button\">Delete</button>\n<button appButton [busy]=\"saving()\" type=\"submit\">Send</button>\n<a appButton variant=\"link\" href=\"/help\">Learn more</a>",
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Property",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>appButton</code> / <code>variant</code>",
+              "<code>'solid' | 'outline' | 'ghost' | 'pill' | 'link'</code>",
+              "<code>'solid'</code>",
+              "Button shape. <code>variant</code> wins over <code>appButton</code>."
+            ],
+            [
+              "<code>tone</code>",
+              "<code>'accent' | 'neutral' | 'danger'</code>",
+              "<code>'accent'</code>",
+              "Palette: theme accent, neutral or destructive action."
+            ],
+            [
+              "<code>size</code>",
+              "<code>'xs' | 'sm' | 'md' | 'lg'</code>",
+              "<code>'md'</code>",
+              "Size."
+            ],
+            [
+              "<code>block</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Takes the full width. Accepts the empty attribute."
+            ],
+            [
+              "<code>iconOnly</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Square for a single icon. Needs a name (<code>aria-label</code> or a Tooltip with <code>tooltipAsLabel</code>)."
+            ],
+            [
+              "<code>busy</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Loading: shows a spinner, sets <code>aria-busy</code> and blocks clicks."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Disables. On <code>&lt;button&gt;</code> it uses the native <code>disabled</code>; on <code>&lt;a&gt;</code>, <code>aria-disabled</code> and it leaves the Tab order."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "It is still the native <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code>: Enter and Space, form submission and navigation work with nothing extra.",
+        "<code>busy</code> and <code>disabled</code> block clicks. On <code>&lt;button&gt;</code> they become the <code>disabled</code> attribute; on <code>&lt;a&gt;</code>, which has no <code>disabled</code>, they become <code>aria-disabled=&quot;true&quot;</code> and <code>tabindex=&quot;-1&quot;</code>.",
+        "<code>busy</code> sets <code>aria-busy=&quot;true&quot;</code>; the button text stays there for screen readers.",
+        "Focus ring (<code>:focus-visible</code>) in the theme accent color, on keyboard focus only.",
+        "An icon-only button (<code>iconOnly</code>) has no visible text: name it with <code>aria-label</code> or with the <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
+      ],
       "tokens": [],
       "copy": {
         "rows": [
@@ -375,11 +531,124 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "checkbox": {
     "pt": {
       "lead": "Checkbox acessível com <strong>estado parcial</strong> (indeterminado), integrado a formulários. Construído com <strong>Angular Standalone + HTML/Sass</strong>, sem dependências de UI libs.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "O checkbox nativo não tem o estado parcial no HTML (só por JavaScript), é difícil de estilizar e não traz dica nem erro. Este componente acrescenta o estado parcial (indeterminado), integra com Reactive Forms e <code>ngModel</code> e liga rótulo, dica e erro ao campo, sem perder o comportamento nativo de teclado e leitor de tela."
+      ],
+      "useWhen": [
+        "Aceitar algo antes de enviar (termos, consentimento).",
+        "Marcar vários itens de uma lista, com um &quot;selecionar todos&quot; que fica parcial.",
+        "Escolhas que só valem ao enviar o formulário."
+      ],
+      "preferOther": [
+        "Ligar ou desligar algo que vale na hora: use o <a href=\"/componentes/switch\">Switch</a>.",
+        "Escolher uma única opção entre poucas: use o <a href=\"/componentes/radio\">Radio group</a>.",
+        "Muitas opções em níveis: use o <a href=\"/componentes/treeselect\">TreeSelect</a>."
+      ],
       "example": "<app-checkbox [(checked)]=\"aceito\">Aceito os termos</app-checkbox>",
-      "api": [],
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>checked</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Marcado. Two-way via <code>[(checked)]</code>. Com formulários, use <code>formControl</code>/<code>ngModel</code>."
+            ],
+            [
+              "<code>indeterminate</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Estado <strong>parcial</strong> (&quot;−&quot;). Tem prioridade visual sobre <code>checked</code>. Ao clicar, sai do parcial e fica marcado. Two-way via <code>[(indeterminate)]</code>."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Desabilita. Aceita o atributo vazio. O formulário também desabilita (<code>control.disable()</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Repassa <code>required</code> ao input nativo. Para validar, use <code>Validators.requiredTrue</code>."
+            ],
+            [
+              "<code>name</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "<code>name</code> do input nativo."
+            ],
+            [
+              "<code>ariaLabel</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Rótulo para leitor de tela quando não há texto visível."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Texto de apoio abaixo, ligado por <code>aria-describedby</code>."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Mensagem de erro: substitui a dica, deixa a caixa vermelha e marca <code>aria-invalid</code>."
+            ]
+          ]
+        },
+        {
+          "title": "Outputs",
+          "head": [
+            "Evento",
+            "Payload",
+            "Quando dispara"
+          ],
+          "rows": [
+            [
+              "<code>checkedChange</code>",
+              "<code>boolean</code>",
+              "O usuário marcou/desmarcou."
+            ],
+            [
+              "<code>indeterminateChange</code>",
+              "<code>boolean</code>",
+              "O usuário clicou num checkbox parcial (sai do parcial)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-checkbox-mark</code>",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>state</code>",
+              "<code>'unchecked' | 'checked' | 'mixed'</code>",
+              "<code>'unchecked'</code>",
+              "Estado desenhado."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Visual desabilitado."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "Por baixo há um <strong><code>&lt;input type=&quot;checkbox&quot;&gt;</code> nativo</strong> (invisível, sobre a caixa): teclado (<code>Espaço</code>), clique no rótulo, <code>required</code> e foco vêm do navegador.",
         "O estado parcial usa a <strong>propriedade nativa <code>indeterminate</code></strong>, que leitores de tela anunciam como &quot;parcialmente marcado&quot;.",
@@ -417,11 +686,124 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "Accessible checkbox with a <strong>partial</strong> (indeterminate) state, integrated with forms. Built with <strong>Angular Standalone + HTML/Sass</strong>, no UI libraries.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "The native checkbox has no partial state in HTML (only through JavaScript), is hard to style and has no hint or error. This component adds the partial (indeterminate) state, works with Reactive Forms and <code>ngModel</code> and ties label, hint and error to the field, without losing the native keyboard and screen reader behavior."
+      ],
+      "useWhen": [
+        "Accepting something before submitting (terms, consent).",
+        "Checking several items of a list, with a &quot;select all&quot; that becomes partial.",
+        "Choices that only apply when the form is submitted."
+      ],
+      "preferOther": [
+        "Turning something on or off right away: use the <a href=\"/componentes/switch\">Switch</a>.",
+        "Picking one option among a few: use the <a href=\"/componentes/radio\">Radio group</a>.",
+        "Many options in levels: use the <a href=\"/componentes/treeselect\">TreeSelect</a>."
+      ],
       "example": "<app-checkbox [(checked)]=\"accepted\">I accept the terms</app-checkbox>",
-      "api": [],
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>checked</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Checked. Two-way via <code>[(checked)]</code>. With forms, use <code>formControl</code>/<code>ngModel</code>."
+            ],
+            [
+              "<code>indeterminate</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "<strong>Partial</strong> state (&quot;−&quot;). Visually wins over <code>checked</code>. Clicking leaves the partial state and checks it. Two-way via <code>[(indeterminate)]</code>."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Disables it. Accepts the bare attribute. The form can disable it too (<code>control.disable()</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Passes <code>required</code> to the native input. To validate, use <code>Validators.requiredTrue</code>."
+            ],
+            [
+              "<code>name</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Native input <code>name</code>."
+            ],
+            [
+              "<code>ariaLabel</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Screen reader label when there is no visible text."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Helper text below, linked via <code>aria-describedby</code>."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Error message: replaces the hint, turns the box red and sets <code>aria-invalid</code>."
+            ]
+          ]
+        },
+        {
+          "title": "Outputs",
+          "head": [
+            "Output",
+            "Payload",
+            "When"
+          ],
+          "rows": [
+            [
+              "<code>checkedChange</code>",
+              "<code>boolean</code>",
+              "The user checked/unchecked it."
+            ],
+            [
+              "<code>indeterminateChange</code>",
+              "<code>boolean</code>",
+              "The user clicked a partial checkbox (it leaves the partial state)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-checkbox-mark</code>",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>state</code>",
+              "<code>'unchecked' | 'checked' | 'mixed'</code>",
+              "<code>'unchecked'</code>",
+              "State to draw."
+            ],
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Disabled look."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "Underneath there is a <strong>native <code>&lt;input type=&quot;checkbox&quot;&gt;</code></strong> (invisible, over the box): keyboard (<code>Space</code>), label click, <code>required</code> and focus come from the browser.",
         "The partial state uses the <strong>native <code>indeterminate</code> property</strong>, which screen readers announce as &quot;partially checked&quot;.",
@@ -461,10 +843,20 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "dialog": {
     "pt": {
       "lead": "Sheet/modal acessível e leve para confirmações e pequenos formulários. Construído com <strong>Angular Standalone + HTML/Sass</strong>, sem dependências de UI libs.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
+      "why": [
+        "Um modal precisa de mais do que uma caixa por cima da página: foco que entra, fica preso dentro e volta ao botão que abriu, <code>Esc</code> para fechar, fundo inerte para o leitor de tela e título ligado ao diálogo. Esquecer qualquer um deixa quem usa teclado ou leitor de tela perdido. Este componente faz isso sozinho, com tamanhos e ações padrão."
+      ],
+      "useWhen": [
+        "A pessoa precisa confirmar uma ação antes de seguir (excluir, descartar alterações).",
+        "Um formulário pequeno que não justifica trocar de página.",
+        "A tarefa deve ser resolvida antes de voltar ao resto da tela."
+      ],
+      "preferOther": [
+        "Formulário ou revisão mais longos, ao lado do conteúdo: use o <a href=\"/componentes/actionbar\">ActionBar</a>.",
+        "Avisar que algo aconteceu, sem interromper: use o <a href=\"/componentes/toast\">Toast</a>.",
+        "Uma explicação curta sobre um elemento: use o <a href=\"/componentes/tooltip\">Tooltip</a>."
+      ],
+      "example": "<button appButton type=\"button\" (click)=\"aberto = true\">Excluir pedido</button>\n\n<app-dialog\n  title=\"Excluir pedido?\"\n  [(opened)]=\"aberto\"\n  describedBy=\"excluir-desc\"\n  primaryLabel=\"Excluir\"\n  secondaryLabel=\"Cancelar\"\n  (primary)=\"excluir()\">\n  <p id=\"excluir-desc\">Esta ação não pode ser desfeita.</p>\n</app-dialog>",
       "api": [
         {
           "title": "Inputs",
@@ -615,10 +1007,20 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "Accessible, lightweight modal for confirmations and small forms. Built with <strong>Angular Standalone + HTML/Sass</strong>, no UI frameworks.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
+      "why": [
+        "A modal needs more than a box on top of the page: focus that moves in, stays trapped and returns to the button that opened it, <code>Esc</code> to close, an inert background for screen readers and a title tied to the dialog. Missing any of them leaves keyboard and screen reader users lost. This component does it on its own, with sizes and default actions."
+      ],
+      "useWhen": [
+        "People must confirm an action before moving on (delete, discard changes).",
+        "A small form that does not deserve its own page.",
+        "The task has to be finished before going back to the rest of the screen."
+      ],
+      "preferOther": [
+        "A longer form or review, beside the content: use the <a href=\"/componentes/actionbar\">ActionBar</a>.",
+        "Telling that something happened, without interrupting: use the <a href=\"/componentes/toast\">Toast</a>.",
+        "A short explanation about an element: use the <a href=\"/componentes/tooltip\">Tooltip</a>."
+      ],
+      "example": "<button appButton type=\"button\" (click)=\"open = true\">Delete order</button>\n\n<app-dialog\n  title=\"Delete order?\"\n  [(opened)]=\"open\"\n  describedBy=\"delete-desc\"\n  primaryLabel=\"Delete\"\n  secondaryLabel=\"Cancel\"\n  (primary)=\"delete()\">\n  <p id=\"delete-desc\">This action cannot be undone.</p>\n</app-dialog>",
       "api": [
         {
           "title": "Inputs",
@@ -770,10 +1172,19 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "pagination": {
     "pt": {
       "lead": "Componente de <strong>paginação independente</strong> (não acopla à Tabela), pensado para funcionar tanto com <strong>fatiamento client-side</strong> quanto <strong>server-side</strong>. Visual em “bolhas”, setas laterais e controles acessíveis.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
+      "why": [
+        "Paginar parece só uma fileira de números, mas é preciso decidir quais páginas mostrar sem estourar a largura, desabilitar as setas nas pontas, marcar a página atual para o leitor de tela e funcionar igual com dados no navegador ou no servidor. Este componente cuida só da navegação: quem decide quais itens mostrar é a sua tela."
+      ],
+      "useWhen": [
+        "Uma lista ou tabela longa demais para uma tela só.",
+        "Os dados vêm do servidor em páginas.",
+        "A pessoa precisa voltar a uma posição específica da lista."
+      ],
+      "preferOther": [
+        "Listas curtas: mostre tudo, sem paginar.",
+        "Dados em tabela: a <a href=\"/componentes/table\">Table</a> já traz a paginação no rodapé."
+      ],
+      "example": "<app-pagination\n  [total]=\"42\"\n  [pageSize]=\"10\"\n  [pageIndex]=\"pageIndex\"\n  [maxVisible]=\"5\"\n  (pageChange)=\"pageIndex = $event\">\n</app-pagination>",
       "api": [
         {
           "title": "Inputs",
@@ -896,10 +1307,19 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "A <strong>standalone pagination</strong> component (numeric bubbles + arrows). It <strong>doesn’t</strong> slice data; the <strong>container</strong> controls <code>pageIndex/pageSize</code> and passes the sliced array to whatever view (e.g., the Table).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": "<app-table [columns]=\"columns\" [data]=\"pagedRows()\" (action)=\"onAction($event)\"></app-table>\n\n@if (rows.length > pageSize) {\n  <div class=\"tbl-footer\">\n    <span class=\"total\">Total: {{ rows.length }}</span>\n    <app-pagination\n      [total]=\"rows.length\"\n      [pageSize]=\"pageSize\"\n      [pageIndex]=\"pageIndex()\"\n      (pageChange)=\"pageIndex.set($event)\">\n    </app-pagination>\n  </div>\n}",
+      "why": [
+        "Pagination looks like a row of numbers, but it has to decide which pages to show without overflowing, disable the arrows at the ends, mark the current page for screen readers and work the same with data in the browser or on the server. This component only handles navigation: your screen decides which items to show."
+      ],
+      "useWhen": [
+        "A list or table too long for one screen.",
+        "Data comes from the server in pages.",
+        "People need to go back to a specific position in the list."
+      ],
+      "preferOther": [
+        "Short lists: show everything, without pages.",
+        "Data in a table: the <a href=\"/componentes/table\">Table</a> already has pagination in its footer."
+      ],
+      "example": "<app-pagination\n  [total]=\"42\"\n  [pageSize]=\"10\"\n  [pageIndex]=\"pageIndex\"\n  [maxVisible]=\"5\"\n  (pageChange)=\"pageIndex = $event\">\n</app-pagination>",
       "api": [
         {
           "title": "Inputs",
@@ -1024,9 +1444,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "radio": {
     "pt": {
       "lead": "Escolha <strong>única</strong> entre poucas opções visíveis. Construído sobre <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> e <code>&lt;input type=&quot;radio&quot;&gt;</code> <strong>nativos</strong>, com os tokens de cor do Checkbox (<code>--cb-*</code>).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Radios nativos já são acessíveis, mas o grupo precisa de <code>&lt;fieldset&gt;</code> com <code>&lt;legend&gt;</code>, um <code>name</code> em comum, erro ligado ao grupo e integração com formulários, e isso costuma ser esquecido. Este componente monta o grupo certo a partir de uma lista de opções, com o mesmo visual do Checkbox."
+      ],
+      "useWhen": [
+        "A pessoa escolhe uma única opção entre poucas (até umas 5).",
+        "Vale mostrar todas as opções de uma vez, para comparar."
+      ],
+      "preferOther": [
+        "Muitas opções, ou pouco espaço: use o <a href=\"/componentes/select\">Select</a>.",
+        "Ligar ou desligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>.",
+        "Várias opções ao mesmo tempo: use o <a href=\"/componentes/checkbox\">Checkbox</a>."
+      ],
       "example": "<app-radio-group label=\"Plano\" [options]=\"plans\" [(value)]=\"plano\" />\n\n<app-radio-group label=\"Entrega\" orientation=\"horizontal\" required\n  [options]=\"entregas\" [formControl]=\"entrega\"\n  [error]=\"entrega.touched && entrega.invalid ? 'Escolha uma forma de entrega.' : null\" />",
       "api": [
         {
@@ -1143,10 +1572,19 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.md"
     },
     "en": {
-      "lead": "",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "lead": "<strong>Single</strong> choice among a few visible options. Built on a <strong>native</strong> <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> and <code>&lt;input type=&quot;radio&quot;&gt;</code>, using the Checkbox color tokens (<code>--cb-*</code>).",
+      "why": [
+        "Native radios are already accessible, but the group needs a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>, a shared <code>name</code>, an error tied to the group and form integration, and that is often forgotten. This component builds the right group from a list of options, with the same look as the Checkbox."
+      ],
+      "useWhen": [
+        "People pick a single option among a few (up to about 5).",
+        "Showing every option at once helps compare them."
+      ],
+      "preferOther": [
+        "Many options, or little space: use the <a href=\"/componentes/select\">Select</a>.",
+        "Turning a setting on or off: use the <a href=\"/componentes/switch\">Switch</a>.",
+        "Several options at the same time: use the <a href=\"/componentes/checkbox\">Checkbox</a>."
+      ],
       "example": "<app-radio-group label=\"Plan\" [options]=\"plans\" [(value)]=\"plan\" />\n\n<app-radio-group label=\"Shipping\" orientation=\"horizontal\" required\n  [options]=\"methods\" [formControl]=\"shipping\"\n  [error]=\"shipping.touched && shipping.invalid ? 'Choose a shipping method.' : null\" />",
       "api": [
         {
@@ -1642,9 +2080,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "stepper": {
     "pt": {
       "lead": "Um <strong>componente de etapas</strong> leve e acessível, implementado em <strong>HTML + Sass</strong>, exposto como Angular <strong>Standalone</strong>. Sem dependência de UI framework.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Um fluxo em etapas precisa mostrar onde a pessoa está, o que já foi feito e o que ainda falta, e isso também para quem usa leitor de tela (<code>aria-current=&quot;step&quot;</code>, etapas concluídas anunciadas). Também precisa impedir que alguém pule etapas sem passar pela validação. Este componente cuida da apresentação e da regra de clique; o conteúdo de cada etapa fica com você."
+      ],
+      "useWhen": [
+        "Uma tarefa longa dividida em etapas que seguem uma ordem (cadastro, checkout).",
+        "Uma etapa depende do que foi preenchido na anterior.",
+        "A pessoa precisa ver quanto falta para terminar."
+      ],
+      "preferOther": [
+        "Seções independentes, abertas em qualquer ordem: use as <a href=\"/componentes/tabs\">Tabs</a>.",
+        "Um formulário curto que cabe numa tela: não divida em etapas."
+      ],
       "example": "<app-stepper\n  [steps]=\"steps\"\n  [current]=\"current\"\n  [clickable]=\"true\"\n  [showIndex]=\"true\"\n  [showCaption]=\"true\"\n  (stepChange)=\"goTo($event)\">\n</app-stepper>",
       "api": [
         {
@@ -1765,9 +2212,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "An <strong>accessible, framework-free</strong> horizontal stepper built with <strong>plain HTML + Sass</strong> and exposed as a <strong>standalone Angular</strong> component. It supports active/done/disabled states, optional index/caption, and theme tokens via CSS variables.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "A step-by-step flow has to show where people are, what is done and what is left, for screen reader users too (<code>aria-current=&quot;step&quot;</code>, completed steps announced). It also has to stop people from skipping steps without passing validation. This component handles the display and the click rule; the content of each step stays with you."
+      ],
+      "useWhen": [
+        "A long task split into steps that follow an order (sign-up, checkout).",
+        "A step depends on what was filled in the previous one.",
+        "People need to see how much is left."
+      ],
+      "preferOther": [
+        "Independent sections, opened in any order: use the <a href=\"/componentes/tabs\">Tabs</a>.",
+        "A short form that fits on one screen: do not split it into steps."
+      ],
       "example": "<app-stepper\n  [steps]=\"steps\"\n  [current]=\"current()\"\n  [clickable]=\"true\"\n  (stepChange)=\"goTo($event)\">\n</app-stepper>",
       "api": [
         {
@@ -1888,9 +2344,17 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "switch": {
     "pt": {
       "lead": "Liga/desliga para <strong>configurações que valem na hora</strong> (ex.: &quot;Notificações&quot;). Construído sobre <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code> <strong>nativo</strong>, com os tokens de cor do Checkbox (<code>--cb-*</code>).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Um checkbox comum não diz ao leitor de tela que a mudança vale na hora. O Switch usa o <code>&lt;input type=&quot;checkbox&quot;&gt;</code> nativo com <code>role=&quot;switch&quot;</code>, então é anunciado como &quot;ligado/desligado&quot;, funciona com Espaço e com formulários, e ganha o visual de chave com os tokens de cor do Checkbox."
+      ],
+      "useWhen": [
+        "Uma configuração que vale assim que muda (notificações, modo escuro).",
+        "Um único liga/desliga, sem botão de salvar."
+      ],
+      "preferOther": [
+        "A escolha só vale ao enviar o formulário, ou é um aceite: use o <a href=\"/componentes/checkbox\">Checkbox</a>.",
+        "Mais de duas opções: use o <a href=\"/componentes/radio\">Radio group</a>."
+      ],
       "example": "<app-switch [(checked)]=\"notificacoes\">Notificações por e-mail</app-switch>\n\n<!-- lista de configurações: rótulo à esquerda, switch à direita -->\n<app-switch labelFirst [formControl]=\"modoCompacto\">Modo compacto</app-switch>",
       "api": [
         {
@@ -1987,9 +2451,17 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "On/off for <strong>settings that apply immediately</strong> (e.g. &quot;Notifications&quot;). Built on a <strong>native</strong> <code>&lt;input type=&quot;checkbox&quot; role=&quot;switch&quot;&gt;</code>, using the Checkbox color tokens (<code>--cb-*</code>).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "A plain checkbox does not tell screen readers that the change applies right away. The Switch uses the native <code>&lt;input type=&quot;checkbox&quot;&gt;</code> with <code>role=&quot;switch&quot;</code>, so it is announced as &quot;on/off&quot;, works with Space and with forms, and gets the switch look with the Checkbox color tokens."
+      ],
+      "useWhen": [
+        "A setting that applies as soon as it changes (notifications, dark mode).",
+        "A single on/off, with no save button."
+      ],
+      "preferOther": [
+        "The choice only applies when the form is submitted, or it is an agreement: use the <a href=\"/componentes/checkbox\">Checkbox</a>.",
+        "More than two options: use the <a href=\"/componentes/radio\">Radio group</a>."
+      ],
       "example": "<app-switch [(checked)]=\"notifications\">Email notifications</app-switch>\n\n<!-- settings list: label on the left, switch on the right -->\n<app-switch labelFirst [formControl]=\"compactMode\">Compact mode</app-switch>",
       "api": [
         {
@@ -2898,7 +3370,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tabs/tabs.md"
     },
     "en": {
-      "lead": "@Component({ imports: [...TABS_IMPORTS] }) ```",
+      "lead": "<strong>WAI-ARIA</strong> tabs (<code>tablist</code> / <code>tab</code> / <code>tabpanel</code>) to switch between sections of the same screen.",
       "why": [
         "Tabs look simple, but getting the behavior right takes work: arrow keys switch tabs, only the open tab is in the Tab order, each tab points to its panel, disabled tabs are skipped and, with many tabs on a phone, the open one has to stay in view. This component solves it once, following WAI-ARIA, so you only declare the tabs."
       ],
@@ -3036,11 +3508,67 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "toast": {
     "pt": {
       "lead": "Componente de <strong>toasts</strong> leve e acessível: <strong>serviço + container</strong>. O <strong>serviço</strong> gerencia a fila (signals) e o <strong>container</strong> apenas renderiza a pilha. Sem framework de UI.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Avisos que aparecem e somem precisam ser anunciados pelo leitor de tela sem roubar o foco, empilhar sem se sobrepor, continuar clicáveis mesmo com um modal aberto e não depender de timers no servidor (SSR). Este componente separa a fila (um serviço com signals) da exibição (um container), então qualquer parte do app chama <code>toast.success(...)</code>."
+      ],
+      "useWhen": [
+        "Confirmar que uma ação deu certo (salvo, enviado, copiado).",
+        "Avisar de um erro que não impede de continuar.",
+        "Oferecer uma ação rápida e opcional, como &quot;Desfazer&quot;."
+      ],
+      "preferOther": [
+        "A pessoa precisa decidir algo antes de seguir: use o <a href=\"/componentes/dialog\">Dialog</a>.",
+        "Erro de um campo de formulário: mostre junto do campo (<a href=\"/componentes/validation\">Formulários</a>).",
+        "Informação que precisa ficar na tela: use um aviso fixo na página, não um toast que some."
+      ],
       "example": "<app-toast-container></app-toast-container>",
-      "api": [],
+      "api": [
+        {
+          "title": "Serviço (<code>ToastService</code>)",
+          "head": [
+            "Método",
+            "Retorno",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>show(message, kind?, options?)</code>",
+              "<code>number</code> (id)",
+              "Mostra um toast. <code>kind</code> padrão <code>'info'</code>; <code>options</code> são os campos opcionais de <code>Toast</code> (<code>duration</code> padrão <code>4000</code> ms, <code>0</code> não fecha sozinho)."
+            ],
+            [
+              "<code>success(message, options?)</code>",
+              "<code>number</code>",
+              "Atalho para <code>show(message, 'success', options)</code>."
+            ],
+            [
+              "<code>error(message, options?)</code>",
+              "<code>number</code>",
+              "Atalho para <code>show(message, 'error', options)</code>; anunciado com <code>role=&quot;alert&quot;</code>."
+            ],
+            [
+              "<code>info(message, options?)</code>",
+              "<code>number</code>",
+              "Atalho para <code>show(message, 'info', options)</code>."
+            ],
+            [
+              "<code>warning(message, options?)</code>",
+              "<code>number</code>",
+              "Atalho para <code>show(message, 'warning', options)</code>."
+            ],
+            [
+              "<code>dismiss(id)</code>",
+              "<code>void</code>",
+              "Fecha um toast pelo id."
+            ],
+            [
+              "<code>clear()</code>",
+              "<code>void</code>",
+              "Fecha todos."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "<code>aria-live=&quot;polite&quot;</code> na pilha; para erro, <code>role=&quot;alert&quot;</code> (assertivo).",
         "Botão de fechar com <code>aria-label=&quot;Fechar&quot;</code>.",
@@ -3096,11 +3624,67 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "A lightweight, accessible <strong>toast</strong> solution built from <strong>service + container</strong>. The <strong>service</strong> manages the queue (signals) and the <strong>container</strong> renders the stack. No UI framework.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Messages that appear and go away have to be announced by screen readers without stealing focus, stack without overlapping, stay clickable even with a modal open and not rely on timers on the server (SSR). This component splits the queue (a service with signals) from the display (a container), so any part of the app calls <code>toast.success(...)</code>."
+      ],
+      "useWhen": [
+        "Confirming that an action worked (saved, sent, copied).",
+        "Warning about an error that does not block moving on.",
+        "Offering a quick, optional action, like &quot;Undo&quot;."
+      ],
+      "preferOther": [
+        "People must decide something before moving on: use the <a href=\"/componentes/dialog\">Dialog</a>.",
+        "A form field error: show it next to the field (<a href=\"/componentes/validation\">Forms</a>).",
+        "Information that must stay on screen: use a fixed notice on the page, not a toast that goes away."
+      ],
       "example": "<app-toast-container></app-toast-container>",
-      "api": [],
+      "api": [
+        {
+          "title": "Service (<code>ToastService</code>)",
+          "head": [
+            "Method",
+            "Returns",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>show(message, kind?, options?)</code>",
+              "<code>number</code> (id)",
+              "Shows a toast. <code>kind</code> defaults to <code>'info'</code>; <code>options</code> are the optional <code>Toast</code> fields (<code>duration</code> defaults to <code>4000</code> ms, <code>0</code> never closes on its own)."
+            ],
+            [
+              "<code>success(message, options?)</code>",
+              "<code>number</code>",
+              "Shortcut for <code>show(message, 'success', options)</code>."
+            ],
+            [
+              "<code>error(message, options?)</code>",
+              "<code>number</code>",
+              "Shortcut for <code>show(message, 'error', options)</code>; announced with <code>role=&quot;alert&quot;</code>."
+            ],
+            [
+              "<code>info(message, options?)</code>",
+              "<code>number</code>",
+              "Shortcut for <code>show(message, 'info', options)</code>."
+            ],
+            [
+              "<code>warning(message, options?)</code>",
+              "<code>number</code>",
+              "Shortcut for <code>show(message, 'warning', options)</code>."
+            ],
+            [
+              "<code>dismiss(id)</code>",
+              "<code>void</code>",
+              "Closes one toast by id."
+            ],
+            [
+              "<code>clear()</code>",
+              "<code>void</code>",
+              "Closes all of them."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "<code>aria-live=&quot;polite&quot;</code> on the stack; <code>role=&quot;alert&quot;</code> for errors (assertive).",
         "Close button with <code>aria-label=&quot;Close&quot;</code>.",
@@ -3158,11 +3742,68 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "tooltip": {
     "pt": {
       "lead": "Dica curta sobre um elemento, mostrada ao <strong>passar o mouse</strong> ou <strong>focar pelo teclado</strong>. É uma diretiva: vai em qualquer elemento focável (<code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, <code>appButton</code>...).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "O atributo <code>title</code> do navegador não abre pelo teclado, não pode ser estilizado e some sozinho. Uma dica acessível precisa abrir no foco de teclado, ser lida pelo leitor de tela, fechar com <code>Esc</code>, deixar o mouse chegar até ela e não ser cortada por <code>overflow: hidden</code>. Esta diretiva faz isso em qualquer elemento focável."
+      ],
+      "useWhen": [
+        "Dar nome a um botão só com ícone.",
+        "Uma explicação curta e opcional sobre um elemento.",
+        "Explicar por que uma ação está indisponível."
+      ],
+      "preferOther": [
+        "Informação essencial: deixe no texto da tela, porque no celular não existe &quot;passar o mouse&quot;.",
+        "Conteúdo com links ou botões: use o <a href=\"/componentes/dialog\">Dialog</a> ou o <a href=\"/componentes/actionbar\">ActionBar</a>."
+      ],
       "example": "<button appButton=\"ghost\" iconOnly type=\"button\" appTooltip=\"Editar\" tooltipAsLabel>\n  <svg aria-hidden=\"true\">…</svg>\n</button>",
-      "api": [],
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>appTooltip</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Texto da dica. Vazio ou <code>null</code> desliga."
+            ],
+            [
+              "<code>tooltipPosition</code>",
+              "<code>'top' | 'bottom' | 'left' | 'right'</code>",
+              "<code>'top'</code>",
+              "Lado preferido. Sem espaço, vira para o oposto; o balão nunca sai da janela."
+            ],
+            [
+              "<code>tooltipAsLabel</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "A dica é o nome do elemento (<code>aria-labelledby</code>), para botões só com ícone."
+            ],
+            [
+              "<code>tooltipDisabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Desliga a dica sem apagar o texto."
+            ],
+            [
+              "<code>tooltipShowDelay</code>",
+              "<code>number</code> (ms)",
+              "<code>300</code>",
+              "Espera para abrir no mouse. Foco pelo teclado abre na hora; passando de uma dica para outra também."
+            ],
+            [
+              "<code>tooltipHideDelay</code>",
+              "<code>number</code> (ms)",
+              "<code>100</code>",
+              "Espera para fechar, dando tempo de levar o mouse até o balão."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "<code>role=&quot;tooltip&quot;</code>, ligado ao elemento por <code>aria-describedby</code> (ou <code>aria-labelledby</code> com <code>tooltipAsLabel</code>). O balão existe desde o início (escondido), então a dica é lida assim que o elemento recebe foco, sem esperar a animação.",
         "<strong>WCAG 1.4.13 (conteúdo em hover ou foco):</strong> - <strong>dispensável:</strong> <strong>Esc</strong> fecha a dica sem mover o foco. O Esc para na dica, então um Dialog aberto por trás só fecha no próximo Esc; - <strong>passível de hover:</strong> dá para levar o mouse até o balão (para ler ou ampliar) sem ele sumir; - <strong>persistente:</strong> fica aberto enquanto houver mouse ou foco, sem tempo limite.",
@@ -3196,11 +3837,68 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "A short hint about an element, shown on <strong>hover</strong> or <strong>keyboard focus</strong>. It is a directive: it goes on any focusable element (<code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, <code>appButton</code>...).",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "The browser's <code>title</code> attribute does not open from the keyboard, cannot be styled and disappears on its own. An accessible tooltip has to open on keyboard focus, be read by screen readers, close with <code>Esc</code>, let the mouse reach it and not be clipped by <code>overflow: hidden</code>. This directive does it on any focusable element."
+      ],
+      "useWhen": [
+        "Naming an icon-only button.",
+        "A short, optional explanation about an element.",
+        "Explaining why an action is unavailable."
+      ],
+      "preferOther": [
+        "Essential information: keep it in the screen text, since phones have no hover.",
+        "Content with links or buttons: use the <a href=\"/componentes/dialog\">Dialog</a> or the <a href=\"/componentes/actionbar\">ActionBar</a>."
+      ],
       "example": "<button appButton=\"ghost\" iconOnly type=\"button\" appTooltip=\"Edit\" tooltipAsLabel>\n  <svg aria-hidden=\"true\">…</svg>\n</button>",
-      "api": [],
+      "api": [
+        {
+          "title": "Inputs",
+          "head": [
+            "Property",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>appTooltip</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Hint text. Empty or <code>null</code> turns it off."
+            ],
+            [
+              "<code>tooltipPosition</code>",
+              "<code>'top' | 'bottom' | 'left' | 'right'</code>",
+              "<code>'top'</code>",
+              "Preferred side. Without room it flips to the opposite one; the bubble never leaves the window."
+            ],
+            [
+              "<code>tooltipAsLabel</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "The hint is the element's name (<code>aria-labelledby</code>), for icon-only buttons."
+            ],
+            [
+              "<code>tooltipDisabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Turns the hint off without clearing the text."
+            ],
+            [
+              "<code>tooltipShowDelay</code>",
+              "<code>number</code> (ms)",
+              "<code>300</code>",
+              "Delay before opening on hover. Keyboard focus opens right away; so does moving from one hint to another."
+            ],
+            [
+              "<code>tooltipHideDelay</code>",
+              "<code>number</code> (ms)",
+              "<code>100</code>",
+              "Delay before closing, so the pointer can reach the bubble."
+            ]
+          ]
+        }
+      ],
       "a11y": [
         "<code>role=&quot;tooltip&quot;</code>, linked to the element through <code>aria-describedby</code> (or <code>aria-labelledby</code> with <code>tooltipAsLabel</code>). The bubble exists from the start (hidden), so the hint is read as soon as the element gets focus, without waiting for the animation.",
         "<strong>WCAG 1.4.13 (content on hover or focus):</strong> - <strong>dismissible:</strong> <strong>Esc</strong> closes the hint without moving focus. The Esc stops at the hint, so a Dialog behind it only closes on the next Esc; - <strong>hoverable:</strong> the pointer can move onto the bubble (to read or zoom it) without it disappearing; - <strong>persistent:</strong> it stays open while hovered or focused, with no timeout.",
@@ -3236,9 +3934,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "treeselect": {
     "pt": {
       "lead": "Select cujas opções formam uma <strong>árvore</strong>: escolha um nó (com o caminho no campo) ou marque grupos inteiros com checkbox. Construído com <strong>Angular Standalone + HTML/Sass</strong>, sem dependências de UI libs.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Escolher numa lista com níveis (país → estado → cidade) é comum, e o <code>&lt;select&gt;</code> nativo não tem árvore. Montar uma à mão exige o padrão WAI-ARIA de tree (setas abrem e fecham níveis, foco num item só), checkbox com estado parcial para marcar grupos inteiros e carregar filhos só quando o nível é aberto. Este componente junta tudo e devolve só as keys."
+      ],
+      "useWhen": [
+        "As opções têm níveis e a pessoa escolhe um nó, vendo o caminho até ele.",
+        "Faz sentido marcar um grupo inteiro de uma vez (todos os estados de um país).",
+        "A árvore é grande e os filhos devem ser buscados só quando o nível abre (<code>loadChildren</code>)."
+      ],
+      "preferOther": [
+        "Lista sem níveis: use o <a href=\"/componentes/select\">Select</a>.",
+        "Um único sim/não: use o <a href=\"/componentes/checkbox\">Checkbox</a>."
+      ],
       "example": "<app-tree-select label=\"Cidade\" [nodes]=\"lugares\" [(value)]=\"cidade\" />",
       "api": [
         {
@@ -3406,7 +4113,13 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           ]
         }
       ],
-      "a11y": [],
+      "a11y": [
+        "Com <code>filterable</code>, o foco abre na busca; <code>↓</code> leva para a árvore.",
+        "<code>single</code>: o nó escolhido tem <code>aria-selected=&quot;true&quot;</code>. <code>checkbox</code>: cada nó tem <code>aria-checked</code> (<code>true</code>/<code>false</code>/<code>mixed</code>); a caixa visual é só decoração.",
+        "Os chips são lidos como lista (&quot;Ver pedidos, Relatórios, +1&quot;).",
+        "Carregando filhos: <code>aria-busy</code> na linha e anúncio numa região <code>role=&quot;status&quot;</code> (também para o erro).",
+        "Clique fora fecha."
+      ],
       "tokens": [],
       "copy": {
         "rows": [
@@ -3443,9 +4156,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "A select whose options form a <strong>tree</strong>: pick one node (with its path in the field) or check whole groups with checkboxes. Built with <strong>Angular Standalone + HTML/Sass</strong>, no UI libraries.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
+      "why": [
+        "Picking from a list with levels (country → state → city) is common, and the native <code>&lt;select&gt;</code> has no tree. Building one by hand takes the WAI-ARIA tree pattern (arrows open and close levels, focus on a single item), checkboxes with a partial state to check whole groups, and loading children only when a level opens. This component puts it together and returns just the keys."
+      ],
+      "useWhen": [
+        "Options have levels and people pick one node, seeing the path to it.",
+        "Checking a whole group at once makes sense (every state of a country).",
+        "The tree is large and children should be fetched only when a level opens (<code>loadChildren</code>)."
+      ],
+      "preferOther": [
+        "A list without levels: use the <a href=\"/componentes/select\">Select</a>.",
+        "A single yes/no: use the <a href=\"/componentes/checkbox\">Checkbox</a>."
+      ],
       "example": "<app-tree-select label=\"City\" [nodes]=\"places\" [(value)]=\"city\" />",
       "api": [
         {
@@ -3613,7 +4335,13 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           ]
         }
       ],
-      "a11y": [],
+      "a11y": [
+        "With <code>filterable</code>, focus opens on the search; <code>↓</code> moves into the tree.",
+        "<code>single</code>: the picked node has <code>aria-selected=&quot;true&quot;</code>. <code>checkbox</code>: each node has <code>aria-checked</code> (<code>true</code>/<code>false</code>/<code>mixed</code>); the visual box is decoration only.",
+        "Chips are read as a list (&quot;View orders, Reports, +1&quot;).",
+        "Loading children: <code>aria-busy</code> on the row and an announcement in a <code>role=&quot;status&quot;</code> region (also for errors).",
+        "Clicking outside closes it."
+      ],
       "tokens": [],
       "copy": {
         "rows": [
@@ -3652,12 +4380,153 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "validation": {
     "pt": {
       "lead": "Peças para formulários reativos (Angular Forms) que funcionam com todos os componentes da biblioteca (<code>app-select</code>, <code>app-tree-select</code>, <code>app-checkbox</code>, <code>app-radio-group</code>, <code>app-switch</code>) e com inputs nativos.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
-      "api": [],
-      "a11y": [],
+      "why": [
+        "Sem um lugar central, cada tela escreve as mensagens de erro de novo, valida CPF/CNPJ de um jeito diferente e, ao enviar, deixa a pessoa procurando o campo com problema. Estas peças juntam as mensagens num lugar só (e traduzidas), mostram todos os erros e focam o primeiro campo inválido no envio, e funcionam igual nos componentes da biblioteca e nos inputs nativos."
+      ],
+      "useWhen": [
+        "Qualquer formulário reativo com validação.",
+        "Campos de documento brasileiro (CPF, CNPJ, inclusive o alfanumérico).",
+        "Campos com formato fixo que ficam mais claros com máscara (telefone, CEP)."
+      ],
+      "preferOther": [
+        "Avisar o resultado do envio (salvo, falhou): use o <a href=\"/componentes/toast\">Toast</a>.",
+        "Validação que depende do servidor: faça a chamada e mostre o erro no campo com a mesma mensagem central."
+      ],
+      "example": "<form [formGroup]=\"form\" appFormValidation (validSubmit)=\"salvar($event)\">\n  <app-form-field label=\"Nome completo\" required [error]=\"form.controls.nome | fieldError\">\n    <input formControlName=\"nome\" autocomplete=\"name\">\n  </app-form-field>\n\n  <app-form-field label=\"CPF ou CNPJ\" required [error]=\"form.controls.doc | fieldError\">\n    <input appMask=\"cpfCnpj\" formControlName=\"doc\">\n  </app-form-field>\n\n  <app-form-field label=\"Telefone\">\n    <input appMask=\"phone\" formControlName=\"fone\" type=\"tel\">\n  </app-form-field>\n\n  <app-radio-group label=\"Plano\" required [options]=\"planos\" formControlName=\"plano\"\n                   [error]=\"form.controls.plano | fieldError\" />\n\n  <app-checkbox formControlName=\"termos\" required [error]=\"form.controls.termos | fieldError\">\n    Li e aceito os termos\n  </app-checkbox>\n\n  <button appButton type=\"submit\">Enviar</button>\n</form>",
+      "api": [
+        {
+          "title": "<code>AppValidators</code>",
+          "head": [
+            "Validador",
+            "Erro",
+            "Regra"
+          ],
+          "rows": [
+            [
+              "<code>AppValidators.cpf()</code>",
+              "<code>{ cpf: true }</code>",
+              "11 dígitos e dígitos verificadores corretos"
+            ],
+            [
+              "<code>AppValidators.cnpj()</code>",
+              "<code>{ cnpj: true }</code>",
+              "14 caracteres; numérico <strong>ou alfanumérico</strong>"
+            ],
+            [
+              "<code>AppValidators.cpfOrCnpj()</code>",
+              "<code>{ cpfCnpj: true }</code>",
+              "11 caracteres → CPF; 14 → CNPJ"
+            ]
+          ]
+        },
+        {
+          "title": "<code>appFormValidation</code> · Outputs",
+          "head": [
+            "Evento",
+            "Payload",
+            "Quando dispara"
+          ],
+          "rows": [
+            [
+              "<code>validSubmit</code>",
+              "<code>form.getRawValue()</code>",
+              "Formulário enviado e válido."
+            ],
+            [
+              "<code>invalidSubmit</code>",
+              "<code>void</code>",
+              "Formulário enviado e inválido; o foco já foi para o primeiro campo com erro."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appMask</code> · Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>appMask</code>",
+              "<code>'cpf' | 'cnpj' | 'cpfCnpj' | 'phone' | 'cep' | 'date' | string</code>",
+              "obrigatório",
+              "Máscara pronta ou padrão próprio (<code>0</code> dígito, <code>A</code> letra, <code>*</code> letra ou dígito)."
+            ],
+            [
+              "<code>unmask</code>",
+              "<code>boolean</code>",
+              "<code>true</code>",
+              "O formulário recebe o valor sem máscara. Com <code>false</code>, recebe o texto formatado."
+            ]
+          ]
+        },
+        {
+          "title": "Pipe <code>fieldError</code>",
+          "head": [
+            "Uso",
+            "Retorno",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>control | fieldError</code>",
+              "<code>string | null</code>",
+              "Mensagem do primeiro erro (<code>required</code> antes dos outros), só depois que o campo foi tocado ou o formulário enviado."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-form-field</code>",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Rótulo (ligado ao campo por <code>for</code>/<code>id</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Mostra &quot;requerido&quot; e marca <code>aria-required</code>."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Texto de apoio (<code>aria-describedby</code>)."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Erro: substitui a dica, deixa a borda vermelha e marca <code>aria-invalid</code>."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Texto do indicador (i18n)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "O erro de cada campo fica ligado a ele por <code>aria-describedby</code> e o campo recebe <code>aria-invalid</code>, nos componentes da biblioteca e no <code>app-form-field</code>.",
+        "As mensagens só aparecem depois que a pessoa sai do campo, para ninguém ser interrompido no meio da digitação.",
+        "Ao enviar com erro, o foco vai para o primeiro campo inválido na ordem da tela (inclusive dentro do Select, do Radio group...), rolando até ele. Não há toast: o erro fica junto do campo.",
+        "<code>app-form-field</code> liga rótulo e campo por <code>for</code>/<code>id</code> e marca <code>aria-required</code> quando obrigatório.",
+        "<code>appMask</code> mantém o cursor no lugar ao editar e abre o teclado numérico no celular (<code>inputmode=&quot;numeric&quot;</code>) nas máscaras só de dígitos.",
+        "Placeholder mostra só o formato e nunca substitui o rótulo; a cor tem contraste AA nos dois temas."
+      ],
       "tokens": [],
       "copy": {
         "rows": [
@@ -3682,12 +4551,153 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
     },
     "en": {
       "lead": "Pieces for reactive forms (Angular Forms) that work with every component of the library (<code>app-select</code>, <code>app-tree-select</code>, <code>app-checkbox</code>, <code>app-radio-group</code>, <code>app-switch</code>) and with native inputs.",
-      "why": [],
-      "useWhen": [],
-      "preferOther": [],
-      "example": null,
-      "api": [],
-      "a11y": [],
+      "why": [
+        "Without a central place, every screen writes its error messages again, validates CPF/CNPJ in a different way and, on submit, leaves people searching for the field with the problem. These pieces keep the messages in one place (and translated), show every error and focus the first invalid field on submit, and work the same with the library components and native inputs."
+      ],
+      "useWhen": [
+        "Any reactive form with validation.",
+        "Brazilian document fields (CPF, CNPJ, including the alphanumeric one).",
+        "Fields with a fixed format that read better with a mask (phone, ZIP code)."
+      ],
+      "preferOther": [
+        "Telling the submit result (saved, failed): use the <a href=\"/componentes/toast\">Toast</a>.",
+        "Validation that depends on the server: make the call and show the error on the field with the same central message."
+      ],
+      "example": "<form [formGroup]=\"form\" appFormValidation (validSubmit)=\"save($event)\">\n  <app-form-field label=\"Full name\" required [error]=\"form.controls.name | fieldError\">\n    <input formControlName=\"name\" autocomplete=\"name\">\n  </app-form-field>\n\n  <app-form-field label=\"CPF or CNPJ\" required [error]=\"form.controls.doc | fieldError\">\n    <input appMask=\"cpfCnpj\" formControlName=\"doc\">\n  </app-form-field>\n\n  <app-form-field label=\"Phone\">\n    <input appMask=\"phone\" formControlName=\"phone\" type=\"tel\">\n  </app-form-field>\n\n  <app-radio-group label=\"Plan\" required [options]=\"plans\" formControlName=\"plan\"\n                   [error]=\"form.controls.plan | fieldError\" />\n\n  <app-checkbox formControlName=\"terms\" required [error]=\"form.controls.terms | fieldError\">\n    I accept the terms\n  </app-checkbox>\n\n  <button appButton type=\"submit\">Submit</button>\n</form>",
+      "api": [
+        {
+          "title": "<code>AppValidators</code>",
+          "head": [
+            "Validator",
+            "Error",
+            "Rule"
+          ],
+          "rows": [
+            [
+              "<code>AppValidators.cpf()</code>",
+              "<code>{ cpf: true }</code>",
+              "11 digits with correct check digits"
+            ],
+            [
+              "<code>AppValidators.cnpj()</code>",
+              "<code>{ cnpj: true }</code>",
+              "14 characters; numeric <strong>or alphanumeric</strong>"
+            ],
+            [
+              "<code>AppValidators.cpfOrCnpj()</code>",
+              "<code>{ cpfCnpj: true }</code>",
+              "11 characters → CPF; 14 → CNPJ"
+            ]
+          ]
+        },
+        {
+          "title": "<code>appFormValidation</code> · Outputs",
+          "head": [
+            "Event",
+            "Payload",
+            "When"
+          ],
+          "rows": [
+            [
+              "<code>validSubmit</code>",
+              "<code>form.getRawValue()</code>",
+              "The form was submitted and is valid."
+            ],
+            [
+              "<code>invalidSubmit</code>",
+              "<code>void</code>",
+              "The form was submitted and is invalid; focus already moved to the first invalid field."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appMask</code> · Inputs",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>appMask</code>",
+              "<code>'cpf' | 'cnpj' | 'cpfCnpj' | 'phone' | 'cep' | 'date' | string</code>",
+              "required",
+              "Built-in mask or custom pattern (<code>0</code> digit, <code>A</code> letter, <code>*</code> letter or digit)."
+            ],
+            [
+              "<code>unmask</code>",
+              "<code>boolean</code>",
+              "<code>true</code>",
+              "The form receives the unmasked value. With <code>false</code>, it receives the formatted text."
+            ]
+          ]
+        },
+        {
+          "title": "<code>fieldError</code> pipe",
+          "head": [
+            "Usage",
+            "Returns",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>control | fieldError</code>",
+              "<code>string | null</code>",
+              "Message for the first error (<code>required</code> before the others), only after the field was touched or the form submitted."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-form-field</code>",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Label (linked to the field via <code>for</code>/<code>id</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Shows &quot;required&quot; and sets <code>aria-required</code>."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Helper text (<code>aria-describedby</code>)."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Error: replaces the hint, turns the border red and sets <code>aria-invalid</code>."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Indicator text (i18n)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "Each field's error is tied to it with <code>aria-describedby</code> and the field gets <code>aria-invalid</code>, in the library components and in <code>app-form-field</code>.",
+        "Messages only show up after people leave the field, so nobody is interrupted while typing.",
+        "On an invalid submit, focus moves to the first invalid field in screen order (including inside the Select, the Radio group...), scrolling to it. No toast: the error stays next to the field.",
+        "<code>app-form-field</code> ties label and field with <code>for</code>/<code>id</code> and sets <code>aria-required</code> when required.",
+        "<code>appMask</code> keeps the caret in place while editing and opens the numeric keyboard on phones (<code>inputmode=&quot;numeric&quot;</code>) for digit-only masks.",
+        "The placeholder only shows the format and never replaces the label; its color has AA contrast in both themes."
+      ],
       "tokens": [],
       "copy": {
         "rows": [

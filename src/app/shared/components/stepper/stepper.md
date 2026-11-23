@@ -8,6 +8,23 @@ Um **componente de etapas** leve e acessível, implementado em **HTML + Sass**, 
 
 ---
 
+## Por que existe
+
+Um fluxo em etapas precisa mostrar onde a pessoa está, o que já foi feito e o que ainda falta, e isso também para quem usa leitor de tela (`aria-current="step"`, etapas concluídas anunciadas). Também precisa impedir que alguém pule etapas sem passar pela validação. Este componente cuida da apresentação e da regra de clique; o conteúdo de cada etapa fica com você.
+
+## Quando usar
+
+### Use quando
+
+- Uma tarefa longa dividida em etapas que seguem uma ordem (cadastro, checkout).
+- Uma etapa depende do que foi preenchido na anterior.
+- A pessoa precisa ver quanto falta para terminar.
+
+### Prefira outro
+
+- Seções independentes, abertas em qualquer ordem: use as [Tabs](../tabs/tabs.md).
+- Um formulário curto que cabe numa tela: não divida em etapas.
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

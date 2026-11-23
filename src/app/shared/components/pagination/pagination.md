@@ -8,6 +8,23 @@ Componente de **paginação independente** (não acopla à Tabela), pensado para
 
 ---
 
+## Por que existe
+
+Paginar parece só uma fileira de números, mas é preciso decidir quais páginas mostrar sem estourar a largura, desabilitar as setas nas pontas, marcar a página atual para o leitor de tela e funcionar igual com dados no navegador ou no servidor. Este componente cuida só da navegação: quem decide quais itens mostrar é a sua tela.
+
+## Quando usar
+
+### Use quando
+
+- Uma lista ou tabela longa demais para uma tela só.
+- Os dados vêm do servidor em páginas.
+- A pessoa precisa voltar a uma posição específica da lista.
+
+### Prefira outro
+
+- Listas curtas: mostre tudo, sem paginar.
+- Dados em tabela: a [Table](../table/table.md) já traz a paginação no rodapé.
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

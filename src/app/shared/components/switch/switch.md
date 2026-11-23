@@ -8,6 +8,22 @@ Liga/desliga para **configurações que valem na hora** (ex.: "Notificações").
 
 > **Switch ou Checkbox?** Switch muda algo imediatamente. Para aceitar termos, marcar itens de uma lista ou escolhas que só valem ao enviar um formulário, use o `app-checkbox`.
 
+## Por que existe
+
+Um checkbox comum não diz ao leitor de tela que a mudança vale na hora. O Switch usa o `<input type="checkbox">` nativo com `role="switch"`, então é anunciado como "ligado/desligado", funciona com Espaço e com formulários, e ganha o visual de chave com os tokens de cor do Checkbox.
+
+## Quando usar
+
+### Use quando
+
+- Uma configuração que vale assim que muda (notificações, modo escuro).
+- Um único liga/desliga, sem botão de salvar.
+
+### Prefira outro
+
+- A escolha só vale ao enviar o formulário, ou é um aceite: use o [Checkbox](../checkbox/checkbox.md).
+- Mais de duas opções: use o [Radio group](../radio/radio-group.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

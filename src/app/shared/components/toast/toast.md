@@ -8,6 +8,24 @@ Componente de **toasts** leve e acessível: **serviço + container**. O **servi�
 
 ---
 
+## Por que existe
+
+Avisos que aparecem e somem precisam ser anunciados pelo leitor de tela sem roubar o foco, empilhar sem se sobrepor, continuar clicáveis mesmo com um modal aberto e não depender de timers no servidor (SSR). Este componente separa a fila (um serviço com signals) da exibição (um container), então qualquer parte do app chama `toast.success(...)`.
+
+## Quando usar
+
+### Use quando
+
+- Confirmar que uma ação deu certo (salvo, enviado, copiado).
+- Avisar de um erro que não impede de continuar.
+- Oferecer uma ação rápida e opcional, como "Desfazer".
+
+### Prefira outro
+
+- A pessoa precisa decidir algo antes de seguir: use o [Dialog](../dialog/dialog.md).
+- Erro de um campo de formulário: mostre junto do campo ([Formulários](../../forms/forms.md)).
+- Informação que precisa ficar na tela: use um aviso fixo na página, não um toast que some.
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 
@@ -60,14 +78,15 @@ export interface Toast {
 ```
 
 ### Serviço (`ToastService`)
-Métodos principais:
-- `show(message, kind?, options?)` → `id`
-- `success(message, options?)`
-- `error(message, options?)`
-- `info(message, options?)`
-- `warning(message, options?)`
-- `dismiss(id)`
-- `clear()`
+| Método | Retorno | Descrição |
+|---|---|---|
+| `show(message, kind?, options?)` | `number` (id) | Mostra um toast. `kind` padrão `'info'`; `options` são os campos opcionais de `Toast` (`duration` padrão `4000` ms, `0` não fecha sozinho). |
+| `success(message, options?)` | `number` | Atalho para `show(message, 'success', options)`. |
+| `error(message, options?)` | `number` | Atalho para `show(message, 'error', options)`; anunciado com `role="alert"`. |
+| `info(message, options?)` | `number` | Atalho para `show(message, 'info', options)`. |
+| `warning(message, options?)` | `number` | Atalho para `show(message, 'warning', options)`. |
+| `dismiss(id)` | `void` | Fecha um toast pelo id. |
+| `clear()` | `void` | Fecha todos. |
 
 > **SSR-safe**: timers só são criados no browser.
 

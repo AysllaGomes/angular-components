@@ -14,7 +14,22 @@ import { TooltipDirective } from 'src/app/shared/components/tooltip/tooltip.dire
 
 O estilo já entra pelo `styles.sass` (`@use './app/shared/components/tooltip/tooltip'`): o balão é criado no `<body>`, fora de qualquer componente.
 
-> **Quando usar?** Para o nome de um botão só com ícone ou uma explicação curta e opcional. Nada essencial deve ficar só na dica: no celular não existe "passar o mouse". Para conteúdo com links ou botões, use um Dialog/ActionBar.
+## Por que existe
+
+O atributo `title` do navegador não abre pelo teclado, não pode ser estilizado e some sozinho. Uma dica acessível precisa abrir no foco de teclado, ser lida pelo leitor de tela, fechar com `Esc`, deixar o mouse chegar até ela e não ser cortada por `overflow: hidden`. Esta diretiva faz isso em qualquer elemento focável.
+
+## Quando usar
+
+### Use quando
+
+- Dar nome a um botão só com ícone.
+- Uma explicação curta e opcional sobre um elemento.
+- Explicar por que uma ação está indisponível.
+
+### Prefira outro
+
+- Informação essencial: deixe no texto da tela, porque no celular não existe "passar o mouse".
+- Conteúdo com links ou botões: use o [Dialog](../dialog/dialog.md) ou o [ActionBar](../actionbar/actionbar.md).
 
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
@@ -77,6 +92,8 @@ Um botão `disabled` não recebe foco nem eventos de mouse, então a dica nunca 
 Texto vazio ou `null` desliga a dica (e tira a referência ARIA).
 
 ## API
+
+### Inputs
 
 | Propriedade        | Tipo                                     | Padrão  | Descrição |
 |--------------------|------------------------------------------|---------|-----------|

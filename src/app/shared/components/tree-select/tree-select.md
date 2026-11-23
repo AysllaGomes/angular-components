@@ -20,6 +20,23 @@ O componente **só apresenta**: recebe a árvore (ou uma função que busca os f
 
 ---
 
+## Por que existe
+
+Escolher numa lista com níveis (país → estado → cidade) é comum, e o `<select>` nativo não tem árvore. Montar uma à mão exige o padrão WAI-ARIA de tree (setas abrem e fecham níveis, foco num item só), checkbox com estado parcial para marcar grupos inteiros e carregar filhos só quando o nível é aberto. Este componente junta tudo e devolve só as keys.
+
+## Quando usar
+
+### Use quando
+
+- As opções têm níveis e a pessoa escolhe um nó, vendo o caminho até ele.
+- Faz sentido marcar um grupo inteiro de uma vez (todos os estados de um país).
+- A árvore é grande e os filhos devem ser buscados só quando o nível abre (`loadChildren`).
+
+### Prefira outro
+
+- Lista sem níveis: use o [Select](../select/select.md).
+- Um único sim/não: use o [Checkbox](../checkbox/checkbox.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

@@ -15,6 +15,23 @@ Escolha **única** entre poucas opções visíveis. Construído sobre `<fieldset
 | Muitas opções, ou pouco espaço | `app-select` |
 | Liga/desliga uma configuração | `app-switch` |
 
+## Por que existe
+
+Radios nativos já são acessíveis, mas o grupo precisa de `<fieldset>` com `<legend>`, um `name` em comum, erro ligado ao grupo e integração com formulários, e isso costuma ser esquecido. Este componente monta o grupo certo a partir de uma lista de opções, com o mesmo visual do Checkbox.
+
+## Quando usar
+
+### Use quando
+
+- A pessoa escolhe uma única opção entre poucas (até umas 5).
+- Vale mostrar todas as opções de uma vez, para comparar.
+
+### Prefira outro
+
+- Muitas opções, ou pouco espaço: use o [Select](../select/select.md).
+- Ligar ou desligar uma configuração: use o [Switch](../switch/switch.md).
+- Várias opções ao mesmo tempo: use o [Checkbox](../checkbox/checkbox.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

@@ -6,13 +6,24 @@
 
 Sheet lateral com título, conteúdo e ações. Abre da **direita para a esquerda**, herda as cores do tema atual e respeita o **accent**.
 
-> **Quando usar**
->
-> - Fluxos de confirmação/edição que não justificam trocar de rota.
-> - Wizards curtos, revisões e formulários auxiliares.
-> - Evite para conteúdo muito longo ou navegação completa (prefira uma página).
-
 ---
+
+## Por que existe
+
+Painéis laterais têm os mesmos cuidados de um modal (foco preso e devolvido, `Esc`, fundo inerte, rolagem da página travada) e ainda precisam de largura que se adapte ao conteúdo. Este componente resolve isso uma vez, com título, conteúdo rolável e ações fixas no rodapé.
+
+## Quando usar
+
+### Use quando
+
+- Fluxos de revisão, confirmação ou edição que não justificam trocar de rota.
+- Formulários auxiliares e wizards curtos, mantendo a tela de origem à vista.
+- O conteúdo é maior do que cabe confortavelmente num Dialog.
+
+### Prefira outro
+
+- Uma confirmação curta: use o [Dialog](../dialog/dialog.md).
+- Conteúdo muito longo ou navegação completa: use uma página.
 
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
