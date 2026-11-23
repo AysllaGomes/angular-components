@@ -75,7 +75,9 @@
     <!-- DADOS -->
     @if (state() === 'data') {
       <tbody>
-        @for (row of data(); track rowId(row, $index); let i = $index) {
+        <!-- rows(): a fatia da página (paginação local) ou `data` inteiro; `i` é sempre a posição em `data` -->
+        @for (row of rows(); track rowId(row, offset() + $index)) {
+          @let i = offset() + $index;
           <tr>
             @if (selectable()) {
               <td
@@ -248,3 +250,18 @@
         }
       }
     </table>
+
+<!-- PAGINAÇÃO: "Mostrando 1–5 de 6", itens por página e páginas (some com erro ou sem linhas) -->
+@if (showFooter()) {
+  <app-table-footer
+    [rangeText]="rangeText()"
+    [total]="totalCount()"
+    [pageSize]="size()"
+    [pageIndex]="currentPage()"
+    [pageCount]="pageCount()"
+    [pageSizeOptions]="pageSizeOptions()"
+    [pageSizeLabel]="pageSizeLabel()"
+    [paginationLabel]="paginationLabel()"
+    (pageChange)="goToPage($event)"
+    (pageSizeChange)="onPageSize($event)" />
+}

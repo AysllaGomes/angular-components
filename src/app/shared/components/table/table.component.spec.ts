@@ -497,3 +497,194 @@ describe('TableComponent bulk actions', () => {
     expect(host.selected()).toEqual([]);
   });
 });
+
+const FIVE: Row[] = [...ALL, { id: 'e', nome: 'Elisa' }];
+
+@Component({
+  imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-table
+      [columns]="columns"
+      [data]="data()"
+      [paginate]="mode()"
+      [(pageIndex)]="page"
+      [(pageSize)]="size"
+      [totalItems]="total()"
+      [pageSizeOptions]="options()"
+      [loading]="loading()"
+      [error]="error()"
+      [selectable]="true"
+      [rowKey]="useKey() ? 'id' : undefined"
+      [selected]="selected()"
+      (selectedChange)="selected.set($event)"
+      [actions]="['edit']"
+      (action)="events.push($event.index)" />
+  `
+})
+class PagedHostComponent {
+  columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }];
+  data = signal<Row[]>(FIVE);
+  mode = signal<'client' | 'server' | null>('client');
+  page = signal(0);
+  size = signal(2);
+  total = signal<number | null>(null);
+  options = signal<number[]>([]);
+  loading = signal(false);
+  error = signal<string | null>(null);
+  useKey = signal(true);
+  selected = signal<any[]>([]);
+  events: number[] = [];
+}
+
+describe('TableComponent pagination', () => {
+  let fixture: ComponentFixture<PagedHostComponent>;
+  let host: PagedHostComponent;
+  let el: HTMLElement;
+  const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
+  const names = () => Array.from(el.querySelectorAll('tbody tr')).map(tr => tr.textContent!.replace(/\s+/g, ' ').trim());
+  const range = () => el.querySelector('.tbl-footer__range')?.textContent!.trim();
+  const pageBtn = (n: string) =>
+    Array.from(el.querySelectorAll<HTMLButtonElement>('app-pagination .pg-btn')).find(b => b.textContent!.trim() === n)!;
+  const rowBoxes = () => Array.from(el.querySelectorAll<HTMLInputElement>('tbody input[type=checkbox]'));
+  const selectAll = () => el.querySelector<HTMLInputElement>('thead input[type=checkbox]')!;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PagedHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(PagedHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('client: shows the page slice, the range and the pages; navigating updates [(pageIndex)]', async () => {
+    expect(names()).toEqual(['Ana', 'Bruno']);
+    expect(range()).toBe('Mostrando 1–2 de 5');
+    expect(el.querySelectorAll('app-pagination .pg-btn').length).toBe(3);
+
+    pageBtn('2').click();
+    await settle();
+    expect(host.page()).toBe(1);
+    expect(names()).toEqual(['Carla', 'Diego']);
+    expect(range()).toBe('Mostrando 3–4 de 5');
+
+    pageBtn('3').click();
+    await settle();
+    expect(names()).toEqual(['Elisa']);
+    expect(range()).toBe('Mostrando 5–5 de 5');
+  });
+
+  it('client: index in events is the position in data, not on the page', async () => {
+    host.page.set(1);
+    await settle();
+    el.querySelector<HTMLButtonElement>('tbody .icon-btn')!.click();
+    expect(host.events).toEqual([2]);
+  });
+
+  it('client: when data shrinks, an out-of-range page is corrected (and reported)', async () => {
+    host.page.set(2);
+    await settle();
+    host.data.set(FIVE.slice(0, 3));
+    await settle();
+    expect(host.page()).toBe(1);
+    expect(names()).toEqual(['Carla']);
+  });
+
+  it('does not correct the page while loading (data may be empty until it arrives)', async () => {
+    host.page.set(2);
+    host.loading.set(true);
+    host.data.set([]);
+    await settle();
+    expect(host.page()).toBe(2);
+  });
+
+  it('sorting goes back to the first page', async () => {
+    host.page.set(2);
+    await settle();
+    el.querySelector<HTMLButtonElement>('thead .th-sort')!.click();
+    await settle();
+    expect(host.page()).toBe(0);
+  });
+
+  it('"select all" selects the page and keeps the other pages (with or without rowKey)', async () => {
+    rowBoxes()[0].click();
+    await settle();
+    host.page.set(1);
+    await settle();
+    selectAll().click();
+    await settle();
+    expect(host.selected()).toEqual(['a', 'c', 'd']);
+
+    host.useKey.set(false);
+    host.selected.set([]);
+    host.page.set(0);
+    await settle();
+    selectAll().click();
+    await settle();
+    host.page.set(1);
+    await settle();
+    selectAll().click();
+    await settle();
+    expect(host.selected()).toEqual([0, 1, 2, 3]); // posições em data
+    expect(rowBoxes().every(b => b.checked)).toBe(true);
+  });
+
+  it('page size selector keeps the first visible row on screen', async () => {
+    host.options.set([2, 3]);
+    host.page.set(1); // Carla, Diego (posição 2)
+    await settle();
+    const select = el.querySelector<HTMLSelectElement>('.tbl-footer select')!;
+    expect(el.querySelector('.tbl-footer label')!.textContent).toContain('Itens por página');
+    select.value = '3';
+    select.dispatchEvent(new Event('change'));
+    await settle();
+    expect(host.size()).toBe(3);
+    expect(host.page()).toBe(0);
+    expect(names()).toEqual(['Ana', 'Bruno', 'Carla']);
+    expect(range()).toBe('Mostrando 1–3 de 5');
+  });
+
+  it('server: does not slice data; total comes from totalItems', async () => {
+    host.mode.set('server');
+    host.total.set(9);
+    host.data.set(FIVE.slice(2, 4)); // página 2 vinda do servidor
+    host.page.set(1);
+    await settle();
+    expect(names()).toEqual(['Carla', 'Diego']);
+    expect(range()).toBe('Mostrando 3–4 de 9');
+    expect(el.querySelectorAll('app-pagination .pg-btn').length).toBe(5);
+
+    pageBtn('3').click();
+    await settle();
+    expect(host.page()).toBe(2);
+    expect(names()).toEqual(['Carla', 'Diego']); // até o container trazer a próxima página
+  });
+
+  it('footer: hidden with an error or without rows; one page shows only the range', async () => {
+    host.error.set('Falhou');
+    await settle();
+    expect(el.querySelector('app-table-footer')).toBeNull();
+
+    host.error.set(null);
+    host.data.set([]);
+    await settle();
+    expect(el.querySelector('app-table-footer')).toBeNull();
+
+    host.data.set(FIVE.slice(0, 2));
+    await settle();
+    expect(range()).toBe('Mostrando 1–2 de 2');
+    expect(el.querySelector('app-pagination')).toBeNull();
+  });
+
+  it('without paginate: all rows and no footer (as before)', async () => {
+    host.mode.set(null);
+    await settle();
+    expect(names().length).toBe(5);
+    expect(el.querySelector('app-table-footer')).toBeNull();
+  });
+});

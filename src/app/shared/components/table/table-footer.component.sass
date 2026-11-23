@@ -1,0 +1,33 @@
+// sticky + --tbl-vw (largura visível do wrapper, medida pela tabela): com a tabela
+// rolando na horizontal, o rodapé continua inteiro à vista, com a paginação à direita
+:host
+  position: sticky
+  left: 0
+  box-sizing: border-box
+  width: var(--tbl-vw, 100%)
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .5rem 1rem
+  margin-top: .75rem
+  color: var(--tbl-muted)
+  font-size: .9rem
+
+.tbl-footer__size
+  display: inline-flex
+  align-items: center
+  gap: .5rem
+
+select
+  font: inherit
+  color: var(--tbl-fg)
+  background: var(--tbl-row-bg, #fff)
+  border: 1px solid var(--tbl-row-border, #e6e9ed)
+  border-radius: .375rem
+  padding: .2rem .4rem
+  &:focus-visible
+    outline: 2px solid var(--tbl-action, #058075)
+    outline-offset: 2px
+
+app-pagination
+  margin-left: auto

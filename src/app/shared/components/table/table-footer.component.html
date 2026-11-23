@@ -1,0 +1,22 @@
+<!-- anunciado ao trocar de página ou de tamanho ("Mostrando 6–6 de 6") -->
+<span class="tbl-footer__range" aria-live="polite">{{ rangeText() }}</span>
+
+@if (pageSizeOptions().length) {
+  <span class="tbl-footer__size">
+    <label [for]="sizeId">{{ pageSizeLabel() }}</label>
+    <select [id]="sizeId" (change)="onSize($any($event.target).value)">
+      @for (n of pageSizeOptions(); track n) {
+        <option [value]="n" [selected]="n === pageSize()">{{ n }}</option>
+      }
+    </select>
+  </span>
+}
+
+@if (pageCount() > 1) {
+  <app-pagination
+    [ariaLabel]="paginationLabel()"
+    [total]="total()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    (pageChange)="pageChange.emit($event)" />
+}

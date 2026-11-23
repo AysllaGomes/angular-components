@@ -136,6 +136,7 @@ interface Row { id: string; nome: string; tipo: string; }
       <section id="table">
         <app-table [columns]="columns" [data]="rows" [selectable]="true" rowKey="id" [actions]="tableActions" />
         <app-table [columns]="columns" [data]="rows" [selectable]="true" rowKey="id" [selected]="['a']" [bulkActions]="bulkActions" />
+        <app-table [columns]="columns" [data]="rows" [selectable]="true" rowKey="id" paginate="client" [pageSize]="1" [pageSizeOptions]="[1, 2]" />
         <app-table [columns]="columns" [data]="[]" [selectable]="true" [actions]="tableActions" error="Não foi possível carregar os dados." />
         <app-pagination ariaLabel="Páginas da tabela" [total]="42" [pageSize]="5" [pageIndex]="2" showFirstLast />
         <app-pagination ariaLabel="Páginas resumidas" [total]="42" [pageSize]="5" compact />

@@ -36,9 +36,16 @@
     <div class="tbl-wrap">
       <app-table
         [columns]="columns"
-        [data]="pagedRows()"
+        [data]="sortedRows()"
+        paginate="client"
+        [(pageIndex)]="pageIndex"
+        [(pageSize)]="pageSize"
+        [pageSizeOptions]="[2, 5, 10]"
+        [rangeLabel]="rangeLabel"
+        [pageSizeLabel]="'pagination.itemsPerPage' | t"
+        [paginationLabel]="'pagination.nav.table' | t"
         [loading]="loading()"
-        [loadingRows]="pageSize"
+        [loadingRows]="pageSize()"
         [emptyMessage]="'table.empty' | t"
         [error]="errorKey() ? ('table.error.load' | t) : null"
         [retryLabel]="'table.retry' | t"
@@ -65,19 +72,5 @@
         (action)="onAction($event)">
       </app-table>
     </div>
-
-    <!-- com erro não há páginas para navegar -->
-    @if (rows().length > pageSize && !errorKey()) {
-      <div class="tbl-footer">
-        <span class="total">{{ 'table.total' | t:{ n: rows().length } }}</span>
-        <app-pagination
-          [ariaLabel]="'pagination.nav.table' | t"
-          [total]="rows().length"
-          [pageSize]="pageSize"
-          [pageIndex]="pageIndex()"
-          (pageChange)="pageIndex.set($event)">
-        </app-pagination>
-      </div>
-    }
   </article>
 </section>

@@ -3,17 +3,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   DOCUMENT,
+  DestroyRef,
   ElementRef,
   TemplateRef,
+  afterNextRender,
   afterRenderEffect,
   computed,
   contentChild,
   contentChildren,
+  effect,
   inject,
   input,
   linkedSignal,
+  model,
   output,
   signal,
+  untracked,
   viewChild
 } from '@angular/core';
 
@@ -26,6 +31,7 @@ import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-b
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkBarComponent } from './table-bulk-bar.component';
+import { TableFooterComponent } from './table-footer.component';
 import {
   TableActionsTemplateDirective,
   TableBulkActionsContext,
@@ -44,7 +50,7 @@ const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent],
+  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent, TableFooterComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -75,6 +81,61 @@ export class TableComponent<T = any> {
     if (this.error()?.trim()) return 'error';
     return this.data().length > 0 ? 'data' : 'empty';
   });
+
+  // ===== paginação =====
+  /**
+   * Liga a paginação integrada (rodapé com total, itens por página e páginas):
+   * - `'client'`: `data` tem todas as linhas e a tabela mostra a fatia da página;
+   * - `'server'`: `data` já é a página atual e o total vem de `totalItems`.
+   * Sem ela (padrão), a tabela mostra `data` inteiro, como antes.
+   */
+  readonly paginate = input<'client' | 'server' | null>(null);
+  /** página atual (0-based); aceita `[(pageIndex)]` */
+  readonly pageIndex = model(0);
+  /** linhas por página; aceita `[(pageSize)]` */
+  readonly pageSize = model(10);
+  /** total de linhas no servidor (`paginate="server"`) */
+  readonly totalItems = input<number | null>(null);
+  /** opções do seletor "Itens por página"; vazio (padrão) esconde o seletor */
+  readonly pageSizeOptions = input<number[]>([]);
+  readonly rangeLabel = input<(start: number, end: number, total: number) => string>(
+    (s, e, t) => `Mostrando ${s}–${e} de ${t}`
+  );
+  readonly pageSizeLabel = input('Itens por página');
+  readonly paginationLabel = input('Paginação da tabela');
+
+  /** linhas por página válidas (inteiro ≥ 1) */
+  readonly size = computed(() => {
+    const n = Math.floor(Number(this.pageSize()));
+    return Number.isFinite(n) && n > 0 ? n : 10;
+  });
+  readonly totalCount = computed(() => {
+    const p = this.paginate();
+    if (p === 'server') return Math.max(0, Number(this.totalItems() ?? this.data().length) || 0);
+    return this.data().length;
+  });
+  readonly pageCount = computed(() => Math.max(1, Math.ceil(this.totalCount() / this.size())));
+  /** página atual limitada ao intervalo válido */
+  readonly currentPage = computed(() => {
+    const i = Math.floor(Number(this.pageIndex()) || 0);
+    return Math.min(Math.max(0, i), this.pageCount() - 1);
+  });
+  /** posição em `data` da primeira linha visível (só no modo local a tabela fatia) */
+  readonly offset = computed(() => (this.paginate() === 'client' ? this.currentPage() * this.size() : 0));
+  /** linhas na tela */
+  readonly rows = computed(() => {
+    const data = this.data();
+    if (this.paginate() !== 'client') return data;
+    return data.slice(this.offset(), this.offset() + this.size());
+  });
+  readonly rangeText = computed(() => {
+    const total = this.totalCount();
+    const first = this.currentPage() * this.size();
+    const shown = this.paginate() === 'client' ? this.rows().length : Math.min(this.data().length, this.size());
+    return this.rangeLabel()(total ? first + 1 : 0, total ? Math.min(first + shown, total) : 0, total);
+  });
+  /** rodapé: com paginação, sem erro e com algo para contar */
+  readonly showFooter = computed(() => !!this.paginate() && this.state() !== 'error' && this.totalCount() > 0);
 
   /** Ordenação controlada pelo container (o clique no cabeçalho atualiza o estado local e emite `sortChange`). */
   readonly sortKey = input<string | undefined>(undefined);
@@ -158,6 +219,8 @@ export class TableComponent<T = any> {
   );
 
   private readonly doc = inject(DOCUMENT);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly tableEl = viewChild<ElementRef<HTMLTableElement>>('tbl');
   private readonly retryBtn = viewChild<ElementRef<HTMLButtonElement>>('retryBtn');
   private readonly selectAllEl = viewChild<ElementRef<HTMLInputElement>>('selectAll');
@@ -170,6 +233,32 @@ export class TableComponent<T = any> {
   private retrySawLoading = false;
 
   constructor() {
+    // Paginação local: se `data` encolheu (ex.: exclusão na última página), a página
+    // atual pode não existir mais; corrige `pageIndex` (e avisa o container).
+    // Carregando, não: `data` pode estar vazio só até a resposta chegar.
+    effect(() => {
+      if (this.paginate() !== 'client' || this.loading()) return;
+      const current = this.currentPage();
+      if (untracked(this.pageIndex) !== current) this.pageIndex.set(current);
+    });
+
+    // --tbl-vw: largura visível do wrapper, para o rodapé paginado ficar inteiro
+    // à vista quando a tabela rola na horizontal (sticky + essa largura).
+    afterNextRender(() => {
+      const host = this.host.nativeElement;
+      const parent = host.parentElement;
+      if (!parent || typeof ResizeObserver === 'undefined') return;
+      const measure = () => {
+        const cs = getComputedStyle(parent);
+        const w = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        host.style.setProperty('--tbl-vw', `${Math.max(0, w)}px`);
+      };
+      const ro = new ResizeObserver(measure);
+      ro.observe(parent);
+      measure();
+      this.destroyRef.onDestroy(() => ro.disconnect());
+    });
+
     // O botão some enquanto carrega: sem isso o foco cairia no <body>.
     // Carregando ou deu certo → foco na tabela; falhou de novo → no botão.
     afterRenderEffect(() => {
@@ -251,8 +340,10 @@ export class TableComponent<T = any> {
     return typeof k === 'function' ? k(row, i) : row[k];
   }
 
+  /** chaves das linhas na tela; sem `rowKey`, índices em `data` (no modo local, somando o `offset`) */
   private get pageIds(): unknown[] {
-    return this.data().map((row, i) => this.rowId(row, i));
+    const offset = this.offset();
+    return this.rows().map((row, i) => this.rowId(row, offset + i));
   }
 
   private get selectedOnPage(): number {
@@ -273,23 +364,39 @@ export class TableComponent<T = any> {
   }
 
   get allSelected() {
-    const len = this.data().length;
+    const len = this.rows().length;
     return len > 0 && this.selectedOnPage === len;
   }
 
   get someSelected() {
     const n = this.selectedOnPage;
-    return n > 0 && n < this.data().length;
+    return n > 0 && n < this.rows().length;
   }
 
   /**
    * Marca/desmarca as linhas visíveis. Com `rowKey`, chaves de linhas que
-   * não estão em `data` (ex.: outras páginas) são preservadas.
+   * não estão em `data` (ex.: outras páginas) são preservadas. Na paginação
+   * local sem `rowKey`, os índices das outras páginas também (são posições em `data`).
    */
   toggleAll(checked: boolean) {
     const ids = this.pageIds;
-    const rest = this.rowKey() == null ? [] : this.selection().filter(s => !ids.includes(s));
-    this.updateSelection(checked ? [...rest, ...ids] : rest);
+    const byIndex = this.rowKey() == null;
+    const keepOthers = !byIndex || this.paginate() === 'client';
+    const rest = keepOthers ? this.selection().filter(s => !ids.includes(s)) : [];
+    const next = checked ? [...rest, ...ids] : rest;
+    this.updateSelection(byIndex && keepOthers ? next.sort((a, b) => a - b) : next);
+  }
+
+  // ===== paginação =====
+  goToPage(i: number) {
+    if (i !== this.currentPage()) this.pageIndex.set(i);
+  }
+
+  /** troca o tamanho mantendo na tela a primeira linha que estava visível */
+  onPageSize(n: number) {
+    const first = this.currentPage() * this.size();
+    this.pageSize.set(n);
+    this.goToPage(Math.floor(first / n));
   }
 
   private updateSelection(next: any[]) {
@@ -361,6 +468,8 @@ export class TableComponent<T = any> {
     this.activeSortKey.set(key);
     this.activeSortDir.set(dir);
     this.sortChange.emit({ key, dir });
+    // nova ordem, nova sequência: volta para a primeira página
+    if (this.paginate()) this.goToPage(0);
   }
 
   toCssUnit(v: string | number): string {

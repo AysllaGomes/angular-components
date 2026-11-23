@@ -13,6 +13,7 @@ src/app/shared/components/table/
   ├─ table.component.html
   ├─ table.component.sass
   ├─ table-bulk-bar.component.*   # bulk actions bar (internal)
+  ├─ table-footer.component.*     # paginated footer (internal)
   └─ table.directives.ts   # appCell / appActions / appBulkActions
 ```
 
@@ -68,6 +69,14 @@ export interface ColumnDef<T = any> {
 | `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` | `'space'`        | What the bar shows without a selection (see Bulk actions).                             |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
+| `paginate`       | `'client' \| 'server' \| null`   |        `null`           | Turns on built-in pagination (see Pagination). Without it, shows all of `data`.       |
+| `pageIndex`      | `number`                         |          `0`            | Current page (0-based); supports `[(pageIndex)]`.                                     |
+| `pageSize`       | `number`                         |          `10`           | Rows per page; supports `[(pageSize)]`.                                               |
+| `totalItems`     | `number \| null`                 |        `null`           | Server-side total (`paginate="server"`).                                              |
+| `pageSizeOptions` | `number[]`                      |          `[]`           | "Itens por página" options; empty hides the selector.                                 |
+| `rangeLabel`     | `(start, end, total) => string`  | `'Mostrando 1–5 de 6'`  | Footer range text (announced on page change).                                         |
+| `pageSizeLabel`  | `string`                         | `'Itens por página'`    | Selector label.                                                                       |
+| `paginationLabel` | `string`                        | `'Paginação da tabela'` | Name of the page navigation.                                                          |
 
 ### Outputs
 | Output           | Payload                                   | When                                                  |
@@ -76,6 +85,8 @@ export interface ColumnDef<T = any> {
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
 | `retry`          | `void`                                    | The retry button was clicked in the error state.      |
 | `bulkAction`     | `{ type: string; keys: any[] }`           | A bulk action was clicked (selected keys or indices). |
+| `pageIndexChange` | `number`                                 | Page changed (click, sorting, or fix after `data` shrinks). |
+| `pageSizeChange` | `number`                                  | "Itens por página" changed.                           |
 | `sortChange`     | `{ key: string; dir: 'asc'                | 'desc' }`                                             | User clicked a header and changed sorting. |
 
 ### Projectable templates
@@ -101,6 +112,49 @@ export interface ColumnDef<T = any> {
     <button type="button" (click)="archive(keys); clear()">Archive</button>
   </ng-template>
   ```
+
+---
+
+## Pagination
+
+With `paginate`, the table shows a footer with the range ("Mostrando 1–5 de 6"), the rows-per-page selector (with `pageSizeOptions`) and the pages ([`app-pagination`](../pagination/pagination.en.md)).
+
+### Client (`paginate="client"`)
+
+Pass **all** rows in `data`; the table shows the page slice.
+
+```html
+<app-table [columns]="columns" [data]="sortedRows()"
+           paginate="client" [(pageIndex)]="page" [(pageSize)]="perPage"
+           [pageSizeOptions]="[10, 25, 50]"
+           [selectable]="true" rowKey="documento" />
+```
+
+- **Sorting** from the header goes back to the first page.
+- If `data` **shrinks** (e.g. a delete on the last page) and the page no longer exists, the table fixes `pageIndex` (and emits `pageIndexChange`). Not while `loading`.
+- The `index` in `(action)` and in templates (`appCell`, `appActions`) is the **position in `data`**, not on the page. Without `rowKey`, the selection also holds positions in `data`, and "select all" keeps the other pages'.
+
+### Server (`paginate="server"`)
+
+`data` is already the current page; pass the total in `totalItems` and fetch again when the page changes.
+
+```html
+<app-table [columns]="columns" [data]="page()" [loading]="loading()"
+           paginate="server" [totalItems]="total()"
+           [pageIndex]="index()" (pageIndexChange)="fetch($event)"
+           [pageSize]="20" />
+```
+
+- The table slices nothing: it only emits `pageIndexChange`/`pageSizeChange`. While the new page loads, use `loading` (skeleton).
+- Sorting also goes back to the first page (emits `pageIndexChange(0)`).
+
+### Footer
+
+- Hidden on **error** (no pages to navigate) and without rows; with a single page, only the range shows.
+- Changing rows per page keeps the first visible row on screen.
+- The range is announced to screen readers (`aria-live="polite"`).
+- When the table scrolls horizontally, the footer stays fully in view (the table measures the wrapper width).
+- Texts: `rangeLabel`, `pageSizeLabel`, `paginationLabel`.
 
 ---
 
@@ -352,7 +406,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - [x] Empty and loading states (`emptyMessage`, `loading`)
 - [x] Error state (`error`, `retry`)
 - [x] Bulk actions (`bulkActions`, `appBulkActions`)
-- [ ] Pagination helpers
+- [x] Pagination (`paginate` client/server, `pageSizeOptions`)
 - [ ] Responsive columns for small screens
 
 ---

@@ -12,12 +12,11 @@ import { TableBulkAction, TableBulkBarIdle } from '../../../shared/model/interfa
 import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
 
 import { TableComponent } from '../../../shared/components/table/table.component';
-import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-table-demo',
   standalone: true,
-  imports: [TableComponent, PaginationComponent, TPipe],
+  imports: [TableComponent, TPipe],
   templateUrl: './table-demo.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './table-demo.component.sass'
@@ -97,9 +96,13 @@ export class TableDemoComponent {
     { key: 'nomeImpresso',header: 'Nome impresso',     width: '180px' },
   ];
 
-  pageSize = 5;
-
+  /** paginação integrada (paginate="client"): a tabela fatia, ajusta a página e volta à primeira ao ordenar */
+  pageSize = signal(5);
   pageIndex = signal(0);
+
+  /** lê o idioma dentro da função: o texto acompanha a troca de idioma */
+  rangeLabel = (start: number, end: number, total: number) =>
+    this.i18n.t('pagination.range', { start, end, total });
 
   sort = signal<SortState | null>(null);
 
@@ -124,14 +127,8 @@ export class TableDemoComponent {
     });
   });
 
-  pagedRows = computed(() => {
-    const start = this.pageIndex() * this.pageSize;
-    return this.sortedRows().slice(start, start + this.pageSize);
-  });
-
   onSort(e: SortState) {
-    this.sort.set(e);
-    this.pageIndex.set(0); // volta pra primeira página ao ordenar
+    this.sort.set(e); // a tabela já volta para a primeira página
   }
 
   onEdit(row: AdicionalRow, index: number) {
@@ -147,19 +144,13 @@ export class TableDemoComponent {
     if (e.type === 'export') console.log('exportar', e.keys);
     if (e.type === 'delete') {
       this.rows.update(rows => rows.filter(r => !e.keys.includes(r.documento)));
-      this.selected.set([]); // a barra some e o foco vai para "Selecionar tudo"
-      this.clampPage();
+      this.selected.set([]); // os botões somem e o foco vai para "Selecionar tudo"
+      // se a página atual deixar de existir, a tabela corrige pageIndex
     }
   }
 
   restoreRows() {
     this.rows.set(this.initialRows);
-  }
-
-  /** depois de excluir, a página atual pode não existir mais */
-  private clampPage() {
-    const last = Math.max(0, Math.ceil(this.rows().length / this.pageSize) - 1);
-    if (this.pageIndex() > last) this.pageIndex.set(last);
   }
 
   /** erro simulado: guarda a chave, então a mensagem acompanha o idioma da demo */
@@ -189,7 +180,5 @@ export class TableDemoComponent {
 
   toggleEmpty() {
     this.empty.update(v => !v);
-    // opcional: voltar para a primeira página ao esvaziar
-    this.pageIndex.set(0);
   }
 }

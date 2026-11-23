@@ -10,6 +10,7 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 - **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
 - **Seleção**: checkbox por linha + “selecionar tudo”.
+- **Paginação integrada**: local ou no servidor, com intervalo, “Itens por página” e páginas (`paginate`).
 - **Ações em massa**: barra acima da tabela (“3 selecionados”, Limpar seleção e botões; sem seleção, `bulkBarIdle` decide: espaço guardado, texto ou escondida), via `[bulkActions]` ou *slot* `appBulkActions`.
 - **Ações**:
   - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
@@ -30,6 +31,7 @@ src/app/shared/components/table/
   ├─ table.component.html
   ├─ table.component.sass
   ├─ table-bulk-bar.component.*   # barra de ações em massa (uso interno)
+  ├─ table-footer.component.*     # rodapé paginado (uso interno)
   └─ table.directives.ts   # appCell, appActions e appBulkActions (standalone)
 ```
 
@@ -157,6 +159,14 @@ export interface TableAction<T = any> {
 | `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` |                                                              `'space'`                                                               | O que a barra mostra sem seleção (ver Ações em massa).                                                       |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
+| `paginate`      | `'client' \| 'server' \| null`  |                                                               `null`                                                                | Liga a paginação integrada (ver Paginação). Sem ela, mostra `data` inteiro.                                  |
+| `pageIndex`     | `number`                        |                                                                 `0`                                                                 | Página atual (0-based); aceita `[(pageIndex)]`.                                                              |
+| `pageSize`      | `number`                        |                                                                `10`                                                                 | Linhas por página; aceita `[(pageSize)]`.                                                                    |
+| `totalItems`    | `number \| null`                |                                                               `null`                                                                | Total no servidor (`paginate="server"`).                                                                     |
+| `pageSizeOptions` | `number[]`                    |                                                                `[]`                                                                 | Opções de "Itens por página"; vazio esconde o seletor.                                                       |
+| `rangeLabel`    | `(start, end, total) => string` |                                                     `'Mostrando 1–5 de 6'`                                                          | Texto do intervalo no rodapé (anunciado ao trocar de página).                                                |
+| `pageSizeLabel` | `string`                        |                                                         `'Itens por página'`                                                        | Rótulo do seletor.                                                                                           |
+| `paginationLabel` | `string`                      |                                                       `'Paginação da tabela'`                                                       | Nome da navegação de páginas.                                                                                |
 
 ### Outputs
 | Evento            | Payload                                         | Quando dispara                                            |
@@ -165,6 +175,8 @@ export interface TableAction<T = any> {
 | `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
 | `retry`           | `void`                                          | Clicou em "Tentar novamente" no estado de erro.           |
 | `bulkAction`      | `{ type: string; keys: any[] }`                 | Clique numa ação em massa (chaves ou índices selecionados). |
+| `pageIndexChange` | `number`                                        | Mudou de página (clique, ordenação ou correção após `data` encolher). |
+| `pageSizeChange`  | `number`                                        | Trocou "Itens por página".                                |
 | `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
 
 ### Templates projetáveis
@@ -191,6 +203,49 @@ export interface TableAction<T = any> {
     <button type="button" (click)="arquivar(keys); clear()">Arquivar</button>
   </ng-template>
   ```
+
+---
+
+## Paginação
+
+Com `paginate`, a tabela mostra um rodapé com o intervalo ("Mostrando 1–5 de 6"), o seletor de itens por página (com `pageSizeOptions`) e as páginas ([`app-pagination`](../pagination/pagination.md)).
+
+### Local (`paginate="client"`)
+
+Passe **todas** as linhas em `data`; a tabela mostra a fatia da página.
+
+```html
+<app-table [columns]="columns" [data]="linhasOrdenadas()"
+           paginate="client" [(pageIndex)]="pagina" [(pageSize)]="porPagina"
+           [pageSizeOptions]="[10, 25, 50]"
+           [selectable]="true" rowKey="documento" />
+```
+
+- Ao **ordenar** pelo cabeçalho, volta para a primeira página.
+- Se `data` **encolher** (ex.: exclusão na última página) e a página deixar de existir, a tabela corrige `pageIndex` (e emite `pageIndexChange`). Enquanto `loading`, não corrige.
+- O `index` de `(action)` e dos templates (`appCell`, `appActions`) é a **posição em `data`**, não na página. Sem `rowKey`, a seleção também guarda posições em `data`, e "selecionar tudo" mantém as das outras páginas.
+
+### Servidor (`paginate="server"`)
+
+`data` já é a página atual; informe o total em `totalItems` e busque de novo quando a página mudar.
+
+```html
+<app-table [columns]="columns" [data]="pagina()" [loading]="carregando()"
+           paginate="server" [totalItems]="total()"
+           [pageIndex]="indice()" (pageIndexChange)="buscar($event)"
+           [pageSize]="20" />
+```
+
+- A tabela não fatia nada: só emite `pageIndexChange`/`pageSizeChange`. Enquanto a página nova carrega, use `loading` (skeleton).
+- Ordenar também volta para a primeira página (emite `pageIndexChange(0)`).
+
+### Rodapé
+
+- Some com **erro** (não há páginas para navegar) e quando não há linhas; com uma página só, mostra apenas o intervalo.
+- Ao trocar "Itens por página", a primeira linha que estava na tela continua visível.
+- O intervalo é anunciado ao leitor de tela (`aria-live="polite"`).
+- Quando a tabela rola na horizontal, o rodapé continua inteiro à vista (a tabela mede a largura do wrapper).
+- Textos: `rangeLabel`, `pageSizeLabel`, `paginationLabel`.
 
 ---
 
@@ -416,7 +471,7 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 - [x] Ordenação por coluna
 - [x] Estados vazio e carregando (`emptyMessage`, `loading`)
 - [x] Estado de erro (`error`, `retry`)
-- [ ] Paginação
+- [x] Paginação (`paginate` local/servidor, `pageSizeOptions`)
 - [x] Ações em massa (`bulkActions`, `appBulkActions`)
 - [ ] Responsivo com colunas colapsáveis
 
