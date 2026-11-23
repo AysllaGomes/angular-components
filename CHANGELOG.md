@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.11.0](https://github.com/AysllaGomes/angular-components/compare/v2.10.0...v2.11.0) (2026-11-23)
+
+### Features
+
+* **table:** collapsible columns: when the table gets wider than the available space, it hides columns by `ColumnDef.priority` instead of scrolling horizontally, and a "Mostrar detalhes" button on each row opens the hidden values ([8328d3e](https://github.com/AysllaGomes/angular-components/commit/8328d3e))
+  * `priority` 1 (default) never hides; higher hides first (ties: the rightmost), and columns come back in reverse order when there is room again
+  * measured by the table width (its wrapper), not the screen, so it also works inside a narrow card; tables without `priority` are unchanged, and the ≤ 640px card mode still shows every field
+  * the details row shows "Label: value" for the hidden columns, aligned with the first data column; chips and `appCell` custom cells render as in the column
+  * the button has `aria-expanded` and `aria-controls` (pointing to the details row), and its column has a screen-reader name; texts: `detailsLabel`, `expandLabel`
+  * on the server (SSR) every column renders; collapsing starts in the browser after the first measurement
+  * row stripes now come from a class, so a details row keeps the color of its row
+
+### Demo
+
+* Table columns with priorities: "Limite atribuído" hides first, then "Nome impresso" and "Tipo"; "Nome" and "Documento" always stay ([8328d3e](https://github.com/AysllaGomes/angular-components/commit/8328d3e))
+
+### Internal
+
+* The details list is an internal `app-table-detail` component, and the Table styles were trimmed (the expand button reuses `.icon-btn`, merged focus rules, removed no-op declarations) to stay within the 5 kB per-component budget ([8328d3e](https://github.com/AysllaGomes/angular-components/commit/8328d3e))
+
 ## [2.10.0](https://github.com/AysllaGomes/angular-components/compare/v2.9.0...v2.10.0) (2026-11-23)
 
 ### Features

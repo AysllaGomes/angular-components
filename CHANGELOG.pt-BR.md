@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.11.0](https://github.com/AysllaGomes/angular-components/compare/v2.10.0...v2.11.0) (2026-11-23)
+### Features
+- **table:** colunas que se recolhem: quando a tabela fica mais larga que o
+  espaço disponível, ela esconde colunas pela `priority` do `ColumnDef` em vez
+  de rolar na horizontal, e um botão "Mostrar detalhes" em cada linha abre os
+  valores escondidos:
+  - `priority` 1 (padrão) nunca some; maiores somem primeiro (empate: a mais à
+    direita) e voltam na ordem inversa quando há espaço de novo;
+  - a conta usa a largura da tabela (o wrapper), não a da tela, então também
+    funciona dentro de um card estreito; tabelas sem `priority` não mudam, e o
+    modo cartão (≤ 640px) continua mostrando todos os campos;
+  - a linha de detalhes mostra "Rótulo: valor" das colunas escondidas, alinhada
+    com a primeira coluna de dados; chips e células custom (`appCell`) aparecem
+    como na coluna;
+  - o botão tem `aria-expanded` e `aria-controls` (apontando para a linha de
+    detalhes), e a coluna dele tem nome para leitor de tela; textos:
+    `detailsLabel`, `expandLabel`;
+  - no servidor (SSR) todas as colunas são renderizadas; o recolhimento começa
+    no navegador, depois da primeira medida;
+  - as listras das linhas agora vêm de uma classe, então a linha de detalhes
+    mantém a cor da linha dela.
+
+### Demo
+- Colunas da tabela com prioridade: "Limite atribuído" some primeiro, depois
+  "Nome impresso" e "Tipo"; "Nome" e "Documento" ficam sempre.
+
+### Interno
+- A lista de detalhes é um componente interno `app-table-detail`, e o estilo da
+  Tabela foi enxugado (o botão de detalhes reaproveita o `.icon-btn`, regras de
+  foco agrupadas, declarações sem efeito removidas) para caber no orçamento de
+  5 kB por componente.
+
 ## [2.10.0](https://github.com/AysllaGomes/angular-components/compare/v2.9.0...v2.10.0) (2026-11-23)
 ### Features
 - **table:** paginação integrada com `paginate`: rodapé com o intervalo
