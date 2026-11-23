@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.1](https://github.com/AysllaGomes/angular-components/compare/v3.7.0...v3.7.1) (2026-11-23)
+### Correções
+- **site:** o cabeçalho cabe em telas de 360px: abaixo de 480px as cores de
+  destaque saem da barra e vão para o fim do menu ☰, com alvo de toque de
+  28px (eram 18px):
+  - as cores agora dizem qual está escolhida (`aria-pressed`) e têm o nome
+    no idioma da página (eram "Teal", "Orange"... só em inglês);
+  - o menu do celular não rola mais para o lado (os links passavam 11px).
+- **docs:** os exemplos do Select e do Dialog não usam mais o pipe `| t` e
+  as chaves do dicionário do site, que não existem no seu projeto; agora
+  usam texto simples:
+  - Select: a seção "i18n (chaves usadas)", que listava chaves do site, virou
+    "Textos": de onde vem cada texto interno (`provideUiLabels`) e o input
+    que troca numa instância;
+  - Dialog: saem o bloco "Sugestão de chaves" e as classes de botão da demo.
+
 ## [3.7.0](https://github.com/AysllaGomes/angular-components/compare/v3.6.0...v3.7.0) (2026-11-23)
 ### Features
 - **site:** todas as páginas de componente agora têm exemplo ao vivo: as 15,

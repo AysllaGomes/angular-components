@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.1](https://github.com/AysllaGomes/angular-components/compare/v3.7.0...v3.7.1) (2026-11-23)
+
+### Bug Fixes
+
+* **site:** the header fits on 360px screens: below 480px the accent colors move from the bar to the end of the ☰ menu, with 28px touch targets (they were 18px) ([625375e](https://github.com/AysllaGomes/angular-components/commit/625375e))
+  * the colors now say which one is chosen (`aria-pressed`) and are named in the page language (they were "Teal", "Orange"... in English only)
+  * the phone menu no longer scrolls sideways (its links overflowed by 11px)
+* **docs:** the Select and Dialog examples no longer use the site's `| t` pipe and dictionary keys, which do not exist in your project; they use plain text ([3cad268](https://github.com/AysllaGomes/angular-components/commit/3cad268))
+  * Select: the "i18n keys" section, which listed site keys, became "Texts": where each internal text comes from (`provideUiLabels`) and the input that changes it for one instance
+  * Dialog: the "Suggested keys" block and the demo-only button classes are gone
+
 ## [3.7.0](https://github.com/AysllaGomes/angular-components/compare/v3.6.0...v3.7.0) (2026-11-23)
 
 ### Features
