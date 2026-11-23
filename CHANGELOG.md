@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.0](https://github.com/AysllaGomes/angular-components/compare/v3.0.0...v3.1.0) (2026-11-23)
+
+### Features
+
+* **site:** presentation home at the [site root](https://aysllagomes.github.io/angular-components/): what the project is, why use it and how to start; the full demo stays at `/demo` (links like `/demo#table` keep working) ([b8f3864](https://github.com/AysllaGomes/angular-components/commit/b8f3864))
+  * the home uses the library itself: the showcase is the real Table (selection, bulk actions, collapsible columns, pagination) and the two views ("For developers" / "How it was built") are the library Tabs
+  * "By the numbers" only states what the repository proves (no dependency besides Angular, axe on every component, PT·EN, 2 themes × 5 accents), and avoids an exact test count that would get stale
+  * catalog of the 15 components, each link naming its component for screen readers; English and Portuguese, live with the rest of the texts
+  * checked with axe (no violations) in a new test, light/dark, and at phone width
+* **demo:** the header is shared by both pages; the brand leads to the home, and section links clicked outside the demo navigate to `/demo#section` without reloading ([b8f3864](https://github.com/AysllaGomes/angular-components/commit/b8f3864))
+
+### Bug Fixes
+
+* **demo:** following a `/demo#section` link no longer hides the section title behind the sticky header (the router scroll now discounts the header height) ([b8f3864](https://github.com/AysllaGomes/angular-components/commit/b8f3864))
+* **demo:** the table wrapper's scroll shadow painted its whole background, showing a gray band in the space kept for the bulk actions bar; the shadows now only cover the edges ([b8f3864](https://github.com/AysllaGomes/angular-components/commit/b8f3864))
+
+### CI
+
+* The deploy no longer writes a root page redirecting to `/demo/`: the root is the prerendered home, `404.html` is the client-only shell, and the job fails if either page was not prerendered ([b8f3864](https://github.com/AysllaGomes/angular-components/commit/b8f3864))
+
 ## [3.0.0](https://github.com/AysllaGomes/angular-components/compare/v2.11.0...v3.0.0) (2026-11-23)
 
 ### ⚠ BREAKING CHANGES

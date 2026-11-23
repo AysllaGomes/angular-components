@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.0](https://github.com/AysllaGomes/angular-components/compare/v3.0.0...v3.1.0) (2026-11-23)
+### Features
+- **site:** home de apresentação na [raiz do site](https://aysllagomes.github.io/angular-components/):
+  o que é o projeto, por que usar e como começar; a demo completa continua em
+  `/demo` (links como `/demo#table` seguem valendo):
+  - a home usa a própria biblioteca: a vitrine é a Tabela de verdade (seleção,
+    ações em massa, colunas que se recolhem, paginação) e as duas visões ("Para
+    quem vai usar" / "Como foi feito") são as Tabs da biblioteca;
+  - "Em números" só afirma o que o repositório comprova (nenhuma dependência
+    além do Angular, axe em cada componente, PT·EN, 2 temas × 5 cores) e evita
+    um número exato de testes, que ficaria velho;
+  - catálogo dos 15 componentes, com o nome de cada um no link para o leitor de
+    tela; português e inglês, trocando ao vivo junto com os outros textos;
+  - conferida com axe (sem violações) num teste novo, no claro/escuro e na
+    largura de celular.
+- **demo:** o cabeçalho é o mesmo nas duas páginas; a marca leva à home, e os
+  links de seção clicados fora da demo vão para `/demo#seção` sem recarregar.
+
+### Bug Fixes
+- **demo:** seguir um link `/demo#seção` não esconde mais o título da seção atrás
+  do cabeçalho fixo (a rolagem do roteador agora desconta a altura dele).
+- **demo:** a sombra de rolagem do wrapper da tabela pintava o fundo inteiro e
+  aparecia como uma faixa cinza no espaço guardado da barra de ações em massa;
+  agora as sombras ficam só nas bordas.
+
+### CI
+- O deploy não grava mais na raiz uma página que redirecionava para `/demo/`: a
+  raiz é a home pré-renderizada, o `404.html` é a casca sem pré-renderização, e
+  o job falha se alguma das duas páginas não foi pré-renderizada.
+
 ## [3.0.0](https://github.com/AysllaGomes/angular-components/compare/v2.11.0...v3.0.0) (2026-11-23)
 ### ⚠ Mudanças incompatíveis
 - **Os textos padrão dos componentes agora são em inglês.** Para manter tudo
