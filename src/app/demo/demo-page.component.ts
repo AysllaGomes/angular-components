@@ -15,6 +15,7 @@ import { CheckboxDemoComponent } from './sections/checkbox/checkbox-demo.compone
 import { TreeSelectDemoComponent } from './sections/tree-select/tree-select-demo.component';
 import { RadioSwitchDemoComponent } from './sections/radio-switch/radio-switch-demo.component';
 import { TabsDemoComponent } from './sections/tabs/tabs-demo.component';
+import { TooltipDemoComponent } from './sections/tooltip/tooltip-demo.component';
 import { ValidationDemoComponent } from './sections/validation/validation-demo.component';
 
 @Component({
@@ -37,6 +38,7 @@ import { ValidationDemoComponent } from './sections/validation/validation-demo.c
     RadioSwitchDemoComponent,
     ValidationDemoComponent,
     TabsDemoComponent,
+    TooltipDemoComponent,
   ],
   templateUrl: './demo-page.component.html',
   changeDetection: ChangeDetectionStrategy.Eager

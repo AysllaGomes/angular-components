@@ -1,0 +1,111 @@
+/* Tooltip (appTooltip)
+   O balão é criado no <body> (fora de qualquer componente), por isso o estilo é
+   global: entra pelo styles.sass, como o do appButton. */
+
+:root
+  --tip-bg: #1f2530
+  --tip-fg: #ffffff
+  --tip-radius: .4rem
+  --tip-max-width: 18rem
+  --tip-font-size: .8125rem
+  --tip-shadow: 0 6px 16px rgba(0, 0, 0, .18)
+  /* acima do Dialog (70) e do ActionBar (60): dicas de campos dentro deles */
+  --tip-z: 1000
+
+:root[data-theme="dark"]
+  /* invertido: claro sobre a página escura */
+  --tip-bg: #e7eaf0
+  --tip-fg: #0c0d10
+  --tip-shadow: 0 6px 16px rgba(0, 0, 0, .5)
+
+.app-tooltip
+  position: fixed
+  top: 0
+  left: 0
+  z-index: var(--tip-z)
+  box-sizing: border-box
+  max-width: min(var(--tip-max-width), calc(100vw - 16px))
+  padding: .4rem .6rem
+  border-radius: var(--tip-radius)
+  background: var(--tip-bg)
+  color: var(--tip-fg)
+  box-shadow: var(--tip-shadow)
+  font-size: var(--tip-font-size)
+  font-weight: 500
+  line-height: 1.4
+  text-align: left
+  white-space: normal
+  overflow-wrap: break-word
+  animation: tip-in .12s ease-out
+
+  &[hidden]
+    display: none
+
+  /* seta: quadrado girado, centrado em --tip-arrow (aponta para o centro do alvo) */
+  &::before
+    content: ''
+    position: absolute
+    width: 8px
+    height: 8px
+    background: inherit
+    transform: rotate(45deg)
+
+  /* ponte invisível sobre o espaço entre o alvo e o balão: o mouse atravessa
+     sem "sair" e o balão não fecha no caminho (WCAG 1.4.13) */
+  &::after
+    content: ''
+    position: absolute
+
+  &[data-position="top"]
+    &::before
+      bottom: -4px
+      left: calc(var(--tip-arrow, 50%) - 4px)
+    &::after
+      top: 100%
+      left: 0
+      right: 0
+      height: 8px
+
+  &[data-position="bottom"]
+    &::before
+      top: -4px
+      left: calc(var(--tip-arrow, 50%) - 4px)
+    &::after
+      bottom: 100%
+      left: 0
+      right: 0
+      height: 8px
+
+  &[data-position="left"]
+    &::before
+      right: -4px
+      top: calc(var(--tip-arrow, 50%) - 4px)
+    &::after
+      left: 100%
+      top: 0
+      bottom: 0
+      width: 8px
+
+  &[data-position="right"]
+    &::before
+      left: -4px
+      top: calc(var(--tip-arrow, 50%) - 4px)
+    &::after
+      right: 100%
+      top: 0
+      bottom: 0
+      width: 8px
+
+@keyframes tip-in
+  from
+    opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+  .app-tooltip
+    animation: none
+
+/* alto contraste do Windows: sem sombra, então a borda separa o balão da página */
+@media (forced-colors: active)
+  .app-tooltip
+    border: 1px solid CanvasText
+    box-shadow: none

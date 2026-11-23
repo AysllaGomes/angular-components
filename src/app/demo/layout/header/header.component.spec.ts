@@ -56,7 +56,7 @@ describe('HeaderComponent internal links', () => {
   });
 
   it('hrefs point to the demo route, not to a bare "#id" (which <base href> sends to another page)', () => {
-    for (const id of ['stepper', 'table', 'pagination', 'toast', 'select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation', 'tabs', 'actionbar', 'dialog', 'button', 'main']) {
+    for (const id of ['stepper', 'table', 'pagination', 'toast', 'select', 'checkbox', 'radio', 'switch', 'treeselect', 'validation', 'tabs', 'actionbar', 'dialog', 'tooltip', 'button', 'main']) {
       expect(link(id).getAttribute('href')).toBe(`demo#${id}`);
     }
     expect(link('top').getAttribute('href')).toBe('demo');

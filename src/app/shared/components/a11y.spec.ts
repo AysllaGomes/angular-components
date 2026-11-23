@@ -23,6 +23,7 @@ import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TreeSelectComponent } from './tree-select/tree-select.component';
 import { TABS_IMPORTS } from './tabs';
+import { TooltipDirective } from './tooltip/tooltip.directive';
 import { ToastContainerComponent } from './toast/toast-container.component';
 
 /**
@@ -49,7 +50,7 @@ interface Row { id: string; nome: string; tipo: string; }
 @Component({
   imports: [
     ButtonDirective, CheckboxComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
-    TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS,
+    TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS, TooltipDirective,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
@@ -115,6 +116,13 @@ interface Row { id: string; nome: string; tipo: string; }
           <app-tab key="arquivo" label="Arquivo" disabled />
           <app-tab key="rel" label="Relatórios"><ng-template appTabContent><p>Relatório</p></ng-template></app-tab>
         </app-tabs>
+      </section>
+
+      <!-- Tooltip: como nome (botão só com ícone), como descrição e em aria-disabled -->
+      <section id="tooltip">
+        <button type="button" appTooltip="Editar" tooltipAsLabel><svg aria-hidden="true" width="16" height="16"></svg></button>
+        <button type="button" aria-label="Sobre o prazo" appTooltip="Dias úteis após o pagamento">i</button>
+        <button type="button" aria-disabled="true" appTooltip="Só administradores">Excluir</button>
       </section>
 
       <!-- Stepper -->
@@ -222,6 +230,22 @@ describe('Acessibilidade (axe-core)', () => {
   });
 
   it('Tabs (contador, rótulo com ícone, desabilitada, sob demanda)', async () => { await expectNoA11yViolations(section('tabs')); });
+
+  it('Tooltip fechado e aberto (como nome e como descrição)', async () => {
+    const scope = section('tooltip');
+    await expectNoA11yViolations(scope);
+
+    const [named, described] = Array.from(scope.querySelectorAll<HTMLButtonElement>('button'));
+    expect(named.getAttribute('aria-labelledby')).toMatch(/^tip-/);
+    expect(described.getAttribute('aria-describedby')).toMatch(/^tip-/);
+
+    described.focus();
+    const tip = document.getElementById(described.getAttribute('aria-describedby')!)!;
+    expect(tip.hidden).toBe(false);
+    await expectNoA11yViolations(scope);
+    // o balão fica no <body>, fora da seção
+    await expectNoA11yViolations(tip);
+  });
 
   it('Stepper', async () => { await expectNoA11yViolations(section('stepper')); });
 

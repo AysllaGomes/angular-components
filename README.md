@@ -8,7 +8,7 @@
 
 # Angular Components (Standalone, HTML + Sass)
 
-> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
+> **Purpose:** build **reusable UI components** (e.g., **ActionBar**, **Dialog**, Select, Checkbox, Radio, Switch, TreeSelect, Stepper, Tabs, Table, Pagination, Toast, Tooltip) using **Angular Standalone** with plain **HTML + Sass**, **without UI frameworks**. Lightweight, accessible, and easy to extract/“decapsulate” when needed.
 
 - **Local demo:** `http://localhost:4200/demo`
 - **Stack:** Angular 22 (standalone, signals, zoneless, SSR), Sass (`.sass`), CSS Custom Properties (theming), Vitest. Node 24 (`.nvmrc`).
@@ -30,6 +30,7 @@
 | **Table**                | Flexible table with row checkboxes, actions (declarative via `[actions]` or `appActions` slot), chips, and custom cells.                         | [EN](src/app/shared/components/table/table.en.md) · [PT-BR](src/app/shared/components/table/table.md)                     | `/demo#table`      |
 | **Pagination**           | Standalone pagination (numeric bubbles + arrows), controlled by `total`, `pageSize`, and `pageIndex`.                                            | [EN](src/app/shared/components/pagination/pagination.en.md) · [PT-BR](src/app/shared/components/pagination/pagination.md) | `/demo#pagination` |
 | **Toast**                | Lightweight toast (service + container), accessible and themeable.                                                                               | [EN](src/app/shared/components/toast/toast.en.md) · [PT-BR](src/app/shared/components/toast/toast.md)                     | `/demo#toast`      |
+| **Tooltip (`appTooltip`)** | Hint on hover/keyboard focus: as the name of icon-only buttons (`tooltipAsLabel`) or as a description, flips side and stays inside the window, WCAG 1.4.13 (Esc closes, hoverable, persistent). | [EN](src/app/shared/components/tooltip/tooltip.en.md) · [PT-BR](src/app/shared/components/tooltip/tooltip.md) | `/demo#tooltip` |
 | **Select**               | Accessible select with optional filter bar and inline clear (“×”), mobile-friendly panel, and i18n-ready labels/errors.                          | [EN](src/app/shared/components/select/select.en.md) · [PT-BR](src/app/shared/components/select/select.md)                 | `/demo#select`     |
 | **TreeSelect**           | Select whose options form a tree: single (shows the path, optional `leafOnly`) or checkbox mode (group/partial selection, value = leaf keys or summarized groups), children loaded on demand (`loadChildren`), filter, WAI-ARIA tree keyboard, forms. | [EN](src/app/shared/components/tree-select/tree-select.en.md) · [PT-BR](src/app/shared/components/tree-select/tree-select.md) | `/demo#treeselect` |
 | **Forms (validation & masks)** | `AppValidators` (CPF, CNPJ incl. alphanumeric), centralized i18n error messages (`fieldError` pipe, `provideFormErrorMessages`), `appFormValidation` (focus first error on submit), `appMask` input masks and `app-form-field`. | [EN](src/app/shared/forms/forms.en.md) · [PT-BR](src/app/shared/forms/forms.md) | `/demo#validation` |

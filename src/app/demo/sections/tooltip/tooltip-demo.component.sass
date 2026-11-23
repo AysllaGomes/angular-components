@@ -1,0 +1,52 @@
+.hint
+  margin: 0
+  color: var(--muted)
+  font-size: .9rem
+
+.toolbar
+  display: flex
+  gap: .25rem
+
+.positions
+  display: flex
+  flex-wrap: wrap
+  gap: .75rem
+
+.help
+  margin: 0
+  display: flex
+  align-items: center
+  gap: .35rem
+
+.info
+  display: inline-grid
+  place-items: center
+  width: 28px
+  height: 28px
+  padding: 0
+  border: 0
+  border-radius: 50%
+  background: transparent
+  color: var(--accent-text)
+  cursor: help
+
+  &:hover
+    background: color-mix(in srgb, var(--accent) 12%, transparent)
+
+  &:focus-visible
+    outline: 2px solid var(--accent)
+    outline-offset: 2px
+
+/* aparência de desabilitado, mas focável (aria-disabled) */
+.unavailable
+  padding: .55rem 1rem
+  border: 1px solid var(--border)
+  border-radius: .6rem
+  background: var(--surface-2)
+  color: var(--muted)
+  font-weight: 700
+  cursor: not-allowed
+
+  &:focus-visible
+    outline: 2px solid var(--accent)
+    outline-offset: 2px

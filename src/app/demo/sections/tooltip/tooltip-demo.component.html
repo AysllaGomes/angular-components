@@ -1,0 +1,68 @@
+<section id="tooltip" class="demo-section">
+  <h2>{{ 'section.tooltip.title' | t }}</h2>
+  <p class="lead">{{ 'section.tooltip.lead' | t }}</p>
+
+  <article class="card">
+    <h3>{{ 'tooltip.demo.icons.title' | t }}</h3>
+    <p class="hint">{{ 'tooltip.demo.icons.hint' | t }}</p>
+    <div class="toolbar" role="group" [attr.aria-label]="'tooltip.demo.toolbar' | t">
+      <button appButton="ghost" tone="neutral" iconOnly type="button" [appTooltip]="'tooltip.edit' | t" tooltipAsLabel>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Z M13.5 6.5l4 4"/>
+        </svg>
+      </button>
+      <button appButton="ghost" tone="neutral" iconOnly type="button" [appTooltip]="'tooltip.copy' | t" tooltipAsLabel>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1 M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>
+        </svg>
+      </button>
+      <button appButton="ghost" tone="danger" iconOnly type="button" [appTooltip]="'tooltip.delete' | t" tooltipAsLabel>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M4 7h16 M9 7V4h6v3 M6 7l1 13h10l1-13 M10 11v6 M14 11v6"/>
+        </svg>
+      </button>
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'tooltip.demo.positions.title' | t }}</h3>
+    <p class="hint">{{ 'tooltip.demo.positions.hint' | t }}</p>
+    <div class="positions">
+      @for (p of positions; track p) {
+        <button appButton="outline" type="button" [tooltipPosition]="p"
+                [appTooltip]="'tooltip.pos.text' | t:{ side: ('tooltip.side.' + p | t) }">
+          {{ 'tooltip.pos.' + p | t }}
+        </button>
+      }
+    </div>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'tooltip.demo.help.title' | t }}</h3>
+    <p class="help">
+      {{ 'tooltip.demo.help.term' | t }}
+      <button type="button" class="info" [attr.aria-label]="'tooltip.demo.help.button' | t"
+              [appTooltip]="'tooltip.demo.help.text' | t" tooltipPosition="right">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="7.5" r="1.3" fill="currentColor"/>
+        </svg>
+      </button>
+    </p>
+  </article>
+
+  <article class="card">
+    <h3>{{ 'tooltip.demo.unavailable.title' | t }}</h3>
+    <p class="hint">{{ 'tooltip.demo.unavailable.hint' | t }}</p>
+    <div>
+      <button type="button" class="unavailable" aria-disabled="true" (click)="$event.preventDefault()"
+              [appTooltip]="'tooltip.demo.unavailable.text' | t">
+        {{ 'tooltip.demo.unavailable.button' | t }}
+      </button>
+    </div>
+  </article>
+</section>

@@ -1,0 +1,91 @@
+<p align="right"><a href="./tooltip.md">Português</a></p>
+
+# Tooltip
+
+A short hint about an element, shown on **hover** or **keyboard focus**. It is a directive: it goes on any focusable element (`<button>`, `<a>`, `appButton`...).
+
+- **Files:** `src/app/shared/components/tooltip/` (`appTooltip`, global style in `tooltip.sass`)
+
+```ts
+import { TooltipDirective } from 'src/app/shared/components/tooltip/tooltip.directive';
+
+@Component({ imports: [TooltipDirective] })
+```
+
+The style is loaded by `styles.sass` (`@use './app/shared/components/tooltip/tooltip'`): the bubble is created in `<body>`, outside any component.
+
+> **When to use it?** For the name of an icon-only button or a short, optional explanation. Nothing essential should live only in a tooltip: there is no hover on phones. For content with links or buttons, use a Dialog/ActionBar.
+
+## Usage
+
+### Icon-only button: the hint is the name
+
+```html
+<button appButton="ghost" iconOnly type="button" appTooltip="Edit" tooltipAsLabel>
+  <svg aria-hidden="true">…</svg>
+</button>
+```
+
+With `tooltipAsLabel` the text becomes the button's **name** (`aria-labelledby`): screen readers announce "Edit, button". Without it, the button would have no name.
+
+### Extra explanation: the hint is the description
+
+```html
+<button type="button" aria-label="About the delivery time" appTooltip="Business days after payment" tooltipPosition="right">
+  <svg aria-hidden="true">…</svg>
+</button>
+```
+
+Without `tooltipAsLabel`, the text is the **description** (`aria-describedby`), read after the name: "About the delivery time, button, Business days after payment". Ids already in `aria-describedby` are kept.
+
+### Explaining an unavailable action
+
+A `disabled` button gets neither focus nor pointer events, so the hint would never show. Use `aria-disabled="true"` and ignore the click:
+
+```html
+<button type="button" aria-disabled="true" (click)="$event.preventDefault()"
+        appTooltip="Only admins can delete the account.">
+  Delete account
+</button>
+```
+
+### Dynamic text / i18n
+
+```html
+<button [appTooltip]="'actions.edit' | t" tooltipAsLabel>…</button>
+<button [appTooltip]="canSave() ? null : 'Fill in the required fields'">Save</button>
+```
+
+Empty text or `null` turns the hint off (and removes the ARIA reference).
+
+## API
+
+| Property           | Type                                     | Default | Description |
+|--------------------|------------------------------------------|---------|-------------|
+| `appTooltip`       | `string \| null`                         | `null`  | Hint text. Empty or `null` turns it off. |
+| `tooltipPosition`  | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Preferred side. Without room it flips to the opposite one; the bubble never leaves the window. |
+| `tooltipAsLabel`   | `boolean`                                | `false` | The hint is the element's name (`aria-labelledby`), for icon-only buttons. |
+| `tooltipDisabled`  | `boolean`                                | `false` | Turns the hint off without clearing the text. |
+| `tooltipShowDelay` | `number` (ms)                            | `300`   | Delay before opening on hover. Keyboard focus opens right away; so does moving from one hint to another. |
+| `tooltipHideDelay` | `number` (ms)                            | `100`   | Delay before closing, so the pointer can reach the bubble. |
+
+### Tokens
+
+`--tip-bg`, `--tip-fg`, `--tip-radius`, `--tip-max-width` (default `18rem`), `--tip-font-size`, `--tip-shadow`, `--tip-z` (default `1000`, above Dialog and ActionBar). In the dark theme the bubble is inverted (light on the dark page).
+
+## Behavior
+
+- The bubble is created in `<body>` with `position: fixed`: it is not clipped by `overflow: hidden` (tables, cards, Dialog) and follows scrolling and resizing while open.
+- Only one bubble is open at a time.
+- Clicking the element closes the hint (it does not cover the menu or dialog the click opens).
+- Click focus and touch do not open the hint; only hover and keyboard focus (`:focus-visible`).
+
+## Accessibility
+
+- `role="tooltip"`, linked to the element through `aria-describedby` (or `aria-labelledby` with `tooltipAsLabel`). The bubble exists from the start (hidden), so the hint is read as soon as the element gets focus, without waiting for the animation.
+- **WCAG 1.4.13 (content on hover or focus):**
+  - **dismissible:** **Esc** closes the hint without moving focus. The Esc stops at the hint, so a Dialog behind it only closes on the next Esc;
+  - **hoverable:** the pointer can move onto the bubble (to read or zoom it) without it disappearing;
+  - **persistent:** it stays open while hovered or focused, with no timeout.
+- Inside Dialog/ActionBar the bubble is not made inert (`data-dialog-keep-active`).
+- Windows High Contrast: border in the system color; with "reduce motion", no animation.
