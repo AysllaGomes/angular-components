@@ -1,0 +1,18 @@
+<span class="bulk-bar__count">{{ countText() }}</span>
+<button type="button" class="bulk-bar__clear" (click)="clear.emit()">{{ clearLabel() }}</button>
+<div class="bulk-bar__actions">
+  @if (tpl(); as t) {
+    <ng-container [ngTemplateOutlet]="t" [ngTemplateOutletContext]="ctx()" />
+  } @else {
+    @for (a of actions(); track a.type) {
+      <!-- aria-disabled (e não disabled): continua focável, com o motivo na dica -->
+      <button type="button" class="bulk-btn"
+        [class.bulk-btn--danger]="a.danger"
+        [attr.aria-disabled]="isDisabled(a) ? 'true' : null"
+        [appTooltip]="reason(a)"
+        (click)="onClick($event, a)">
+        {{ a.label }}
+      </button>
+    }
+  }
+</div>

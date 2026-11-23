@@ -10,6 +10,7 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 - **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
 - **Seleção**: checkbox por linha + “selecionar tudo”.
+- **Ações em massa**: barra que aparece ao selecionar (“3 selecionados”, Limpar seleção e botões), via `[bulkActions]` ou *slot* `appBulkActions`.
 - **Ações**:
   - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
   - **Customizadas** via *slot* `appActions` quando você precisa de controle total do markup.
@@ -28,7 +29,8 @@ src/app/shared/components/table/
   ├─ table.component.ts
   ├─ table.component.html
   ├─ table.component.sass
-  └─ table.directives.ts   # appCell e appActions (standalone)
+  ├─ table-bulk-bar.component.*   # barra de ações em massa (uso interno)
+  └─ table.directives.ts   # appCell, appActions e appBulkActions (standalone)
 ```
 
 ---
@@ -147,6 +149,10 @@ export interface TableAction<T = any> {
 | `emptyMessage`  | `string`                        |                                                    `Nenhum registro encontrado`                                                     | Mensagem para o estado vazio.                                                                                |
 | `error`         | `string \| null`               |                                                                `null`                                                               | Mensagem de falha ao buscar os dados: mostra o erro no lugar das linhas (anunciado). `loading` vence.        |
 | `retryLabel`    | `string \| null`               |                                                         `'Tentar novamente'`                                                          | Texto do botão que emite `retry`; `null` esconde o botão.                                                    |
+| `bulkActions`   | `TableBulkAction[]`             |                                                                `[]`                                                                 | Botões da barra de ações em massa (exige `selectable`).                                                      |
+| `bulkActionsLabel` | `string`                     |                                                         `'Ações em massa'`                                                          | Nome do grupo da barra para leitor de tela.                                                                  |
+| `selectedCountLabel` | `(n: number) => string`    |                                                       `'1 selecionado'` / `'n selecionados'`                                        | Texto do contador (também anunciado a cada mudança).                                                         |
+| `clearSelectionLabel` | `string`                  |                                                          `'Limpar seleção'`                                                         | Texto do botão que limpa a seleção.                                                                          |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 
@@ -156,6 +162,7 @@ export interface TableAction<T = any> {
 | `selectedChange`  | `any[]` (chaves ou índices)                     | Alterou seleção (linha ou “selecionar tudo”).             |
 | `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
 | `retry`           | `void`                                          | Clicou em "Tentar novamente" no estado de erro.           |
+| `bulkAction`      | `{ type: string; keys: any[] }`                 | Clique numa ação em massa (chaves ou índices selecionados). |
 | `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
 
 ### Templates projetáveis
@@ -174,6 +181,61 @@ export interface TableAction<T = any> {
     <button class="icon-btn icon-btn--ghost" (click)="onEdit(row, index)">✏️</button>
   </ng-template>
   ```
+
+- **Ações em massa (`appBulkActions`)**  
+  Contexto: `$implicit`/`keys` (chaves selecionadas), `count`, `clear()`. Substitui os botões de `[bulkActions]`; o contador e "Limpar seleção" continuam.
+  ```html
+  <ng-template appBulkActions let-keys let-clear="clear">
+    <button type="button" (click)="arquivar(keys); clear()">Arquivar</button>
+  </ng-template>
+  ```
+
+---
+
+## Ações em massa
+
+Com `selectable` e `[bulkActions]`, uma barra aparece acima da tabela quando há linhas selecionadas: o contador ("3 selecionados"), **Limpar seleção** e os botões. O clique emite `(bulkAction)` com as **chaves** selecionadas.
+
+```ts
+bulkActions: TableBulkAction<string>[] = [
+  { type: 'export', label: 'Exportar' },
+  {
+    type: 'delete',
+    label: 'Excluir selecionados',
+    danger: true,
+    disabled: docs => this.rows().some(r => docs.includes(r.documento) && r.tipo === 'Correntista'),
+    disabledReason: () => 'a seleção tem correntistas, que só podem ser removidos pela agência',
+  },
+];
+
+onBulk(e: { type: string; keys: string[] }) {
+  if (e.type === 'delete') {
+    this.api.excluir(e.keys).subscribe(() => this.selected.set([]));
+  }
+}
+```
+
+```html
+<app-table [data]="pagedRows()" [selectable]="true" rowKey="documento"
+           [selected]="selected()" (selectedChange)="selected.set($event)"
+           [bulkActions]="bulkActions" (bulkAction)="onBulk($event)" />
+```
+
+```ts
+export interface TableBulkAction<K = any> {
+  type: string;                 // emitido em (bulkAction)
+  label: string;                // texto do botão
+  danger?: boolean;             // destrutiva (vermelho)
+  disabled?: (keys: K[]) => boolean;                          // continua focável (aria-disabled)
+  disabledReason?: (keys: K[]) => string | null | undefined;  // motivo, na dica
+}
+```
+
+- **Use `rowKey`:** a seleção atravessa páginas, então o evento traz **chaves**, inclusive de linhas que não estão em `data`. Sem `rowKey`, vêm índices em `data`.
+- **Limpe a seleção** (`selected`) depois de concluir a ação: a barra some e o foco vai para "Selecionar tudo" (ou para a tabela), sem cair no `<body>`.
+- Ação indisponível: `aria-disabled` (continua focável, o clique não emite) e o motivo aparece na dica.
+- O contador é anunciado ao leitor de tela a cada mudança na seleção. Para outro idioma, passe `selectedCountLabel`, `clearSelectionLabel` e `bulkActionsLabel`.
+- A barra fica visível mesmo quando o wrapper rola na horizontal (`position: sticky`).
 
 ---
 ### Ordenação (controlada)
@@ -287,6 +349,7 @@ No Sass do componente essas variáveis já são usadas em header, linhas, bordas
 ## Acessibilidade
 - Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
 - Estado de erro: mensagem anunciada (`role="alert"`), `aria-busy` na tabela enquanto carrega e o foco não se perde ao tentar de novo.
+- Ações em massa: barra com `role="group"` e nome (`bulkActionsLabel`), contador anunciado (`aria-live="polite"`) e o foco vai para "Selecionar tudo" quando a barra some.
 - Ações declarativas: o nome também aparece como dica; ações indisponíveis usam `aria-disabled` (focáveis, com o motivo) e o cabeçalho da coluna de ações tem nome para leitor de tela (`actionsLabel`).
 
 ---
@@ -344,7 +407,7 @@ Para evitar borda/fundo nativos e deixar “ghost”:
 - [x] Estados vazio e carregando (`emptyMessage`, `loading`)
 - [x] Estado de erro (`error`, `retry`)
 - [ ] Paginação
-- [ ] Ações em massa (seleção)
+- [x] Ações em massa (`bulkActions`, `appBulkActions`)
 - [ ] Responsivo com colunas colapsáveis
 
 ---

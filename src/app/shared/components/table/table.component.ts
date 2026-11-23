@@ -22,9 +22,16 @@ import { SortDir } from '../../model/type/sort-dir.type';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
+import { TableBulkAction } from '../../model/interface/table-bulk-action.interface';
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
-import { TableActionsTemplateDirective, TableCellTemplateDirective } from './table.directives';
+import { TableBulkBarComponent } from './table-bulk-bar.component';
+import {
+  TableActionsTemplateDirective,
+  TableBulkActionsContext,
+  TableBulkActionsTemplateDirective,
+  TableCellTemplateDirective
+} from './table.directives';
 
 /** nome padrão das ações declarativas sem `ariaLabel`/`label` */
 const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
@@ -37,7 +44,7 @@ const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgTemplateOutlet, TooltipDirective],
+  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -108,8 +115,36 @@ export class TableComponent<T = any> {
   /** evento para ações padrão (se você quiser escutar) */
   readonly action = output<{ type: string; row: T; index: number }>();
 
+  // ===== ações em massa =====
+  /** botões da barra que aparece ao selecionar (exige `selectable`) */
+  readonly bulkActions = input<TableBulkAction[]>([]);
+  /** nome do grupo da barra para leitor de tela */
+  readonly bulkActionsLabel = input('Ações em massa');
+  /** texto do contador (também anunciado ao leitor de tela a cada mudança) */
+  readonly selectedCountLabel = input<(n: number) => string>(
+    n => (n === 1 ? '1 selecionado' : `${n} selecionados`)
+  );
+  readonly clearSelectionLabel = input('Limpar seleção');
+  /** clique numa ação em massa: chaves (com `rowKey`) ou índices em `data` */
+  readonly bulkAction = output<{ type: string; keys: any[] }>();
+
   private readonly cellTemplates = contentChildren(TableCellTemplateDirective);
   readonly actionsTpl = contentChild(TableActionsTemplateDirective);
+  readonly bulkTpl = contentChild(TableBulkActionsTemplateDirective);
+
+  /** a tabela tem barra de ações em massa (declarativa ou `appBulkActions`) */
+  readonly hasBulk = computed(() =>
+    this.selectable() && (this.bulkActions().length > 0 || !!this.bulkTpl())
+  );
+  readonly selectedCount = computed(() => this.selection().length);
+  readonly bulkVisible = computed(() => this.hasBulk() && this.selectedCount() > 0);
+  readonly selectedCountText = computed(() =>
+    this.selectedCount() > 0 ? this.selectedCountLabel()(this.selectedCount()) : ''
+  );
+  readonly bulkCtx = computed<TableBulkActionsContext>(() => {
+    const keys = [...this.selection()];
+    return { $implicit: keys, keys, count: keys.length, clear: () => this.clearSelection() };
+  });
 
   /** templates `appCell` por nome de coluna */
   private readonly cellTplMap = computed(() =>
@@ -119,6 +154,9 @@ export class TableComponent<T = any> {
   private readonly doc = inject(DOCUMENT);
   private readonly tableEl = viewChild<ElementRef<HTMLTableElement>>('tbl');
   private readonly retryBtn = viewChild<ElementRef<HTMLButtonElement>>('retryBtn');
+  private readonly selectAllEl = viewChild<ElementRef<HTMLInputElement>>('selectAll');
+  /** o foco estava na barra de ações em massa (ela some ao limpar a seleção) */
+  private bulkHadFocus = false;
   /** clicou em "Tentar novamente" e o resultado ainda não chegou */
   private readonly retryPending = signal(false);
   /** já passou por `loading` desde o clique (senão o retry não buscou de novo) */
@@ -144,6 +182,32 @@ export class TableComponent<T = any> {
       if (state === 'loading') this.retrySawLoading = true;
       else this.endRetry();
     });
+
+    // A barra some quando a seleção fica vazia ("Limpar seleção", ou o container limpou
+    // depois de uma ação): o foco iria para o <body>. Vai para "Selecionar tudo" (ou a tabela).
+    afterRenderEffect(() => {
+      const visible = this.bulkVisible();
+      const selectAll = this.selectAllEl()?.nativeElement;
+      if (visible || !this.bulkHadFocus) return;
+      this.bulkHadFocus = false;
+      const active = this.doc.activeElement;
+      if (active && active !== this.doc.body) return;
+      if (selectAll && !selectAll.disabled) selectAll.focus();
+      else this.tableEl()?.nativeElement.focus();
+    });
+  }
+
+  onBulkFocusIn() { this.bulkHadFocus = true; }
+
+  /** só sai da barra quando o foco foi para outro elemento (sem destino: removido ou clique no vazio) */
+  onBulkFocusOut(e: FocusEvent) {
+    const bar = e.currentTarget as HTMLElement;
+    const to = e.relatedTarget as Node | null;
+    if (to && !bar.contains(to)) this.bulkHadFocus = false;
+  }
+
+  clearSelection() {
+    if (this.selection().length) this.updateSelection([]);
   }
 
   onRetry() {

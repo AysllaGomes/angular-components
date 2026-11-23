@@ -1,0 +1,55 @@
+// barra acima da tabela; sticky: fica à vista quando o wrapper rola na horizontal
+:host
+  --_a: var(--tbl-action, #058075)
+  position: sticky
+  left: 0
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .5rem .75rem
+  margin-bottom: .5rem
+  padding: .5rem .75rem
+  border-radius: .5rem
+  background: color-mix(in oklab, var(--_a) 10%, var(--tbl-row-bg, #fff))
+  color: var(--tbl-fg)
+
+.bulk-bar__count
+  font-weight: 600
+
+button
+  appearance: none
+  border: 0
+  background: transparent
+  font: inherit
+  cursor: pointer
+  &:focus-visible
+    outline: 2px solid
+    outline-offset: 2px
+
+.bulk-bar__clear
+  padding: 0
+  color: var(--_a)
+  text-decoration: underline
+
+.bulk-bar__actions
+  display: flex
+  flex-wrap: wrap
+  gap: .5rem
+  margin-left: auto
+
+// borda por box-shadow, como o "Tentar novamente" da tabela
+.bulk-btn
+  --c: var(--_a)
+  padding: .45rem .9rem
+  border-radius: .5rem
+  box-shadow: inset 0 0 0 1px currentColor
+  color: var(--c)
+  font-weight: 600
+  &:hover
+    background: color-mix(in oklab, var(--c) 12%, transparent)
+  &--danger
+    --c: var(--tbl-error, var(--danger, #b91c1c))
+  &[aria-disabled="true"]
+    opacity: .55
+    cursor: not-allowed
+    background: transparent

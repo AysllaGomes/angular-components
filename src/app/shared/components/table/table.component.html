@@ -1,3 +1,24 @@
+<!-- AÇÕES EM MASSA -->
+@if (hasBulk()) {
+  <!-- sempre presente: anuncia "3 selecionados" a cada mudança (uma região que aparece junto com o texto não seria lida) -->
+  <span class="sr-only" aria-live="polite">{{ selectedCountText() }}</span>
+}
+@if (bulkVisible()) {
+  <!-- foco: a tabela acompanha se ele está na barra, para não perdê-lo quando ela some -->
+  <app-table-bulk-bar
+    [label]="bulkActionsLabel()"
+    [countText]="selectedCountText()"
+    [clearLabel]="clearSelectionLabel()"
+    [actions]="bulkActions()"
+    [keys]="bulkCtx().keys"
+    [tpl]="bulkTpl()?.tpl"
+    [ctx]="bulkCtx()"
+    (clear)="clearSelection()"
+    (action)="bulkAction.emit($event)"
+    (focusin)="onBulkFocusIn()"
+    (focusout)="onBulkFocusOut($event)" />
+}
+
 <!-- tabindex="-1": recebe o foco ao "Tentar novamente" (o botão some enquanto carrega) -->
 <table #tbl class="tbl" tabindex="-1" [attr.aria-busy]="state() === 'loading' ? 'true' : null">
   <thead>
@@ -8,6 +29,7 @@
           [style.width]="selectW"
           [style.minWidth]="selectW">
           <input
+            #selectAll
             type="checkbox"
             [checked]="allSelected"
             [indeterminate]="someSelected"

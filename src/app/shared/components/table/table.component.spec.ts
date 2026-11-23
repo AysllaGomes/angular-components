@@ -3,8 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
+import { TableBulkAction } from '../../model/interface/table-bulk-action.interface';
 
 import { TableComponent } from './table.component';
+import { TableBulkActionsTemplateDirective } from './table.directives';
 
 interface Row { id: string; nome: string; }
 
@@ -314,5 +316,164 @@ describe('TableComponent error state', () => {
     await settle();
     expect(el.querySelectorAll('tbody tr').length).toBe(2);
     expect(document.activeElement).toBe(el.querySelector('table'));
+  });
+});
+
+@Component({
+  imports: [TableComponent, TableBulkActionsTemplateDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <button id="outside" type="button">Fora</button>
+    <app-table [columns]="columns" [data]="data()" [selectable]="true" rowKey="id"
+               [selected]="selected()" (selectedChange)="selected.set($event)"
+               [bulkActions]="bulk" (bulkAction)="events.push($event)" />
+    @if (withSlot) {
+      <app-table id="slot" [columns]="columns" [data]="data()" [selectable]="true" rowKey="id"
+                 [selected]="selected()" (selectedChange)="selected.set($event)">
+        <ng-template appBulkActions let-keys let-count="count" let-clear="clear">
+          <button type="button" class="mine" (click)="slotKeys = keys; clear()">Arquivar {{ count }}</button>
+        </ng-template>
+      </app-table>
+    }
+  `
+})
+class BulkHostComponent {
+  columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }];
+  data = signal<Row[]>(ALL.slice(0, 2));
+  selected = signal<any[]>([]);
+  bulk: TableBulkAction[] = [
+    { type: 'export', label: 'Exportar' },
+    {
+      type: 'delete',
+      label: 'Excluir',
+      danger: true,
+      disabled: keys => keys.includes('a'),
+      disabledReason: () => 'Ana não pode ser excluída'
+    }
+  ];
+  events: { type: string; keys: any[] }[] = [];
+  withSlot = false;
+  slotKeys: any[] = [];
+}
+
+describe('TableComponent bulk actions', () => {
+  let fixture: ComponentFixture<BulkHostComponent>;
+  let host: BulkHostComponent;
+  let el: HTMLElement;
+  const first = () => el.querySelector('app-table')!;
+  const bar = () => first().querySelector<HTMLElement>('.bulk-bar');
+  const live = () => first().querySelector('[aria-live]')!;
+  const btn = (label: string) =>
+    Array.from(first().querySelectorAll<HTMLButtonElement>('.bulk-bar button')).find(b => b.textContent!.includes(label))!;
+  const rowBoxes = () => Array.from(first().querySelectorAll<HTMLInputElement>('tbody input[type=checkbox]'));
+  const selectAll = () => first().querySelector<HTMLInputElement>('thead input[type=checkbox]')!;
+  const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [BulkHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(BulkHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('shows the bar only with a selection, with a count announced on every change', async () => {
+    expect(bar()).toBeNull();
+    expect(live().textContent!.trim()).toBe('');
+
+    rowBoxes()[1].click();
+    await settle();
+    expect(bar()!.getAttribute('role')).toBe('group');
+    expect(bar()!.getAttribute('aria-label')).toBe('Ações em massa');
+    expect(bar()!.textContent).toContain('1 selecionado');
+    expect(live().textContent!.trim()).toBe('1 selecionado');
+
+    selectAll().click();
+    await settle();
+    expect(live().textContent!.trim()).toBe('2 selecionados');
+  });
+
+  it('emits the selected keys, including the ones from other pages', async () => {
+    host.selected.set(['c', 'b']); // "c" está em outra página
+    await settle();
+    expect(bar()!.textContent).toContain('2 selecionados');
+    btn('Exportar').click();
+    expect(host.events).toEqual([{ type: 'export', keys: ['c', 'b'] }]);
+  });
+
+  it('unavailable action: aria-disabled, reason in the tooltip and no event', async () => {
+    host.selected.set(['a']);
+    await settle();
+    const del = btn('Excluir');
+    expect(del.getAttribute('aria-disabled')).toBe('true');
+    expect(del.classList).toContain('bulk-btn--danger');
+    expect(del.getAttribute('aria-describedby')).toBeTruthy();
+    del.click();
+    expect(host.events).toEqual([]);
+
+    host.selected.set(['b']);
+    await settle();
+    expect(del.hasAttribute('aria-disabled')).toBe(false);
+    del.click();
+    expect(host.events).toEqual([{ type: 'delete', keys: ['b'] }]);
+  });
+
+  it('"Limpar seleção" clears it and moves focus to "select all"', async () => {
+    host.selected.set(['a', 'b']);
+    await settle();
+    const clear = btn('Limpar seleção');
+    clear.focus();
+    clear.click();
+    await settle();
+    expect(host.selected()).toEqual([]);
+    expect(bar()).toBeNull();
+    expect(document.activeElement).toBe(selectAll());
+  });
+
+  it('when the container clears the selection after an action, focus does not get lost', async () => {
+    host.selected.set(['b']);
+    await settle();
+    btn('Exportar').focus();
+    host.selected.set([]);
+    await settle();
+    expect(document.activeElement).toBe(selectAll());
+  });
+
+  it('does not take focus back if it already moved elsewhere', async () => {
+    host.selected.set(['b']);
+    await settle();
+    btn('Exportar').focus();
+    const outside = el.querySelector<HTMLButtonElement>('#outside')!;
+    outside.focus();
+    host.selected.set([]);
+    await settle();
+    expect(document.activeElement).toBe(outside);
+  });
+
+  it('without bulk actions there is no bar nor live region', async () => {
+    host.bulk = [];
+    host.selected.set(['a']);
+    await settle();
+    expect(bar()).toBeNull();
+    expect(first().querySelector('[aria-live]')).toBeNull();
+  });
+
+  it('appBulkActions slot receives keys, count and clear', async () => {
+    host.withSlot = true;
+    host.selected.set(['a', 'b']);
+    await settle();
+    const slotTable = el.querySelector('#slot')!;
+    const mine = slotTable.querySelector<HTMLButtonElement>('.bulk-bar .mine')!;
+    expect(mine.textContent).toContain('Arquivar 2');
+    expect(slotTable.querySelector('.bulk-bar__clear')).not.toBeNull();
+    mine.click();
+    await settle();
+    expect(host.slotKeys).toEqual(['a', 'b']);
+    expect(host.selected()).toEqual([]);
   });
 });

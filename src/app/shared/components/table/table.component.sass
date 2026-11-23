@@ -1,3 +1,8 @@
+// --_a: cor das ações, com o fallback num lugar só
+:host
+  display: block
+  --_a: var(--tbl-action, #058075)
+
 /* reset leve só pra botões internos */
 button
   border: none !important
@@ -14,7 +19,7 @@ button
   &:focus
     outline: none
   &:focus-visible
-    outline: 2px solid var(--tbl-action, #058075)
+    outline: 2px solid var(--_a)
     outline-offset: 2px
 
   /* dá espaço mínimo pra permitir scroll quando apertar */
@@ -93,7 +98,7 @@ input[type="checkbox"]
   place-items: center
   border-radius: .5rem
   cursor: pointer
-  color: var(--tbl-action, #058075)
+  color: var(--_a)
 
   svg, img
     width: 24px
@@ -102,9 +107,9 @@ input[type="checkbox"]
 
 .icon-btn--ghost
   &:hover
-    background: color-mix(in oklab, var(--tbl-action, #058075) 12%, transparent)
+    background: color-mix(in oklab, var(--_a) 12%, transparent)
   &:focus-visible
-    outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
+    outline: 2px solid color-mix(in oklab, var(--_a) 40%, white)
     outline-offset: 2px
 
 /* indisponível: aria-disabled mantém o foco e a dica (com o motivo) */
@@ -172,13 +177,13 @@ td.state-error
   padding: .45rem .9rem
   border-radius: .5rem
   box-shadow: inset 0 0 0 1px currentColor
-  color: var(--tbl-action, #058075)
+  color: var(--_a)
   font-weight: 600
   cursor: pointer
   &:hover
-    background: color-mix(in oklab, var(--tbl-action, #058075) 12%, transparent)
+    background: color-mix(in oklab, var(--_a) 12%, transparent)
   &:focus-visible
-    outline: 2px solid var(--tbl-action, #058075)
+    outline: 2px solid var(--_a)
     outline-offset: 2px
 
 /* cabeçalho ordenável: <th> com um <button> que ocupa a célula */
@@ -193,7 +198,7 @@ td.state-error
   cursor: pointer
   user-select: none
   &:focus-visible
-    outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
+    outline: 2px solid color-mix(in oklab, var(--_a) 40%, white)
     outline-offset: 2px
 
 .tbl thead .sort

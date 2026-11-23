@@ -12,6 +12,7 @@ export const TABLE: Dict = {
   'table.toolbar.simulate':         { pt: 'Simular loading (1.5s)', en: 'Simulate loading (1.5s)' },
   'table.toolbar.simulate.loading': { pt: 'Carregando…',            en: 'Loading…' },
   'table.toolbar.simulateError':    { pt: 'Simular erro',           en: 'Simulate error' },
+  'table.toolbar.restore':          { pt: 'Restaurar linhas ({{n}})', en: 'Restore rows ({{n}})' },
   'table.toolbar.toggleEmpty.show': { pt: 'Mostrar vazio',          en: 'Show empty' },
   'table.toolbar.toggleEmpty.hide': { pt: 'Mostrar dados',          en: 'Show data' },
 
@@ -22,6 +23,16 @@ export const TABLE: Dict = {
     en: 'Could not load the additional cardholders. Check your connection and try again.'
   },
   'table.retry': { pt: 'Tentar novamente', en: 'Try again' },
+  'table.bulk.label': { pt: 'Ações em massa', en: 'Bulk actions' },
+  'table.bulk.count.one': { pt: '{{n}} selecionado', en: '{{n}} selected' },
+  'table.bulk.count.other': { pt: '{{n}} selecionados', en: '{{n}} selected' },
+  'table.bulk.clear': { pt: 'Limpar seleção', en: 'Clear selection' },
+  'table.bulk.export': { pt: 'Exportar', en: 'Export' },
+  'table.bulk.delete': { pt: 'Excluir selecionados', en: 'Delete selected' },
+  'table.bulk.delete.blocked': {
+    pt: 'a seleção tem correntistas, que só podem ser removidos pela agência',
+    en: 'the selection has account holders, who can only be removed by the branch'
+  },
   'table.actions': { pt: 'Ações', en: 'Actions' },
   'table.action.edit': { pt: 'Editar', en: 'Edit' },
   'table.action.delete': { pt: 'Excluir', en: 'Delete' },

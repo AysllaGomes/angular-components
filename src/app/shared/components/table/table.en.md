@@ -12,7 +12,8 @@ src/app/shared/components/table/
   ├─ table.component.ts
   ├─ table.component.html
   ├─ table.component.sass
-  └─ table.directives.ts   # appCell / appActions
+  ├─ table-bulk-bar.component.*   # bulk actions bar (internal)
+  └─ table.directives.ts   # appCell / appActions / appBulkActions
 ```
 
 ---
@@ -59,6 +60,10 @@ export interface ColumnDef<T = any> {
 | `emptyMessage`   | `string`                         | `No records to display` | Empty-state message.                                                                  |
 | `error`          | `string \| null`                |         `null`          | Load failure message: shown instead of the rows (announced). `loading` wins.          |
 | `retryLabel`     | `string \| null`                | `'Tentar novamente'`    | Text of the button that emits `retry`; `null` hides it.                               |
+| `bulkActions`    | `TableBulkAction[]`              |          `[]`           | Buttons of the bulk actions bar (requires `selectable`).                              |
+| `bulkActionsLabel` | `string`                       | `'Ações em massa'`      | Screen-reader name of the bar.                                                        |
+| `selectedCountLabel` | `(n: number) => string`      | `'n selecionado(s)'`    | Counter text (also announced on every change).                                        |
+| `clearSelectionLabel` | `string`                    | `'Limpar seleção'`      | Text of the button that clears the selection.                                         |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
 
@@ -68,6 +73,7 @@ export interface ColumnDef<T = any> {
 | `selectedChange` | `any[]` (keys or indices)                 | Row or “select all” changes.                          |
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
 | `retry`          | `void`                                    | The retry button was clicked in the error state.      |
+| `bulkAction`     | `{ type: string; keys: any[] }`           | A bulk action was clicked (selected keys or indices). |
 | `sortChange`     | `{ key: string; dir: 'asc'                | 'desc' }`                                             | User clicked a header and changed sorting. |
 
 ### Projectable templates
@@ -86,6 +92,60 @@ export interface ColumnDef<T = any> {
     </button>
   </ng-template>
   ```
+
+- **Bulk actions (`appBulkActions`)** — context: `$implicit`/`keys` (selected keys), `count`, `clear()`. Replaces the `[bulkActions]` buttons; the counter and "Limpar seleção" stay.
+  ```html
+  <ng-template appBulkActions let-keys let-clear="clear">
+    <button type="button" (click)="archive(keys); clear()">Archive</button>
+  </ng-template>
+  ```
+
+---
+
+## Bulk actions
+
+With `selectable` and `[bulkActions]`, a bar shows above the table while rows are selected: the counter ("3 selecionados"), **Limpar seleção** and the buttons. A click emits `(bulkAction)` with the selected **keys**.
+
+```ts
+bulkActions: TableBulkAction<string>[] = [
+  { type: 'export', label: 'Export' },
+  {
+    type: 'delete',
+    label: 'Delete selected',
+    danger: true,
+    disabled: docs => this.rows().some(r => docs.includes(r.documento) && r.tipo === 'Correntista'),
+    disabledReason: () => 'the selection has account holders, who can only be removed by the branch',
+  },
+];
+
+onBulk(e: { type: string; keys: string[] }) {
+  if (e.type === 'delete') {
+    this.api.delete(e.keys).subscribe(() => this.selected.set([]));
+  }
+}
+```
+
+```html
+<app-table [data]="pagedRows()" [selectable]="true" rowKey="documento"
+           [selected]="selected()" (selectedChange)="selected.set($event)"
+           [bulkActions]="bulkActions" (bulkAction)="onBulk($event)" />
+```
+
+```ts
+export interface TableBulkAction<K = any> {
+  type: string;                 // emitted in (bulkAction)
+  label: string;                // button text
+  danger?: boolean;             // destructive (red)
+  disabled?: (keys: K[]) => boolean;                          // stays focusable (aria-disabled)
+  disabledReason?: (keys: K[]) => string | null | undefined;  // reason, in the tooltip
+}
+```
+
+- **Use `rowKey`:** the selection spans pages, so the event carries **keys**, including rows that are not in `data`. Without `rowKey`, you get indices into `data`.
+- **Clear the selection** (`selected`) once the action is done: the bar goes away and focus moves to "select all" (or the table) instead of falling to `<body>`.
+- Unavailable action: `aria-disabled` (stays focusable, the click emits nothing) and the reason shows in the tooltip.
+- The counter is announced to screen readers on every selection change. For another language, pass `selectedCountLabel`, `clearSelectionLabel` and `bulkActionsLabel`.
+- The bar stays in view when the wrapper scrolls horizontally (`position: sticky`).
 
 ---
 ### Sorting (controlled)
@@ -258,6 +318,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
 - Error state: announced message (`role="alert"`), `aria-busy` on the table while loading, and focus is not lost on retry.
+- Bulk actions: bar with `role="group"` and a name (`bulkActionsLabel`), announced counter (`aria-live="polite"`), and focus moves to "select all" when the bar goes away.
 - Declarative actions: the name is also a tooltip; unavailable actions use `aria-disabled` (focusable, with the reason) and the actions column header has a screen-reader name (`actionsLabel`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
 - Clickable header with `aria-sort="ascending|descending|none"` and visible focus on the `th` (Enter/Space toggles).
@@ -280,7 +341,8 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - [x] Sorting
 - [x] Empty and loading states (`emptyMessage`, `loading`)
 - [x] Error state (`error`, `retry`)
-- [ ] Pagination helpers & bulk actions
+- [x] Bulk actions (`bulkActions`, `appBulkActions`)
+- [ ] Pagination helpers
 - [ ] Responsive columns for small screens
 
 ---

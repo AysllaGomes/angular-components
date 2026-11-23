@@ -20,6 +20,12 @@
         ? ('table.toolbar.toggleEmpty.hide' | t)
         : ('table.toolbar.toggleEmpty.show' | t) }}
       </button>
+
+      @if (removedCount() > 0) {
+        <button class="pill" type="button" (click)="restoreRows()">
+          {{ 'table.toolbar.restore' | t:{ n: removedCount() } }}
+        </button>
+      }
     </div>
 
     <div class="tbl-wrap">
@@ -44,17 +50,22 @@
         [sortDir]="sort()?.dir || 'asc'"
         (sortChange)="onSort($event)"
         (selectedChange)="selected.set($event)"
+        [bulkActions]="bulkActions()"
+        [bulkActionsLabel]="'table.bulk.label' | t"
+        [selectedCountLabel]="countLabel"
+        [clearSelectionLabel]="'table.bulk.clear' | t"
+        (bulkAction)="onBulk($any($event))"
         (action)="onAction($event)">
       </app-table>
     </div>
 
     <!-- com erro não há páginas para navegar -->
-    @if (rows.length > pageSize && !errorKey()) {
+    @if (rows().length > pageSize && !errorKey()) {
       <div class="tbl-footer">
-        <span class="total">{{ 'table.total' | t:{ n: rows.length } }}</span>
+        <span class="total">{{ 'table.total' | t:{ n: rows().length } }}</span>
         <app-pagination
           [ariaLabel]="'pagination.nav.table' | t"
-          [total]="rows.length"
+          [total]="rows().length"
           [pageSize]="pageSize"
           [pageIndex]="pageIndex()"
           (pageChange)="pageIndex.set($event)">

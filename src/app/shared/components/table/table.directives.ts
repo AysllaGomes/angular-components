@@ -11,6 +11,30 @@ export class TableCellTemplateDirective {
   constructor(public tpl: TemplateRef<any>) {}
 }
 
+/** contexto do `appBulkActions`: chaves selecionadas, quantidade e como limpar */
+export interface TableBulkActionsContext {
+  $implicit: any[];
+  keys: any[];
+  count: number;
+  clear: () => void;
+}
+
+/**
+ * Botões da barra de ações em massa (no lugar de `[bulkActions]`).
+ * O contador e "Limpar seleção" continuam sendo da tabela.
+ */
+@Directive({
+  selector: 'ng-template[appBulkActions]',
+  standalone: true
+})
+export class TableBulkActionsTemplateDirective {
+  constructor(public tpl: TemplateRef<TableBulkActionsContext>) {}
+
+  static ngTemplateContextGuard(_d: TableBulkActionsTemplateDirective, ctx: unknown): ctx is TableBulkActionsContext {
+    return true;
+  }
+}
+
 /** Template da coluna de ações (última coluna) */
 @Directive({
   selector: 'ng-template[appActions]',
