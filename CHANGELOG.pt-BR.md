@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.4.0](https://github.com/AysllaGomes/angular-components/compare/v3.3.0...v3.4.0) (2026-11-23)
+### Features
+- **site:** cada componente tem a própria página em `/componentes/<id>` (os
+  15, pré-renderizados): resumo, exemplo, por que existe, quando usar, API,
+  acessibilidade, o que copiar e tokens de tema, com anterior/próximo:
+  - Tabs, Tabela e Select estão completos, com exemplo ao vivo e o código lado
+    a lado (o mesmo código da documentação, no idioma da página); os outros 12
+    mostram o código e levam à demo, e se completam sozinhos quando a
+    documentação ganhar "Por que existe" e "Quando usar";
+  - as tabelas da API aparecem nas Tabs da própria biblioteca;
+  - menu lateral por grupo (recolhido no celular), caminho e "Nesta página";
+    um componente que não existe mostra a página 404.
+- **a11y:** relatório real do axe por componente e estado, gravado pelos testes
+  de acessibilidade a cada deploy e publicado junto com o site (versão do axe,
+  data, commit e link do run no GitHub):
+  - cada página de componente mostra "0 violações em N estados verificados",
+    uma barra por estado (os números estão numa tabela de verdade; as barras
+    só os desenham) e explica cada item que o axe não conseguiu decidir sozinho;
+  - nova página de [Acessibilidade](https://aysllagomes.github.io/angular-components/acessibilidade):
+    hoje **15 componentes, 25 estados, 0 violações**, com como é verificado,
+    as regras desligadas nos testes e por quê, e o que o axe não vê;
+  - sem o relatório, as páginas dizem isso em vez de mostrar números.
+- **docs:** as páginas de componente são geradas dos `.md` (PT e EN), e a
+  documentação continua sendo a única fonte; `npm run docs:pages` regenera e
+  `npm run check:pages` falha no CI e no deploy quando ficam desatualizadas.
+- **site:** o menu do topo agora reflete o site: **Componentes ▾** (os 4 grupos
+  lado a lado, cada item levando à página dele), **Demo** e **Acessibilidade**,
+  com a página atual marcada:
+  - o menu não leva mais direto às seções da demo; cada página de componente
+    tem "Ver na demo", e links como `/demo#table` continuam valendo.
+- **site:** o catálogo da home ("Conhecer Tabela") e as sugestões da 404 agora
+  levam às páginas de componente, e o rodapé leva à página de Acessibilidade.
+- **labels:** novo texto `selectTitle` para o título da folha do Select no
+  celular (era um `'Selecionar'` fixo); opcional no `provideUiLabels`.
+
+### Correções
+- **actionbar:** a folha é um `<div role="dialog">` em vez de `<aside>`, que
+  não aceita esse papel.
+- **select, treeselect:** o `aria-controls` só aponta para a lista enquanto ela
+  está aberta (fechada, a lista não existe).
+
+### Interno
+- O deploy falha se as páginas de componente ou a de Acessibilidade não forem
+  pré-renderizadas.
+
 ## [3.3.0](https://github.com/AysllaGomes/angular-components/compare/v3.2.0...v3.3.0) (2026-11-23)
 ### Features
 - **components:** agora funcionam copiados para outro projeto, sem o

@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.4.0](https://github.com/AysllaGomes/angular-components/compare/v3.3.0...v3.4.0) (2026-11-23)
+
+### Features
+
+* **site:** each component has its own page at `/componentes/<id>` (all 15, prerendered): summary, example, why it exists, when to use it, API, accessibility, what to copy and theme tokens, with previous/next ([7cb6a24](https://github.com/AysllaGomes/angular-components/commit/7cb6a24))
+  * Tabs, Table and Select are complete, with a live example and its code side by side (the same code as the docs, in the page's language); the other 12 show the code and link to the demo, and fill in on their own when their docs get "Why it exists" and "When to use"
+  * the API tables are shown in the library's own Tabs
+  * side menu by group (collapsed on phones), breadcrumb and "On this page"; an unknown component shows the 404 page
+* **a11y:** real axe report per component and state, written by the accessibility tests on every deploy and published with the site (axe version, date, commit and a link to the GitHub run) ([aa7fea9](https://github.com/AysllaGomes/angular-components/commit/aa7fea9))
+  * each component page shows "0 violations in N checked states", one bar per state (the numbers are in a real table; the bars only draw them), and explains each item axe could not decide on its own
+  * new [Accessibility](https://aysllagomes.github.io/angular-components/acessibilidade) page: today **15 components, 25 states, 0 violations**, with how it is checked, the rules turned off in the tests and why, and what axe does not see
+  * when the report is missing, the pages say so instead of showing numbers
+* **docs:** the component pages are generated from the `.md` files (PT and EN), so the docs stay the single source; `npm run docs:pages` regenerates them and `npm run check:pages` fails in CI and deploy when they are out of date ([82dffbd](https://github.com/AysllaGomes/angular-components/commit/82dffbd))
+* **site:** the top menu now reflects the site: **Components ▾** (the 4 groups side by side, each item leading to its page), **Demo** and **Accessibility**, with the current page marked ([d956e68](https://github.com/AysllaGomes/angular-components/commit/d956e68))
+  * the menu no longer jumps straight to demo sections; each component page has "See in the demo", and links like `/demo#table` keep working
+* **site:** the home catalog ("Explore Table") and the 404 suggestions now lead to the component pages, and the footer links to the Accessibility page ([7cb6a24](https://github.com/AysllaGomes/angular-components/commit/7cb6a24))
+* **labels:** new `selectTitle` label for the Select sheet title on phones (was a fixed `'Selecionar'`); optional in `provideUiLabels` ([7cb6a24](https://github.com/AysllaGomes/angular-components/commit/7cb6a24))
+
+### Bug Fixes
+
+* **actionbar:** the sheet is a `<div role="dialog">` instead of an `<aside>`, which does not accept that role ([aa7fea9](https://github.com/AysllaGomes/angular-components/commit/aa7fea9))
+* **select, treeselect:** `aria-controls` only points to the list while it is open (closed, the list does not exist) ([aa7fea9](https://github.com/AysllaGomes/angular-components/commit/aa7fea9))
+
+### Internal
+
+* deploy fails if the component pages or the Accessibility page are not prerendered ([7cb6a24](https://github.com/AysllaGomes/angular-components/commit/7cb6a24))
+
 ## [3.3.0](https://github.com/AysllaGomes/angular-components/compare/v3.2.0...v3.3.0) (2026-11-23)
 
 ### Features
