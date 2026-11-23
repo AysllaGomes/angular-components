@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.2](https://github.com/AysllaGomes/angular-components/compare/v3.7.1...v3.7.2) (2026-11-23)
+
+### Bug Fixes
+
+* **site:** the Accessibility and 404 pages use the same width as the rest of the site and line up with the header (they were narrow and centered, at 960px and 760px); only the reading parts keep a limit of their own ([55a65c7](https://github.com/AysllaGomes/angular-components/commit/55a65c7))
+  * Accessibility: text up to 44em and the report table up to 56rem; the numbers at the top use the full width
+  * 404: the text, the "Did you mean" card and the search field keep readable widths; the component grid uses the full width (7 per row on 1920px screens)
+
 ## [3.7.1](https://github.com/AysllaGomes/angular-components/compare/v3.7.0...v3.7.1) (2026-11-23)
 
 ### Bug Fixes

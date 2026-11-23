@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.7.2](https://github.com/AysllaGomes/angular-components/compare/v3.7.1...v3.7.2) (2026-11-23)
+### Correções
+- **site:** as páginas de Acessibilidade e 404 usam a mesma largura do resto
+  do site e se alinham com o cabeçalho (eram estreitas e centralizadas, com
+  960px e 760px); só o que é leitura mantém um limite próprio:
+  - Acessibilidade: texto até 44em e a tabela do relatório até 56rem; os
+    números do topo usam a largura toda;
+  - 404: o texto, o cartão "Você quis dizer" e o campo de busca ficam numa
+    largura boa de ler; a grade de componentes usa a largura toda (7 por linha
+    em telas de 1920px).
+
 ## [3.7.1](https://github.com/AysllaGomes/angular-components/compare/v3.7.0...v3.7.1) (2026-11-23)
 ### Correções
 - **site:** o cabeçalho cabe em telas de 360px: abaixo de 480px as cores de
