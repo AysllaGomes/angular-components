@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
-import { TableBulkAction } from '../../model/interface/table-bulk-action.interface';
+import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
 
 import { TableComponent } from './table.component';
 import { TableBulkActionsTemplateDirective } from './table.directives';
@@ -326,7 +326,7 @@ describe('TableComponent error state', () => {
     <button id="outside" type="button">Fora</button>
     <app-table [columns]="columns" [data]="data()" [selectable]="true" rowKey="id"
                [selected]="selected()" (selectedChange)="selected.set($event)"
-               [bulkActions]="bulk" (bulkAction)="events.push($event)" />
+               [bulkActions]="bulk" [bulkBarIdle]="idle()" (bulkAction)="events.push($event)" />
     @if (withSlot) {
       <app-table id="slot" [columns]="columns" [data]="data()" [selectable]="true" rowKey="id"
                  [selected]="selected()" (selectedChange)="selected.set($event)">
@@ -352,6 +352,7 @@ class BulkHostComponent {
     }
   ];
   events: { type: string; keys: any[] }[] = [];
+  idle = signal<TableBulkBarIdle>('space');
   withSlot = false;
   slotKeys: any[] = [];
 }
@@ -365,7 +366,7 @@ describe('TableComponent bulk actions', () => {
   const live = () => first().querySelector('[aria-live]')!;
   const btn = (label: string) =>
     Array.from(first().querySelectorAll<HTMLButtonElement>('.bulk-bar button')).find(b => b.textContent!.includes(label))!;
-  const more = () => first().querySelector<HTMLElement>('.bulk-bar__more')!;
+
   const rowBoxes = () => Array.from(first().querySelectorAll<HTMLInputElement>('tbody input[type=checkbox]'));
   const selectAll = () => first().querySelector<HTMLInputElement>('thead input[type=checkbox]')!;
   const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
@@ -383,15 +384,17 @@ describe('TableComponent bulk actions', () => {
 
   afterEach(() => fixture.destroy());
 
-  it('keeps the bar in place (only the text without a selection), with a count announced on every change', async () => {
+  it('keeps the bar in the page (idle without a selection), with a count announced on every change', async () => {
     expect(bar()!.getAttribute('role')).toBe('group');
     expect(bar()!.getAttribute('aria-label')).toBe('Ações em massa');
     expect(live().textContent!.trim()).toBe('Nenhuma linha selecionada');
-    expect(more().classList).toContain('is-idle'); // "Limpar" e ações guardam o espaço, invisíveis
+    // padrão 'space': nada visível, "Limpar" e ações guardam o espaço (CSS por data-idle)
+    expect(bar()!.classList).toContain('is-idle');
+    expect(bar()!.getAttribute('data-idle')).toBe('space');
 
     rowBoxes()[1].click();
     await settle();
-    expect(more().classList).not.toContain('is-idle');
+    expect(bar()!.classList).not.toContain('is-idle');
     expect(live().textContent!.trim()).toBe('1 selecionado');
 
     selectAll().click();
@@ -432,7 +435,7 @@ describe('TableComponent bulk actions', () => {
     clear.click();
     await settle();
     expect(host.selected()).toEqual([]);
-    expect(more().classList).toContain('is-idle');
+    expect(bar()!.classList).toContain('is-idle');
     expect(document.activeElement).toBe(selectAll());
   });
 
@@ -454,6 +457,22 @@ describe('TableComponent bulk actions', () => {
     host.selected.set([]);
     await settle();
     expect(document.activeElement).toBe(outside);
+  });
+
+  it('bulkBarIdle reaches the bar; "hidden" still keeps the live region and returns focus', async () => {
+    host.idle.set('hint');
+    await settle();
+    expect(bar()!.getAttribute('data-idle')).toBe('hint');
+
+    host.idle.set('hidden');
+    host.selected.set(['b']);
+    await settle();
+    expect(bar()!.getAttribute('data-idle')).toBe('hidden');
+    btn('Exportar').focus();
+    host.selected.set([]);
+    await settle();
+    expect(live().textContent!.trim()).toBe('Nenhuma linha selecionada');
+    expect(document.activeElement).toBe(selectAll());
   });
 
   it('without bulk actions there is no bar nor live region', async () => {

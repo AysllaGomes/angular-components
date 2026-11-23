@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, TemplateRef, input, output } from '@angular/core';
 
-import { TableBulkAction } from '../../model/interface/table-bulk-action.interface';
+import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkActionsContext } from './table.directives';
@@ -21,13 +21,17 @@ import { TableBulkActionsContext } from './table.directives';
   host: {
     class: 'bulk-bar',
     role: 'group',
-    '[attr.aria-label]': 'label()'
+    '[attr.aria-label]': 'label()',
+    '[class.is-idle]': 'count() === 0',
+    '[attr.data-idle]': 'idle()'
   }
 })
 export class TableBulkBarComponent {
   readonly label = input.required<string>();
   /** sem seleção (0), só o texto fica visível; "Limpar" e as ações guardam o espaço */
   readonly count = input.required<number>();
+  /** o que aparece sem seleção (ver `bulkBarIdle` na tabela) */
+  readonly idle = input<TableBulkBarIdle>('space');
   readonly countText = input.required<string>();
   readonly clearLabel = input.required<string>();
   readonly actions = input<TableBulkAction[]>([]);

@@ -1,10 +1,11 @@
 <!-- AÇÕES EM MASSA -->
-<!-- sempre no lugar (sem seleção, só o texto): a tabela não pula ao marcar a primeira linha -->
+<!-- sempre presente (contador anunciado, foco com para onde voltar); sem seleção, bulkBarIdle decide o que aparece -->
 @if (hasBulk()) {
   <!-- foco: a tabela acompanha se ele está na barra, para não perdê-lo quando os botões somem -->
   <app-table-bulk-bar
     [label]="bulkActionsLabel()"
     [count]="selectedCount()"
+    [idle]="bulkBarIdle()"
     [countText]="selectedCountText()"
     [clearLabel]="clearSelectionLabel()"
     [actions]="bulkActions()"

@@ -8,7 +8,7 @@ import { SortState } from '../../../shared/model/type/sort-state.type';
 
 import { ColumnDef } from '../../../shared/model/interface/column-def.interface';
 import { TableAction } from '../../../shared/model/interface/table-action.interface';
-import { TableBulkAction } from '../../../shared/model/interface/table-bulk-action.interface';
+import { TableBulkAction, TableBulkBarIdle } from '../../../shared/model/interface/table-bulk-action.interface';
 import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
 
 import { TableComponent } from '../../../shared/components/table/table.component';
@@ -61,6 +61,14 @@ export class TableDemoComponent {
       disabledReason: () => this.i18n.t('table.bulk.delete.blocked'),
     },
   ]);
+
+  /** o que a barra mostra sem seleção; o botão da toolbar alterna os três modos */
+  bulkIdle = signal<TableBulkBarIdle>('space');
+
+  cycleIdle() {
+    const modes: TableBulkBarIdle[] = ['space', 'hint', 'hidden'];
+    this.bulkIdle.update(m => modes[(modes.indexOf(m) + 1) % modes.length]);
+  }
 
   /** lê o idioma dentro da função: o contador acompanha a troca de idioma */
   countLabel = (n: number) => this.i18n.t(n === 1 ? 'table.bulk.count.one' : 'table.bulk.count.other', { n });

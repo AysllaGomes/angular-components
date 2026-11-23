@@ -64,7 +64,8 @@ export interface ColumnDef<T = any> {
 | `bulkActionsLabel` | `string`                       | `'Ações em massa'`      | Screen-reader name of the bar.                                                        |
 | `selectedCountLabel` | `(n: number) => string`      | `'n selecionado(s)'`    | Counter text (also announced on every change).                                        |
 | `clearSelectionLabel` | `string`                    | `'Limpar seleção'`      | Text of the button that clears the selection.                                         |
-| `noSelectionLabel` | `string`                       | `'Nenhuma linha selecionada'` | Bar text without a selection.                                                    |
+| `noSelectionLabel` | `string`                       | `'Nenhuma linha selecionada'` | Text without a selection: visible with `bulkBarIdle="hint"`, otherwise only announced.                                                    |
+| `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` | `'space'`        | What the bar shows without a selection (see Bulk actions).                             |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
 
@@ -105,7 +106,15 @@ export interface ColumnDef<T = any> {
 
 ## Bulk actions
 
-With `selectable` and `[bulkActions]`, a bar sits above the table. With selected rows it shows the counter ("3 selecionados"), **Limpar seleção** and the buttons; without a selection, only "Nenhuma linha selecionada" (the buttons keep their space, invisible), so the table does not jump when the first row is checked. A click emits `(bulkAction)` with the selected **keys**.
+With `selectable` and `[bulkActions]`, a bar sits above the table. With selected rows it shows the counter ("3 selecionados"), **Limpar seleção** and the buttons. A click emits `(bulkAction)` with the selected **keys**.
+
+Without a selection, `bulkBarIdle` decides what shows:
+
+| `bulkBarIdle`       | Without a selection                           | When the first row is checked |
+|---------------------|-----------------------------------------------|-------------------------------|
+| `'space'` (default) | nothing, but the bar keeps its space          | the table does not move       |
+| `'hint'`            | the `noSelectionLabel` text ("Nenhuma linha selecionada") | the table does not move |
+| `'hidden'`          | nothing, and the bar takes no space           | the table moves down          |
 
 ```ts
 bulkActions: TableBulkAction<string>[] = [

@@ -22,7 +22,7 @@ import { SortDir } from '../../model/type/sort-dir.type';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
-import { TableBulkAction } from '../../model/interface/table-bulk-action.interface';
+import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkBarComponent } from './table-bulk-bar.component';
@@ -116,18 +116,20 @@ export class TableComponent<T = any> {
   readonly action = output<{ type: string; row: T; index: number }>();
 
   // ===== ações em massa =====
-  /**
-   * Botões da barra de ações em massa (exige `selectable`). A barra fica sempre no
-   * lugar, para a tabela não pular ao selecionar; sem seleção mostra só `noSelectionLabel`.
-   */
+  /** botões da barra de ações em massa (exige `selectable`) */
   readonly bulkActions = input<TableBulkAction[]>([]);
+  /**
+   * Barra sem seleção: `'space'` não mostra nada mas guarda o espaço (a tabela não pula),
+   * `'hint'` mostra `noSelectionLabel`, `'hidden'` só aparece com seleção (a tabela desce).
+   */
+  readonly bulkBarIdle = input<TableBulkBarIdle>('space');
   /** nome do grupo da barra para leitor de tela */
   readonly bulkActionsLabel = input('Ações em massa');
   /** texto do contador (também anunciado ao leitor de tela a cada mudança) */
   readonly selectedCountLabel = input<(n: number) => string>(
     n => (n === 1 ? '1 selecionado' : `${n} selecionados`)
   );
-  /** texto da barra sem seleção */
+  /** texto sem seleção: visível com `bulkBarIdle="hint"`; nos outros modos só é anunciado ao limpar */
   readonly noSelectionLabel = input('Nenhuma linha selecionada');
   readonly clearSelectionLabel = input('Limpar seleção');
   /** clique numa ação em massa: chaves (com `rowKey`) ou índices em `data` */

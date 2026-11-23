@@ -10,7 +10,7 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 - **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
 - **Seleção**: checkbox por linha + “selecionar tudo”.
-- **Ações em massa**: barra acima da tabela (“3 selecionados”, Limpar seleção e botões; sem seleção, só “Nenhuma linha selecionada”), via `[bulkActions]` ou *slot* `appBulkActions`.
+- **Ações em massa**: barra acima da tabela (“3 selecionados”, Limpar seleção e botões; sem seleção, `bulkBarIdle` decide: espaço guardado, texto ou escondida), via `[bulkActions]` ou *slot* `appBulkActions`.
 - **Ações**:
   - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
   - **Customizadas** via *slot* `appActions` quando você precisa de controle total do markup.
@@ -153,7 +153,8 @@ export interface TableAction<T = any> {
 | `bulkActionsLabel` | `string`                     |                                                         `'Ações em massa'`                                                          | Nome do grupo da barra para leitor de tela.                                                                  |
 | `selectedCountLabel` | `(n: number) => string`    |                                                       `'1 selecionado'` / `'n selecionados'`                                        | Texto do contador (também anunciado a cada mudança).                                                         |
 | `clearSelectionLabel` | `string`                  |                                                          `'Limpar seleção'`                                                         | Texto do botão que limpa a seleção.                                                                          |
-| `noSelectionLabel` | `string`                     |                                                     `'Nenhuma linha selecionada'`                                                     | Texto da barra sem seleção.                                                                                  |
+| `noSelectionLabel` | `string`                     |                                                     `'Nenhuma linha selecionada'`                                                     | Texto sem seleção: visível com `bulkBarIdle="hint"`, senão só anunciado.                                                                                  |
+| `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` |                                                              `'space'`                                                               | O que a barra mostra sem seleção (ver Ações em massa).                                                       |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 
@@ -195,7 +196,15 @@ export interface TableAction<T = any> {
 
 ## Ações em massa
 
-Com `selectable` e `[bulkActions]`, uma barra fica acima da tabela. Com linhas selecionadas, mostra o contador ("3 selecionados"), **Limpar seleção** e os botões; sem seleção, só "Nenhuma linha selecionada" (os botões guardam o espaço, invisíveis), então a tabela não pula ao marcar a primeira linha. O clique emite `(bulkAction)` com as **chaves** selecionadas.
+Com `selectable` e `[bulkActions]`, uma barra fica acima da tabela. Com linhas selecionadas, mostra o contador ("3 selecionados"), **Limpar seleção** e os botões. O clique emite `(bulkAction)` com as **chaves** selecionadas.
+
+Sem seleção, `bulkBarIdle` decide o que aparece:
+
+| `bulkBarIdle`       | Sem seleção                                   | Ao marcar a primeira linha |
+|---------------------|-----------------------------------------------|----------------------------|
+| `'space'` (padrão) | nada, mas o espaço da barra fica guardado     | a tabela não se mexe       |
+| `'hint'`            | o texto `noSelectionLabel` ("Nenhuma linha selecionada") | a tabela não se mexe |
+| `'hidden'`          | nada, e a barra não ocupa espaço              | a tabela desce             |
 
 ```ts
 bulkActions: TableBulkAction<string>[] = [

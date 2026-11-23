@@ -10,7 +10,7 @@
   flex-wrap: wrap
   align-items: center
   gap: .5rem .75rem
-  margin-bottom: .5rem
+  margin-bottom: .75rem
   padding: .5rem .75rem
   border-radius: .5rem
   background: color-mix(in oklab, var(--_a) 10%, var(--tbl-row-bg, #fff))
@@ -18,17 +18,39 @@
 
 .bulk-bar__count
   font-weight: 600
-  &.is-idle
-    font-weight: 400
-    color: var(--tbl-muted)
 
 .bulk-bar__more
   display: flex
   flex-wrap: wrap
   align-items: center
   gap: .5rem .75rem
-  &.is-idle
+
+// ===== sem seleção (data-idle: space | hint | hidden) =====
+// "Limpar" e as ações ficam invisíveis guardando a altura; visibility também tira do foco e do leitor
+:host(.is-idle)
+  background: transparent
+  .bulk-bar__more
     visibility: hidden
+
+// o contador continua anunciando (região viva), só não aparece
+:host(.is-idle:not([data-idle="hint"])) .bulk-bar__count
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap
+
+:host(.is-idle[data-idle="hint"]) .bulk-bar__count
+  font-weight: 400
+  color: var(--tbl-muted)
+
+// hidden: não ocupa espaço (a tabela desce quando a barra aparece)
+:host(.is-idle[data-idle="hidden"])
+  margin: 0
+  padding: 0
+  .bulk-bar__more
+    display: none
 
 button
   appearance: none

@@ -21,6 +21,11 @@
         : ('table.toolbar.toggleEmpty.show' | t) }}
       </button>
 
+      <!-- bulkBarIdle: o que a barra de ações em massa mostra sem seleção -->
+      <button class="pill" type="button" (click)="cycleIdle()">
+        {{ 'table.toolbar.idle' | t:{ mode: ('table.toolbar.idle.' + bulkIdle()) | t } }}
+      </button>
+
       @if (removedCount() > 0) {
         <button class="pill" type="button" (click)="restoreRows()">
           {{ 'table.toolbar.restore' | t:{ n: removedCount() } }}
@@ -54,6 +59,7 @@
         [bulkActionsLabel]="'table.bulk.label' | t"
         [selectedCountLabel]="countLabel"
         [noSelectionLabel]="'table.bulk.none' | t"
+        [bulkBarIdle]="bulkIdle()"
         [clearSelectionLabel]="'table.bulk.clear' | t"
         (bulkAction)="onBulk($any($event))"
         (action)="onAction($event)">
