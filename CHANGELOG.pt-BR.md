@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.6.0](https://github.com/AysllaGomes/angular-components/compare/v3.5.0...v3.6.0) (2026-11-23)
+### ⚠ Caminhos que mudaram (se você já copiou componentes)
+- os tipos públicos agora ficam junto de cada componente, em `<x>.types.ts`
+  (ex.: `components/table/table.types.ts` com `ColumnDef`, `TableAction`,
+  `TableBulkAction`...); a pasta `shared/model/` não existe mais.
+- o `ToastService` foi para `components/toast/toast.service.ts`.
+
+### Features
+- **copiar:** copiar um componente ficou mais simples: cada pasta leva os
+  próprios tipos, e as listas "O que copiar" encolheram (Tabela: de 33 para 24
+  arquivos; Toast: de 13 para 10). O TreeSelect continua sendo copiado sem o
+  Select.
+
+### Correções
+- **copiar:** as listas do Dialog e do ActionBar agora mostram
+  `a11y/modal-session.ts` em "Arquivos auxiliares"; ele entrava na contagem
+  mas não aparecia na lista, e sem ele o Dialog não compila.
+- **site:** o estilo da página de componente voltou para dentro do orçamento
+  de 5 kB (tinha passado 6 bytes na 3.5.0).
+
+### Interno
+- `src/app/shared/` é só a biblioteca (componentes, formulários, labels,
+  a11y); as traduções, os serviços e o cabeçalho/rodapé do site foram para
+  `src/app/site/`, e os tipos dos dados de exemplo da tabela da demo para
+  `demo/sections/table/`.
+- verificado: as listas de cópia da Tabela, TreeSelect, Dialog, Toast e
+  Formulários compilam sozinhas numa pasta vazia.
+
 ## [3.5.0](https://github.com/AysllaGomes/angular-components/compare/v3.4.0...v3.5.0) (2026-11-23)
 ### Features
 - **docs:** os outros 12 componentes ganharam "Por que existe" e "Quando usar",

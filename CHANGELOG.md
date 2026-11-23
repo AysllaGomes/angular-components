@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.6.0](https://github.com/AysllaGomes/angular-components/compare/v3.5.0...v3.6.0) (2026-11-23)
+
+### ⚠ Changed paths (if you copied components before)
+
+* the public types now live next to each component, in `<x>.types.ts` (e.g. `components/table/table.types.ts` with `ColumnDef`, `TableAction`, `TableBulkAction`...); `shared/model/` no longer exists ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+* `ToastService` moved to `components/toast/toast.service.ts` ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+
+### Features
+
+* **copy:** copying a component is now simpler: each folder carries its own types, so the "What to copy" lists got shorter (Table: from 33 to 24 files; Toast: from 13 to 10), and TreeSelect still copies without Select ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+
+### Bug Fixes
+
+* **copy:** the Dialog and ActionBar lists now show `a11y/modal-session.ts` under "Helper files"; it was counted in the totals but missing from the list, and without it the Dialog does not compile ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+* **site:** the component page styles are back under the 5 kB budget (they went 6 bytes over in 3.5.0) ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+
+### Internal
+
+* `src/app/shared/` is the library only (components, forms, labels, a11y); the site's translations, services and header/footer moved to `src/app/site/`, and the demo table's sample data types to `demo/sections/table/` ([2f6172c](https://github.com/AysllaGomes/angular-components/commit/2f6172c))
+* verified: the Table, TreeSelect, Dialog, Toast and Forms copy lists compile on their own in an empty folder
+
 ## [3.5.0](https://github.com/AysllaGomes/angular-components/compare/v3.4.0...v3.5.0) (2026-11-23)
 
 ### Features
