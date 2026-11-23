@@ -10,6 +10,24 @@ Componente de **select** leve, acessível e tematizável por **CSS Variables**. 
 
 ---
 
+## Por que existe
+
+O `<select>` nativo é acessível, mas difícil de estilizar e não tem busca, grupos visuais nem botão de limpar. Recriar um select do zero costuma quebrar o teclado e o leitor de tela. Este componente segue o padrão de listbox: setas, Home/End, escolha por digitação, grupos, limpar, validação de obrigatório, formulários e um painel que vira folha no celular.
+
+## Quando usar
+
+### Use quando
+
+- A pessoa escolhe uma opção entre várias, mais do que cabem confortavelmente na tela.
+- As opções têm grupos, ou a lista é longa e vale ter busca.
+- O campo faz parte de um formulário (Reactive Forms ou `ngModel`).
+
+### Prefira outro
+
+- Poucas opções que cabem na tela: use o [Radio group](../radio/radio-group.md), que mostra tudo sem abrir nada.
+- Opções em árvore (categorias e subcategorias): use o [TreeSelect](../tree-select/tree-select.md).
+- Ligar ou desligar uma configuração: use o [Switch](../switch/switch.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 
@@ -206,23 +224,15 @@ erroCategoria(): string | null {
 
 ## Acessibilidade
 
-- **Botão** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`, `aria-invalid` quando há erro.
-- **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`.
+- **Botão** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` (só com a lista aberta, quando ela existe) e `aria-invalid` quando há erro.
+- **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`; a opção destacada é anunciada (`aria-activedescendant`).
 - **Rótulo**: o `label` nomeia o botão (junto com o valor: "Comida, Banana") e a lista (`aria-labelledby`). Ao abrir, o foco vai para a busca ou para a lista.
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
 - **Typeahead**: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (`Enter` confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com `filterable`, o texto vai para o filtro.
 - **Foco**: ao selecionar, o foco retorna ao botão.
-- **Novo (clearable)**: o botão de limpar é focável e tem `aria-label="{{ 'select.clear' | t }}"`. Em teclado, **Enter/Space** limpa e retorna o foco ao botão do controle.
+- **Limpar** (`clearable`): o botão é focável e tem nome (`labels.clearSelection`, "Clear selection" por padrão). **Enter/Space** limpa e devolve o foco ao botão do controle.
 
-> 💡 *Upgrade opcional*: adicionar `aria-activedescendant` no listbox apontando para o item destacado melhora a leitura por leitores de tela.
->
-> ```html
-> <div
->   role="listbox"
->   [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
-> </div>
-> ```
 
 ---
 

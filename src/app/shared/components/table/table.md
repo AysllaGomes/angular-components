@@ -8,6 +8,24 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 ---
 
+## Por que existe
+
+Tabelas de dados juntam muitas necessidades de uma vez: selecionar linhas (inclusive entre páginas), agir sobre uma ou várias, ordenar, paginar, avisar quando está carregando, vazia ou com erro, e continuar legível em telas estreitas. Feito à mão, isso costuma deixar o teclado, o leitor de tela e o foco para depois. Esta tabela reúne esses recursos sobre um `<table>` de verdade, sem biblioteca, e cada um é opcional.
+
+## Quando usar
+
+### Use quando
+
+- Os dados têm linhas e colunas que a pessoa compara ou percorre.
+- É preciso selecionar linhas e agir sobre elas, uma a uma ou em massa.
+- A lista é longa: pagine no navegador ou no servidor.
+
+### Prefira outro
+
+- Poucos itens, sem colunas para comparar: uma lista simples (`<ul>`) é mais leve.
+- Escolher um item para preencher um campo: use o [Select](../select/select.md).
+- Escolher em dados hierárquicos: use o [TreeSelect](../tree-select/tree-select.md).
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 
@@ -185,7 +203,7 @@ export interface TableAction<T = any> {
 | `noSelectionLabel` | `string`                     | `labels.table.noSelection` | Texto sem seleção: visível com `bulkBarIdle="hint"`, senão só anunciado.                                                                                  |
 | `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` |                                                              `'space'`                                                               | O que a barra mostra sem seleção (ver Ações em massa).                                                       |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
-| `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
+| `sortDir`       | `'asc' \| 'desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 | `paginate`      | `'client' \| 'server' \| null`  |                                                               `null`                                                                | Liga a paginação integrada (ver Paginação). Sem ela, mostra `data` inteiro.                                  |
 | `pageIndex`     | `number`                        |                                                                 `0`                                                                 | Página atual (0-based); aceita `[(pageIndex)]`.                                                              |
 | `pageSize`      | `number`                        |                                                                `10`                                                                 | Linhas por página; aceita `[(pageSize)]`.                                                                    |
@@ -206,8 +224,7 @@ export interface TableAction<T = any> {
 | `bulkAction`      | `{ type: string; keys: any[] }`                 | Clique numa ação em massa (chaves ou índices selecionados). |
 | `pageIndexChange` | `number`                                        | Mudou de página (clique, ordenação ou correção após `data` encolher). |
 | `pageSizeChange`  | `number`                                        | Trocou "Itens por página".                                |
-| `sortChange`      | `{ key: string; dir: 'asc'                      | 'desc' }`                                                 | Usuário clicou no cabeçalho e mudou a ordenação. |
-
+| `sortChange`      | `{ key: string; dir: 'asc' \| 'desc' }`       | Usuário clicou no cabeçalho e mudou a ordenação. |
 ### Templates projetáveis
 - **Célula custom (`appCell`)**  
   Contexto: `$implicit` (valor), `row` (linha), `index` (índice).

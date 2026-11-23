@@ -14,6 +14,24 @@ import { TABS_IMPORTS } from 'src/app/shared/components/tabs';
 
 > **Tabs ou Stepper?** Abas são seções independentes, abertas em qualquer ordem. Para um fluxo com etapas em sequência, use o `app-stepper`.
 
+## Por que existe
+
+Abas parecem simples, mas acertar o comportamento dá trabalho: as setas trocam de aba, só a aba aberta entra na ordem do Tab, cada aba aponta para o seu painel, as desabilitadas são puladas e, com muitas abas no celular, a aberta precisa continuar à vista. Este componente resolve isso uma vez, no padrão WAI-ARIA, para você só declarar as abas.
+
+## Quando usar
+
+### Use quando
+
+- As seções são da mesma tela e podem ser abertas em qualquer ordem.
+- A pessoa precisa trocar de visão sem sair da página.
+- Alguma seção é pesada: com `appTabContent` ela só é criada quando aberta.
+
+### Prefira outro
+
+- Etapas em sequência, uma dependendo da outra: use o [Stepper](../stepper/stepper.md).
+- Poucas opções que mudam um valor de formulário: use o [Radio group](../radio/radio-group.md).
+- Ir para outra página: use links, não abas.
+
 <!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
 ## O que copiar
 

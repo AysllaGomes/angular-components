@@ -14,7 +14,9 @@
     "serve:ssr:angular-components": "node dist/angular-components/server/server.mjs",
     "check:css": "node scripts/check-css-fallbacks.mjs",
     "docs:copy": "node scripts/copy-manifest.mjs",
-    "check:copy": "node scripts/copy-manifest.mjs --check"
+    "check:copy": "node scripts/copy-manifest.mjs --check",
+    "docs:pages": "node scripts/build-component-docs.mjs",
+    "check:pages": "node scripts/build-component-docs.mjs --check"
   },
   "prettier": {
     "printWidth": 100,

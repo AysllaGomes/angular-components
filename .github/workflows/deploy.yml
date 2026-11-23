@@ -35,6 +35,8 @@ jobs:
       - run: npm run check:css
       # "O que copiar" de cada documento bate com os imports de verdade
       - run: npm run check:copy
+      # páginas de componente geradas dos .md, em dia com eles
+      - run: npm run check:pages
 
       # testes antes do build: se falharem, nada é publicado
       - run: npm run test:ci
