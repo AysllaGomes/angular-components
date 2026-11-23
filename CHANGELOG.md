@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.9.0](https://github.com/AysllaGomes/angular-components/compare/v2.8.0...v2.9.0) (2026-11-23)
+
+### Features
+
+* **table:** bulk actions on the selection: with `selectable` and `[bulkActions]`, a bar above the table shows the counter ("3 selecionados"), "Limpar seleção" and the buttons; a click emits `(bulkAction)` with `{ type, keys }` ([54dd651](https://github.com/AysllaGomes/angular-components/commit/54dd651)), ([b32aee9](https://github.com/AysllaGomes/angular-components/commit/b32aee9))
+  * the keys include rows selected on other pages (selection already spans pages with `rowKey`); without `rowKey`, indices into `data`
+  * `TableBulkAction`: `type`, `label`, `danger` (red), `disabled`/`disabledReason` (stays focusable with `aria-disabled`, reason in the tooltip)
+  * `appBulkActions` slot (`keys`, `count`, `clear()`) replaces the buttons; the counter and "Limpar seleção" stay
+  * the counter is announced to screen readers on every change; when the buttons go away (cleared selection), focus moves to "select all" instead of `<body>`
+  * the bar stays in view when the wrapper scrolls horizontally (`position: sticky`, the table host now follows the table width with `min-width: min-content`)
+  * texts: `bulkActionsLabel`, `selectedCountLabel`, `noSelectionLabel`, `clearSelectionLabel`
+* **table:** `bulkBarIdle` sets what the bar shows without a selection: `'space'` (default) shows nothing but keeps its space, so the table does not jump when the first row is checked; `'hint'` shows `noSelectionLabel`; `'hidden'` only appears with a selection ([9327b35](https://github.com/AysllaGomes/angular-components/commit/9327b35))
+
+### Demo
+
+* "Exportar" and "Excluir selecionados" bulk actions (delete unavailable when the selection has account holders, and actually removes rows), "Restaurar linhas (n)" and a button cycling the three `bulkBarIdle` modes ([54dd651](https://github.com/AysllaGomes/angular-components/commit/54dd651)), ([9327b35](https://github.com/AysllaGomes/angular-components/commit/9327b35))
+
+### Internal
+
+* The bar is an internal `app-table-bulk-bar` component with its own styles, which keeps the Table under the 5 kB per-component style budget ([54dd651](https://github.com/AysllaGomes/angular-components/commit/54dd651))
+
 ## [2.8.0](https://github.com/AysllaGomes/angular-components/compare/v2.7.0...v2.8.0) (2026-11-23)
 
 ### Features

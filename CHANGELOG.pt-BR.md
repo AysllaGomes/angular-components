@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.9.0](https://github.com/AysllaGomes/angular-components/compare/v2.8.0...v2.9.0) (2026-11-23)
+### Features
+- **table:** ações em massa na seleção: com `selectable` e `[bulkActions]`, uma
+  barra acima da tabela mostra o contador ("3 selecionados"), "Limpar seleção"
+  e os botões; o clique emite `(bulkAction)` com `{ type, keys }`:
+  - as chaves incluem linhas selecionadas em outras páginas (a seleção já
+    atravessa páginas com `rowKey`); sem `rowKey`, índices em `data`;
+  - `TableBulkAction`: `type`, `label`, `danger` (vermelho),
+    `disabled`/`disabledReason` (continua focável com `aria-disabled`, motivo na
+    dica);
+  - *slot* `appBulkActions` (`keys`, `count`, `clear()`) substitui os botões; o
+    contador e "Limpar seleção" continuam;
+  - o contador é anunciado ao leitor de tela a cada mudança; quando os botões
+    somem (seleção limpa), o foco vai para "Selecionar tudo", e não para o
+    `<body>`;
+  - a barra fica à vista quando o wrapper rola na horizontal (`position:
+    sticky`; o host da tabela agora acompanha a largura dela com
+    `min-width: min-content`);
+  - textos: `bulkActionsLabel`, `selectedCountLabel`, `noSelectionLabel`,
+    `clearSelectionLabel`.
+- **table:** `bulkBarIdle` define o que a barra mostra sem seleção: `'space'`
+  (padrão) não mostra nada mas guarda o espaço, então a tabela não pula ao
+  marcar a primeira linha; `'hint'` mostra `noSelectionLabel`; `'hidden'` só
+  aparece com seleção.
+
+### Demo
+- Ações em massa "Exportar" e "Excluir selecionados" (excluir fica indisponível
+  quando a seleção tem correntistas, e remove as linhas de verdade), "Restaurar
+  linhas (n)" e um botão que alterna os três modos de `bulkBarIdle`.
+
+### Interno
+- A barra é um componente interno `app-table-bulk-bar` com estilo próprio, o que
+  mantém a Tabela dentro do orçamento de 5 kB de estilo por componente.
+
 ## [2.8.0](https://github.com/AysllaGomes/angular-components/compare/v2.7.0...v2.8.0) (2026-11-23)
 ### Features
 - **table:** estado de erro: com `error`, a tabela mostra a mensagem no lugar das
