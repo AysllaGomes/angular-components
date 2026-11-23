@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.2.0](https://github.com/AysllaGomes/angular-components/compare/v3.1.0...v3.2.0) (2026-11-23)
+
+### Features
+
+* **site:** a real 404 page: unknown addresses no longer land silently on the home; the page says what happened, shows the address as typed and offers ways out (home, demo) ([d58d707](https://github.com/AysllaGomes/angular-components/commit/d58d707))
+  * "Did you mean…?": when the address looks like a component, it links to its demo section; it understands English and Portuguese names and small typos (`/tabla` → Table, `/dialgo` → Dialog), and stays quiet for unrelated addresses
+  * component search by name or alias ("dica" finds Tooltip), with the result count announced to screen readers and an empty state
+  * one filled button at a time: with a suggestion, "Go to the home page" becomes secondary
+  * the tab title follows the language, and the page asks search engines not to index it (`noindex`, removed when leaving); the HTTP 404 status already comes from GitHub Pages
+  * checked with axe (no violations), with and without a suggestion
+* **site:** the components list (ids and aliases) lives in one place, `src/app/site/site-components.ts`, shared by the home catalog and the 404 page ([d58d707](https://github.com/AysllaGomes/angular-components/commit/d58d707))
+
 ## [3.1.0](https://github.com/AysllaGomes/angular-components/compare/v3.0.0...v3.1.0) (2026-11-23)
 
 ### Features

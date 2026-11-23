@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.2.0](https://github.com/AysllaGomes/angular-components/compare/v3.1.0...v3.2.0) (2026-11-23)
+### Features
+- **site:** página 404 de verdade: endereços desconhecidos não caem mais na home
+  sem aviso; a página diz o que aconteceu, mostra o endereço como foi digitado e
+  oferece caminhos (início, demo):
+  - "Você quis dizer…?": quando o endereço lembra um componente, leva à seção
+    dele na demo; entende nomes em português e inglês e pequenos erros de
+    digitação (`/tabla` → Tabela, `/dialgo` → Dialog), e fica quieta em
+    endereços sem relação;
+  - busca de componentes por nome ou apelido ("dica" encontra o Tooltip), com a
+    quantidade anunciada ao leitor de tela e um aviso quando nada é encontrado;
+  - um botão cheio por vez: com sugestão, "Ir para o início" vira secundário;
+  - o título da aba acompanha o idioma, e a página pede aos buscadores para não
+    ser indexada (`noindex`, retirado ao sair); o status HTTP 404 já vem do
+    GitHub Pages;
+  - conferida com axe (sem violações), com e sem sugestão.
+- **site:** a lista de componentes (ids e apelidos) fica num lugar só,
+  `src/app/site/site-components.ts`, usada pelo catálogo da home e pela 404.
+
 ## [3.1.0](https://github.com/AysllaGomes/angular-components/compare/v3.0.0...v3.1.0) (2026-11-23)
 ### Features
 - **site:** home de apresentação na [raiz do site](https://aysllagomes.github.io/angular-components/):
