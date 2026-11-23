@@ -93,6 +93,13 @@
     &:hover
       background: var(--hdr-hover)
 
+/* desktop: menu colado na marca (28px, como no mockup); idioma, tema e cores ficam à direita */
+@media (min-width: 1024px)
+  .hdr
+    column-gap: 28px
+  .nav
+    justify-content: flex-start
+
 /* ===== grupos (desktop): botão + lista suspensa ===== */
 .group
   position: relative
