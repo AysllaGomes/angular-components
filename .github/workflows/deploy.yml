@@ -52,6 +52,9 @@ jobs:
           B=dist/angular-components/browser
           test -f "$B/index.html" || { echo "::error::home (index.html) não foi pré-renderizada"; exit 1; }
           test -f "$B/demo/index.html" || { echo "::error::demo (demo/index.html) não foi pré-renderizada"; exit 1; }
+          test -f "$B/acessibilidade/index.html" || { echo "::error::/acessibilidade não foi pré-renderizada"; exit 1; }
+          n=$(ls -d "$B"/componentes/*/ 2>/dev/null | wc -l)
+          [ "$n" -ge 15 ] || { echo "::error::só $n páginas de componente pré-renderizadas (esperado: 15)"; exit 1; }
           if [ -f "$B/index.csr.html" ]; then cp "$B/index.csr.html" "$B/404.html"; else cp "$B/index.html" "$B/404.html"; fi
 
       - uses: actions/configure-pages@v6

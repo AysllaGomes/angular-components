@@ -1,0 +1,106 @@
+// tokens do tema global, com padrão (funciona fora do site também)
+.box
+  padding: 1.25rem
+  border: 1px solid var(--border, #e6e9ed)
+  border-radius: .875rem
+  background: var(--surface, #fff)
+  display: flex
+  flex-direction: column
+  gap: .75rem
+
+h3, h4
+  margin: 0
+  font-size: 1.0625rem
+
+h4
+  font-size: .9375rem
+  margin-top: .25rem
+
+.muted, .meta, .honest
+  margin: 0
+  color: var(--muted, #5f6a75)
+  font-size: .9375rem
+
+.summary
+  margin: 0
+  display: flex
+  align-items: center
+  gap: .5rem
+  font-weight: 600
+
+.dot
+  width: .75rem
+  height: .75rem
+  border-radius: 999px
+  background: #15803d
+  &--bad
+    background: var(--danger, #b91c1c)
+
+.result
+  width: 100%
+  border-collapse: collapse
+  font-size: .9375rem
+  th, td
+    padding: .5rem .5rem
+    border-top: 1px solid var(--border, #e6e9ed)
+    text-align: left
+    vertical-align: top
+  thead th
+    border-top: 0
+    color: var(--muted, #5f6a75)
+    font-size: .8125rem
+    font-weight: 600
+  tbody th
+    font-weight: 400
+  .num
+    text-align: right
+    white-space: nowrap
+    font-variant-numeric: tabular-nums
+  .bad
+    color: var(--danger, #b91c1c)
+    font-weight: 700
+
+.label
+  display: block
+
+.bar
+  display: flex
+  height: .5rem
+  margin-top: .375rem
+  border-radius: 999px
+  overflow: hidden
+  background: var(--surface-2, #f7f8f9)
+
+.bar__ok
+  background: var(--accent, #058075)
+
+.bar__review
+  background: #b45309
+
+.bar__bad
+  background: var(--danger, #b91c1c)
+
+.reviews
+  margin: 0
+  padding-left: 1.25rem
+  display: grid
+  gap: .375rem
+  color: var(--muted, #5f6a75)
+  font-size: .9375rem
+
+.full
+  align-self: flex-start
+  min-height: 2.75rem
+  display: inline-flex
+  align-items: center
+  gap: .25rem
+  color: var(--accent-text, #058075)
+  font-weight: 600
+
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap

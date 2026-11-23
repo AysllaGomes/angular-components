@@ -1,3 +1,7 @@
+/** grupos do menu (as chaves nav.group.<grupo> têm os nomes) */
+export type SiteGroup = 'forms' | 'data' | 'overlays' | 'navigation';
+export const SITE_GROUPS: readonly SiteGroup[] = ['forms', 'data', 'overlays', 'navigation'];
+
 /**
  * Os componentes do site, num lugar só: o catálogo da home e a página 404 usam esta
  * lista. `id` = id da <section> na demo (/demo#id) e das chaves `nav.<id>`;
@@ -5,25 +9,26 @@
  */
 export interface SiteComponent {
   id: string;
+  group: SiteGroup;
   aliases: readonly string[];
 }
 
 export const SITE_COMPONENTS: readonly SiteComponent[] = [
-  { id: 'table', aliases: ['table', 'tabela', 'tabla', 'grid', 'datatable'] },
-  { id: 'select', aliases: ['select', 'selecao', 'seletor', 'dropdown', 'combo', 'combobox'] },
-  { id: 'treeselect', aliases: ['treeselect', 'tree', 'arvore'] },
-  { id: 'tabs', aliases: ['tabs', 'tab', 'abas', 'aba'] },
-  { id: 'dialog', aliases: ['dialog', 'dialogo', 'modal'] },
-  { id: 'actionbar', aliases: ['actionbar', 'painel', 'drawer', 'sheet', 'sidesheet'] },
-  { id: 'tooltip', aliases: ['tooltip', 'dica', 'hint'] },
-  { id: 'toast', aliases: ['toast', 'notificacao', 'snackbar'] },
-  { id: 'stepper', aliases: ['stepper', 'etapas', 'passos', 'steps', 'wizard'] },
-  { id: 'pagination', aliases: ['pagination', 'paginacao', 'paginas', 'paginator'] },
-  { id: 'checkbox', aliases: ['checkbox', 'caixa', 'caixadeselecao'] },
-  { id: 'radio', aliases: ['radio', 'radiogroup', 'opcoes'] },
-  { id: 'switch', aliases: ['switch', 'toggle', 'chave'] },
-  { id: 'button', aliases: ['button', 'botao', 'botoes', 'buttons'] },
-  { id: 'validation', aliases: ['validation', 'validacao', 'forms', 'formularios', 'formulario', 'mascara', 'mask'] },
+  { id: 'table', group: 'data', aliases: ['table', 'tabela', 'tabla', 'grid', 'datatable'] },
+  { id: 'select', group: 'forms', aliases: ['select', 'selecao', 'seletor', 'dropdown', 'combo', 'combobox'] },
+  { id: 'treeselect', group: 'forms', aliases: ['treeselect', 'tree', 'arvore'] },
+  { id: 'tabs', group: 'navigation', aliases: ['tabs', 'tab', 'abas', 'aba'] },
+  { id: 'dialog', group: 'overlays', aliases: ['dialog', 'dialogo', 'modal'] },
+  { id: 'actionbar', group: 'overlays', aliases: ['actionbar', 'painel', 'drawer', 'sheet', 'sidesheet'] },
+  { id: 'tooltip', group: 'overlays', aliases: ['tooltip', 'dica', 'hint'] },
+  { id: 'toast', group: 'overlays', aliases: ['toast', 'notificacao', 'snackbar'] },
+  { id: 'stepper', group: 'navigation', aliases: ['stepper', 'etapas', 'passos', 'steps', 'wizard'] },
+  { id: 'pagination', group: 'data', aliases: ['pagination', 'paginacao', 'paginas', 'paginator'] },
+  { id: 'checkbox', group: 'forms', aliases: ['checkbox', 'caixa', 'caixadeselecao'] },
+  { id: 'radio', group: 'forms', aliases: ['radio', 'radiogroup', 'opcoes'] },
+  { id: 'switch', group: 'forms', aliases: ['switch', 'toggle', 'chave'] },
+  { id: 'button', group: 'navigation', aliases: ['button', 'botao', 'botoes', 'buttons'] },
+  { id: 'validation', group: 'forms', aliases: ['validation', 'validacao', 'forms', 'formularios', 'formulario', 'mascara', 'mask'] },
 ];
 
 /** minúsculas, sem acento e só letras/números ("Paginação" → "paginacao") */
@@ -31,7 +36,7 @@ export function normalizeText(s: string): string {
   return String(s ?? '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]/g, '');
 }
 

@@ -55,7 +55,7 @@ describe('NotFoundPageComponent', () => {
     await open('/angular-components/tabla');
     const aside = el.querySelector('aside.suggestion')!;
     expect(aside.textContent).toContain('Você quis dizer Tabela?');
-    expect(aside.querySelector('a')!.getAttribute('href')).toBe('/demo#table');
+    expect(aside.querySelector('a')!.getAttribute('href')).toBe('/componentes/table');
     // um botão cheio por vez: com a sugestão, "início" vira secundário
     expect(btn('Ir para o início').classList).not.toContain('btn--primary');
   });

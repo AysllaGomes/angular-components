@@ -1,6 +1,7 @@
 import { TABS } from './tabs';
 import { HOME } from './home';
 import { NOT_FOUND } from './not-found';
+import { COMPONENT_PAGE } from './component-page';
 import { TABLE } from './table';
 import { TOAST } from './toast';
 import { BUTTON } from './button';
@@ -23,6 +24,7 @@ export const DICT: Dict = {
   ...COMMON,
   ...HOME,
   ...NOT_FOUND,
+  ...COMPONENT_PAGE,
   ...SECTIONS,
   ...STEPPER,
   ...TABLE,

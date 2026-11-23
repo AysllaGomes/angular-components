@@ -38,7 +38,7 @@ describe('HomePageComponent', () => {
   it('the catalog lists the 15 components, each linking to its demo section by name', () => {
     const links = Array.from(el.querySelectorAll<HTMLAnchorElement>('#componentes .item a'));
     expect(links.length).toBe(15);
-    expect(links[0].getAttribute('href')).toBe('/demo#table');
+    expect(links[0].getAttribute('href')).toBe('/componentes/table');
     expect(links[0].textContent).toContain('Tabela');
     expect(new Set(links.map(a => a.textContent!.trim())).size).toBe(15); // nomes distintos para o leitor de tela
   });

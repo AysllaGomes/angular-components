@@ -19,7 +19,7 @@ Para usar o Stepper em outro projeto Angular, copie para dentro de uma pasta `sh
 | Tipos | `model/interface/step-item.interface.ts`<br>`model/type/step-state.type.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`. Ao todo: 7 arquivos, ~532 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 7 arquivos, ~536 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos

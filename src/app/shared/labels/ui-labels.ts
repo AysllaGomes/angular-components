@@ -19,6 +19,8 @@ export interface UiLabels {
   clearSelection: string;
   /** campo de busca dentro do Select */
   filterOptions: string;
+  /** título da folha do Select no celular, quando não há `panelTitle` nem `label` */
+  selectTitle: string;
   /** nome da pilha de notificações (Toast) */
   notifications: string;
 
@@ -64,6 +66,7 @@ export const UI_LABELS_EN: UiLabels = {
   requiredError: 'This field is required',
   clearSelection: 'Clear selection',
   filterOptions: 'Filter options',
+  selectTitle: 'Select an option',
   notifications: 'Notifications',
   stepper: { label: 'Steps', done: 'completed' },
   treeSelect: {
@@ -112,6 +115,7 @@ export const UI_LABELS_PT: UiLabels = {
   requiredError: 'Campo obrigatório',
   clearSelection: 'Limpar seleção',
   filterOptions: 'Filtrar opções',
+  selectTitle: 'Selecionar',
   notifications: 'Notificações',
   stepper: { label: 'Etapas do fluxo', done: 'concluída' },
   treeSelect: {

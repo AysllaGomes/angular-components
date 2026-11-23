@@ -45,7 +45,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/tooltip/tooltip'
 ```
 
-Depends only on `@angular/common`, `@angular/core`. In total: 33 files, ~2856 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 33 files, ~2860 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Files

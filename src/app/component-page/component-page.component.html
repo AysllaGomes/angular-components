@@ -1,0 +1,184 @@
+@if (page(); as p) {
+  <app-demo-header />
+
+  <div class="layout">
+    <!-- TODOS OS COMPONENTES: lateral no desktop, menu recolhível no celular -->
+    <details class="side" [open]="navOpen()" (toggle)="onNavToggle($event)">
+      <summary>{{ 'cp.components' | t }}</summary>
+      <nav [attr.aria-label]="'cp.components' | t">
+        @for (g of groups(); track g.id) {
+          <p class="side__group" [id]="'grp-' + g.id">{{ g.label }}</p>
+          <ul [attr.aria-labelledby]="'grp-' + g.id">
+            @for (c of g.items; track c.id) {
+              <li>
+                <a [routerLink]="['/componentes', c.id]" [attr.aria-current]="c.id === id() ? 'page' : null"
+                   [class.is-current]="c.id === id()">{{ c.name }}</a>
+              </li>
+            }
+          </ul>
+        }
+      </nav>
+    </details>
+
+    <main id="main" tabindex="-1" class="content">
+      <!-- título -->
+      <section class="intro" aria-labelledby="c-title">
+        <nav class="crumbs" [attr.aria-label]="'cp.youAreHere' | t">
+          <a routerLink="/">{{ 'cp.home' | t }}</a> <span aria-hidden="true">›</span>
+          <a routerLink="/" fragment="componentes">{{ 'cp.components' | t }}</a> <span aria-hidden="true">›</span>
+          <span aria-current="page">{{ name() }}</span>
+        </nav>
+        <h1 id="c-title">{{ name() }}</h1>
+        <p class="lead" [innerHTML]="p.lead"></p>
+        <ul class="traits" [attr.aria-label]="'cp.traits' | t">
+          <li>{{ 'cp.trait.standalone' | t }}</li>
+          <li>{{ 'cp.trait.nodeps' | t }}</li>
+          <li class="traits__axe">{{ 'cp.trait.axe' | t }}</li>
+        </ul>
+        <div class="ctas">
+          <a class="btn btn--primary" routerLink="/demo" [fragment]="id()">{{ 'cp.demo' | t }}</a>
+          <a class="btn" [href]="p.source" target="_blank" rel="noopener">{{ 'cp.source' | t }}</a>
+        </div>
+      </section>
+
+      <!-- EXEMPLO: ao vivo (pilotos) ou só o código, que é o do .md -->
+      <section id="exemplo" aria-labelledby="h-exemplo">
+        <div class="head">
+          <h2 id="h-exemplo">{{ 'cp.example' | t }}</h2>
+          @if (example() && p.example) {
+            <div class="toggle" role="group" [attr.aria-label]="'cp.example.show' | t">
+              <button type="button" [attr.aria-pressed]="view() === 'preview'" (click)="view.set('preview')">{{ 'cp.example.preview' | t }}</button>
+              <button type="button" [attr.aria-pressed]="view() === 'code'" (click)="view.set('code')">{{ 'cp.example.code' | t }}</button>
+            </div>
+          }
+        </div>
+        <div class="frame">
+          @if (example() && view() === 'preview') {
+            <div class="preview"><ng-container [ngComponentOutlet]="example()!" /></div>
+          } @else if (p.example) {
+            <pre><code>{{ p.example }}</code></pre>
+          }
+          @if (!example()) {
+            <p class="note">{{ 'cp.example.onlyCode' | t }} <a routerLink="/demo" [fragment]="id()">{{ 'cp.demo' | t }}</a></p>
+          }
+        </div>
+      </section>
+
+      @if (p.why.length) {
+        <section id="por-que" aria-labelledby="h-por-que">
+          <h2 id="h-por-que">{{ 'cp.why' | t }}</h2>
+          @for (para of p.why; track $index) {
+            <p class="prose" [innerHTML]="para"></p>
+          }
+        </section>
+      }
+
+      @if (p.useWhen.length || p.preferOther.length) {
+        <section id="quando-usar" aria-labelledby="h-quando">
+          <h2 id="h-quando">{{ 'cp.when' | t }}</h2>
+          <div class="cards">
+            <div class="card">
+              <h3><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ 'cp.use' | t }}</h3>
+              <ul>@for (b of p.useWhen; track $index) { <li [innerHTML]="b"></li> }</ul>
+            </div>
+            <div class="card">
+              <h3><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="#b91c1c" stroke-width="2.5" stroke-linecap="round"/></svg>{{ 'cp.other' | t }}</h3>
+              <ul>@for (b of p.preferOther; track $index) { <li [innerHTML]="b"></li> }</ul>
+            </div>
+          </div>
+        </section>
+      }
+
+      @if (p.api.length) {
+        <section id="api" aria-labelledby="h-api">
+          <h2 id="h-api">{{ 'cp.api' | t }}</h2>
+          <!-- as abas da própria biblioteca -->
+          <app-tabs [ariaLabel]="'cp.api.parts' | t" [(selected)]="apiTab">
+            @for (t of p.api; track $index) {
+              <app-tab [key]="'api-' + $index">
+                <ng-template appTabLabel><span [innerHTML]="t.title"></span></ng-template>
+                <div class="scroll">
+                  <table class="api">
+                    <thead><tr>@for (h of t.head; track $index) { <th scope="col" [innerHTML]="h"></th> }</tr></thead>
+                    <tbody>
+                      @for (r of t.rows; track $index) {
+                        <tr>@for (c of r; track $index) { <td [innerHTML]="c"></td> }</tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </app-tab>
+            }
+          </app-tabs>
+        </section>
+      }
+
+      <section id="acessibilidade" aria-labelledby="h-a11y">
+        <h2 id="h-a11y">{{ 'cp.a11y' | t }}</h2>
+        @if (p.a11y.length) {
+          <div class="card">
+            <h3>{{ 'cp.a11y.guarantees' | t }}</h3>
+            <ul>@for (b of p.a11y; track $index) { <li [innerHTML]="b"></li> }</ul>
+          </div>
+        }
+        <app-a11y-result [componentId]="id()" />
+      </section>
+
+      @if (p.copy; as cp) {
+        <section id="copiar" aria-labelledby="h-copiar">
+          <h2 id="h-copiar">{{ 'cp.copy' | t }}</h2>
+          <p class="muted">{{ 'cp.copy.lead' | t }}</p>
+          <div class="scroll">
+            <table class="api">
+              <tbody>
+                @for (r of cp.rows; track $index) {
+                  <tr>
+                    <th scope="row">{{ r.what }}</th>
+                    <td>@for (it of r.items; track $index) { <span class="item" [innerHTML]="it"></span> }</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          @if (cp.globals.length) {
+            <p class="muted">{{ 'cp.copy.globals' | t }}</p>
+            <pre><code>{{ globalsText() }}</code></pre>
+          }
+          <p class="muted" [innerHTML]="cp.summary"></p>
+          <div class="copy">
+            <code>src/app/shared/{{ copyPath() }}</code>
+            <button type="button" class="btn" (click)="copyFolder()">{{ 'cp.copy.button' | t }}</button>
+            <span role="status">{{ copied() ? ('cp.copy.done' | t) + ' src/app/shared/' + copyPath() : '' }}</span>
+          </div>
+        </section>
+      }
+
+      @if (p.tokens.length) {
+        <section id="tema" aria-labelledby="h-tema">
+          <h2 id="h-tema">{{ 'cp.theme' | t }}</h2>
+          <p class="muted">{{ 'cp.theme.lead' | t }}</p>
+          <ul class="tokens">@for (tk of p.tokens; track tk) { <li><code>{{ tk }}</code></li> }</ul>
+        </section>
+      }
+
+      <nav class="pn" [attr.aria-label]="'cp.others' | t">
+        <a [routerLink]="['/componentes', prevNext().prev.id]"><span>← {{ 'cp.prev' | t }}</span><strong>{{ prevNext().prev.name }}</strong></a>
+        <a class="pn__next" [routerLink]="['/componentes', prevNext().next.id]"><span>{{ 'cp.next' | t }} →</span><strong>{{ prevNext().next.name }}</strong></a>
+      </nav>
+    </main>
+
+    <!-- NESTA PÁGINA: só no desktop largo -->
+    <aside class="toc" [attr.aria-label]="'cp.onPage' | t">
+      <p class="side__group">{{ 'cp.onPage' | t }}</p>
+      <ul>
+        @for (s of toc(); track s.id) {
+          <li><a [routerLink]="[]" [fragment]="s.id">{{ s.key | t }}</a></li>
+        }
+      </ul>
+    </aside>
+  </div>
+
+  <app-demo-footer />
+} @else {
+  <app-not-found-page />
+}

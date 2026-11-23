@@ -63,6 +63,7 @@ For form error messages, `provideFormErrorMessages` comes before `formErrors` (s
 | `requiredError` | built-in required error (Select, TreeSelect) | This field is required | Campo obrigatório |
 | `clearSelection` | clear button (Select, TreeSelect, Table bulk actions) | Clear selection | Limpar seleção |
 | `filterOptions` | Select search field | Filter options | Filtrar opções |
+| `selectTitle` | Select sheet title on phones, without `panelTitle` or `label` | Select an option | Selecionar |
 | `notifications` | name of the Toast stack | Notifications | Notificações |
 | `stepper.label` / `stepper.done` | navigation name / completed step (screen reader) | Steps / completed | Etapas do fluxo / concluída |
 | `treeSelect.loading` / `loadError` / `empty` | on-demand loading and empty search | Loading… / Could not load… / No items found | Carregando… / Não foi possível carregar… / Nenhum item encontrado |

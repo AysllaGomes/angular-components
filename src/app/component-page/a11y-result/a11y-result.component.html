@@ -1,0 +1,73 @@
+<div class="box">
+  <h3>{{ 'a11y.report.title' | t }}</h3>
+
+  @switch (state().status) {
+    @case ('loading') {
+      <p class="muted">{{ 'a11y.report.loading' | t }}</p>
+    }
+    @case ('unavailable') {
+      <p class="muted">{{ 'a11y.report.unavailable' | t }}</p>
+    }
+    @default {
+      @if (!rows().length) {
+        <p class="muted">{{ 'a11y.report.none' | t }}</p>
+      } @else {
+        <p class="summary">
+          <span class="dot" [class.dot--bad]="totals().violations > 0" aria-hidden="true"></span>
+          {{ (totals().states === 1 ? 'a11y.report.summary.one' : 'a11y.report.summary') | t:{ violations: totals().violations, states: totals().states } }}
+        </p>
+
+        <!-- os números estão na tabela; as barras são só o desenho deles -->
+        <table class="result">
+          <caption class="sr-only">{{ 'a11y.report.chart' | t }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ 'a11y.report.state' | t }}</th>
+              <th scope="col" class="num">{{ 'a11y.report.passes' | t }}</th>
+              <th scope="col" class="num">{{ 'a11y.report.review' | t }}</th>
+              <th scope="col" class="num">{{ 'a11y.report.violations' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of rows(); track r.label) {
+              <tr>
+                <th scope="row">
+                  <span class="label">{{ r.label }}</span>
+                  <span class="bar" aria-hidden="true">
+                    <span class="bar__ok" [style.width.%]="r.passesPct"></span>
+                    <span class="bar__review" [style.width.%]="r.reviewPct"></span>
+                    <span class="bar__bad" [style.width.%]="r.violationsPct"></span>
+                  </span>
+                </th>
+                <td class="num">{{ r.passes }}</td>
+                <td class="num">{{ r.review }}</td>
+                <td class="num" [class.bad]="r.violations > 0">{{ r.violations }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (reviews().length) {
+          <h4>{{ 'a11y.report.reviewTitle' | t }}</h4>
+          <ul class="reviews">
+            @for (rv of reviews(); track rv.id) {
+              <li><code>{{ rv.id }}</code>: {{ rv.text }}</li>
+            }
+          </ul>
+        }
+
+        @if (meta(); as m) {
+          <p class="meta">
+            {{ m.text }}
+            @if (m.runUrl) {
+              · <a [href]="m.runUrl" target="_blank" rel="noopener">{{ 'a11y.report.run' | t }}</a>
+            }
+          </p>
+        }
+      }
+    }
+  }
+
+  <p class="honest">{{ 'a11y.report.honest' | t }}</p>
+  <a class="full" routerLink="/acessibilidade">{{ 'a11y.report.full' | t }} <span aria-hidden="true">→</span></a>
+</div>

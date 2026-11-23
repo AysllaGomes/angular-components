@@ -32,7 +32,7 @@ Para usar os Formulários em outro projeto Angular, copie para dentro de uma pas
 | O componente | `forms/`, `components/form-field/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`. Ao todo: 12 arquivos, ~756 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 12 arquivos, ~760 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Exemplo completo

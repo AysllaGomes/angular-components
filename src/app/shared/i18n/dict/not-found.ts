@@ -11,8 +11,8 @@ export const NOT_FOUND: Dict = {
   'notfound.address': { pt: 'Endereço:', en: 'Address:' },
 
   'notfound.suggestion.label': { pt: 'Sugestão', en: 'Suggestion' },
-  'notfound.suggestion.text': { pt: 'Você quis dizer {{name}}? Ele está na demo.', en: 'Did you mean {{name}}? It is in the demo.' },
-  'notfound.suggestion.cta': { pt: 'Ver {{name}} na demo', en: 'See {{name}} in the demo' },
+  'notfound.suggestion.text': { pt: 'Você quis dizer {{name}}?', en: 'Did you mean {{name}}?' },
+  'notfound.suggestion.cta': { pt: 'Ver a página de {{name}}', en: 'See the {{name}} page' },
 
   'notfound.paths': { pt: 'Caminhos', en: 'Ways out' },
   'notfound.home': { pt: 'Ir para o início', en: 'Go to the home page' },

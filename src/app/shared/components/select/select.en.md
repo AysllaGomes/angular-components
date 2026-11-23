@@ -39,7 +39,7 @@ To use the Select in another Angular project, copy into a `shared/` folder **kee
 | Types | `model/interface/select/select-option.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 7 files, ~943 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 7 files, ~947 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Features
@@ -60,25 +60,27 @@ Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 
 
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Category"
+  placeholder="Select"
   [required]="true"
-  [requiredLabel]="'form.required.label' | t"
-  [requiredError]="'form.required.error' | t"
-  [options]="options()"
+  [options]="options"
   [value]="category()"
   (valueChange)="category.set($event)"
-  [hint]="'form.hint' | t">
+  hint="Used to organize the reports.">
 </app-select>
 ```
 
 ```ts
-options = computed<SelectOption<string>[]>(() => [
-  { label: i18n.t('select.option.hover'), value: 'hover' },
-  { label: i18n.t('select.option.o1'),    value: 'o1' },
-  { label: i18n.t('select.option.o2'),    value: 'o2' },
-]);
+category = signal<string | null>(null);
+
+options: SelectOption<string>[] = [
+  { label: 'Sales', value: 'sales' },
+  { label: 'Marketing', value: 'marketing' },
+  { label: 'Support', value: 'support' },
+];
 ```
+
+The required marker and error message come from [`provideUiLabels`](../../labels/labels.en.md) (`labels.required`, `labels.requiredError`); use `requiredLabel`/`requiredError` only to change them on one instance.
 
 ---
 

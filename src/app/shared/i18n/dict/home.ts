@@ -101,11 +101,11 @@ export const HOME: Dict = {
   // catálogo
   'home.catalog.title': { pt: 'Os componentes', en: 'The components' },
   'home.catalog.lead': {
-    pt: 'Cada um tem demonstração ao vivo e documentação em português e inglês.',
-    en: 'Each one has a live demo and docs in English and Portuguese.'
+    pt: 'Cada um tem uma página com por que existe, quando usar, API, acessibilidade e o que copiar, além da demonstração ao vivo.',
+    en: 'Each one has a page with why it exists, when to use it, API, accessibility and what to copy, plus the live demo.'
   },
   'home.catalog.all': { pt: 'Abrir a demo completa', en: 'Open the full demo' },
-  'home.catalog.see': { pt: 'Ver {{name}} na demo', en: 'See {{name}} in the demo' },
+  'home.catalog.see': { pt: 'Conhecer {{name}}', en: 'Explore {{name}}' },
   'home.catalog.table': {
     pt: 'Seleção, ações em massa, paginação, estados de carregando/vazio/erro e colunas que se recolhem.',
     en: 'Selection, bulk actions, pagination, loading/empty/error states and collapsible columns.'

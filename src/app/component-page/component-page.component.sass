@@ -1,0 +1,317 @@
+// tokens do tema global (claro/escuro e as 5 cores)
+.layout
+  max-width: 1320px
+  margin: 0 auto
+  padding: 1.75rem 1.5rem 4.5rem
+  display: flex
+  flex-wrap: wrap
+  align-items: flex-start
+  gap: 2rem 2.5rem
+
+// menu lateral; no celular vira um bloco recolhível acima do conteúdo
+.side
+  flex: 1 1 12.5rem
+  max-width: 15rem
+  position: sticky
+  top: 5.5rem
+  summary
+    min-height: 2.75rem
+    display: flex
+    align-items: center
+    font-weight: 700
+    cursor: pointer
+    gap: .5rem
+    list-style: none
+    // seta própria (o display: flex tira a do navegador): ▸ fechado, ▾ aberto
+    &::-webkit-details-marker
+      display: none
+    &::after
+      content: "▸"
+      color: var(--muted)
+      font-size: .875rem
+  &[open] summary::after
+    content: "▾"
+  ul
+    list-style: none
+    margin: 0 0 1rem
+    padding: 0
+  a
+    display: block
+    padding: .375rem .625rem
+    border-radius: .5rem
+    color: var(--fg)
+    text-decoration: none
+    &:hover
+      background: var(--surface-2)
+    &.is-current
+      background: color-mix(in srgb, var(--accent) 12%, var(--surface))
+      color: var(--accent-text)
+      font-weight: 700
+
+.side__group
+  margin: .5rem 0 .25rem
+  color: var(--muted)
+  font-size: .75rem
+  font-weight: 700
+  text-transform: uppercase
+  letter-spacing: .06em
+
+.content
+  flex: 999 1 35rem
+  min-width: 0
+  display: flex
+  flex-direction: column
+  gap: 3.5rem
+  outline: none
+  section
+    display: flex
+    flex-direction: column
+    gap: .875rem
+    scroll-margin-top: 5.5rem
+  h2
+    margin: 0
+    font-size: 1.625rem
+    letter-spacing: -.01em
+  h3
+    margin: 0
+    font-size: 1.0625rem
+    display: flex
+    align-items: center
+    gap: .5rem
+
+// flex com gap: o Angular remove os espaços entre os elementos do template
+.crumbs
+  display: flex
+  flex-wrap: wrap
+  gap: .375rem
+  color: var(--muted)
+  font-size: .875rem
+  a
+    color: inherit !important
+
+h1
+  margin: 0
+  font-size: clamp(2.125rem, 4vw, 2.875rem)
+  line-height: 1.1
+  letter-spacing: -.02em
+
+.lead
+  margin: 0
+  max-width: 40em
+  color: var(--muted)
+  font-size: 1.1875rem
+
+.traits
+  list-style: none
+  margin: 0
+  padding: 0
+  display: flex
+  flex-wrap: wrap
+  gap: .5rem
+  li
+    padding: .25rem .625rem
+    border: 1px solid var(--border)
+    border-radius: 999px
+    font-size: .8125rem
+    font-weight: 600
+
+.traits__axe
+  border-color: transparent !important
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface))
+  color: var(--accent-text)
+
+.ctas, .copy
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .75rem
+
+.btn
+  min-height: 2.75rem
+  display: inline-flex
+  align-items: center
+  gap: .375rem
+  padding: 0 1.125rem
+  border: 1px solid var(--border)
+  border-radius: .625rem
+  background: var(--surface)
+  color: var(--fg)
+  font: inherit
+  font-weight: 600
+  text-decoration: none
+  cursor: pointer
+
+.btn--primary
+  border-color: var(--accent)
+  background: var(--accent)
+  color: #fff
+
+.head
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  justify-content: space-between
+  gap: .75rem
+
+.toggle
+  display: inline-flex
+  padding: 3px
+  border: 1px solid var(--border)
+  border-radius: .625rem
+  background: var(--surface-2)
+  button
+    min-height: 2.25rem
+    padding: 0 .875rem
+    border: 0
+    border-radius: .5rem
+    background: transparent
+    color: var(--muted)
+    font: inherit
+    font-size: .875rem
+    font-weight: 600
+    cursor: pointer
+    &[aria-pressed="true"]
+      background: var(--surface)
+      color: var(--fg)
+      box-shadow: 0 1px 2px rgb(0 0 0 / .12)
+
+.frame
+  border: 1px solid var(--border)
+  border-radius: .875rem
+  background: var(--surface)
+  overflow: hidden
+
+.preview
+  padding: 1.5rem
+
+.note
+  margin: 0
+  padding: .875rem 1.25rem
+  border-top: 1px solid var(--border)
+  color: var(--muted)
+  a
+    color: var(--accent-text)
+    font-weight: 600
+
+pre
+  margin: 0
+  padding: 1.25rem 1.375rem
+  border-radius: .625rem
+  background: #0f1720
+  color: #e7eaf0
+  font: .875rem/1.7 ui-monospace, "SFMono-Regular", Consolas, monospace
+  overflow-x: auto
+
+.frame pre
+  border-radius: 0
+
+.prose
+  margin: 0
+  max-width: 44em
+
+.cards
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr))
+  gap: 1rem
+
+.card
+  padding: 1.25rem
+  border: 1px solid var(--border)
+  border-radius: .875rem
+  background: var(--surface)
+  ul
+    margin: .625rem 0 0
+    padding-left: 1.25rem
+    display: grid
+    gap: .375rem
+
+.scroll
+  overflow-x: auto
+  border: 1px solid var(--border)
+  border-radius: .75rem
+
+.api
+  width: 100%
+  min-width: 36rem
+  border-collapse: collapse
+  font-size: .9375rem
+  th, td
+    padding: .625rem .875rem
+    border-top: 1px solid var(--border)
+    text-align: left
+    vertical-align: top
+  thead th
+    border-top: 0
+    background: var(--surface-2)
+
+.item
+  display: inline-block
+  margin: 0 .5rem .25rem 0
+
+.muted
+  margin: 0
+  color: var(--muted)
+
+.tokens
+  list-style: none
+  margin: 0
+  padding: 0
+  display: flex
+  flex-wrap: wrap
+  gap: .5rem
+
+:host ::ng-deep .content code
+  font: .8125rem ui-monospace, "SFMono-Regular", Consolas, monospace
+
+// links do texto (vindos do .md) na cor de destaque; botões e cartões têm a própria cor
+:host ::ng-deep .content a:not(.btn):not(.pn a)
+  color: var(--accent-text)
+
+.pn
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr))
+  gap: .75rem
+  padding-top: 1.5rem
+  border-top: 1px solid var(--border)
+  a
+    padding: 1rem 1.125rem
+    border: 1px solid var(--border)
+    border-radius: .75rem
+    color: var(--fg)
+    text-decoration: none
+    display: flex
+    flex-direction: column
+    gap: .125rem
+  span
+    color: var(--muted)
+    font-size: .8125rem
+
+.pn__next
+  text-align: right
+
+.toc
+  flex: 1 1 11rem
+  max-width: 12.5rem
+  position: sticky
+  top: 5.5rem
+  font-size: .875rem
+  ul
+    list-style: none
+    margin: 0
+    padding: 0 0 0 .75rem
+    border-left: 2px solid var(--border)
+    display: grid
+    gap: .375rem
+  a
+    color: var(--muted)
+    text-decoration: none
+
+@media (max-width: 1180px)
+  .toc
+    display: none
+
+@media (max-width: 900px)
+  .side
+    position: static
+    max-width: none
+    flex-basis: 100%

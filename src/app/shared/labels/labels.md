@@ -63,6 +63,7 @@ Para as mensagens de erro de formulário, `provideFormErrorMessages` vem antes d
 | `requiredError` | erro automático de obrigatório (Select, TreeSelect) | This field is required | Campo obrigatório |
 | `clearSelection` | botão que limpa (Select, TreeSelect, ações em massa da Tabela) | Clear selection | Limpar seleção |
 | `filterOptions` | campo de busca do Select | Filter options | Filtrar opções |
+| `selectTitle` | título da folha do Select no celular, sem `panelTitle` nem `label` | Select an option | Selecionar |
 | `notifications` | nome da pilha de Toasts | Notifications | Notificações |
 | `stepper.label` / `stepper.done` | nome da navegação / etapa concluída (leitor de tela) | Steps / completed | Etapas do fluxo / concluída |
 | `treeSelect.loading` / `loadError` / `empty` | carregamento sob demanda e busca vazia | Loading… / Could not load… / No items found | Carregando… / Não foi possível carregar… / Nenhum item encontrado |

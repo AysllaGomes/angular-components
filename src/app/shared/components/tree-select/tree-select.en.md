@@ -32,7 +32,7 @@ To use the TreeSelect in another Angular project, copy into a `shared/` folder *
 | Types | `model/interface/tree-select/tree-node.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1583 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1587 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Data

@@ -21,7 +21,7 @@ To use the Dialog in another Angular project, copy into a `shared/` folder **kee
 | Types | `model/type/dialog-size.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~626 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~630 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## API

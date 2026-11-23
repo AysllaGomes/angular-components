@@ -1,0 +1,84 @@
+<app-demo-header />
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+    <section class="intro" aria-labelledby="a11y-title">
+      <h1 id="a11y-title">{{ 'a11y.page.heading' | t }}</h1>
+      <p class="lead">{{ 'a11y.page.lead' | t }}</p>
+    </section>
+
+    @switch (state().status) {
+      @case ('loading') { <p class="muted">{{ 'a11y.report.loading' | t }}</p> }
+      @case ('unavailable') { <p class="muted">{{ 'a11y.report.unavailable' | t }}</p> }
+      @default {
+        @if (totals(); as tt) {
+          <ul class="stats">
+            <li><strong>{{ tt.components }}</strong><span>{{ 'a11y.page.components' | t }}</span></li>
+            <li><strong>{{ tt.states }}</strong><span>{{ 'a11y.page.states' | t }}</span></li>
+            <li [class.bad]="tt.violations > 0"><strong>{{ tt.violations }}</strong><span>{{ 'a11y.page.violations' | t }}</span></li>
+            <li><strong>{{ tt.review }}</strong><span>{{ 'a11y.page.review' | t }}</span></li>
+          </ul>
+        }
+
+        <section aria-labelledby="a11y-table">
+          <h2 id="a11y-table">{{ 'a11y.page.table' | t }}</h2>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'a11y.page.component' | t }}</th>
+                  <th scope="col" class="num">{{ 'a11y.page.statesCol' | t }}</th>
+                  <th scope="col" class="num">{{ 'a11y.report.passes' | t }}</th>
+                  <th scope="col" class="num">{{ 'a11y.report.review' | t }}</th>
+                  <th scope="col" class="num">{{ 'a11y.report.violations' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (r of rows(); track r.id) {
+                  <tr>
+                    <th scope="row"><a [routerLink]="['/componentes', r.id]" fragment="acessibilidade">{{ r.name }}</a></th>
+                    <td class="num">{{ r.states }}</td>
+                    <td class="num">{{ r.passes }}</td>
+                    <td class="num">{{ r.review }}</td>
+                    <td class="num" [class.bad]="r.violations > 0">{{ r.violations }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          @if (meta(); as m) {
+            <p class="muted">
+              {{ m.text }}
+              @if (m.runUrl) { · <a [href]="m.runUrl" target="_blank" rel="noopener">{{ 'a11y.report.run' | t }}</a> }
+            </p>
+          }
+        </section>
+      }
+    }
+
+    <section aria-labelledby="a11y-how">
+      <h2 id="a11y-how">{{ 'a11y.page.how' | t }}</h2>
+      <ol>
+        <li>{{ 'a11y.page.how.1' | t }}</li>
+        <li>{{ 'a11y.page.how.2' | t }}</li>
+        <li>{{ 'a11y.page.how.3' | t }}</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="a11y-disabled">
+      <h2 id="a11y-disabled">{{ 'a11y.page.disabled' | t }}</h2>
+      <ul>
+        <li>{{ 'a11y.page.disabled.color-contrast' | t }}</li>
+        <li>{{ 'a11y.page.disabled.region' | t }}</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="a11y-manual">
+      <h2 id="a11y-manual">{{ 'a11y.page.manual' | t }}</h2>
+      <p>{{ 'a11y.page.manual.text' | t }}</p>
+      <p class="muted">{{ 'a11y.report.honest' | t }}</p>
+    </section>
+  </div>
+</main>
+
+<app-demo-footer />

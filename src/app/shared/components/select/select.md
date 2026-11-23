@@ -39,7 +39,7 @@ Para usar o Select em outro projeto Angular, copie para dentro de uma pasta `sha
 | Tipos | `model/interface/select/select-option.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~943 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~947 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos
@@ -60,25 +60,27 @@ Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 
 
 ```html
 <app-select
-  [label]="'select.label' | t"
-  [placeholder]="'select.placeholder' | t"
+  label="Categoria"
+  placeholder="Selecione"
   [required]="true"
-  [requiredLabel]="'form.required.label' | t"
-  [requiredError]="'form.required.error' | t"
-  [options]="options()"
+  [options]="options"
   [value]="categoria()"
   (valueChange)="categoria.set($event)"
-  [hint]="'form.hint' | t">
+  hint="Usada para organizar os relatórios.">
 </app-select>
 ```
 
 ```ts
-options = computed<SelectOption<string>[]>(() => [
-  { label: i18n.t('select.option.hover'), value: 'hover' },
-  { label: i18n.t('select.option.o1'),    value: 'o1' },
-  { label: i18n.t('select.option.o2'),    value: 'o2' },
-]);
+categoria = signal<string | null>(null);
+
+options: SelectOption<string>[] = [
+  { label: 'Vendas', value: 'vendas' },
+  { label: 'Marketing', value: 'marketing' },
+  { label: 'Suporte', value: 'suporte' },
+];
 ```
+
+O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../../labels/labels.md) (`labels.required`, `labels.requiredError`); use `requiredLabel`/`requiredError` só para trocar numa instância.
 
 ---
 

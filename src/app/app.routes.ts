@@ -14,6 +14,17 @@ export const routes: Routes = [
     title: 'Demo · Angular Components',
     loadComponent: () => import('./demo/demo-page.component').then(m => m.DemoPageComponent)
   },
+  // uma página por componente: por que existe, quando usar, API, acessibilidade, o que copiar
+  {
+    path: 'componentes/:id',
+    loadComponent: () => import('./component-page/component-page.component').then(m => m.ComponentPageComponent)
+  },
+  { path: 'componentes', pathMatch: 'full', redirectTo: '' },
+  // o relatório do axe de todos os componentes
+  {
+    path: 'acessibilidade',
+    loadComponent: () => import('./a11y-page/a11y-page.component').then(m => m.A11yPageComponent)
+  },
   // endereço desconhecido: página 404 (explica, sugere o componente e oferece busca);
   // o título vem da própria página, no idioma atual
   {
