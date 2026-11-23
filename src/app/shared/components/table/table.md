@@ -190,6 +190,7 @@ export interface TableAction<T = any> {
 | `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
 | `actionsLabel`  | `string`                        | `labels.table.actions` | Nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio).                               |
 | `actionsColWidth` | `string \| number`           |                                                                `44`                                                                 | Largura da coluna de ações (número = px).                                                                    |
+| `selectColWidth` | `string \| number`           | `36` | Largura da coluna de seleção (checkbox); número = px. |
 | `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
 | `loadingRows`   | `number`                        |                                                                 `5`                                                                 | Quantidade de linhas do skeleton.                                                                            |
 | `emptyMessage`  | `string`                        | `labels.table.empty` | Mensagem para o estado vazio.                                                                                |
@@ -573,15 +574,12 @@ A coluna de **seleção** sobe para o topo do cartão e a de **ações** vai par
 
 ## Largura da coluna de seleção
 
-Por padrão a coluna de seleção usa `--tbl-select-w: 44px` (ou 48px na demo). Você pode ajustar por **token CSS** local:
+A coluna de seleção tem **36px** por padrão. Para mudar, use `selectColWidth` (número = px, ou qualquer unidade CSS); a coluna de ações tem o equivalente `actionsColWidth` (padrão 44):
 
-```sass
-/* no seu wrapper da página ou card */
-.wrapper
-  --tbl-select-w: 40px
+```html
+<app-table [selectable]="true" [selectColWidth]="44" ... />
+<app-table [selectable]="true" selectColWidth="2.75rem" ... />
 ```
-
-> Opcionalmente, você pode expor um `@Input() selectColWidth` no componente para controlar via propriedade (se adotou essa extensão).
 
 ## Acessibilidade (ordenar)
 O cabeçalho clicável mantém `aria-sort="ascending|descending|none"` e aceita teclado (Enter/Espaço). Isso é emitido via `sortChange` e você controla a ordenação no host. Consulte a seção “Ordenação (controlada)”.

@@ -99,6 +99,7 @@ export interface ColumnDef<T = any> {
 | `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
 | `actionsLabel`   | `string`                         | `labels.table.actions` | Screen-reader name of the actions column (its header is visually empty).              |
 | `actionsColWidth`| `string \| number`               |          `44`           | Width of the actions column (number = px).                                            |
+| `selectColWidth` | `string \| number`               |          `36`           | Width of the selection (checkbox) column; number = px. |
 | `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
 | `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
 | `emptyMessage`   | `string`                         | `labels.table.empty` | Empty-state message.                                                                  |
@@ -500,15 +501,12 @@ The **select** column moves to the top of the card and **actions** go to the bot
 
 ## Select column width
 
-By default, the select column uses `--tbl-select-w: 44px` (48px in the demo). Tweak it via **CSS token**:
+The selection column is **36px** wide by default. To change it, use `selectColWidth` (number = px, or any CSS unit); the actions column has the matching `actionsColWidth` (default 44):
 
-```sass
-/* in your page or card wrapper */
-.wrapper
-  --tbl-select-w: 40px
+```html
+<app-table [selectable]="true" [selectColWidth]="44" ... />
+<app-table [selectable]="true" selectColWidth="2.75rem" ... />
 ```
-
-> Optionally, you may expose an `@Input() selectColWidth` if you added that extension to the component.
 
 ## Accessibility (sorting)
 Clickable headers keep `aria-sort="ascending|descending|none"` and support keyboard (Enter/Space). The component emits `sortChange`; keep the sorted view in the host. See “Sorting (controlled)”.

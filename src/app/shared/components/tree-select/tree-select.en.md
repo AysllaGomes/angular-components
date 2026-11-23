@@ -156,6 +156,7 @@ loadCities: TreeChildrenLoader = node =>
 | `maxChips`          | `number`                     | `3`                        | Chips before "+N" (`checkbox`). |
 | `clearable`         | `boolean`                    | `false`                    | "×" clear button. |
 | `required`          | `boolean`                    | `false`                    | Shows "required" and validates on close/blur. |
+| `autoValidate`      | `boolean`                    | `true`                     | With `required`, shows the required error on close/blur when empty. `false` leaves validation to the form (`error`). |
 | `error` / `hint`    | `string \| null`             | `null`                     | External error (wins) and helper text. |
 | `disabled`          | `boolean`                    | `false`                    | Disables it (the form can too). |
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'`| `'auto'`                   | `auto`: becomes a bottom *sheet* up to `sheetBreakpoint` px. |

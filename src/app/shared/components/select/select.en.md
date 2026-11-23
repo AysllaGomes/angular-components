@@ -210,6 +210,8 @@ categoryError(): string | null {
 | `requiredLabel`     | `string`            | `labels.required` | Text near the label when `required`.                    |
 | `requiredError`     | `string`            | `labels.requiredError` | Built-in required message.                              |
 | `autoValidate`      | `boolean`           |                `true` | Validate on blur/close.                                 |
+| `responsive`        | `'auto' \| 'menu' \| 'sheet'` |              `'auto'` | `auto`: becomes a bottom *sheet* up to `sheetBreakpoint` px; `menu`/`sheet` force one of them. |
+| `sheetBreakpoint`   | `number`            |                 `560` | Max window width (px) for the *sheet* mode in `auto`. |
 | `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
 | `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled?, group? }`.                |
 | `value`             | `T \| null`         |                `null` | Selected value (without forms).                         |
@@ -236,7 +238,7 @@ categoryError(): string | null {
 ---
 ## Mobile / Responsiveness
 
-No extra props: on small screens the panel uses a viewport-friendly max height, the filter input is sticky at the top of the panel, and options have comfortable touch targets. You can further tweak via CSS (e.g. @media (max-width: 480px) to increase option padding or constrain panel height).
+With `responsive="auto"` (default), on windows up to `sheetBreakpoint` px (560) the panel becomes a bottom **sheet**, with a title (`panelTitle`, or the `label`) and a close button; above that, it is the dropdown. `responsive="menu"` or `"sheet"` force one of them. The filter input is sticky at the top of the panel, and options have comfortable touch targets and smooth scrolling.
 
 ---
 

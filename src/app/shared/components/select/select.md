@@ -211,6 +211,8 @@ erroCategoria(): string | null {
 | `requiredLabel`     | `string`            | `labels.required` | Texto ao lado do label quando `required`.                  |
 | `requiredError`     | `string`            | `labels.requiredError` | Mensagem interna de obrigatório.                           |
 | `autoValidate`      | `boolean`           |                `true` | Valida ao desfocar/fechar o painel.                        |
+| `responsive`        | `'auto' \| 'menu' \| 'sheet'` |              `'auto'` | `auto`: vira *sheet* (painel de baixo) até `sheetBreakpoint` px; `menu`/`sheet` fixam um dos dois. |
+| `sheetBreakpoint`   | `number`            |                 `560` | Largura máxima (px) da janela para o modo *sheet* em `auto`. |
 | `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
 | `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled?, group? }`.           |
 | `value`             | `T \| null`         |                `null` | Valor selecionado (sem formulários).                       |
@@ -238,7 +240,7 @@ erroCategoria(): string | null {
 
 ## Mobile / Responsividade
 
-Sem props adicionais: no mobile o painel usa altura amigável à viewport e o campo de filtro fica “grudado” no topo do painel. Os itens têm área de toque confortável e rolagem suave. Se necessário, você pode ajustar via CSS (ex.: @media (max-width: 480px) aumentando o padding das opções ou limitando a altura do painel).
+Com `responsive="auto"` (padrão), em janelas de até `sheetBreakpoint` px (560) o painel vira uma **sheet** (painel de baixo), com título (`panelTitle`, ou o `label`) e botão de fechar; acima disso, é a lista suspensa. `responsive="menu"` ou `"sheet"` fixam um dos dois. O campo de filtro fica “grudado” no topo do painel, os itens têm área de toque confortável e rolagem suave.
 
 ---
 

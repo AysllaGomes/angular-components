@@ -37,6 +37,8 @@ jobs:
       - run: npm run check:copy
       # e basta: só o que ela lista, numa pasta vazia, compila (TypeScript estrito)
       - run: npm run check:copy-compile
+      # todo input/model/output público aparece no doc, em PT e em EN
+      - run: npm run check:api
       # páginas de componente geradas dos .md, em dia com eles
       - run: npm run check:pages
 

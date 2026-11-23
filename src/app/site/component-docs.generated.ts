@@ -1745,6 +1745,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Valida ao desfocar/fechar o painel."
             ],
             [
+              "<code>responsive</code>",
+              "<code>'auto' | 'menu' | 'sheet'</code>",
+              "<code>'auto'</code>",
+              "<code>auto</code>: vira *sheet* (painel de baixo) até <code>sheetBreakpoint</code> px; <code>menu</code>/<code>sheet</code> fixam um dos dois."
+            ],
+            [
+              "<code>sheetBreakpoint</code>",
+              "<code>number</code>",
+              "<code>560</code>",
+              "Largura máxima (px) da janela para o modo *sheet* em <code>auto</code>."
+            ],
+            [
               "<code>hint</code>",
               "<code>string | null</code>",
               "<code>null</code>",
@@ -1923,6 +1935,18 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>boolean</code>",
               "<code>true</code>",
               "Validate on blur/close."
+            ],
+            [
+              "<code>responsive</code>",
+              "<code>'auto' | 'menu' | 'sheet'</code>",
+              "<code>'auto'</code>",
+              "<code>auto</code>: becomes a bottom *sheet* up to <code>sheetBreakpoint</code> px; <code>menu</code>/<code>sheet</code> force one of them."
+            ],
+            [
+              "<code>sheetBreakpoint</code>",
+              "<code>number</code>",
+              "<code>560</code>",
+              "Max window width (px) for the *sheet* mode in <code>auto</code>."
             ],
             [
               "<code>hint</code>",
@@ -2561,6 +2585,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Largura da coluna de ações (número = px)."
             ],
             [
+              "<code>selectColWidth</code>",
+              "<code>string | number</code>",
+              "<code>36</code>",
+              "Largura da coluna de seleção (checkbox); número = px."
+            ],
+            [
               "<code>loading</code>",
               "<code>boolean</code>",
               "<code>false</code>",
@@ -2883,6 +2913,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>string | number</code>",
               "<code>44</code>",
               "Width of the actions column (number = px)."
+            ],
+            [
+              "<code>selectColWidth</code>",
+              "<code>string | number</code>",
+              "<code>36</code>",
+              "Width of the selection (checkbox) column; number = px."
             ],
             [
               "<code>loading</code>",
@@ -3918,6 +3954,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Mostra &quot;requerido&quot; e valida ao fechar/sair."
             ],
             [
+              "<code>autoValidate</code>",
+              "<code>boolean</code>",
+              "<code>true</code>",
+              "Com <code>required</code>, mostra o erro de obrigatório ao fechar/sair vazio. <code>false</code> deixa a validação com o formulário (<code>error</code>)."
+            ],
+            [
               "<code>error</code> / <code>hint</code>",
               "<code>string | null</code>",
               "<code>null</code>",
@@ -4131,6 +4173,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>boolean</code>",
               "<code>false</code>",
               "Shows &quot;required&quot; and validates on close/blur."
+            ],
+            [
+              "<code>autoValidate</code>",
+              "<code>boolean</code>",
+              "<code>true</code>",
+              "With <code>required</code>, shows the required error on close/blur when empty. <code>false</code> leaves validation to the form (<code>error</code>)."
             ],
             [
               "<code>error</code> / <code>hint</code>",

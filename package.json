@@ -16,6 +16,7 @@
     "docs:copy": "node scripts/copy-manifest.mjs",
     "check:copy": "node scripts/copy-manifest.mjs --check",
     "check:copy-compile": "node scripts/check-copy-compile.mjs",
+    "check:api": "node scripts/check-api-docs.mjs",
     "docs:pages": "node scripts/build-component-docs.mjs",
     "check:pages": "node scripts/build-component-docs.mjs --check"
   },

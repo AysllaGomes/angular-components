@@ -156,6 +156,7 @@ carregarCidades: TreeChildrenLoader = node =>
 | `loadingLabel`, `loadErrorLabel` | `string`        | `labels.treeSelect.loading` / `labels.treeSelect.loadError` | Textos do carregamento e do erro (i18n). |
 | `clearable`         | `boolean`                    | `false`                    | Botão "×" para limpar. |
 | `required`          | `boolean`                    | `false`                    | Mostra "requerido" e valida ao fechar/sair. |
+| `autoValidate`      | `boolean`                    | `true`                     | Com `required`, mostra o erro de obrigatório ao fechar/sair vazio. `false` deixa a validação com o formulário (`error`). |
 | `error` / `hint`    | `string \| null`             | `null`                     | Erro externo (prioridade) e texto de apoio. |
 | `disabled`          | `boolean`                    | `false`                    | Desabilita (o formulário também pode). |
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'`| `'auto'`                   | `auto`: vira *sheet* (painel de baixo) até `sheetBreakpoint` px. |
