@@ -70,7 +70,11 @@ describe('TooltipDirective', () => {
   const key = (k: string) => document.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true }));
 
   beforeEach(async () => {
-    vi.useFakeTimers();
+    // Só os timers da diretiva (atrasos de abrir/fechar). Os testes rodam todos no
+    // mesmo ambiente (isolate: false): falsificar também requestAnimationFrame,
+    // Date etc. deixava o ActionBar, que roda depois em algumas ordens, esperando
+    // um frame que nunca vinha (timeout no CI).
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     await TestBed.configureTestingModule({
       imports: [HostComponent],
       providers: [provideZonelessChangeDetection()]
