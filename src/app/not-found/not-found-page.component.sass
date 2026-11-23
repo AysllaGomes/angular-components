@@ -1,0 +1,168 @@
+// tokens do tema global (claro/escuro e as 5 cores): --bg, --surface, --fg, --muted, --border, --accent
+main
+  display: block
+  outline: none
+
+.wrap
+  max-width: 760px
+  margin: 0 auto
+  padding: 5.5rem 1.5rem 4.5rem
+  display: flex
+  flex-direction: column
+  gap: 1.75rem
+
+.what
+  display: flex
+  flex-direction: column
+  gap: 1.125rem
+
+.code
+  margin: 0
+  font-size: clamp(4.5rem, 14vw, 7.5rem)
+  line-height: 1
+  font-weight: 800
+  letter-spacing: -.04em
+  color: color-mix(in srgb, var(--accent) 30%, var(--surface))
+
+h1
+  margin: 0
+  font-size: clamp(1.875rem, 4.5vw, 2.75rem)
+  line-height: 1.1
+  letter-spacing: -.02em
+  font-weight: 800
+
+.lead
+  margin: 0
+  color: var(--muted)
+  font-size: 1.125rem
+
+.address
+  margin: 0
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .5rem
+  color: var(--muted)
+  font-size: .9375rem
+  code
+    max-width: 100%
+    overflow-wrap: anywhere
+    padding: .375rem .625rem
+    border: 1px solid var(--border)
+    border-radius: .5rem
+    background: var(--surface-2)
+    color: var(--fg)
+    font: .875rem/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace
+
+.suggestion
+  padding: 1.125rem 1.25rem
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--surface))
+  border-radius: .875rem
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface))
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .625rem 1rem
+  svg
+    color: var(--accent-text)
+    flex: none
+
+.suggestion__text
+  flex: 1 1 16rem
+
+.paths
+  display: flex
+  flex-wrap: wrap
+  gap: .75rem
+
+.btn
+  min-height: 3rem
+  display: inline-flex
+  align-items: center
+  padding: 0 1.375rem
+  border: 1px solid var(--border)
+  border-radius: .625rem
+  background: var(--surface)
+  color: var(--fg)
+  font-weight: 600
+  text-decoration: none
+  &:focus-visible
+    outline: 2px solid var(--accent)
+    outline-offset: 2px
+
+.btn--primary
+  border-color: var(--accent)
+  background: var(--accent)
+  color: #fff
+
+.search
+  margin-top: 1.25rem
+  padding-top: 1.75rem
+  border-top: 1px solid var(--border)
+  display: flex
+  flex-direction: column
+  gap: .875rem
+  h2
+    margin: 0
+    font-size: 1.375rem
+    letter-spacing: -.01em
+
+.field
+  display: flex
+  flex-direction: column
+  gap: .375rem
+  label
+    font-weight: 600
+    font-size: .9375rem
+  input
+    min-height: 3rem
+    padding: 0 .875rem
+    border: 1px solid var(--muted)
+    border-radius: .625rem
+    background: var(--surface)
+    color: var(--fg)
+    font: inherit
+    &:focus-visible
+      outline: 2px solid var(--accent)
+      outline-offset: 1px
+
+.count
+  color: var(--muted)
+  font-size: .875rem
+
+.results
+  list-style: none
+  margin: 0
+  padding: 0
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr))
+  gap: .5rem
+  a
+    min-height: 3rem
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: .5rem
+    padding: 0 .875rem
+    border: 1px solid var(--border)
+    border-radius: .625rem
+    background: var(--surface)
+    color: var(--fg)
+    font-weight: 600
+    text-decoration: none
+    &:focus-visible
+      outline: 2px solid var(--accent)
+      outline-offset: 2px
+
+.arrow
+  color: var(--accent-text)
+
+.empty
+  margin: 0
+  padding: 1rem
+  border-radius: .625rem
+  background: var(--surface-2)
+  color: var(--muted)
+  a
+    color: var(--accent-text)
+    font-weight: 600

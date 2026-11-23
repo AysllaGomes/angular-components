@@ -1,5 +1,6 @@
 import { TABS } from './tabs';
 import { HOME } from './home';
+import { NOT_FOUND } from './not-found';
 import { TABLE } from './table';
 import { TOAST } from './toast';
 import { BUTTON } from './button';
@@ -21,6 +22,7 @@ import { Dict } from '../../model/type/dict.type';
 export const DICT: Dict = {
   ...COMMON,
   ...HOME,
+  ...NOT_FOUND,
   ...SECTIONS,
   ...STEPPER,
   ...TABLE,

@@ -14,5 +14,10 @@ export const routes: Routes = [
     title: 'Demo · Angular Components',
     loadComponent: () => import('./demo/demo-page.component').then(m => m.DemoPageComponent)
   },
-  { path: '**', redirectTo: '' }
+  // endereço desconhecido: página 404 (explica, sugere o componente e oferece busca);
+  // o título vem da própria página, no idioma atual
+  {
+    path: '**',
+    loadComponent: () => import('./not-found/not-found-page.component').then(m => m.NotFoundPageComponent)
+  }
 ];

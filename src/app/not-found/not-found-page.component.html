@@ -1,0 +1,70 @@
+<app-demo-header />
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+    <!-- O QUE ACONTECEU -->
+    <section class="what" aria-labelledby="nf-title">
+      <p class="code" aria-hidden="true">404</p>
+      <h1 id="nf-title">{{ 'notfound.heading' | t }}</h1>
+      <p class="lead">{{ 'notfound.lead' | t }}</p>
+      <p class="address">
+        <span>{{ 'notfound.address' | t }}</span>
+        <code>{{ path }}</code>
+      </p>
+    </section>
+
+    <!-- VOCÊ QUIS DIZER: só quando o endereço lembra um componente -->
+    @if (suggestion) {
+      <aside class="suggestion" [attr.aria-label]="'notfound.suggestion.label' | t">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M12 8v5M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="suggestion__text">{{ 'notfound.suggestion.text' | t:{ name: suggestionName() } }}</span>
+        <a class="btn btn--primary" routerLink="/demo" [fragment]="suggestion.id">
+          {{ 'notfound.suggestion.cta' | t:{ name: suggestionName() } }}
+        </a>
+      </aside>
+    }
+
+    <!-- CAMINHOS: com a sugestão em destaque, "início" vira secundário (um botão cheio por vez) -->
+    <nav class="paths" [attr.aria-label]="'notfound.paths' | t">
+      <a class="btn" [class.btn--primary]="!suggestion" routerLink="/">{{ 'notfound.home' | t }}</a>
+      <a class="btn" routerLink="/demo">{{ 'notfound.demo' | t }}</a>
+    </nav>
+
+    <!-- BUSCA -->
+    <section class="search" aria-labelledby="nf-search">
+      <h2 id="nf-search">{{ 'notfound.search.title' | t }}</h2>
+      <div class="field">
+        <label for="nf-q">{{ 'notfound.search.label' | t }}</label>
+        <input id="nf-q" type="search" autocomplete="off"
+          [placeholder]="'notfound.search.placeholder' | t"
+          [value]="query()"
+          (input)="onQuery($event)"
+          aria-describedby="nf-count" />
+        <!-- anunciado a cada letra: quantos componentes sobraram -->
+        <span id="nf-count" class="count" aria-live="polite">{{ countText() }}</span>
+      </div>
+
+      @if (results().length) {
+        <ul class="results">
+          @for (c of results(); track c.id) {
+            <li>
+              <a routerLink="/demo" [fragment]="c.id">
+                <span>{{ c.name }}</span><span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty">
+          {{ 'notfound.search.none' | t }}
+          <a routerLink="/demo">{{ 'notfound.search.seeAll' | t }}</a>.
+        </p>
+      }
+    </section>
+  </div>
+</main>
+
+<app-demo-footer />
