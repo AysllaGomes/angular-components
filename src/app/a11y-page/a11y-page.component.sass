@@ -2,10 +2,11 @@ main
   display: block
   outline: none
 
+// mesma largura do cabeçalho; o texto corrido tem limite próprio (44em), para não ficar comprido demais
 .wrap
-  max-width: 960px
+  max-width: var(--page-max)
   margin: 0 auto
-  padding: 4rem 1.5rem 4.5rem
+  padding: 4rem var(--page-gutter) 4.5rem
   display: flex
   flex-direction: column
   gap: 2.5rem
@@ -16,6 +17,8 @@ section
   gap: .875rem
   p, ol, ul
     margin: 0
+  > p, > ol, > ul:not(.stats)
+    max-width: 44em
 
 h1
   margin: 0
@@ -63,7 +66,9 @@ h2
 .bad, .bad strong
   color: var(--danger, #b91c1c)
 
+// 5 colunas curtas: largas demais a 1600px ficam difíceis de ler na linha
 .scroll
+  max-width: 56rem
   overflow-x: auto
   border: 1px solid var(--border)
   border-radius: .75rem

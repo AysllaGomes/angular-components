@@ -3,10 +3,11 @@ main
   display: block
   outline: none
 
+// mesma largura do cabeçalho; texto, sugestão e busca têm limite próprio
 .wrap
-  max-width: 760px
+  max-width: var(--page-max)
   margin: 0 auto
-  padding: 5.5rem 1.5rem 4.5rem
+  padding: 5.5rem var(--page-gutter) 4.5rem
   display: flex
   flex-direction: column
   gap: 1.75rem
@@ -33,6 +34,7 @@ h1
 
 .lead
   margin: 0
+  max-width: 40em
   color: var(--muted)
   font-size: 1.125rem
 
@@ -55,6 +57,7 @@ h1
     font: .875rem/1.4 ui-monospace, "SFMono-Regular", Consolas, monospace
 
 .suggestion
+  max-width: 48rem
   padding: 1.125rem 1.25rem
   border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--surface))
   border-radius: .875rem
@@ -108,6 +111,7 @@ h1
     letter-spacing: -.01em
 
 .field
+  max-width: 30rem
   display: flex
   flex-direction: column
   gap: .375rem
