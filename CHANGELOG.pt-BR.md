@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.8.0](https://github.com/AysllaGomes/angular-components/compare/v3.7.2...v3.8.0) (2026-11-23)
+### Features
+- **checkbox-group:** novo [`app-checkbox-group`](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.md), o
+  par do Radio group para várias opções: `fieldset`/`legend` e checkboxes
+  nativos, a caixa do Checkbox, descrições, vertical/horizontal, dica e erro,
+  integração com formulários:
+  - o valor é uma lista, sempre na ordem das opções (não na dos cliques);
+    valores que não estão entre as opções são mantidos;
+  - "Selecionar todos" opcional (`selectAll`), com estado parcial, que não
+    mexe nas opções desabilitadas; novo label `selectAll` no
+    `provideUiLabels`;
+  - `required` só mostra o marcador; valide com `Validators.required`, que
+    trata a lista vazia como inválida;
+  - no site: página própria com exemplo ao vivo, seção na demo, menu,
+    catálogo da home e relatório do axe (16 componentes).
+
+### Correções
+- **docs:** entradas que faltavam na documentação agora estão documentadas:
+  `responsive` e `sheetBreakpoint` do Select (a seção "Mobile" dizia que não
+  havia props extras), `selectColWidth` da Tabela e `autoValidate` do
+  TreeSelect:
+  - Tabela: a seção "Largura da coluna de seleção" mandava usar o token
+    `--tbl-select-w`, que o componente nunca usou, com o padrão errado; a
+    largura vem de `selectColWidth` (36px).
+- **copiar:** as listas "O que copiar" consideram os imports de todos os
+  arquivos de uma pasta copiada, não só os do arquivo principal.
+
+### Interno
+- **ci:** novo `npm run check:api`, no CI e no deploy: todo input, model e
+  output público precisa aparecer na documentação do componente, em PT e EN.
+
 ## [3.7.2](https://github.com/AysllaGomes/angular-components/compare/v3.7.1...v3.7.2) (2026-11-23)
 ### Correções
 - **site:** as páginas de Acessibilidade e 404 usam a mesma largura do resto

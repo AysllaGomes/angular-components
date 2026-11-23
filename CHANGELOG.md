@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.8.0](https://github.com/AysllaGomes/angular-components/compare/v3.7.2...v3.8.0) (2026-11-23)
+
+### Features
+
+* **checkbox-group:** new [`app-checkbox-group`](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.en.md), the Radio group's counterpart for several options: native `fieldset`/`legend` and checkboxes, the Checkbox box, option descriptions, vertical/horizontal, hint and error, forms integration ([387a963](https://github.com/AysllaGomes/angular-components/commit/387a963))
+  * the value is a list, always in the order of the options (not the click order); values that are not among the options are kept
+  * optional "Select all" (`selectAll`) with a partial state, which leaves disabled options as they are; new `selectAll` label in `provideUiLabels`
+  * `required` shows the marker only; validate with `Validators.required`, which treats the empty list as invalid
+  * on the site: its own page with a live example, a demo section, the menu, the home catalog and the axe report (16 components)
+
+### Bug Fixes
+
+* **docs:** inputs that were missing from the docs are now documented: Select `responsive` and `sheetBreakpoint` (the "Mobile" section said there were no extra props), Table `selectColWidth` and TreeSelect `autoValidate` ([c0d6f3b](https://github.com/AysllaGomes/angular-components/commit/c0d6f3b))
+  * Table: the "Select column width" section pointed to a `--tbl-select-w` token the component never used, with the wrong default; the width comes from `selectColWidth` (36px)
+* **copy:** the "What to copy" lists take into account the imports of every file in a copied folder, not just the entry file ([387a963](https://github.com/AysllaGomes/angular-components/commit/387a963))
+
+### Internal
+
+* **ci:** new `npm run check:api`, in CI and deploy: every public input, model and output must appear in the component docs, in PT and EN ([c0d6f3b](https://github.com/AysllaGomes/angular-components/commit/c0d6f3b))
+
 ## [3.7.2](https://github.com/AysllaGomes/angular-components/compare/v3.7.1...v3.7.2) (2026-11-23)
 
 ### Bug Fixes
