@@ -3,8 +3,8 @@
   <div
     class="ab"
     (click)="onBackdropClick($event)">
-    <!-- Sheet -->
-    <aside
+    <!-- Sheet: <div> e não <aside>, que não aceita role="dialog" (ARIA in HTML) -->
+    <div
       #sheet
       class="ab__sheet"
       [class.ab--sm]="currentSize()==='sm'"
@@ -52,6 +52,6 @@
           </div>
         }
       </footer>
-    </aside>
+    </div>
   </div>
 }

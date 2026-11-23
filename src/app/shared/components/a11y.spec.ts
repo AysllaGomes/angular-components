@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, sig
 import { UI_LABELS_PT, provideUiLabels } from '../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { expectNoA11yViolations } from '../../../testing/axe';
+import { expectNoA11yViolations, writeA11yReport } from '../../../testing/axe';
 import { stubLayout } from '../../../testing/layout-stub';
 
 import { ColumnDef } from '../model/interface/column-def.interface';
@@ -202,29 +202,32 @@ describe('Acessibilidade (axe-core)', () => {
     restoreLayout();
   });
 
-  it('Button', async () => { await expectNoA11yViolations(section('button')); });
+  // relatório público (public/a11y-report.json): o site mostra o resultado de cada componente
+  afterAll(() => writeA11yReport());
 
-  it('Checkbox (todos os estados)', async () => { await expectNoA11yViolations(section('checkbox')); });
+  it('Button', async () => { await expectNoA11yViolations(section('button'), { component: 'button', state: { pt: 'sólido, fantasma desabilitado e link', en: 'solid, disabled ghost and link' } }); });
 
-  it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio')); });
+  it('Checkbox (todos os estados)', async () => { await expectNoA11yViolations(section('checkbox'), { component: 'checkbox', state: { pt: 'marcado, parcial, desabilitado, com erro e só aria-label', en: 'checked, partial, disabled, with error and aria-label only' } }); });
 
-  it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch')); });
+  it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio'), { component: 'radio', state: { pt: 'obrigatório, horizontal com erro e desabilitado', en: 'required, horizontal with error and disabled' } }); });
 
-  it('Form field (dica, erro, máscara, textarea)', async () => { await expectNoA11yViolations(section('formfield')); });
+  it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch'), { component: 'switch', state: { pt: 'ligado, rótulo antes, desabilitado e só aria-label', en: 'on, label first, disabled and aria-label only' } }); });
+
+  it('Form field (dica, erro, máscara, textarea)', async () => { await expectNoA11yViolations(section('formfield'), { component: 'validation', state: { pt: 'campo com dica, erro, máscara e área de texto', en: 'field with hint, error, mask and textarea' } }); });
 
   it('Select fechado e aberto', async () => {
-    await expectNoA11yViolations(section('select'));
+    await expectNoA11yViolations(section('select'), { component: 'select', state: { pt: 'fechado', en: 'closed' } });
     await open(section('select'));
-    await expectNoA11yViolations(section('select'));
+    await expectNoA11yViolations(section('select'), { component: 'select', state: { pt: 'aberto, com grupos', en: 'open, with groups' } });
   });
 
   it('TreeSelect fechado e aberto (single e checkbox)', async () => {
-    await expectNoA11yViolations(section('treeselect'));
+    await expectNoA11yViolations(section('treeselect'), { component: 'treeselect', state: { pt: 'fechados', en: 'closed' } });
     const [single, multi] = Array.from(section('treeselect').querySelectorAll<HTMLElement>('app-tree-select'));
     await open(single);
-    await expectNoA11yViolations(section('treeselect'));
+    await expectNoA11yViolations(section('treeselect'), { component: 'treeselect', state: { pt: 'seleção única, aberto', en: 'single selection, open' } });
     await open(multi);
-    await expectNoA11yViolations(section('treeselect'));
+    await expectNoA11yViolations(section('treeselect'), { component: 'treeselect', state: { pt: 'com caixas, aberto e com erro', en: 'checkbox mode, open and with error' } });
   });
 
   it('TreeSelect sob demanda: aberto, com erro de carregamento anunciado', async () => {
@@ -235,14 +238,14 @@ describe('Acessibilidade (axe-core)', () => {
     await fixture.whenStable();
     expect(lazy.querySelector('.node-error')).not.toBeNull();
     expect(lazy.querySelector('[role="status"]')!.textContent).toContain('São Paulo');
-    await expectNoA11yViolations(section('treeselect'));
+    await expectNoA11yViolations(section('treeselect'), { component: 'treeselect', state: { pt: 'sob demanda, com erro de carregamento anunciado', en: 'on demand, with an announced loading error' } });
   });
 
-  it('Tabs (contador, rótulo com ícone, desabilitada, sob demanda)', async () => { await expectNoA11yViolations(section('tabs')); });
+  it('Tabs (contador, rótulo com ícone, desabilitada, sob demanda)', async () => { await expectNoA11yViolations(section('tabs'), { component: 'tabs', state: { pt: 'contador, rótulo com ícone, desabilitada e sob demanda', en: 'badge, icon label, disabled and on demand' } }); });
 
   it('Tooltip fechado e aberto (como nome e como descrição)', async () => {
     const scope = section('tooltip');
-    await expectNoA11yViolations(scope);
+    await expectNoA11yViolations(scope, { component: 'tooltip', state: { pt: 'fechado', en: 'closed' } });
 
     const [named, described] = Array.from(scope.querySelectorAll<HTMLButtonElement>('button'));
     expect(named.getAttribute('aria-labelledby')).toMatch(/^tip-/);
@@ -251,24 +254,34 @@ describe('Acessibilidade (axe-core)', () => {
     described.focus();
     const tip = document.getElementById(described.getAttribute('aria-describedby')!)!;
     expect(tip.hidden).toBe(false);
-    await expectNoA11yViolations(scope);
+    await expectNoA11yViolations(scope, { component: 'tooltip', state: { pt: 'aberto, como nome e como descrição', en: 'open, as a name and as a description' } });
     // o balão fica no <body>, fora da seção
-    await expectNoA11yViolations(tip);
+    await expectNoA11yViolations(tip, { component: 'tooltip', state: { pt: 'o balão aberto', en: 'the open bubble' } });
   });
 
-  it('Stepper', async () => { await expectNoA11yViolations(section('stepper')); });
+  it('Stepper', async () => { await expectNoA11yViolations(section('stepper'), { component: 'stepper', state: { pt: 'etapa ativa, concluída e futuras', en: 'active, done and upcoming steps' } }); });
 
-  it('Tabela e Paginação', async () => { await expectNoA11yViolations(section('table')); });
+  it('Tabela e Paginação', async () => {
+    // cada variação separada, para o relatório dizer o que foi verificado
+    const [actions, bulk, paged, error] = Array.from(section('table').querySelectorAll('app-table'));
+    await expectNoA11yViolations(actions, { component: 'table', state: { pt: 'ações por linha, com dica e indisponível', en: 'row actions, with tooltip and unavailable' } });
+    await expectNoA11yViolations(bulk, { component: 'table', state: { pt: 'ações em massa, com seleção', en: 'bulk actions, with a selection' } });
+    await expectNoA11yViolations(paged, { component: 'table', state: { pt: 'paginada, com itens por página', en: 'paginated, with rows per page' } });
+    await expectNoA11yViolations(error, { component: 'table', state: { pt: 'estado de erro, com Tentar novamente', en: 'error state, with Try again' } });
+    const [full, compact] = Array.from(section('table').querySelectorAll('app-pagination'));
+    await expectNoA11yViolations(full, { component: 'pagination', state: { pt: 'completa, com primeira e última', en: 'full, with first and last' } });
+    await expectNoA11yViolations(compact, { component: 'pagination', state: { pt: 'compacta', en: 'compact' } });
+  });
 
   it('Toasts', async () => {
-    await expectNoA11yViolations(el.querySelector('app-toast-container')!);
+    await expectNoA11yViolations(el.querySelector('app-toast-container')!, { component: 'toast', state: { pt: 'sucesso e erro na pilha', en: 'success and error in the stack' } });
   });
 
   it('Dialog e ActionBar abertos', async () => {
     fixture.componentInstance.overlays.set(true);
     await new Promise(r => setTimeout(r));
     await fixture.whenStable();
-    await expectNoA11yViolations(el.querySelector('app-dialog')!);
-    await expectNoA11yViolations(el.querySelector('app-actionbar')!);
+    await expectNoA11yViolations(el.querySelector('app-dialog')!, { component: 'dialog', state: { pt: 'aberto', en: 'open' } });
+    await expectNoA11yViolations(el.querySelector('app-actionbar')!, { component: 'actionbar', state: { pt: 'aberto', en: 'open' } });
   });
 });

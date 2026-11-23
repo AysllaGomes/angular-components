@@ -15,7 +15,7 @@
       type="button"
       aria-haspopup="tree"
       [attr.aria-expanded]="open()"
-      [attr.aria-controls]="treeId"
+      [attr.aria-controls]="open() ? treeId : null"
       [attr.aria-labelledby]="labelId + ' ' + valueId"
       [attr.aria-invalid]="hasError() || null"
       [attr.aria-required]="required() || null"
