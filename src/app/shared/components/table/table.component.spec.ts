@@ -2,6 +2,7 @@ import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrat
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ColumnDef } from '../../model/interface/column-def.interface';
+import { TableAction } from '../../model/interface/table-action.interface';
 
 import { TableComponent } from './table.component';
 
@@ -131,5 +132,70 @@ describe('TableComponent selection', () => {
     btn.click();
     await fixture.whenStable();
     expect(th.getAttribute('aria-sort')).toBe('descending');
+  });
+});
+
+@Component({
+  imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-table [columns]="columns" [data]="rows" [actions]="actions" (action)="events.push($event.type + ':' + $event.row.nome)" />
+  `
+})
+class ActionsHostComponent {
+  columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }];
+  rows: Row[] = ALL.slice(0, 2);
+  events: string[] = [];
+  actions: TableAction<Row>[] = [
+    { kind: 'edit' },
+    {
+      kind: 'delete',
+      disabled: r => r.id === 'a',
+      disabledReason: r => `${r.nome} é o titular`,
+    },
+    { kind: 'download', ariaLabel: 'Baixar contrato', visible: r => r.id === 'b' },
+  ];
+}
+
+describe('TableComponent declarative actions', () => {
+  let fixture: ComponentFixture<ActionsHostComponent>;
+  let el: HTMLElement;
+  const rowButtons = (i: number) =>
+    Array.from(el.querySelectorAll('tbody tr')[i].querySelectorAll<HTMLButtonElement>('.action-list button'));
+  const tipText = (b: HTMLElement) => document.getElementById(b.getAttribute('aria-labelledby')!)?.textContent;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ActionsHostComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(ActionsHostComponent);
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('names icon-only actions in Portuguese by default and shows the name as a tooltip', () => {
+    const [edit] = rowButtons(1);
+    expect(edit.getAttribute('aria-label')).toBe('Editar');
+    expect(tipText(edit)).toBe('Editar');
+  });
+
+  it('honors visible() per row', () => {
+    expect(rowButtons(0).map(b => b.getAttribute('aria-label'))).toEqual(['Editar', 'Excluir (Ana é o titular)']);
+    expect(rowButtons(1).map(b => b.getAttribute('aria-label'))).toEqual(['Editar', 'Excluir', 'Baixar contrato']);
+  });
+
+  it('a disabled action stays focusable (aria-disabled), explains why and does not emit', async () => {
+    const del = rowButtons(0)[1];
+    expect(del.disabled).toBe(false);
+    expect(del.getAttribute('aria-disabled')).toBe('true');
+    expect(tipText(del)).toBe('Excluir (Ana é o titular)');
+
+    del.click();
+    rowButtons(1)[1].click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.events).toEqual(['delete:Bruno']);
   });
 });

@@ -16,7 +16,10 @@ export const TABLE: Dict = {
 
   // mensagens/labels
   'table.empty': { pt: 'Sem registros para exibir', en: 'No records to display' },
+  'table.actions': { pt: 'Ações', en: 'Actions' },
   'table.action.edit': { pt: 'Editar', en: 'Edit' },
+  'table.action.delete': { pt: 'Excluir', en: 'Delete' },
+  'table.action.delete.blocked': { pt: 'correntistas só podem ser removidos pela agência', en: 'account holders can only be removed by the branch' },
 
   // (opcional) cabeçalhos das colunas
   'table.col.nome':         { pt: 'Nome do adicional',  en: 'Additional name' },

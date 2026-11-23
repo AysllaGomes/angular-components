@@ -17,12 +17,21 @@ import { SortDir } from '../../model/type/sort-dir.type';
 import { ColumnDef } from '../../model/interface/column-def.interface';
 import { TableAction } from '../../model/interface/table-action.interface';
 
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableActionsTemplateDirective, TableCellTemplateDirective } from './table.directives';
+
+/** nome padrão das ações declarativas sem `ariaLabel`/`label` */
+const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
+  edit: 'Editar',
+  delete: 'Excluir',
+  view: 'Visualizar',
+  download: 'Baixar',
+};
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, TooltipDirective],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,6 +56,9 @@ export class TableComponent<T = any> {
 
   /** Largura da coluna de ações (opcional) */
   readonly actionsColWidth = input<string | number>(44);
+
+  /** nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio) */
+  readonly actionsLabel = input('Ações');
 
   /** Mostra coluna de seleção por checkbox */
   readonly selectable = input(false);
@@ -166,8 +178,30 @@ export class TableComponent<T = any> {
     return !!(this.showActions() || (actions && actions.length) || this.actionsTpl());
   }
 
+  isActionVisible(a: TableAction<T>, row: T, index: number) {
+    return a.visible ? !!a.visible(row, index) : true;
+  }
+
   isActionDisabled(a: TableAction<T>, row: T, index: number) {
     return a.disabled ? !!a.disabled(row, index) : false;
+  }
+
+  /**
+   * Nome do botão, que é também a dica: `ariaLabel` > `label` > padrão do `kind`.
+   * Desabilitada com `disabledReason`, o motivo vem junto: "Excluir (Titular não pode ser excluído)".
+   */
+  actionTooltip(a: TableAction<T>, row: T, index: number): string {
+    const name = a.ariaLabel || a.label || DEFAULT_ACTION_LABELS[a.kind] || a.kind;
+    const reason = this.isActionDisabled(a, row, index) ? a.disabledReason?.(row, index)?.trim() : '';
+    return reason ? `${name} (${reason})` : name;
+  }
+
+  onActionClick(e: Event, a: TableAction<T>, row: T, index: number) {
+    if (this.isActionDisabled(a, row, index)) {
+      e.preventDefault();
+      return;
+    }
+    this.emitAction(a.kind, row, index);
   }
 
   emitAction(kind: ActionKind, row: T, index: number) {

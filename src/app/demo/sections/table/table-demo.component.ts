@@ -25,7 +25,14 @@ export class TableDemoComponent {
   private i18n = inject(I18nService);
 
   actions = computed<TableAction<AdicionalRow>[]>(() => [
-    { kind: 'edit', ariaLabel: this.i18n.t('table.action.edit') }
+    { kind: 'edit', label: this.i18n.t('table.action.edit') },
+    {
+      kind: 'delete',
+      label: this.i18n.t('table.action.delete'),
+      // correntista: o botão fica indisponível e a dica explica o motivo
+      disabled: row => row.tipo === 'Correntista',
+      disabledReason: () => this.i18n.t('table.action.delete.blocked'),
+    },
   ]);
 
   rows: AdicionalRow[] = [
@@ -104,6 +111,7 @@ export class TableDemoComponent {
 
   onAction(e: { type: string; row: AdicionalRow; index: number }) {
     if (e.type === 'edit') this.onEdit(e.row, e.index);
+    if (e.type === 'delete') console.log('excluir', e.index, e.row);
   }
 
   simulateLoad() {

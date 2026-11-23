@@ -41,6 +41,8 @@
             class="col-actions"
             [style.width]="actionsW"
             [style.minWidth]="actionsW">
+            <!-- nome da coluna para leitor de tela (os botões já mostram o que fazem) -->
+            <span class="sr-only">{{ actionsLabel() }}</span>
           </th>
         }
       </tr>
@@ -115,12 +117,16 @@
                   } @else {
                     <div class="action-list">
                       @for (a of normalizedActions; track $index) {
+                        @if (isActionVisible(a, row, i)) {
+                        <!-- aria-disabled (e não disabled): continua focável e com dica, para explicar o motivo -->
                         <button
                           class="icon-btn icon-btn--ghost"
                           type="button"
-                          [attr.aria-label]="a.ariaLabel || a.label || a.kind"
-                          [disabled]="isActionDisabled(a, row, i)"
-                          (click)="emitAction(a.kind, row, i)"
+                          [attr.aria-label]="actionTooltip(a, row, i)"
+                          [appTooltip]="actionTooltip(a, row, i)"
+                          tooltipAsLabel
+                          [attr.aria-disabled]="isActionDisabled(a, row, i) ? 'true' : null"
+                          (click)="onActionClick($event, a, row, i)"
                           [style.color]="null">
                           <!-- Se você preferir usar assets externos -->
                           @if (a.iconUrl) {
@@ -156,6 +162,7 @@
                             }
                           }
                         </button>
+                        }
                       }
                     </div>
                   }

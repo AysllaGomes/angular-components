@@ -52,6 +52,8 @@ export interface ColumnDef<T = any> {
 | `rowKey`         | `keyof T \| (row, i) => unknown` |            —            | Stable row id. With it, `selected` holds **keys** and survives sorting/pagination.    |
 | `selected`       | `any[]`                          |          `[]`           | Controlled selection: keys (with `rowKey`) or indices into `data` (without it).       |
 | `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
+| `actionsLabel`   | `string`                         |        `'Ações'`        | Screen-reader name of the actions column (its header is visually empty).              |
+| `actionsColWidth`| `string \| number`               |          `44`           | Width of the actions column (number = px).                                            |
 | `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
 | `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
 | `emptyMessage`   | `string`                         | `No records to display` | Empty-state message.                                                                  |
@@ -136,16 +138,36 @@ const sortedRows = computed(() => {
 export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
 
 export interface TableAction<T = any> {
-  kind: ActionKind | string;
-  label?: string;
-  ariaLabel?: string;
+  kind: ActionKind;
+  label?: string;                       // short name (tooltip and screen reader); defaults to a Portuguese name per kind
+  ariaLabel?: string;                   // more specific name (e.g. "Edit Ana"); wins over label
   iconUrl?: string;                     // optional external icon (e.g. /icons/svg/pen-box.svg)
   visible?: (row: T, index: number) => boolean;
-  disabled?: (row: T, index: number) => boolean;
+  disabled?: (row: T, index: number) => boolean;  // stays focusable (aria-disabled)
+  disabledReason?: (row: T, index: number) => string | null | undefined; // shown in the tooltip
 }
 ```
 
 If you pass `[actions]`, the component auto-renders an action list **unless** you provide an `appActions` slot (which overrides the default). Inline SVGs inherit `currentColor`; `iconUrl` works with external assets.
+
+### Tooltip and unavailable actions
+
+Each action button shows its name in a tooltip ([`appTooltip`](../tooltip/tooltip.en.md)), so mouse users also see what an icon does. The name is `ariaLabel`, then `label`, then the default for the `kind` (`Editar`, `Excluir`, `Visualizar`, `Baixar`); pass `label` to translate it.
+
+A disabled action uses `aria-disabled` instead of `disabled`: it stays focusable, the click is ignored (no `action` event) and, with `disabledReason`, the tooltip explains why:
+
+```ts
+actions: TableAction<Row>[] = [
+  { kind: 'edit', label: 'Edit' },
+  {
+    kind: 'delete',
+    label: 'Delete',
+    disabled: row => row.tipo === 'Correntista',
+    disabledReason: () => 'account holders can only be removed by the branch',
+  }, // → "Delete (account holders can only be removed by the branch)"
+  { kind: 'download', visible: row => row.hasContract },
+];
+```
 
 ---
 
@@ -205,6 +227,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 ## Accessibility
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
+- Declarative actions: the name is also a tooltip; unavailable actions use `aria-disabled` (focusable, with the reason) and the actions column header has a screen-reader name (`actionsLabel`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
 - Clickable header with `aria-sort="ascending|descending|none"` and visible focus on the `th` (Enter/Space toggles).
 

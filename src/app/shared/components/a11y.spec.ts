@@ -5,6 +5,7 @@ import { expectNoA11yViolations } from '../../../testing/axe';
 import { stubLayout } from '../../../testing/layout-stub';
 
 import { ColumnDef } from '../model/interface/column-def.interface';
+import { TableAction } from '../model/interface/table-action.interface';
 import { TreeNode } from '../model/interface/tree-select/tree-node.interface';
 import { SelectOption } from '../model/interface/select/select-option.interface';
 
@@ -132,7 +133,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
       <!-- Tabela + Paginação -->
       <section id="table">
-        <app-table [columns]="columns" [data]="rows" [selectable]="true" rowKey="id" />
+        <app-table [columns]="columns" [data]="rows" [selectable]="true" rowKey="id" [actions]="tableActions" />
         <app-pagination ariaLabel="Páginas da tabela" [total]="42" [pageSize]="5" [pageIndex]="2" showFirstLast />
         <app-pagination ariaLabel="Páginas resumidas" [total]="42" [pageSize]="5" compact />
       </section>
@@ -160,6 +161,7 @@ class GalleryComponent {
   steps = [{ label: 'Entrega', caption: 'Endereço' }, { label: 'Produto' }, { label: 'Resumo' }];
   columns: ColumnDef<Row>[] = [{ key: 'nome', header: 'Nome' }, { key: 'tipo', header: 'Tipo' }];
   rows: Row[] = [{ id: 'a', nome: 'Ana', tipo: 'Titular' }, { id: 'b', nome: 'Bruno', tipo: 'Adicional' }];
+  tableActions: TableAction<Row>[] = [{ kind: 'edit' }, { kind: 'delete', disabled: r => r.tipo === 'Titular', disabledReason: () => 'o titular não pode ser excluído' }];
   overlays = signal(false);
 }
 

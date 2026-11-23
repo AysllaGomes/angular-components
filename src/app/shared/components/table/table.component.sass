@@ -100,6 +100,14 @@ input[type="checkbox"]
     outline: 2px solid color-mix(in oklab, var(--tbl-action, #058075) 40%, white)
     outline-offset: 2px
 
+/* indisponível: aria-disabled mantém o foco e a dica (com o motivo) */
+.icon-btn[aria-disabled="true"]
+  opacity: .45
+  cursor: not-allowed
+
+  &:hover
+    background: transparent
+
 .icon-btn::-moz-focus-inner
   border: 0
   padding: 0
@@ -250,3 +258,12 @@ td.empty
       display: flex
       gap: .25rem
       justify-content: flex-end
+
+// texto só para leitor de tela (nome da coluna de ações)
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap

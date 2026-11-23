@@ -61,6 +61,24 @@ onAction(e: { type: 'edit' | 'delete' | 'view' | 'download'; row: AdicionalRow; 
 actions = [{ kind: 'edit', ariaLabel: 'Editar', iconUrl: '/icons/svg/pen-box.svg' }];
 ```
 
+#### Dica e ação indisponível
+
+Cada botão de ação mostra o nome numa dica ([`appTooltip`](../tooltip/tooltip.md)), então quem usa mouse também vê o que o ícone faz. O nome é o `ariaLabel`, senão o `label`, senão o padrão do `kind` (`Editar`, `Excluir`, `Visualizar`, `Baixar`).
+
+Ação desabilitada usa `aria-disabled` em vez de `disabled`: continua focável, o clique é ignorado (não emite `action`) e, com `disabledReason`, a dica explica o motivo:
+
+```ts
+actions: TableAction<Row>[] = [
+  { kind: 'edit' },
+  {
+    kind: 'delete',
+    disabled: row => row.tipo === 'Correntista',
+    disabledReason: () => 'correntistas só podem ser removidos pela agência',
+  }, // → "Excluir (correntistas só podem ser removidos pela agência)"
+  { kind: 'download', visible: row => row.temContrato },
+];
+```
+
 ### Opção B — Ações **custom** (controle total)
 ```html
 <app-table [columns]="columns" [data]="rows" [selectable]="true">
@@ -103,10 +121,11 @@ export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
 
 export interface TableAction<T = any> {
   kind: ActionKind;
-  label?: string;               // tooltip ou texto auxiliar
-  ariaLabel?: string;           // acessibilidade
+  label?: string;               // nome curto (dica e leitor de tela); padrão pelo kind
+  ariaLabel?: string;           // nome mais específico (ex.: "Editar Ana"); vence o label
   visible?: (row: T, index: number) => boolean;
-  disabled?: (row: T, index: number) => boolean;
+  disabled?: (row: T, index: number) => boolean;   // continua focável (aria-disabled)
+  disabledReason?: (row: T, index: number) => string | null | undefined; // motivo, na dica
   iconUrl?: string;             // se fornecido, usa <img>; senão, ícone inline (currentColor)
 }
 ```
@@ -121,6 +140,8 @@ export interface TableAction<T = any> {
 | `selected`      | `any[]`                         |                                                                `[]`                                                                 | Seleção controlada: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`).                               |
 | `showActions`   | `boolean`                       |                                                               `false`                                                               | (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
 | `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
+| `actionsLabel`  | `string`                        |                                                              `'Ações'`                                                              | Nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio).                               |
+| `actionsColWidth` | `string \| number`           |                                                                `44`                                                                 | Largura da coluna de ações (número = px).                                                                    |
 | `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
 | `loadingRows`   | `number`                        |                                                                 `5`                                                                 | Quantidade de linhas do skeleton.                                                                            |
 | `emptyMessage`  | `string`                        |                                                    `Nenhum registro encontrado`                                                     | Mensagem para o estado vazio.                                                                                |
@@ -237,10 +258,8 @@ No Sass do componente essas variáveis já são usadas em header, linhas, bordas
 
 
 ## Acessibilidade
-Adicionar uma bullet:
-```md
 - Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
-```
+- Ações declarativas: o nome também aparece como dica; ações indisponíveis usam `aria-disabled` (focáveis, com o motivo) e o cabeçalho da coluna de ações tem nome para leitor de tela (`actionsLabel`).
 
 ---
 ## Estilos dos botões de ação
