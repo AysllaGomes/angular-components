@@ -8,6 +8,8 @@ import { expectNoA11yViolations } from '../../testing/axe';
 import { A11yReport } from '../site/a11y-report';
 import { SAMPLE_REPORT } from '../../testing/a11y-report.sample';
 import { ComponentPageComponent } from './component-page.component';
+import { LIVE_EXAMPLES } from './examples/examples';
+import { SITE_COMPONENTS } from '../site/site-components';
 
 
 describe('ComponentPageComponent', () => {
@@ -93,10 +95,30 @@ describe('ComponentPageComponent', () => {
     expect(next.getAttribute('href')).toBe('/componentes/dialog');
   });
 
+  it('every site component has a live example', () => {
+    const missing = SITE_COMPONENTS.map(c => c.id).filter(id => !LIVE_EXAMPLES[id]);
+    expect(missing).toEqual([]);
+  });
+
+  it.each(SITE_COMPONENTS.map(c => c.id))('live example of %s renders and has no accessibility violations', async id => {
+    await open(id);
+    const preview = el.querySelector<HTMLElement>('#exemplo .preview')!;
+    expect(preview).not.toBeNull();
+    expect(preview.querySelector('[class], button, input, a, app-tabs, app-table')).not.toBeNull();
+    await expectNoA11yViolations(preview);
+  });
+
   it('a component without a live example shows the code and points to the demo', async () => {
-    await open('dialog');
-    expect(el.querySelector('#exemplo .toggle')).toBeNull();
-    expect(el.querySelector('#exemplo .note a')!.getAttribute('href')).toBe('/demo#dialog');
+    const example = LIVE_EXAMPLES['dialog'];
+    delete LIVE_EXAMPLES['dialog'];
+    try {
+      await open('dialog');
+      expect(el.querySelector('#exemplo .toggle')).toBeNull();
+      expect(el.querySelector('#exemplo pre')).not.toBeNull();
+      expect(el.querySelector('#exemplo .note a')!.getAttribute('href')).toBe('/demo#dialog');
+    } finally {
+      LIVE_EXAMPLES['dialog'] = example;
+    }
   });
 
   it('an unknown component shows the 404 page', async () => {
