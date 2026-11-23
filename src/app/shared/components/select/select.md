@@ -10,6 +10,20 @@ Componente de **select** leve, acessível e tematizável por **CSS Variables**. 
 
 ---
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar o Select em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/select/` |
+| Tipos | `model/interface/select/select-option.interface.ts`<br>`model/type/responsive-mode.type.ts` |
+| Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
+
+Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~943 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Recursos
 - Standalone (`@Component({ standalone: true })`), sem dependências de UI externas.
 - **Filtro (search)** opcional no painel, acento/maiúsculas-insensível.

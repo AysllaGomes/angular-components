@@ -33,6 +33,8 @@ jobs:
 
       # componentes funcionam fora deste projeto: toda var(--x) com valor padrão
       - run: npm run check:css
+      # "O que copiar" de cada documento bate com os imports de verdade
+      - run: npm run check:copy
 
       # testes antes do build: se falharem, nada é publicado
       - run: npm run test:ci

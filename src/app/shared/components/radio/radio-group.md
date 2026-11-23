@@ -15,6 +15,20 @@ Escolha **única** entre poucas opções visíveis. Construído sobre `<fieldset
 | Muitas opções, ou pouco espaço | `app-select` |
 | Liga/desliga uma configuração | `app-switch` |
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar o Radio group em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/radio/` |
+| Tipos | `model/interface/radio/radio-option.interface.ts` |
+| Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
+
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~475 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Uso
 
 ```ts

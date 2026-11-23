@@ -58,8 +58,8 @@ export const HOME: Dict = {
 
   'home.dev.copy.title': { pt: 'Copie o componente', en: 'Copy the component' },
   'home.dev.copy.text': {
-    pt: 'Cada um é standalone e vive na própria pasta. Sem pacote para instalar: copie, importe e use.',
-    en: 'Each one is standalone and lives in its own folder. No package to install: copy, import and use it.'
+    pt: 'Sem pacote para instalar. A documentação de cada um lista exatamente o que copiar, inclusive os componentes e tipos que ele usa.',
+    en: "No package to install. Each component's docs list exactly what to copy, including the components and types it uses."
   },
   'home.dev.theme.title': { pt: 'Ajuste o tema', en: 'Adjust the theme' },
   'home.dev.theme.text': {

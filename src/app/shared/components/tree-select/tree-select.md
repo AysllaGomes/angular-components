@@ -20,6 +20,21 @@ O componente **só apresenta**: recebe a árvore (ou uma função que busca os f
 
 ---
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/tree-select/` |
+| Componentes que ele usa | `components/checkbox/` |
+| Tipos | `model/interface/tree-select/tree-node.interface.ts`<br>`model/type/responsive-mode.type.ts` |
+| Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
+
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1583 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Dados
 
 ```ts

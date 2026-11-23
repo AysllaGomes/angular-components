@@ -56,6 +56,7 @@ Também aceita uma função que devolve um signal, para acompanhar o idioma do s
 - O CI roda tudo em cada push e pull request; o deploy só publica se passar.
 - O contraste de cores é conferido no navegador, nos dois temas (o jsdom não renderiza cores).
 - `npm run check:css` garante que toda variável CSS usada pelos componentes tem valor padrão (`var(--x, valor)`), então um componente copiado para outro projeto mantém o visual sem o `styles.sass` deste projeto; o CI roda antes dos testes. O tema global continua sobrescrevendo esses padrões (claro/escuro, cores de destaque).
+- A documentação de cada componente tem a seção **O que copiar**, gerada a partir dos imports de verdade (`npm run docs:copy`): a pasta dele, os componentes e tipos que ele usa e os estilos globais, quando há. `npm run check:copy` falha no CI se alguma seção ficar desatualizada.
 
 ## Licença
 

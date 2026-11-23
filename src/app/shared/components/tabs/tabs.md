@@ -14,6 +14,18 @@ import { TABS_IMPORTS } from 'src/app/shared/components/tabs';
 
 > **Tabs ou Stepper?** Abas são seções independentes, abertas em qualquer ordem. Para um fluxo com etapas em sequência, use o `app-stepper`.
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar as Tabs em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/tabs/` |
+
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 8 arquivos, ~414 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Uso
 
 ```html

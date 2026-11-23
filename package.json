@@ -12,7 +12,9 @@
     "release": "commit-and-tag-version",
     "release:rc": "commit-and-tag-version --prerelease rc",
     "serve:ssr:angular-components": "node dist/angular-components/server/server.mjs",
-    "check:css": "node scripts/check-css-fallbacks.mjs"
+    "check:css": "node scripts/check-css-fallbacks.mjs",
+    "docs:copy": "node scripts/copy-manifest.mjs",
+    "check:copy": "node scripts/copy-manifest.mjs --check"
   },
   "prettier": {
     "printWidth": 100,

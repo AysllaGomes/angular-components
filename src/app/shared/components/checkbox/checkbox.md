@@ -16,6 +16,18 @@ São dois componentes:
 
 ---
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar o Checkbox em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/checkbox/` |
+
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 5 arquivos, ~246 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Uso básico
 
 ```html

@@ -16,6 +16,24 @@ O estilo já entra pelo `styles.sass` (`@use './app/shared/components/tooltip/to
 
 > **Quando usar?** Para o nome de um botão só com ícone ou uma explicação curta e opcional. Nada essencial deve ficar só na dica: no celular não existe "passar o mouse". Para conteúdo com links ou botões, use um Dialog/ActionBar.
 
+<!-- copy:start · gerado por `npm run docs:copy` a partir dos imports; não edite à mão -->
+## O que copiar
+
+Para usar o Tooltip em outro projeto Angular, copie para dentro de uma pasta `shared/` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (`*.spec.ts`) e documentação são opcionais.
+
+| O quê | Copiar |
+|---|---|
+| O componente | `components/tooltip/` |
+
+Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
+
+```sass
+@use '<sua-pasta>/shared/components/tooltip/tooltip'
+```
+
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 3 arquivos, ~445 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+<!-- copy:end -->
+
 ## Uso
 
 ### Botão só com ícone: a dica é o nome
