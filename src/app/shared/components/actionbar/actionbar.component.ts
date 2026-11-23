@@ -14,6 +14,8 @@ import {
   viewChild
 } from '@angular/core';
 
+import { injectUiLabels } from '../../labels';
+
 import { ModalSession } from '../../a11y/modal-session';
 import { AbSize } from '../../model/type/ab-size.type';
 import { ButtonDirective } from '../button/button.directive';
@@ -32,6 +34,9 @@ type FixedSize = Exclude<AbSize, 'auto'>;
   host: { '[class.is-open]': 'opened()' }
 })
 export class ActionBarComponent implements OnDestroy {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   readonly title = input('ActionBar');
   /** Tamanho do painel. `auto` mede o conteúdo sempre que o painel é aberto. */
   readonly size = input<AbSize, AbSize | null | undefined>('auto', { transform: v => v ?? 'auto' });

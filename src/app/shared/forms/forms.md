@@ -2,6 +2,8 @@
 
 # Formulários: validação centralizada e máscaras
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Peças para formulários reativos (Angular Forms) que funcionam com todos os componentes da biblioteca (`app-select`, `app-tree-select`, `app-checkbox`, `app-radio-group`, `app-switch`) e com inputs nativos.
 
 ```ts
@@ -91,7 +93,7 @@ salvar(valor: typeof this.form.value) {
 
 - O pipe só mostra a mensagem depois que o campo foi **tocado** (a pessoa saiu dele) ou quando o formulário foi enviado com `appFormValidation`.
 - Com mais de um erro, `required` vem primeiro; os outros seguem a ordem do controle.
-- Mensagens padrão (i18n, `form.error.<tipo>`), com os dados do erro como parâmetros:
+- Mensagens padrão: `formErrors` de [`provideUiLabels`](../labels/labels.md) (padrão em inglês), com os dados do erro como parâmetros. Com `UI_LABELS_PT`:
 
 | Erro | Mensagem (PT) |
 |---|---|
@@ -110,7 +112,6 @@ salvar(valor: typeof this.form.value) {
 providers: [
   provideFormErrorMessages({
     required: 'Preencha este campo',                       // texto
-    cpf: 'meu.dicionario.cpf',                               // chave do i18n
     senhaFraca: 'Use {{min}}+ caracteres',                   // erro próprio, com parâmetro
     minlength: e => `Faltam ${e.requiredLength - e.actualLength} caracteres`, // função
   }),
@@ -180,6 +181,6 @@ Use o atributo nativo para mostrar o **formato** esperado — ele some ao digita
 | `required`      | `boolean`        | `false`       | Mostra "requerido" e marca `aria-required`. |
 | `hint`          | `string \| null` | `null`        | Texto de apoio (`aria-describedby`). |
 | `error`         | `string \| null` | `null`        | Erro: substitui a dica, deixa a borda vermelha e marca `aria-invalid`. |
-| `requiredLabel` | `string`         | `'requerido'` | Texto do indicador (i18n). |
+| `requiredLabel` | `string`         | `labels.required` | Texto do indicador (i18n). |
 
 O campo projetado continua **nativo** (`<input>`, `<textarea>` ou `<select>`): formulários, `appMask` e o *autocomplete* do navegador funcionam normalmente. Se o campo já tiver `id`, ele é mantido. Visual: tokens do Select (`--sel-*`).

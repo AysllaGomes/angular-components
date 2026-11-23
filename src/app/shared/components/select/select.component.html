@@ -70,7 +70,7 @@
             [placeholder]="filterPlaceholder()"
             [value]="filter()"
             (input)="filter.set($any($event.target).value); syncHighlight()"
-            aria-label="Filtrar opções" />
+            [attr.aria-label]="labels().filterOptions" />
           </div>
         }
         <!-- lista (opções com `group` ficam sob um título, em role="group") -->

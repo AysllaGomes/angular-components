@@ -2,6 +2,8 @@
 
 # Table (HTML + Sass, Standalone Angular)
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _chips_ e células customizáveis — tudo em **HTML + Sass**, exposta como componente **standalone** (sem framework de UI).
 
 ---
@@ -128,7 +130,7 @@ export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
 
 export interface TableAction<T = any> {
   kind: ActionKind;
-  label?: string;               // nome curto (dica e leitor de tela); padrão pelo kind
+  label?: string;               // nome curto (dica e leitor de tela); padrão: labels.table.action[kind]
   ariaLabel?: string;           // nome mais específico (ex.: "Editar Ana"); vence o label
   visible?: (row: T, index: number) => boolean;
   disabled?: (row: T, index: number) => boolean;   // continua focável (aria-disabled)
@@ -147,18 +149,18 @@ export interface TableAction<T = any> {
 | `selected`      | `any[]`                         |                                                                `[]`                                                                 | Seleção controlada: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`).                               |
 | `showActions`   | `boolean`                       |                                                               `false`                                                               | (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
 | `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
-| `actionsLabel`  | `string`                        |                                                              `'Ações'`                                                              | Nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio).                               |
+| `actionsLabel`  | `string`                        | `labels.table.actions` | Nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio).                               |
 | `actionsColWidth` | `string \| number`           |                                                                `44`                                                                 | Largura da coluna de ações (número = px).                                                                    |
 | `loading`       | `boolean`                       |                                                               `false`                                                               | Mostra estado de carregamento com skeleton.                                                                  |
 | `loadingRows`   | `number`                        |                                                                 `5`                                                                 | Quantidade de linhas do skeleton.                                                                            |
-| `emptyMessage`  | `string`                        |                                                    `Nenhum registro encontrado`                                                     | Mensagem para o estado vazio.                                                                                |
+| `emptyMessage`  | `string`                        | `labels.table.empty` | Mensagem para o estado vazio.                                                                                |
 | `error`         | `string \| null`               |                                                                `null`                                                               | Mensagem de falha ao buscar os dados: mostra o erro no lugar das linhas (anunciado). `loading` vence.        |
-| `retryLabel`    | `string \| null`               |                                                         `'Tentar novamente'`                                                          | Texto do botão que emite `retry`; `null` esconde o botão.                                                    |
+| `retryLabel`    | `string \| null`               | `labels.table.retry` | Texto do botão que emite `retry`; `null` esconde o botão.                                                    |
 | `bulkActions`   | `TableBulkAction[]`             |                                                                `[]`                                                                 | Botões da barra de ações em massa (exige `selectable`).                                                      |
-| `bulkActionsLabel` | `string`                     |                                                         `'Ações em massa'`                                                          | Nome do grupo da barra para leitor de tela.                                                                  |
-| `selectedCountLabel` | `(n: number) => string`    |                                                       `'1 selecionado'` / `'n selecionados'`                                        | Texto do contador (também anunciado a cada mudança).                                                         |
-| `clearSelectionLabel` | `string`                  |                                                          `'Limpar seleção'`                                                         | Texto do botão que limpa a seleção.                                                                          |
-| `noSelectionLabel` | `string`                     |                                                     `'Nenhuma linha selecionada'`                                                     | Texto sem seleção: visível com `bulkBarIdle="hint"`, senão só anunciado.                                                                                  |
+| `bulkActionsLabel` | `string`                     | `labels.table.bulkActions` | Nome do grupo da barra para leitor de tela.                                                                  |
+| `selectedCountLabel` | `(n: number) => string`    | `labels.table.selectedCount` | Texto do contador (também anunciado a cada mudança).                                                         |
+| `clearSelectionLabel` | `string`                  | `labels.clearSelection` | Texto do botão que limpa a seleção.                                                                          |
+| `noSelectionLabel` | `string`                     | `labels.table.noSelection` | Texto sem seleção: visível com `bulkBarIdle="hint"`, senão só anunciado.                                                                                  |
 | `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` |                                                              `'space'`                                                               | O que a barra mostra sem seleção (ver Ações em massa).                                                       |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
@@ -167,11 +169,11 @@ export interface TableAction<T = any> {
 | `pageSize`      | `number`                        |                                                                `10`                                                                 | Linhas por página; aceita `[(pageSize)]`.                                                                    |
 | `totalItems`    | `number \| null`                |                                                               `null`                                                                | Total no servidor (`paginate="server"`).                                                                     |
 | `pageSizeOptions` | `number[]`                    |                                                                `[]`                                                                 | Opções de "Itens por página"; vazio esconde o seletor.                                                       |
-| `rangeLabel`    | `(start, end, total) => string` |                                                     `'Mostrando 1–5 de 6'`                                                          | Texto do intervalo no rodapé (anunciado ao trocar de página).                                                |
-| `pageSizeLabel` | `string`                        |                                                         `'Itens por página'`                                                        | Rótulo do seletor.                                                                                           |
-| `paginationLabel` | `string`                      |                                                       `'Paginação da tabela'`                                                       | Nome da navegação de páginas.                                                                                |
-| `detailsLabel`  | `string`                        |                                                             `'Detalhes'`                                                            | Nome (para leitor de tela) da coluna do botão de detalhes.                                                   |
-| `expandLabel`   | `string`                        |                                                         `'Mostrar detalhes'`                                                        | Nome do botão que abre a linha de detalhes.                                                                  |
+| `rangeLabel`    | `(start, end, total) => string` | `labels.table.range` | Texto do intervalo no rodapé (anunciado ao trocar de página).                                                |
+| `pageSizeLabel` | `string`                        | `labels.table.pageSize` | Rótulo do seletor.                                                                                           |
+| `paginationLabel` | `string`                      | `labels.table.pagination` | Nome da navegação de páginas.                                                                                |
+| `detailsLabel`  | `string`                        | `labels.table.details` | Nome (para leitor de tela) da coluna do botão de detalhes.                                                   |
+| `expandLabel`   | `string`                        | `labels.table.expand` | Nome do botão que abre a linha de detalhes.                                                                  |
 
 ### Outputs
 | Evento            | Payload                                         | Quando dispara                                            |

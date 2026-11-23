@@ -15,7 +15,7 @@
       [attr.aria-labelledby]="labelId">
       <header class="ab__hdr">
         <h3 class="ab__title" [id]="labelId">{{ title() }}</h3>
-        <button #closeBtn type="button" class="ab__close" (click)="close()" aria-label="Fechar">×</button>
+        <button #closeBtn type="button" class="ab__close" (click)="close()" [attr.aria-label]="labels().close">×</button>
       </header>
       <div #content class="ab__content">
         <ng-content></ng-content>

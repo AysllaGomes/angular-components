@@ -2,6 +2,8 @@
 
 # TreeSelect
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Select cujas opções formam uma **árvore**: escolha um nó (com o caminho no campo) ou marque grupos inteiros com checkbox. Construído com **Angular Standalone + HTML/Sass**, sem dependências de UI libs.
 
 - **Arquivos:** `src/app/shared/components/tree-select/` (`tree-select.component.ts`, `tree-utils.ts`)
@@ -113,14 +115,14 @@ carregarCidades: TreeChildrenLoader = node =>
 | `expandedKeys`      | `string[]`                   | `[]`                       | Nós que começam abertos. |
 | `filterable`        | `boolean`                    | `false`                    | Campo de busca no painel (sem acento/caixa). |
 | `filterPlaceholder` | `string`                     | `''`                       | Placeholder da busca. |
-| `emptyMessage`      | `string`                     | `'Nenhum item encontrado'` | Texto quando a busca não encontra nada. |
+| `emptyMessage`      | `string`                     | `labels.treeSelect.empty` | Texto quando a busca não encontra nada. |
 | `label`             | `string`                     | `''`                       | Rótulo do campo. |
 | `placeholder`       | `string`                     | `''`                       | Texto com o campo vazio. |
 | `pathSeparator`     | `string`                     | `' › '`                    | Separador do caminho (`single`). |
 | `maxChips`          | `number`                     | `3`                        | Chips antes do "+N" (`checkbox`). |
 | `valueMode`         | `'leaves' \| 'summary'`      | `'leaves'`                 | `checkbox`: keys das folhas, ou grupo completo como uma key. |
 | `loadChildren`      | `(node) => Promise<TreeNode[]> \| Observable<TreeNode[]>` | `null` | Busca os filhos dos nós `leaf: false` ao abri-los. |
-| `loadingLabel`, `loadErrorLabel` | `string`        | PT-BR                      | Textos do carregamento e do erro (i18n). |
+| `loadingLabel`, `loadErrorLabel` | `string`        | `labels.treeSelect.loading` / `labels.treeSelect.loadError` | Textos do carregamento e do erro (i18n). |
 | `clearable`         | `boolean`                    | `false`                    | Botão "×" para limpar. |
 | `required`          | `boolean`                    | `false`                    | Mostra "requerido" e valida ao fechar/sair. |
 | `error` / `hint`    | `string \| null`             | `null`                     | Erro externo (prioridade) e texto de apoio. |
@@ -128,7 +130,7 @@ carregarCidades: TreeChildrenLoader = node =>
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'`| `'auto'`                   | `auto`: vira *sheet* (painel de baixo) até `sheetBreakpoint` px. |
 | `sheetBreakpoint`   | `number`                     | `560`                      | Largura máxima para o modo *sheet*. |
 | `panelTitle`        | `string \| null`             | `null`                     | Título da *sheet* (padrão: `label`). |
-| `requiredLabel`, `requiredError`, `clearAriaLabel`, `closeAriaLabel` | `string` | PT-BR | Textos para i18n. |
+| `requiredLabel`, `requiredError`, `clearAriaLabel`, `closeAriaLabel` | `string` | `labels.required` / `requiredError` / `clearSelection` / `close` | Textos para i18n. |
 
 ### Outputs
 

@@ -1,5 +1,7 @@
 # Dialog
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 Accessible, lightweight modal for confirmations and small forms. Built with **Angular Standalone + HTML/Sass**, no UI frameworks.
 
 - **File:** `src/app/shared/components/dialog/dialog.component.ts`  

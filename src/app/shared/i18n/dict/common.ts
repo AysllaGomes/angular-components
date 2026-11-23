@@ -92,18 +92,7 @@ export const COMMON: Dict = {
     pt: 'Campo obrigatório',
     en: 'This field is required'
   },
-  // mensagens de erro padrão (FormErrorsService / pipe fieldError); {{x}} = dados do erro
-  'form.error.required':     { pt: 'Campo obrigatório', en: 'This field is required' },
-  'form.error.email':        { pt: 'E-mail inválido', en: 'Invalid email' },
-  'form.error.minlength':    { pt: 'Mínimo de {{requiredLength}} caracteres', en: 'At least {{requiredLength}} characters' },
-  'form.error.maxlength':    { pt: 'Máximo de {{requiredLength}} caracteres', en: 'At most {{requiredLength}} characters' },
-  'form.error.min':          { pt: 'O mínimo é {{min}}', en: 'The minimum is {{min}}' },
-  'form.error.max':          { pt: 'O máximo é {{max}}', en: 'The maximum is {{max}}' },
-  'form.error.pattern':      { pt: 'Formato inválido', en: 'Invalid format' },
-  'form.error.cpf':          { pt: 'CPF inválido', en: 'Invalid CPF' },
-  'form.error.cnpj':         { pt: 'CNPJ inválido', en: 'Invalid CNPJ' },
-  'form.error.cpfCnpj':      { pt: 'CPF ou CNPJ inválido', en: 'Invalid CPF or CNPJ' },
-  'form.error.invalid':      { pt: 'Valor inválido', en: 'Invalid value' },
+  // mensagens de erro dos formulários: vêm de provideUiLabels (labels), não daqui
 
   'form.hint': {
     pt: 'Texto de apoio exibido abaixo do campo.',

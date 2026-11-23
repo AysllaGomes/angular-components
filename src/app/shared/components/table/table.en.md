@@ -2,6 +2,8 @@
 
 # Table (Standalone, HTML + Sass)
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 A **customizable table** with optional row selection (checkbox), **actions column** (declarative via `[actions]` or via `appActions` slot), **chips**, and **custom cells** — all in **plain HTML + Sass** as a **standalone Angular** component.
 
 ---
@@ -56,18 +58,18 @@ export interface ColumnDef<T = any> {
 | `rowKey`         | `keyof T \| (row, i) => unknown` |            —            | Stable row id. With it, `selected` holds **keys** and survives sorting/pagination.    |
 | `selected`       | `any[]`                          |          `[]`           | Controlled selection: keys (with `rowKey`) or indices into `data` (without it).       |
 | `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
-| `actionsLabel`   | `string`                         |        `'Ações'`        | Screen-reader name of the actions column (its header is visually empty).              |
+| `actionsLabel`   | `string`                         | `labels.table.actions` | Screen-reader name of the actions column (its header is visually empty).              |
 | `actionsColWidth`| `string \| number`               |          `44`           | Width of the actions column (number = px).                                            |
 | `loading`        | `boolean`                        |         `false`         | Shows skeleton loading state.                                                         |
 | `loadingRows`    | `number`                         |           `5`           | Number of skeleton rows.                                                              |
-| `emptyMessage`   | `string`                         | `No records to display` | Empty-state message.                                                                  |
+| `emptyMessage`   | `string`                         | `labels.table.empty` | Empty-state message.                                                                  |
 | `error`          | `string \| null`                |         `null`          | Load failure message: shown instead of the rows (announced). `loading` wins.          |
-| `retryLabel`     | `string \| null`                | `'Tentar novamente'`    | Text of the button that emits `retry`; `null` hides it.                               |
+| `retryLabel`     | `string \| null`                | `labels.table.retry` | Text of the button that emits `retry`; `null` hides it.                               |
 | `bulkActions`    | `TableBulkAction[]`              |          `[]`           | Buttons of the bulk actions bar (requires `selectable`).                              |
-| `bulkActionsLabel` | `string`                       | `'Ações em massa'`      | Screen-reader name of the bar.                                                        |
-| `selectedCountLabel` | `(n: number) => string`      | `'n selecionado(s)'`    | Counter text (also announced on every change).                                        |
-| `clearSelectionLabel` | `string`                    | `'Limpar seleção'`      | Text of the button that clears the selection.                                         |
-| `noSelectionLabel` | `string`                       | `'Nenhuma linha selecionada'` | Text without a selection: visible with `bulkBarIdle="hint"`, otherwise only announced.                                                    |
+| `bulkActionsLabel` | `string`                       | `labels.table.bulkActions` | Screen-reader name of the bar.                                                        |
+| `selectedCountLabel` | `(n: number) => string`      | `labels.table.selectedCount` | Counter text (also announced on every change).                                        |
+| `clearSelectionLabel` | `string`                    | `labels.clearSelection` | Text of the button that clears the selection.                                         |
+| `noSelectionLabel` | `string`                       | `labels.table.noSelection` | Text without a selection: visible with `bulkBarIdle="hint"`, otherwise only announced.                                                    |
 | `bulkBarIdle`   | `'space' \| 'hint' \| 'hidden'` | `'space'`        | What the bar shows without a selection (see Bulk actions).                             |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
@@ -76,11 +78,11 @@ export interface ColumnDef<T = any> {
 | `pageSize`       | `number`                         |          `10`           | Rows per page; supports `[(pageSize)]`.                                               |
 | `totalItems`     | `number \| null`                 |        `null`           | Server-side total (`paginate="server"`).                                              |
 | `pageSizeOptions` | `number[]`                      |          `[]`           | "Itens por página" options; empty hides the selector.                                 |
-| `rangeLabel`     | `(start, end, total) => string`  | `'Mostrando 1–5 de 6'`  | Footer range text (announced on page change).                                         |
-| `pageSizeLabel`  | `string`                         | `'Itens por página'`    | Selector label.                                                                       |
-| `paginationLabel` | `string`                        | `'Paginação da tabela'` | Name of the page navigation.                                                          |
-| `detailsLabel`   | `string`                         | `'Detalhes'`            | Screen-reader name of the details button column.                                      |
-| `expandLabel`    | `string`                         | `'Mostrar detalhes'`    | Name of the button that opens the details row.                                        |
+| `rangeLabel`     | `(start, end, total) => string`  | `labels.table.range` | Footer range text (announced on page change).                                         |
+| `pageSizeLabel`  | `string`                         | `labels.table.pageSize` | Selector label.                                                                       |
+| `paginationLabel` | `string`                        | `labels.table.pagination` | Name of the page navigation.                                                          |
+| `detailsLabel`   | `string`                         | `labels.table.details` | Screen-reader name of the details button column.                                      |
+| `expandLabel`    | `string`                         | `labels.table.expand` | Name of the button that opens the details row.                                        |
 
 ### Outputs
 | Output           | Payload                                   | When                                                  |
@@ -318,7 +320,7 @@ export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
 
 export interface TableAction<T = any> {
   kind: ActionKind;
-  label?: string;                       // short name (tooltip and screen reader); defaults to a Portuguese name per kind
+  label?: string;                       // short name (tooltip and screen reader); defaults to `labels.table.action[kind]` (English: Edit, Delete...)
   ariaLabel?: string;                   // more specific name (e.g. "Edit Ana"); wins over label
   iconUrl?: string;                     // optional external icon (e.g. /icons/svg/pen-box.svg)
   visible?: (row: T, index: number) => boolean;

@@ -2,6 +2,8 @@
 
 # TreeSelect
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 A select whose options form a **tree**: pick one node (with its path in the field) or check whole groups with checkboxes. Built with **Angular Standalone + HTML/Sass**, no UI libraries.
 
 - **Files:** `src/app/shared/components/tree-select/` (`tree-select.component.ts`, `tree-utils.ts`)
@@ -112,11 +114,11 @@ loadCities: TreeChildrenLoader = node =>
 | `leafOnly`          | `boolean`                    | `false`                    | `single`: only leaves can be picked. |
 | `valueMode`         | `'leaves' \| 'summary'`      | `'leaves'`                 | `checkbox`: leaf keys, or a complete group as one key. |
 | `loadChildren`      | `(node) => Promise<TreeNode[]> \| Observable<TreeNode[]>` | `null` | Fetches the children of `leaf: false` nodes when opened. |
-| `loadingLabel`, `loadErrorLabel` | `string`        | PT-BR                      | Loading and error texts (i18n). |
+| `loadingLabel`, `loadErrorLabel` | `string`        | `labels.treeSelect.loading` / `labels.treeSelect.loadError` | Loading and error texts (i18n). |
 | `expandedKeys`      | `string[]`                   | `[]`                       | Nodes open at start. |
 | `filterable`        | `boolean`                    | `false`                    | Search box in the panel (accent/case-insensitive). |
 | `filterPlaceholder` | `string`                     | `''`                       | Search placeholder. |
-| `emptyMessage`      | `string`                     | `'Nenhum item encontrado'` | Text when the search finds nothing. |
+| `emptyMessage`      | `string`                     | `labels.treeSelect.empty` | Text when the search finds nothing. |
 | `label`             | `string`                     | `''`                       | Field label. |
 | `placeholder`       | `string`                     | `''`                       | Text when empty. |
 | `pathSeparator`     | `string`                     | `' › '`                    | Path separator (`single`). |
@@ -128,7 +130,7 @@ loadCities: TreeChildrenLoader = node =>
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'`| `'auto'`                   | `auto`: becomes a bottom *sheet* up to `sheetBreakpoint` px. |
 | `sheetBreakpoint`   | `number`                     | `560`                      | Max width for the *sheet* mode. |
 | `panelTitle`        | `string \| null`             | `null`                     | *Sheet* title (default: `label`). |
-| `requiredLabel`, `requiredError`, `clearAriaLabel`, `closeAriaLabel` | `string` | PT-BR | Texts for i18n. |
+| `requiredLabel`, `requiredError`, `clearAriaLabel`, `closeAriaLabel` | `string` | `labels.required` / `requiredError` / `clearSelection` / `close` | Texts for i18n. |
 
 ### Outputs
 

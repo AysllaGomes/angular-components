@@ -37,6 +37,18 @@
 
 ---
 
+## Textos e idiomas
+
+Os componentes não dependem de nada além do Angular, nem de biblioteca de i18n. Os textos próprios deles ("Fechar", "Selecionar tudo", setas da paginação, mensagens de erro de formulário...) são **em inglês por padrão** e mudam num lugar só:
+
+```ts
+// app.config.ts
+provideUiLabels(UI_LABELS_PT)                               // tudo em português
+provideUiLabels({ table: { empty: 'Nada por aqui ainda' } })  // ou só alguns textos
+```
+
+Também aceita uma função que devolve um signal, para acompanhar o idioma do seu app ao vivo. Os inputs de cada componente continuam vencendo, por instância. Veja [Textos dos componentes](src/app/shared/labels/labels.md).
+
 ## Qualidade
 
 - `npm run test:ci` roda os testes unitários (Vitest) **e checagens automáticas de acessibilidade** ([axe-core](https://github.com/dequelabs/axe-core)) em cada componente, nos estados que importam (aberto, com erro, desabilitado...). Veja `src/app/shared/components/a11y.spec.ts`.

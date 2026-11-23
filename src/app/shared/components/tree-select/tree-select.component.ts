@@ -18,6 +18,8 @@ import {
   viewChild,
   WritableSignal
 } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, firstValueFrom, isObservable } from 'rxjs';
 
@@ -74,6 +76,9 @@ export interface TreeRow<T = unknown> {
   ]
 })
 export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   // ---- API
   readonly label = input('');
   readonly panelTitle = input<string | null>(null);
@@ -93,28 +98,35 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
 
   /** carrega os filhos dos nós `leaf: false` ao abri-los (Promise ou Observable) */
   readonly loadChildren = input<TreeChildrenLoader<T> | null>(null);
-  readonly loadingLabel = input('Carregando…');
-  readonly loadErrorLabel = input('Não foi possível carregar. Abra de novo para tentar.');
+  readonly loadingLabelInput = input<string | undefined>(undefined, { alias: 'loadingLabel' });
+  readonly loadingLabel = computed(() => this.loadingLabelInput() ?? this.labels().treeSelect.loading);
+  readonly loadErrorLabelInput = input<string | undefined>(undefined, { alias: 'loadErrorLabel' });
+  readonly loadErrorLabel = computed(() => this.loadErrorLabelInput() ?? this.labels().treeSelect.loadError);
 
   readonly filterable = input(false, { transform: booleanAttribute });
   readonly filterPlaceholder = input('');
-  readonly emptyMessage = input('Nenhum item encontrado');
+  readonly emptyMessageInput = input<string | undefined>(undefined, { alias: 'emptyMessage' });
+  readonly emptyMessage = computed(() => this.emptyMessageInput() ?? this.labels().treeSelect.empty);
 
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
-  readonly requiredLabel = input('requerido');
-  readonly requiredError = input('Campo obrigatório');
+  readonly requiredLabelInput = input<string | undefined>(undefined, { alias: 'requiredLabel' });
+  readonly requiredLabel = computed(() => this.requiredLabelInput() ?? this.labels().required);
+  readonly requiredErrorInput = input<string | undefined>(undefined, { alias: 'requiredError' });
+  readonly requiredError = computed(() => this.requiredErrorInput() ?? this.labels().requiredError);
   readonly autoValidate = input(true);
   /** erro externo (ex.: do formulário); tem prioridade sobre a validação interna */
   readonly error = input<string | null>(null);
   readonly hint = input<string | null>(null);
 
   readonly clearable = input(false, { transform: booleanAttribute });
-  readonly clearAriaLabel = input('Limpar seleção');
+  readonly clearAriaLabelInput = input<string | undefined>(undefined, { alias: 'clearAriaLabel' });
+  readonly clearAriaLabel = computed(() => this.clearAriaLabelInput() ?? this.labels().clearSelection);
 
   readonly responsive = input<ResponsiveMode>('auto');
   readonly sheetBreakpoint = input(560);
-  readonly closeAriaLabel = input('Fechar');
+  readonly closeAriaLabelInput = input<string | undefined>(undefined, { alias: 'closeAriaLabel' });
+  readonly closeAriaLabel = computed(() => this.closeAriaLabelInput() ?? this.labels().close);
 
   /** two-way `[(value)]`; com formulários, use `formControl`/`ngModel` */
   readonly value = input<TreeSelectValue>(null);

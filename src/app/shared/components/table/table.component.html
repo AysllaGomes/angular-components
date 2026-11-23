@@ -34,7 +34,7 @@
             [indeterminate]="someSelected"
             [disabled]="state() !== 'data'"
             (change)="toggleAll($any($event.target).checked)"
-            aria-label="Selecionar tudo">
+            [attr.aria-label]="labels().table.selectAll">
           </th>
         }
 
@@ -96,7 +96,7 @@
                   type="checkbox"
                   [checked]="isSelected(row, i)"
                   (change)="toggleRow(row, i, $any($event.target).checked)"
-                  aria-label="Selecionar linha">
+                  [attr.aria-label]="labels().table.selectRow">
                 </td>
               }
               @if (hasHidden()) {

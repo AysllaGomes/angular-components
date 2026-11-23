@@ -1,13 +1,13 @@
 import { Injectable, InjectionToken, Provider, inject } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 
-import { I18nService } from '../services/i18n.service';
+import { ErrorMessage, injectUiLabels } from '../labels';
 
 /**
- * Mensagem de um tipo de erro: chave do i18n, texto literal (com `{{param}}`) ou
- * função que recebe o valor do erro (ex.: `{ requiredLength: 3, actualLength: 1 }`).
+ * Mensagem de um tipo de erro: texto (com `{{param}}`) ou função que recebe o valor
+ * do erro (ex.: `{ requiredLength: 3, actualLength: 1 }`). O tipo vem de `labels`.
  */
-export type ErrorMessage = string | ((error: any) => string);
+export type { ErrorMessage };
 
 export const FORM_ERROR_MESSAGES = new InjectionToken<Record<string, ErrorMessage>>('FORM_ERROR_MESSAGES');
 
@@ -32,12 +32,12 @@ const PRIORITY = ['required'];
 
 /**
  * Transforma os erros de um controle numa mensagem (a do erro mais importante).
- * Padrão: chave `form.error.<tipo>` do i18n, com os dados do erro como parâmetros.
- * Erro sem mensagem cadastrada → `form.error.invalid` ("Valor inválido").
+ * Ordem: `provideFormErrorMessages` > `formErrors` dos textos (`provideUiLabels`,
+ * padrão em inglês) > `formErrors.invalid` para erro sem mensagem cadastrada.
  */
 @Injectable({ providedIn: 'root' })
 export class FormErrorsService {
-  private readonly i18n = inject(I18nService);
+  private readonly labels = injectUiLabels();
   private readonly custom = inject(FORM_ERROR_MESSAGES, { optional: true }) ?? {};
 
   messageFor(errors: ValidationErrors | null | undefined): string | null {
@@ -50,11 +50,10 @@ export class FormErrorsService {
 
   private resolve(key: string, error: unknown): string {
     const params = error && typeof error === 'object' ? (error as Record<string, string | number>) : undefined;
-    const custom = this.custom[key];
-    if (typeof custom === 'function') return custom(error);
-    if (typeof custom === 'string') return this.i18n.has(custom) ? this.i18n.t(custom, params) : this.interpolate(custom, params);
-    const own = `form.error.${key}`;
-    return this.i18n.t(this.i18n.has(own) ? own : 'form.error.invalid', params);
+    const messages = this.labels().formErrors;
+    const msg = this.custom[key] ?? messages[key] ?? messages['invalid'];
+    if (typeof msg === 'function') return msg(error);
+    return this.interpolate(msg, params);
   }
 
   private interpolate(text: string, params?: Record<string, string | number>) {

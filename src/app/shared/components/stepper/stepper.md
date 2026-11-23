@@ -2,6 +2,8 @@
 
 # Stepper (HTML + Sass, Standalone Angular)
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Um **componente de etapas** leve e acessível, implementado em **HTML + Sass**, exposto como Angular **Standalone**. Sem dependência de UI framework.
 
 ---
@@ -77,8 +79,8 @@ goTo(i: number) { this.current = i; }
 | `clickable`   | `boolean`  | `true` | Habilita clique para navegar (até `current + 1`). |
 | `showIndex`   | `boolean`  | `true` | Exibe número dentro do bullet nas etapas não concluídas. |
 | `showCaption` | `boolean`  | `true` | Exibe legenda abaixo do rótulo. |
-| `ariaLabel`   | `string`   | `'Etapas do fluxo'` | Nome da navegação para leitores de tela. |
-| `doneLabel`   | `string`   | `'concluída'` | Texto (só leitor de tela) das etapas concluídas. |
+| `ariaLabel`   | `string`   | `labels.stepper.label` | Nome da navegação para leitores de tela. |
+| `doneLabel`   | `string`   | `labels.stepper.done` | Texto (só leitor de tela) das etapas concluídas. |
 
 ### Output
 

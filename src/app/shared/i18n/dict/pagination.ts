@@ -13,13 +13,6 @@ export const PAGINATION: Dict = {
   'pagination.range':       { pt: 'Mostrando {{start}}–{{end}} de {{total}}',
     en: 'Showing {{start}}–{{end}} of {{total}}' },
 
-  // (opcional) se quiser usar no próprio componente de paginação
-  'pagination.first':       { pt: 'Primeira', en: 'First' },
-  'pagination.prev':        { pt: 'Anterior', en: 'Prev' },
-  'pagination.next':        { pt: 'Próxima',  en: 'Next' },
-  'pagination.last':        { pt: 'Última',   en: 'Last' },
-  'pagination.status':      { pt: 'Página {{page}} de {{total}}', en: 'Page {{page}} of {{total}}' },
-  'pagination.nav':         { pt: 'Paginação', en: 'Pagination' },
   'pagination.nav.demo':    { pt: 'Paginação de exemplo', en: 'Example pagination' },
   'pagination.nav.compact': { pt: 'Paginação compacta', en: 'Compact pagination' },
   'pagination.nav.table':   { pt: 'Paginação da tabela', en: 'Table pagination' },

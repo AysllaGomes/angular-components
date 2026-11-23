@@ -15,6 +15,8 @@ import {
   viewChild
 } from '@angular/core';
 
+import { injectUiLabels } from '../../labels';
+
 import { ModalSession } from '../../a11y/modal-session';
 import { DialogSize } from '../../model/type/dialog-size.type';
 
@@ -32,6 +34,9 @@ type FixedSize = Exclude<DialogSize, 'auto'>;
   host: { '[class.is-open]': 'opened()' }
 })
 export class DialogComponent implements OnDestroy {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   // API
   readonly title = input('Dialog');
   /** Tamanho do dialog. `auto` mede o conteúdo sempre que o dialog é aberto. */

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, signal } from '@angular/core';
+// os testes conferem os textos em português (o padrão dos componentes é inglês)
+import { UI_LABELS_PT, provideUiLabels } from '../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { expectNoA11yViolations } from '../../../testing/axe';
@@ -186,7 +188,7 @@ describe('Acessibilidade (axe-core)', () => {
     restoreLayout = stubLayout();
     await TestBed.configureTestingModule({
       imports: [GalleryComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(GalleryComponent);
     el = fixture.nativeElement;

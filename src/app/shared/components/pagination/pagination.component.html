@@ -2,7 +2,7 @@
   class="pg"
   [class.pg--compact]="compact() === true"
   [class.pg--auto]="compact() === 'auto'"
-  [attr.aria-label]="ariaLabel() || ('pagination.nav' | t)"
+  [attr.aria-label]="ariaLabel() || labels().pagination.nav"
   (keydown)="onKeydown($event)">
   @if (showFirstLast()) {
     <button
@@ -11,7 +11,7 @@
       type="button"
       (click)="first()"
       [disabled]="!canPrev"
-      aria-label="{{ 'pagination.first' | t }}">
+      [attr.aria-label]="labels().pagination.first">
       «
     </button>
   }
@@ -22,13 +22,13 @@
     type="button"
     (click)="prev()"
     [disabled]="!canPrev"
-    aria-label="{{ 'pagination.prev' | t }}">
+    [attr.aria-label]="labels().pagination.prev">
     ‹
   </button>
 
   <!-- modo compacto: texto no lugar dos números (escondido por CSS fora dele) -->
   <span class="pg-status" aria-live="polite">
-    {{ 'pagination.status' | t:{ page: current + 1, total: pageCount } }}
+    {{ labels().pagination.status(current + 1, pageCount) }}
   </span>
 
   <div class="pg-pages">
@@ -50,7 +50,7 @@
     type="button"
     (click)="next()"
     [disabled]="!canNext"
-    aria-label="{{ 'pagination.next' | t }}">
+    [attr.aria-label]="labels().pagination.next">
     ›
   </button>
 
@@ -61,7 +61,7 @@
       type="button"
       (click)="last()"
       [disabled]="!canNext"
-      aria-label="{{ 'pagination.last' | t }}">
+      [attr.aria-label]="labels().pagination.last">
       »
     </button>
   }

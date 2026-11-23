@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection } from '@angular/core';
+// os testes conferem os textos em português (o padrão dos componentes é inglês)
+import { UI_LABELS_PT, provideUiLabels } from '../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -13,12 +15,12 @@ import { FormFieldComponent } from '../components/form-field/form-field.componen
 describe('FormErrorsService', () => {
   const setup = (custom?: Record<string, any>) => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection(), ...(custom ? [provideFormErrorMessages(custom)] : [])]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT), ...(custom ? [provideFormErrorMessages(custom)] : [])]
     });
     return TestBed.inject(FormErrorsService);
   };
 
-  it('uses the i18n message of the error, with its data as params', () => {
+  it('uses the labels message of the error, with its data as params', () => {
     const svc = setup();
     expect(svc.messageFor({ cpf: true })).toBe('CPF inválido');
     expect(svc.messageFor({ minlength: { requiredLength: 3, actualLength: 1 } })).toBe('Mínimo de 3 caracteres');
@@ -31,15 +33,14 @@ describe('FormErrorsService', () => {
     expect(svc.messageFor({ algoNovo: true })).toBe('Valor inválido');
   });
 
-  it('messages can be overridden or added in one place (text, i18n key or function)', () => {
+  it('messages can be overridden or added in one place (text or function)', () => {
     const svc = setup({
       required: 'Preencha este campo',
-      cpf: 'form.error.cnpj',
       senhaFraca: 'Use {{min}}+ caracteres',
       minlength: (e: any) => `Faltam ${e.requiredLength - e.actualLength}`,
     });
     expect(svc.messageFor({ required: true })).toBe('Preencha este campo');
-    expect(svc.messageFor({ cpf: true })).toBe('CNPJ inválido');
+    expect(svc.messageFor({ cpf: true })).toBe('CPF inválido'); // não sobrescrito: vem dos textos
     expect(svc.messageFor({ senhaFraca: { min: 8 } })).toBe('Use 8+ caracteres');
     expect(svc.messageFor({ minlength: { requiredLength: 5, actualLength: 2 } })).toBe('Faltam 3');
   });
@@ -91,7 +92,7 @@ describe('Forms: fieldError, appFormValidation, appMask and app-form-field toget
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(FormHostComponent);
     host = fixture.componentInstance;

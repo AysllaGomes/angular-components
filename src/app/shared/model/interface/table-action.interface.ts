@@ -2,7 +2,7 @@ import { ActionKind } from '../type/action-kind.type';
 
 export interface TableAction<T = any> {
   kind: ActionKind;                     // 'edit', 'delete', 'view', 'download'...
-  label?: string;                       // nome curto (dica e leitor de tela); padrão em PT pelo kind
+  label?: string;                       // nome curto (dica e leitor de tela); padrão: labels.table.action[kind] (provideUiLabels)
   ariaLabel?: string;                   // nome mais específico (ex.: "Editar Ana"); vence o label
   visible?: (row: T, index: number) => boolean;   // exibir por linha?
   disabled?: (row: T, index: number) => boolean;  // desabilitar por linha? (continua focável, com aria-disabled)

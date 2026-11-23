@@ -2,6 +2,8 @@
 
 # Radio group
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 **Single** choice among a few visible options. Built on a **native** `<fieldset>` + `<legend>` and `<input type="radio">`, using the Checkbox color tokens (`--cb-*`).
 
 - **File:** `src/app/shared/components/radio/radio-group.component.ts`
@@ -45,7 +47,7 @@ plans: RadioOption<string>[] = [
 | `disabled`      | `boolean`                    | `false`       | Disables the whole group (the form can too). |
 | `required`      | `boolean`                    | `false`       | Shows "required" and passes `required`. To validate, use `Validators.required`. |
 | `hint` / `error`| `string \| null`             | `null`        | Helper text / error (error sets `aria-invalid`). |
-| `requiredLabel` | `string`                     | `'requerido'` | Indicator text (i18n). |
+| `requiredLabel` | `string`                     | `labels.required` | Indicator text (i18n). |
 
 ### Outputs
 

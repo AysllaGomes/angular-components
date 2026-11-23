@@ -9,6 +9,8 @@ import {
   output,
   signal
 } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { RadioOption } from '../../model/interface/radio/radio-option.interface';
@@ -33,6 +35,9 @@ let uid = 0;
   ]
 })
 export class RadioGroupComponent<T = any> implements ControlValueAccessor {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   /** nome do grupo (vira o `<legend>`) */
   readonly label = input('');
   readonly options = input.required<RadioOption<T>[], RadioOption<T>[] | null | undefined>({ transform: v => v ?? [] });
@@ -42,7 +47,8 @@ export class RadioGroupComponent<T = any> implements ControlValueAccessor {
 
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
-  readonly requiredLabel = input('requerido');
+  readonly requiredLabelInput = input<string | undefined>(undefined, { alias: 'requiredLabel' });
+  readonly requiredLabel = computed(() => this.requiredLabelInput() ?? this.labels().required);
   readonly hint = input<string | null>(null);
   /** mensagem de erro (ex.: do estado do formulário); marca `aria-invalid` */
   readonly error = input<string | null>(null);

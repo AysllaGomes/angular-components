@@ -33,9 +33,21 @@
 | **Tooltip (`appTooltip`)** | Hint on hover/keyboard focus: as the name of icon-only buttons (`tooltipAsLabel`) or as a description, flips side and stays inside the window, WCAG 1.4.13 (Esc closes, hoverable, persistent). | [EN](src/app/shared/components/tooltip/tooltip.en.md) · [PT-BR](src/app/shared/components/tooltip/tooltip.md) | `/demo#tooltip` |
 | **Select**               | Accessible select with optional filter bar and inline clear (“×”), mobile-friendly panel, and i18n-ready labels/errors.                          | [EN](src/app/shared/components/select/select.en.md) · [PT-BR](src/app/shared/components/select/select.md)                 | `/demo#select`     |
 | **TreeSelect**           | Select whose options form a tree: single (shows the path, optional `leafOnly`) or checkbox mode (group/partial selection, value = leaf keys or summarized groups), children loaded on demand (`loadChildren`), filter, WAI-ARIA tree keyboard, forms. | [EN](src/app/shared/components/tree-select/tree-select.en.md) · [PT-BR](src/app/shared/components/tree-select/tree-select.md) | `/demo#treeselect` |
-| **Forms (validation & masks)** | `AppValidators` (CPF, CNPJ incl. alphanumeric), centralized i18n error messages (`fieldError` pipe, `provideFormErrorMessages`), `appFormValidation` (focus first error on submit), `appMask` input masks and `app-form-field`. | [EN](src/app/shared/forms/forms.en.md) · [PT-BR](src/app/shared/forms/forms.md) | `/demo#validation` |
+| **Forms (validation & masks)** | `AppValidators` (CPF, CNPJ incl. alphanumeric), centralized error messages (`fieldError` pipe, `provideFormErrorMessages`), `appFormValidation` (focus first error on submit), `appMask` input masks and `app-form-field`. | [EN](src/app/shared/forms/forms.en.md) · [PT-BR](src/app/shared/forms/forms.md) | `/demo#validation` |
 
 ---
+
+## Texts and languages
+
+The components depend on nothing but Angular, not even an i18n library. Their own texts ("Close", "Select all", pagination arrows, form error messages...) are **English by default** and change in one place:
+
+```ts
+// app.config.ts
+provideUiLabels(UI_LABELS_PT)                            // everything in Portuguese
+provideUiLabels({ table: { empty: 'Nothing here yet' } })  // or only some texts
+```
+
+It also accepts a function returning a signal, to follow your app language live. Each component's inputs still win per instance. See [Component texts](src/app/shared/labels/labels.en.md).
 
 ## Quality
 

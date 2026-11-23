@@ -2,6 +2,8 @@
 
 # Toast (Standalone, HTML + Sass)
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 A lightweight, accessible **toast** solution built from **service + container**. The **service** manages the queue (signals) and the **container** renders the stack. No UI framework.
 
 ---

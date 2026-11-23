@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, signal } from '@angular/core';
+// os testes conferem os textos em português (o padrão dos componentes é inglês)
+import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -64,7 +66,7 @@ describe('TreeSelectComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(HostComponent);
     host = fixture.componentInstance;
@@ -296,7 +298,7 @@ class ReactiveHostComponent {
 
 describe('TreeSelectComponent with forms', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)] });
   });
 
   it('reads/writes the control, validates required on close and follows disable()', async () => {

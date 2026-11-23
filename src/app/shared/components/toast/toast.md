@@ -2,6 +2,8 @@
 
 # Toast (Standalone, HTML + Sass)
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Componente de **toasts** leve e acessível: **serviço + container**. O **serviço** gerencia a fila (signals) e o **container** apenas renderiza a pilha. Sem framework de UI.
 
 ---

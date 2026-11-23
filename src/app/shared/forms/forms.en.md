@@ -2,6 +2,8 @@
 
 # Forms: centralized validation and input masks
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 Pieces for reactive forms (Angular Forms) that work with every component of the library (`app-select`, `app-tree-select`, `app-checkbox`, `app-radio-group`, `app-switch`) and with native inputs.
 
 ```ts
@@ -91,7 +93,7 @@ save(value: typeof this.form.value) {
 
 - The pipe only shows a message after the field was **touched** (the user left it) or when the form was submitted through `appFormValidation`.
 - With more than one error, `required` comes first; the rest follow the control order.
-- Default messages (i18n, `form.error.<type>`), with the error data as params:
+- Default messages: `formErrors` from [`provideUiLabels`](../labels/labels.en.md) (English by default), with the error data as params:
 
 | Error | Message (EN) |
 |---|---|
@@ -110,7 +112,6 @@ save(value: typeof this.form.value) {
 providers: [
   provideFormErrorMessages({
     required: 'Please fill in this field',                  // text
-    cpf: 'my.dictionary.cpf',                               // i18n key
     weakPassword: 'Use {{min}}+ characters',                 // custom error, with param
     minlength: e => `${e.requiredLength - e.actualLength} characters to go`, // function
   }),
@@ -180,6 +181,6 @@ Use the native attribute to show the expected **format** — it disappears while
 | `required`      | `boolean`        | `false`       | Shows "required" and sets `aria-required`. |
 | `hint`          | `string \| null` | `null`        | Helper text (`aria-describedby`). |
 | `error`         | `string \| null` | `null`        | Error: replaces the hint, turns the border red and sets `aria-invalid`. |
-| `requiredLabel` | `string`         | `'requerido'` | Indicator text (i18n). |
+| `requiredLabel` | `string`         | `labels.required` | Indicator text (i18n). |
 
 The projected field stays **native** (`<input>`, `<textarea>` or `<select>`): forms, `appMask` and browser *autocomplete* work as usual. An existing `id` on the field is kept. Look: Select tokens (`--sel-*`).

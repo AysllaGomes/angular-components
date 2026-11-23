@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output , computed } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 
 import { StepState } from '../../model/type/step-state.type';
 
@@ -13,12 +15,17 @@ import { StepItem } from '../../model/interface/step-item.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepperComponent {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   readonly steps = input.required<StepItem[]>();
 
   /** nome da navegação para leitores de tela */
-  readonly ariaLabel = input('Etapas do fluxo');
+  readonly ariaLabelInput = input<string | undefined>(undefined, { alias: 'ariaLabel' });
+  readonly ariaLabel = computed(() => this.ariaLabelInput() ?? this.labels().stepper.label);
   /** texto (só para leitor de tela) anexado às etapas concluídas */
-  readonly doneLabel = input('concluída');
+  readonly doneLabelInput = input<string | undefined>(undefined, { alias: 'doneLabel' });
+  readonly doneLabel = computed(() => this.doneLabelInput() ?? this.labels().stepper.done);
 
   /** Índice base-0 da etapa ativa */
   readonly current = input(0);

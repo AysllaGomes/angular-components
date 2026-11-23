@@ -2,6 +2,8 @@
 
 # ActionBar
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 Right‑side sheet with header, scrollable content and footer actions. It inherits the current theme and respects the **accent**.
 
 > **When to use**

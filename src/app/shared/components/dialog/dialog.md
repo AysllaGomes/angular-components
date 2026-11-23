@@ -1,5 +1,7 @@
 # Dialog
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Sheet/modal acessível e leve para confirmações e pequenos formulários. Construído com **Angular Standalone + HTML/Sass**, sem dependências de UI libs.
 
 - **Arquivo:** `src/app/shared/components/dialog/dialog.component.ts`

@@ -2,6 +2,8 @@
 
 # Pagination (Standalone, HTML + Sass)
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 A **standalone pagination** component (numeric bubbles + arrows). It **doesn’t** slice data; the **container** controls `pageIndex/pageSize` and passes the sliced array to whatever view (e.g., the Table).
 
 ---
@@ -27,7 +29,7 @@ src/app/shared/components/pagination/
 | `maxVisible` | `number`  | `5`    | Maximum visible numeric buttons. |
 | `compact`    | `boolean \| 'auto'` | `false` | `true`: shows "Page X of Y" between the arrows instead of numbers. `'auto'`: only on screens ≤ 420px (CSS). Accepts the bare attribute (`compact`). |
 | `showFirstLast` | `boolean` | `false` | Shows the « First / Last » buttons at the ends (disabled when already there). Accepts the bare attribute. |
-| `ariaLabel` | `string \| null` | `null` | Navigation name (default: "Pagination", via i18n). Use different names when there is more than one on the page. |
+| `ariaLabel` | `string \| null` | `null` | Navigation name (default: `labels.pagination.nav`). Use different names when there is more than one on the page. |
 
 ### Output
 | Output      | Payload  | When |
@@ -88,7 +90,7 @@ pagedRows = computed(() => {
 ---
 
 ## Accessibility & tips
-- `<nav>` named by `ariaLabel` (default "Paginação"/"Pagination" from i18n); give each pagination its own name if there is more than one on the page.
+- `<nav>` named by `ariaLabel` (default `labels.pagination.nav`); give each pagination its own name if there is more than one on the page.
 - Visible focus and proper labels on the arrows.
 - When `pageSize` changes, ensure `pageIndex` is still valid (often reset to `0`).
 

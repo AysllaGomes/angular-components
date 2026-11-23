@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component , computed } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 
 import { ToastService } from '../../services/toast.service';
 
@@ -19,6 +21,9 @@ import { Toast } from '../../model/interface/toast.interface';
   host: { 'data-dialog-keep-active': '' }
 })
 export class ToastContainerComponent {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   constructor(public toast: ToastService) {}
 
   onAction(t: Toast) {

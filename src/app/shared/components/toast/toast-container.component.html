@@ -1,4 +1,4 @@
-<nav class="toast-stack" aria-label="Notificações" aria-live="polite" aria-relevant="additions">
+<nav class="toast-stack" [attr.aria-label]="labels().notifications" aria-live="polite" aria-relevant="additions">
   @for (t of toast.toasts(); track t.id) {
     <div
       class="toast"
@@ -33,7 +33,7 @@
           appButton
           type="button"
           class="toast-close"
-          aria-label="Fechar"
+          [attr.aria-label]="labels().close"
           (click)="toast.dismiss(t.id)">
           ×
         </button>

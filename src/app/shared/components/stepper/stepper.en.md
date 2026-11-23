@@ -2,6 +2,8 @@
 
 # Stepper (Standalone, HTML + Sass)
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 An **accessible, framework-free** horizontal stepper built with **plain HTML + Sass** and exposed as a **standalone Angular** component. It supports active/done/disabled states, optional index/caption, and theme tokens via CSS variables.
 
 ---
@@ -35,8 +37,8 @@ src/app/shared/components/stepper/
 | `clickable`    | `boolean`                    | `false`| If `true`, allows clicking on previous/next steps. |
 | `showIndex`    | `boolean`                    | `true` | Show numeric index inside the bullet when not done. |
 | `showCaption`  | `boolean`                    | `true` | Show the caption under the label (hidden on narrow screens). |
-| `ariaLabel`    | `string`                     | `'Etapas do fluxo'` | Navigation name for screen readers. |
-| `doneLabel`    | `string`                     | `'concluída'` | Screen-reader-only text for completed steps. |
+| `ariaLabel`    | `string`                     | `labels.stepper.label` | Navigation name for screen readers. |
+| `doneLabel`    | `string`                     | `labels.stepper.done` | Screen-reader-only text for completed steps. |
 
 ### Outputs
 | Output        | Payload    | When |

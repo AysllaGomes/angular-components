@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, signal } from '@angular/core';
+// os testes conferem os textos em português (o padrão dos componentes é inglês)
+import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaginationComponent } from './pagination.component';
@@ -13,7 +15,7 @@ describe('PaginationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PaginationComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PaginationComponent);
@@ -181,7 +183,7 @@ describe('PaginationComponent first/last and keyboard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PagerHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(PagerHostComponent);
     host = fixture.componentInstance;

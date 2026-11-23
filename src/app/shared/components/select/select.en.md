@@ -2,6 +2,8 @@
 
 # Select — Accessible dropdown (Angular, standalone)
 
+> Default texts in **English**, changeable in one place with [`provideUiLabels`](../../labels/labels.en.md) (`labels.*` in the tables below); each instance's input wins.
+
 A lightweight, accessible **select** themed with **CSS Variables**. Supports optional **filtering**, keyboard navigation, required validation and simple i18n. Compatible with your global theme/accent tokens.
 
 > This doc describes the current API you shipped. I added optional improvement ideas at the end.
@@ -173,8 +175,8 @@ categoryError(): string | null {
 | `filterPlaceholder` | `string`            |                  `''` | Filter placeholder.                                     |
 | `clearable`         | `boolean`           |               `false` | Shows a small (×) **clear** button.                     |
 | `error`             | `string \| null`    |                `null` | External error message (takes precedence).              |
-| `requiredLabel`     | `string`            |         `'requerido'` | Text near the label when `required`.                    |
-| `requiredError`     | `string`            | `'Campo obrigatório'` | Built-in required message.                              |
+| `requiredLabel`     | `string`            | `labels.required` | Text near the label when `required`.                    |
+| `requiredError`     | `string`            | `labels.requiredError` | Built-in required message.                              |
 | `autoValidate`      | `boolean`           |                `true` | Validate on blur/close.                                 |
 | `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
 | `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled?, group? }`.                |

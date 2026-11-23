@@ -7,7 +7,9 @@ import {
   booleanAttribute,
   inject,
   input
-} from '@angular/core';
+, computed } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 
 let uid = 0;
 
@@ -35,9 +37,13 @@ let uid = 0;
   encapsulation: ViewEncapsulation.None,
 })
 export class FormFieldComponent {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   readonly label = input('');
   readonly required = input(false, { transform: booleanAttribute });
-  readonly requiredLabel = input('requerido');
+  readonly requiredLabelInput = input<string | undefined>(undefined, { alias: 'requiredLabel' });
+  readonly requiredLabel = computed(() => this.requiredLabelInput() ?? this.labels().required);
   readonly hint = input<string | null>(null);
   /** mensagem de erro (ex.: `ctrl | fieldError`); marca `aria-invalid` no campo */
   readonly error = input<string | null>(null);

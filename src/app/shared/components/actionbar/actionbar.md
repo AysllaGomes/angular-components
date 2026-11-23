@@ -2,6 +2,8 @@
 
 # ActionBar
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Sheet lateral com título, conteúdo e ações. Abre da **direita para a esquerda**, herda as cores do tema atual e respeita o **accent**.
 
 > **Quando usar**

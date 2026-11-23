@@ -2,6 +2,8 @@
 
 # Select — Componente de seleção acessível (Angular, standalone)
 
+> Textos padrão em **inglês**, trocáveis num lugar só com [`provideUiLabels`](../../labels/labels.md) (`labels.*` nas tabelas abaixo); o input de cada instância vence.
+
 Componente de **select** leve, acessível e tematizável por **CSS Variables**. Suporta **filtro** no painel, navegação por teclado, validação de obrigatório e integração simples com i18n. Mantém compatibilidade com os tokens globais de tema/acentos.
 
 > Esta doc descreve a API atual do componente enviado por você. Onde coube, deixei sugestões de melhorias opcionais no final.
@@ -174,8 +176,8 @@ erroCategoria(): string | null {
 | `filterPlaceholder` | `string`            |                  `''` | Placeholder do filtro (quando `filterable`).               |
 | `clearable`         | `boolean`           |               `false` | Mostra um botão (×) para limpar a seleção.                 |
 | `error`             | `string \| null`    |                `null` | Mensagem de erro externa (prioritária).                    |
-| `requiredLabel`     | `string`            |         `'requerido'` | Texto ao lado do label quando `required`.                  |
-| `requiredError`     | `string`            | `'Campo obrigatório'` | Mensagem interna de obrigatório.                           |
+| `requiredLabel`     | `string`            | `labels.required` | Texto ao lado do label quando `required`.                  |
+| `requiredError`     | `string`            | `labels.requiredError` | Mensagem interna de obrigatório.                           |
 | `autoValidate`      | `boolean`           |                `true` | Valida ao desfocar/fechar o painel.                        |
 | `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
 | `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled?, group? }`.           |

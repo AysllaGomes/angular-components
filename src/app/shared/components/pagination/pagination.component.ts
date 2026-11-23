@@ -8,9 +8,9 @@ import {
   inject,
   input,
   output
-} from '@angular/core';
+, computed } from '@angular/core';
 
-import { TPipe } from '../../i18n/t.pipe';
+import { injectUiLabels } from '../../labels';
 
 import { ButtonDirective } from '../button/button.directive';
 
@@ -19,13 +19,13 @@ import { ButtonDirective } from '../button/button.directive';
   standalone: true,
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.sass',
-  imports: [
-    TPipe,
-    ButtonDirective
-],
+  imports: [ButtonDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   /** total de itens */
   readonly total = input.required<number>();
   /** itens por página */

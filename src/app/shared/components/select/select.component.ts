@@ -17,6 +17,8 @@ import {
   signal,
   viewChild
 } from '@angular/core';
+
+import { injectUiLabels } from '../../labels';
 import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -49,6 +51,9 @@ interface Section<T> { group: string | null; items: Positioned<T>[]; }
   ]
 })
 export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   // ---- API
   readonly label = input('');
   readonly panelTitle = input<string | null>(null); // título no header da sheet
@@ -68,19 +73,23 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   /** Mensagens / validação */
   /** Erro externo (ex.: vindo do estado do formulário); tem prioridade sobre a validação interna. */
   readonly error = input<string | null>(null);
-  readonly requiredLabel = input('requerido');
-  readonly requiredError = input('Campo obrigatório');
+  readonly requiredLabelInput = input<string | undefined>(undefined, { alias: 'requiredLabel' });
+  readonly requiredLabel = computed(() => this.requiredLabelInput() ?? this.labels().required);
+  readonly requiredErrorInput = input<string | undefined>(undefined, { alias: 'requiredError' });
+  readonly requiredError = computed(() => this.requiredErrorInput() ?? this.labels().requiredError);
   readonly autoValidate = input(true);
   readonly hint = input<string | null>(null);
 
   /** Clear (×) */
   readonly clearable = input(false, { transform: booleanAttribute });
-  readonly clearAriaLabel = input('Limpar seleção');
+  readonly clearAriaLabelInput = input<string | undefined>(undefined, { alias: 'clearAriaLabel' });
+  readonly clearAriaLabel = computed(() => this.clearAriaLabelInput() ?? this.labels().clearSelection);
 
   /** Responsividade (sheet) */
   readonly responsive = input<ResponsiveMode>('auto');
   readonly sheetBreakpoint = input(560); // px
-  readonly closeAriaLabel = input('Fechar');
+  readonly closeAriaLabelInput = input<string | undefined>(undefined, { alias: 'closeAriaLabel' });
+  readonly closeAriaLabel = computed(() => this.closeAriaLabelInput() ?? this.labels().close);
 
   readonly options = input.required<SelectOption<T>[], SelectOption<T>[] | null | undefined>({
     transform: v => v ?? []

@@ -1,4 +1,6 @@
 import { Component, provideZonelessChangeDetection, signal, ChangeDetectionStrategy } from '@angular/core';
+// os testes conferem os textos em português (o padrão dos componentes é inglês)
+import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -50,7 +52,7 @@ describe('TableComponent selection', () => {
   async function create(useKey: boolean) {
     await TestBed.configureTestingModule({
       imports: [HostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HostComponent);
@@ -170,7 +172,7 @@ describe('TableComponent declarative actions', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ActionsHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(ActionsHostComponent);
     el = fixture.nativeElement;
@@ -179,7 +181,7 @@ describe('TableComponent declarative actions', () => {
 
   afterEach(() => fixture.destroy());
 
-  it('names icon-only actions in Portuguese by default and shows the name as a tooltip', () => {
+  it('names icon-only actions from the labels (here, Portuguese) and shows the name as a tooltip', () => {
     const [edit] = rowButtons(1);
     expect(edit.getAttribute('aria-label')).toBe('Editar');
     expect(tipText(edit)).toBe('Editar');
@@ -232,7 +234,7 @@ describe('TableComponent error state', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ErrorHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(ErrorHostComponent);
     host = fixture.componentInstance;
@@ -375,7 +377,7 @@ describe('TableComponent bulk actions', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BulkHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(BulkHostComponent);
     host = fixture.componentInstance;
@@ -553,7 +555,7 @@ describe('TableComponent pagination', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PagedHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(PagedHostComponent);
     host = fixture.componentInstance;
@@ -732,7 +734,7 @@ describe('TableComponent collapsible columns', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CollapseHostComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
     }).compileComponents();
     fixture = TestBed.createComponent(CollapseHostComponent);
     el = fixture.nativeElement;

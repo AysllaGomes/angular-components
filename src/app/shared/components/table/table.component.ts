@@ -22,6 +22,8 @@ import {
   viewChild
 } from '@angular/core';
 
+import { injectUiLabels } from '../../labels';
+
 import { ActionKind } from '../../model/type/action-kind.type';
 import { SortDir } from '../../model/type/sort-dir.type';
 
@@ -40,14 +42,6 @@ import {
   TableCellTemplateDirective
 } from './table.directives';
 
-/** nome padrão das ações declarativas sem `ariaLabel`/`label` */
-const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
-  edit: 'Editar',
-  delete: 'Excluir',
-  view: 'Visualizar',
-  download: 'Baixar',
-};
-
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -57,13 +51,17 @@ const DEFAULT_ACTION_LABELS: Record<ActionKind, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent<T = any> {
+  /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
+  protected readonly labels = injectUiLabels();
+
   readonly data = input.required<T[]>();
   readonly actions = input<(TableAction<T> | ActionKind)[]>([]);
   readonly columns = input.required<ColumnDef<T>[]>();
 
   readonly loading = input(false);
   readonly loadingRows = input(5);
-  readonly emptyMessage = input('Nenhum registro encontrado');
+  readonly emptyMessageInput = input<string | undefined>(undefined, { alias: 'emptyMessage' });
+  readonly emptyMessage = computed(() => this.emptyMessageInput() ?? this.labels().table.empty);
 
   /**
    * Falha ao buscar os dados: com uma mensagem, a tabela mostra o erro (anunciado ao
@@ -72,7 +70,11 @@ export class TableComponent<T = any> {
    */
   readonly error = input<string | null | undefined>(null);
   /** texto do botão que emite `retry`; vazio ou `null` esconde o botão */
-  readonly retryLabel = input<string | null>('Tentar novamente');
+  readonly retryLabelInput = input<string | null | undefined>(undefined, { alias: 'retryLabel' });
+  readonly retryLabel = computed(() => {
+    const v = this.retryLabelInput();
+    return v === undefined ? this.labels().table.retry : v;
+  });
   /** o usuário pediu para buscar de novo */
   readonly retry = output<void>();
 
@@ -99,11 +101,12 @@ export class TableComponent<T = any> {
   readonly totalItems = input<number | null>(null);
   /** opções do seletor "Itens por página"; vazio (padrão) esconde o seletor */
   readonly pageSizeOptions = input<number[]>([]);
-  readonly rangeLabel = input<(start: number, end: number, total: number) => string>(
-    (s, e, t) => `Mostrando ${s}–${e} de ${t}`
-  );
-  readonly pageSizeLabel = input('Itens por página');
-  readonly paginationLabel = input('Paginação da tabela');
+  readonly rangeLabelInput = input<((start: number, end: number, total: number) => string) | undefined>(undefined, { alias: 'rangeLabel' });
+  readonly rangeLabel = computed(() => this.rangeLabelInput() ?? this.labels().table.range);
+  readonly pageSizeLabelInput = input<string | undefined>(undefined, { alias: 'pageSizeLabel' });
+  readonly pageSizeLabel = computed(() => this.pageSizeLabelInput() ?? this.labels().table.pageSize);
+  readonly paginationLabelInput = input<string | undefined>(undefined, { alias: 'paginationLabel' });
+  readonly paginationLabel = computed(() => this.paginationLabelInput() ?? this.labels().table.pagination);
 
   /** linhas por página válidas (inteiro ≥ 1) */
   readonly size = computed(() => {
@@ -140,9 +143,11 @@ export class TableComponent<T = any> {
 
   // ===== colunas que se recolhem =====
   /** nome da coluna do botão de detalhes, para leitor de tela */
-  readonly detailsLabel = input('Detalhes');
+  readonly detailsLabelInput = input<string | undefined>(undefined, { alias: 'detailsLabel' });
+  readonly detailsLabel = computed(() => this.detailsLabelInput() ?? this.labels().table.details);
   /** nome do botão que abre a linha com as colunas escondidas */
-  readonly expandLabel = input('Mostrar detalhes');
+  readonly expandLabelInput = input<string | undefined>(undefined, { alias: 'expandLabel' });
+  readonly expandLabel = computed(() => this.expandLabelInput() ?? this.labels().table.expand);
 
   /** largura visível do wrapper (0 até medir; no servidor e sem ResizeObserver, nada se recolhe) */
   private readonly availWidth = signal(0);
@@ -182,7 +187,8 @@ export class TableComponent<T = any> {
   readonly actionsColWidth = input<string | number>(44);
 
   /** nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio) */
-  readonly actionsLabel = input('Ações');
+  readonly actionsLabelInput = input<string | undefined>(undefined, { alias: 'actionsLabel' });
+  readonly actionsLabel = computed(() => this.actionsLabelInput() ?? this.labels().table.actions);
 
   /** Mostra coluna de seleção por checkbox */
   readonly selectable = input(false);
@@ -217,14 +223,16 @@ export class TableComponent<T = any> {
    */
   readonly bulkBarIdle = input<TableBulkBarIdle>('space');
   /** nome do grupo da barra para leitor de tela */
-  readonly bulkActionsLabel = input('Ações em massa');
+  readonly bulkActionsLabelInput = input<string | undefined>(undefined, { alias: 'bulkActionsLabel' });
+  readonly bulkActionsLabel = computed(() => this.bulkActionsLabelInput() ?? this.labels().table.bulkActions);
   /** texto do contador (também anunciado ao leitor de tela a cada mudança) */
-  readonly selectedCountLabel = input<(n: number) => string>(
-    n => (n === 1 ? '1 selecionado' : `${n} selecionados`)
-  );
+  readonly selectedCountLabelInput = input<((n: number) => string) | undefined>(undefined, { alias: 'selectedCountLabel' });
+  readonly selectedCountLabel = computed(() => this.selectedCountLabelInput() ?? this.labels().table.selectedCount);
   /** texto sem seleção: visível com `bulkBarIdle="hint"`; nos outros modos só é anunciado ao limpar */
-  readonly noSelectionLabel = input('Nenhuma linha selecionada');
-  readonly clearSelectionLabel = input('Limpar seleção');
+  readonly noSelectionLabelInput = input<string | undefined>(undefined, { alias: 'noSelectionLabel' });
+  readonly noSelectionLabel = computed(() => this.noSelectionLabelInput() ?? this.labels().table.noSelection);
+  readonly clearSelectionLabelInput = input<string | undefined>(undefined, { alias: 'clearSelectionLabel' });
+  readonly clearSelectionLabel = computed(() => this.clearSelectionLabelInput() ?? this.labels().clearSelection);
   /** clique numa ação em massa: chaves (com `rowKey`) ou índices em `data` */
   readonly bulkAction = output<{ type: string; keys: any[] }>();
 
@@ -532,7 +540,7 @@ export class TableComponent<T = any> {
    * Desabilitada com `disabledReason`, o motivo vem junto: "Excluir (Titular não pode ser excluído)".
    */
   actionTooltip(a: TableAction<T>, row: T, index: number): string {
-    const name = a.ariaLabel || a.label || DEFAULT_ACTION_LABELS[a.kind] || a.kind;
+    const name = a.ariaLabel || a.label || this.labels().table.action[a.kind] || a.kind;
     const reason = this.isActionDisabled(a, row, index) ? a.disabledReason?.(row, index)?.trim() : '';
     return reason ? `${name} (${reason})` : name;
   }
