@@ -58,8 +58,8 @@ button[appButton], a[appButton]
 
   /* ===== mapear "tone" para cor de trabalho */
   &.btn--accent
-    --_tone: var(--accent)
-    --_tone-text: var(--accent-text, var(--accent))
+    --_tone: var(--accent, #058075)
+    --_tone-text: var(--accent-text, var(--accent, #058075))
   &.btn--neutral
     --_tone: var(--neutral, #64748b)
     --_tone-text: var(--_tone)
@@ -99,22 +99,22 @@ button[appButton], a[appButton]
       outline-offset: 2px
 
   &.btn--pill
-    background: var(--hdr-pill-bg)
-    color: var(--hdr-pill-color)
-    border-color: var(--hdr-pill-border)
+    background: var(--hdr-pill-bg, #ffffff)
+    color: var(--hdr-pill-color, #0f1720)
+    border-color: var(--hdr-pill-border, #d1d5db)
     border-radius: 9999px
     &:hover
-      background: var(--hdr-link-hover)
+      background: var(--hdr-link-hover, #eef2f7)
     &:focus-visible
-      outline: 2px solid var(--hdr-pill-ring)
+      outline: 2px solid var(--hdr-pill-ring, color-mix(in srgb, #058075 55%, transparent))
       outline-offset: 2px
     /* se pedir "accent" no pill, vira um chip acentuado */
     &.btn--accent
-      background: var(--accent)
+      background: var(--accent, #058075)
       color: #fff
       border-color: transparent
       &:hover
-        background: color-mix(in srgb, var(--accent) 88%, white)
+        background: color-mix(in srgb, var(--accent, #058075) 88%, white)
 
   &.btn--link
     background: transparent

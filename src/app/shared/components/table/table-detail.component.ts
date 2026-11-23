@@ -31,7 +31,7 @@ dl
   margin: 0
 
 dt
-  color: var(--tbl-muted)
+  color: var(--tbl-muted, #6b7280)
   font-size: .85em
   font-weight: 600
 

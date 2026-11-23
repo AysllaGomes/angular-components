@@ -12,17 +12,17 @@
   inset: 0
   display: grid
   place-items: center
-  background: var(--dlg-backdrop)
+  background: var(--dlg-backdrop, color-mix(in srgb, #000 38%, transparent))
 
 /* Caixa do diálogo */
 .dlg
   width: min(100vw - 24px, 640px)   /* default = md */
   max-height: 90vh
-  background: var(--dlg-bg)
-  color: var(--dlg-fg)
-  border: 1px solid var(--dlg-border)
+  background: var(--dlg-bg, #ffffff)
+  color: var(--dlg-fg, #14171a)
+  border: 1px solid var(--dlg-border, #e6e9ed)
   border-radius: .9rem
-  box-shadow: var(--dlg-shadow)
+  box-shadow: var(--dlg-shadow, 0 24px 60px rgba(0,0,0,.18))
   display: grid
   grid-template-rows: auto 1fr auto
   overflow: hidden
@@ -47,14 +47,14 @@
   justify-content: space-between
   gap: .5rem
   padding: .9rem 1rem
-  border-bottom: 1px solid var(--dlg-border)
-  background: var(--dlg-bg)
+  border-bottom: 1px solid var(--dlg-border, #e6e9ed)
+  background: var(--dlg-bg, #ffffff)
 
 .dlg__title
   margin: 0
   font-size: 1.05rem
   font-weight: 800
-  color: var(--dlg-title, var(--dlg-fg))
+  color: var(--dlg-title, var(--dlg-fg, #14171a))
 
 .dlg__close
   appearance: none
@@ -65,12 +65,12 @@
   border-radius: .6rem
   border: 1px solid transparent
   background: transparent
-  color: var(--dlg-close, var(--muted))
+  color: var(--dlg-close, var(--muted, #5f6a75))
   cursor: pointer
   &:hover
-    background: color-mix(in srgb, var(--accent) 12%, transparent)
+    background: color-mix(in srgb, var(--accent, #058075) 12%, transparent)
   &:focus-visible
-    outline: 2px solid color-mix(in srgb, var(--accent) 55%, white)
+    outline: 2px solid color-mix(in srgb, var(--accent, #058075) 55%, white)
     outline-offset: 2px
 
 /* Conteúdo */
@@ -85,8 +85,8 @@
   justify-content: space-between
   gap: .5rem
   padding: .75rem 1rem
-  border-top: 1px solid var(--dlg-border)
-  background: var(--dlg-bg)
+  border-top: 1px solid var(--dlg-border, #e6e9ed)
+  background: var(--dlg-bg, #ffffff)
 
 /* ações auto (direita) */
 .dlg__auto-actions
@@ -98,26 +98,26 @@
 .btn
   appearance: none
   border: 1px solid transparent
-  background: var(--accent)
+  background: var(--accent, #058075)
   color: #fff
   padding: .6rem 1rem
   border-radius: .6rem
   font-weight: 700
   cursor: pointer
   &:hover
-    background: color-mix(in srgb, var(--accent) 88%, white)
+    background: color-mix(in srgb, var(--accent, #058075) 88%, white)
   &:focus-visible
-    outline: 2px solid color-mix(in srgb, var(--accent) 55%, white)
+    outline: 2px solid color-mix(in srgb, var(--accent, #058075) 55%, white)
     outline-offset: 2px
 
 .btn--ghost
   background: transparent
-  color: var(--accent)
-  border-color: color-mix(in srgb, var(--accent) 55%, transparent)
+  color: var(--accent, #058075)
+  border-color: color-mix(in srgb, var(--accent, #058075) 55%, transparent)
   border-width: 1px
   border-style: solid
   &:hover
-    background: color-mix(in srgb, var(--accent) 12%, transparent)
+    background: color-mix(in srgb, var(--accent, #058075) 12%, transparent)
 
 /* Mobile: empilha botões */
 @media (max-width: 480px)

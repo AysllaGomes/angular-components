@@ -17,17 +17,17 @@
   padding: 0 .5rem
   border-radius: 9999px
   border: 1px solid transparent
-  background: var(--pg-page-bg)
-  color: var(--pg-fg)
+  background: var(--pg-page-bg, #f2f4f7)
+  color: var(--pg-fg, #0f1720)
   cursor: pointer
   scroll-snap-align: start
 
   &:hover
-    background: var(--pg-hover)
+    background: var(--pg-hover, color-mix(in srgb, #058075 12%, white))
 
   &.is-active
-    background: var(--pg-active-bg)
-    color: var(--pg-active-fg)
+    background: var(--pg-active-bg, #058075)
+    color: var(--pg-active-fg, #ffffff)
 
 @media (max-width: 480px)
   .pg-btn
@@ -39,7 +39,7 @@
 .pg-status
   display: none
   margin-inline: .5rem
-  color: var(--pg-fg)
+  color: var(--pg-fg, #0f1720)
   font-size: .9rem
   white-space: nowrap
 

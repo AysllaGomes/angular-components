@@ -6,7 +6,7 @@
   min-width: 0
   display: grid
   gap: .5rem
-  color: var(--fg)
+  color: var(--fg, #14171a)
 
 .rg__legend
   padding: 0
@@ -18,7 +18,7 @@
   margin-left: .5rem
   font-size: .8rem
   font-weight: 400
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
 
 .rg__options
   display: grid
@@ -37,7 +37,7 @@
   min-height: 32px
   cursor: pointer
   &.is-disabled
-    color: var(--muted)
+    color: var(--muted, #5f6a75)
     cursor: default
 
 /* input nativo invisível sobre o "dot" (continua focável e anunciado) */
@@ -51,16 +51,16 @@
   cursor: inherit
 
 .rg__dot
-  --_border: var(--cb-border)
+  --_border: var(--cb-border, #6b7c80)
   --_ring: transparent
   flex: none
   box-sizing: border-box
-  width: var(--cb-size)
-  height: var(--cb-size)
+  width: var(--cb-size, 20px)
+  height: var(--cb-size, 20px)
   margin-top: .1rem
   border-radius: 50%
   border: 2px solid var(--_border)
-  background: var(--cb-bg)
+  background: var(--cb-bg, #ffffff)
   box-shadow: 0 0 0 4px var(--_ring)
   display: grid
   place-items: center
@@ -70,30 +70,30 @@
     width: 50%
     height: 50%
     border-radius: 50%
-    background: var(--cb-checked-bg)
+    background: var(--cb-checked-bg, #058075)
     transform: scale(0)
     transition: transform .12s
 
 .rg__input:checked + .rg__dot
-  --_border: var(--cb-checked-bg)
+  --_border: var(--cb-checked-bg, #058075)
   &::after
     transform: scale(1)
 
 .rg__option:not(.is-disabled):hover .rg__dot
-  --_border: var(--cb-checked-bg)
-  --_ring: var(--cb-hover-ring)
+  --_border: var(--cb-checked-bg, #058075)
+  --_ring: var(--cb-hover-ring, color-mix(in srgb, #058075 16%, transparent))
 
 .rg__input:focus-visible + .rg__dot
-  --_ring: var(--cb-focus-ring)
+  --_ring: var(--cb-focus-ring, color-mix(in srgb, #058075 45%, transparent))
 
 .rg__input:disabled + .rg__dot
-  --_border: var(--cb-disabled-border)
-  background: var(--cb-disabled-bg)
+  --_border: var(--cb-disabled-border, #c4cacd)
+  background: var(--cb-disabled-bg, #eef0f2)
   &::after
-    background: var(--cb-disabled-checked-bg)
+    background: var(--cb-disabled-checked-bg, #c4cacd)
 
 .rg.is-error .rg__dot
-  --_border: var(--danger)
+  --_border: var(--danger, #b91c1c)
 
 .rg__text
   display: grid
@@ -102,10 +102,10 @@
 
 .rg__desc
   font-size: .85rem
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
 
 .rg__msg
   font-size: .85rem
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
   &--error
-    color: var(--danger)
+    color: var(--danger, #b91c1c)

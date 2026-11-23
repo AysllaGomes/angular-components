@@ -1,15 +1,15 @@
 /* abas sublinhadas; cores por tokens (sobrescreva em :root ou no próprio app-tabs) */
 :host
   display: block
-  --tabs-border: var(--border)
-  --tabs-fg: var(--muted)
-  --tabs-fg-hover: var(--fg)
-  --tabs-active: var(--accent-text)
-  --tabs-indicator: var(--accent)
-  --tabs-hover-bg: color-mix(in srgb, var(--accent) 10%, transparent)
-  --tabs-badge-bg: var(--surface-2)
-  --tabs-badge-fg: var(--fg)
-  --tabs-badge-border: var(--border)
+  --tabs-border: var(--border, #e6e9ed)
+  --tabs-fg: var(--muted, #5f6a75)
+  --tabs-fg-hover: var(--fg, #14171a)
+  --tabs-active: var(--accent-text, #058075)
+  --tabs-indicator: var(--accent, #058075)
+  --tabs-hover-bg: color-mix(in srgb, var(--accent, #058075) 10%, transparent)
+  --tabs-badge-bg: var(--surface-2, #f7f8f9)
+  --tabs-badge-fg: var(--fg, #14171a)
+  --tabs-badge-border: var(--border, #e6e9ed)
 
 .tabs__list
   position: relative /* referência do offsetLeft das abas */

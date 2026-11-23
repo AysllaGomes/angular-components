@@ -31,6 +31,9 @@ jobs:
 
       - run: npm ci
 
+      # componentes funcionam fora deste projeto: toda var(--x) com valor padrão
+      - run: npm run check:css
+
       # testes antes do build: se falharem, nada é publicado
       - run: npm run test:ci
 

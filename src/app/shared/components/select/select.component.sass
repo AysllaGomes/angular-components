@@ -7,10 +7,10 @@
   justify-content: space-between
   align-items: baseline
   font-size: .9rem
-  color: var(--sel-fg)
+  color: var(--sel-fg, #14171a)
   .req
     font-size: .8rem
-    color: var(--muted)
+    color: var(--muted, #5f6a75)
 
 /* agrupador do controle + clear */
 .control-wrap
@@ -33,25 +33,25 @@
   padding: .60rem .70rem   /* ligeiro aumento (tap target) */
   min-height: 44px         /* acessível p/ toque */
   border-radius: .5rem
-  border: 1px solid var(--sel-border)
-  background: var(--sel-bg)
-  color: var(--sel-fg)
+  border: 1px solid var(--sel-border, #e6e9ed)
+  background: var(--sel-bg, #ffffff)
+  color: var(--sel-fg, #14171a)
   cursor: pointer
   transition: border-color .15s ease, box-shadow .15s ease, background .15s ease
 
   &:hover
-    background: color-mix(in srgb, var(--sel-bg) 92%, transparent)
+    background: color-mix(in srgb, var(--sel-bg, #ffffff) 92%, transparent)
 
   &:focus-visible
     outline: none
-    border-color: var(--accent)
-    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+    border-color: var(--accent, #058075)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
 
   .value.placeholder
-    color: var(--sel-placeholder)
+    color: var(--sel-placeholder, #5f6a75)
 
   .caret
-    color: var(--sel-caret)
+    color: var(--sel-caret, #5f6a75)
     font-weight: 700
     line-height: 1
 
@@ -67,32 +67,32 @@
   display: grid
   place-items: center
   cursor: pointer
-  background: var(--sel-disabled-bg)
-  color: var(--sel-caret)
+  background: var(--sel-disabled-bg, #f7f8f9)
+  color: var(--sel-caret, #5f6a75)
   font-size: 18px
   line-height: 1
 
   &:hover
-    background: var(--sel-option-hover)
+    background: var(--sel-option-hover, color-mix(in srgb, #058075 16%, transparent))
 
   &:focus-visible
     outline: none
-    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
 
 /* estados */
 .field.is-disabled .control
-  background: var(--sel-disabled-bg)
-  border-color: var(--sel-disabled-border)
-  color: color-mix(in srgb, var(--sel-fg) 60%, transparent)
+  background: var(--sel-disabled-bg, #f7f8f9)
+  border-color: var(--sel-disabled-border, #e6e9ed)
+  color: color-mix(in srgb, var(--sel-fg, #14171a) 60%, transparent)
   cursor: default
 
 .field.is-error .control
-  border-color: var(--sel-error)
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sel-error) 40%, transparent)
+  border-color: var(--sel-error, #b91c1c)
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sel-error, #b91c1c) 40%, transparent)
 
 .field.is-error .label .req,
 .field.is-error .control .caret
-  color: var(--sel-error)
+  color: var(--sel-error, #b91c1c)
 
 /* backdrop (sheet) */
 .backdrop
@@ -111,13 +111,13 @@
 .panel
   position: relative
   margin-top: .35rem
-  background: var(--sel-menu-bg)
-  border: 1px solid var(--sel-menu-border)
+  background: var(--sel-menu-bg, #ffffff)
+  border: 1px solid var(--sel-menu-border, #e6e9ed)
   border-radius: .5rem
   box-shadow: 0 12px 24px rgba(0,0,0,.12)
   max-height: 320px
   overflow: auto
-  scrollbar-color: var(--sel-scrollbar-thumb) transparent
+  scrollbar-color: var(--sel-scrollbar-thumb, color-mix(in srgb, #058075 55%, transparent)) transparent
 
   &.is-sheet
     position: fixed
@@ -129,7 +129,7 @@
     max-height: min(70vh, 480px)
     border-radius: 16px 16px 0 0
     border: 0
-    border-top: 1px solid var(--sel-menu-border)
+    border-top: 1px solid var(--sel-menu-border, #e6e9ed)
     box-shadow: 0 -16px 40px rgba(0,0,0,.35)
     animation: slideUp .16s ease
 
@@ -151,8 +151,8 @@
   justify-content: space-between
   gap: .5rem
   padding: .75rem .85rem
-  background: var(--sel-menu-bg)
-  border-bottom: 1px solid var(--sel-menu-border)
+  background: var(--sel-menu-bg, #ffffff)
+  border-bottom: 1px solid var(--sel-menu-border, #e6e9ed)
   .title
     font-weight: 600
 
@@ -161,8 +161,8 @@
   position: sticky
   top: 0
   z-index: 1
-  background: var(--sel-menu-bg)
-  border-bottom: 1px solid var(--sel-menu-border)
+  background: var(--sel-menu-bg, #ffffff)
+  border-bottom: 1px solid var(--sel-menu-border, #e6e9ed)
   padding: .5rem
 
   input
@@ -171,16 +171,16 @@
     -webkit-appearance: none
     padding: 0 .65rem
     min-height: 40px
-    border: 1px solid var(--sel-border)
+    border: 1px solid var(--sel-border, #e6e9ed)
     border-radius: .4rem
-    background: var(--sel-bg)
-    color: var(--sel-fg)
+    background: var(--sel-bg, #ffffff)
+    color: var(--sel-fg, #14171a)
     &::placeholder
-      color: var(--sel-placeholder)
+      color: var(--sel-placeholder, #5f6a75)
     &:focus-visible
       outline: none
-      border-color: var(--accent)
-      box-shadow: 0 0 0 3px var(--sel-focus-ring)
+      border-color: var(--accent, #058075)
+      box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
 
 .option
   padding: .6rem .75rem
@@ -188,12 +188,12 @@
   user-select: none
   transition: background .12s ease
   &:hover, &.is-active
-    background: var(--sel-option-hover)
+    background: var(--sel-option-hover, color-mix(in srgb, #058075 16%, transparent))
   &.is-selected
-    background: var(--sel-option-active)
+    background: var(--sel-option-active, color-mix(in srgb, #058075 26%, white))
     font-weight: 600
   &.is-disabled
-    color: color-mix(in srgb, var(--sel-fg) 55%, transparent)
+    color: color-mix(in srgb, var(--sel-fg, #14171a) 55%, transparent)
     cursor: not-allowed
 
 /* tipografia auxiliar */
@@ -203,7 +203,7 @@
   margin-top: .25rem
 
 .error
-  color: var(--sel-error)
+  color: var(--sel-error, #b91c1c)
 
 /* ajustes mobile extras */
 @media (max-width: 560px)
@@ -214,10 +214,10 @@
 
 /* grupos de opções */
 .group + .group
-  border-top: 1px solid var(--sel-menu-border)
+  border-top: 1px solid var(--sel-menu-border, #e6e9ed)
 
 .group-label
   padding: .5rem .75rem .25rem
   font-size: .8rem
   font-weight: 600
-  color: var(--muted)
+  color: var(--muted, #5f6a75)

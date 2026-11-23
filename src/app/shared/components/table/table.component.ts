@@ -35,6 +35,7 @@ import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkBarComponent } from './table-bulk-bar.component';
 import { TableFooterComponent } from './table-footer.component';
 import { TableDetailComponent } from './table-detail.component';
+import { TableChipComponent } from './table-chip.component';
 import {
   TableActionsTemplateDirective,
   TableBulkActionsContext,
@@ -45,7 +46,7 @@ import {
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent, TableFooterComponent, TableDetailComponent],
+  imports: [NgTemplateOutlet, TooltipDirective, TableBulkBarComponent, TableFooterComponent, TableDetailComponent, TableChipComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -510,11 +511,9 @@ export class TableComponent<T = any> {
     return entry.label;
   }
 
-  chipClass(col: ColumnDef<T>, value: any): string {
-    if (!col.chipMap) return 'chip';
-    const entry = col.chipMap[String(value)];
-    const variant = entry?.variant ? ` chip--${entry.variant}` : '';
-    return `chip${variant}`;
+  /** variante de cor do chip (`chipMap[valor].variant`), se houver */
+  chipVariant(col: ColumnDef<T>, value: any): string | undefined {
+    return col.chipMap?.[String(value)]?.variant;
   }
 
   get normalizedActions(): TableAction<T>[] {

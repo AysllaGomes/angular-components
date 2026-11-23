@@ -55,6 +55,7 @@ It also accepts a function returning a signal, to follow your app language live.
 - `npm run test:shuffle` runs the same suite with the spec files in random order, one at a time. Specs share one environment, so a test that leaves something behind (fake timers, listeners, elements in `<body>`) only breaks another one in some orders — as can happen in CI. The seed is printed at the start; repeat a failing order with `SEED=1234 npm run test:shuffle` (PowerShell: `$env:SEED=1234; npm run test:shuffle`).
 - CI runs them on every push and pull request; the deploy only publishes when they pass.
 - Color contrast is checked in the browser, in both themes (jsdom does not render colors).
+- `npm run check:css` makes sure every CSS variable the components use has a default (`var(--x, value)`), so a component copied into another project keeps its look without this project's `styles.sass`; CI runs it before the tests. The global theme still overrides those defaults (light/dark, accent colors).
 
 ## License
 

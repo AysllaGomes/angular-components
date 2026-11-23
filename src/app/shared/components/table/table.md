@@ -436,7 +436,7 @@ Declare/ajuste tokens no `styles.sass` (ou no wrapper da página):
   --chip-orange-fg: #9f5313
 ```
 
-No Sass do componente essas variáveis já são usadas em header, linhas, bordas, chips e botões.
+No Sass do componente essas variáveis já são usadas em header, linhas, bordas, chips e botões, **sempre com valor padrão**: copiada para outro projeto, a tabela mantém o visual mesmo sem elas. Os chips ficam no subcomponente interno `app-table-chip` (classes `chip` / `chip--<variante>`); `teal` e `orange` já vêm estilizadas, e outras variantes recebem a classe para você estilizar no app.
 
 
 ## Acessibilidade

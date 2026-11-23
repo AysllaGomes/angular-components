@@ -17,5 +17,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      # componentes funcionam fora deste projeto: toda var(--x) com valor padrão
+      - run: npm run check:css
       - run: npm run test:ci
       - run: npm run build

@@ -280,9 +280,7 @@
 <ng-template #cellTpl let-col let-row="row" let-i="i">
   @switch (col.type || 'text') {
     @case ('chip') {
-      <span [class]="chipClass(col, $any(row)[$any(col).key])">
-        {{ chipLabel(col, $any(row)[$any(col).key]) }}
-      </span>
+      <app-table-chip [label]="chipLabel(col, $any(row)[$any(col).key])" [variant]="chipVariant(col, $any(row)[$any(col).key])" />
     }
     @case ('custom') {
       @if (getTemplate(String(col.key)); as tpl) {

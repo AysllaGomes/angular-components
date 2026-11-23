@@ -11,7 +11,8 @@
     "test:shuffle": "ng test --watch=false --runner-config=vitest-shuffle.config.mts",
     "release": "commit-and-tag-version",
     "release:rc": "commit-and-tag-version --prerelease rc",
-    "serve:ssr:angular-components": "node dist/angular-components/server/server.mjs"
+    "serve:ssr:angular-components": "node dist/angular-components/server/server.mjs",
+    "check:css": "node scripts/check-css-fallbacks.mjs"
   },
   "prettier": {
     "printWidth": 100,

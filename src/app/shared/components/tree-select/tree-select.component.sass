@@ -19,10 +19,10 @@
   justify-content: space-between
   align-items: baseline
   font-size: .9rem
-  color: var(--sel-fg)
+  color: var(--sel-fg, #14171a)
   .req
     font-size: .8rem
-    color: var(--muted)
+    color: var(--muted, #5f6a75)
 
 .control-wrap
   display: grid
@@ -41,16 +41,16 @@
   min-height: 44px
   text-align: left
   border-radius: .5rem
-  border: 1px solid var(--sel-border)
-  background: var(--sel-bg)
-  color: var(--sel-fg)
+  border: 1px solid var(--sel-border, #e6e9ed)
+  background: var(--sel-bg, #ffffff)
+  color: var(--sel-fg, #14171a)
   cursor: pointer
   &:focus-visible
     outline: none
-    border-color: var(--accent)
-    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+    border-color: var(--accent, #058075)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
   .caret
-    color: var(--sel-caret)
+    color: var(--sel-caret, #5f6a75)
 
 .value
   display: flex
@@ -59,13 +59,13 @@
   min-width: 0
   overflow-wrap: anywhere
   &.placeholder
-    color: var(--sel-placeholder)
+    color: var(--sel-placeholder, #5f6a75)
 
 .chip
   padding: .1rem .5rem
   border-radius: 9999px
   font-size: .85rem
-  background: var(--sel-option-hover)
+  background: var(--sel-option-hover, color-mix(in srgb, #058075 16%, transparent))
   white-space: nowrap
   &--more
     font-weight: 600
@@ -76,20 +76,20 @@
   height: 36px
   border-radius: 9999px
   cursor: pointer
-  background: var(--sel-disabled-bg)
-  color: var(--sel-caret)
+  background: var(--sel-disabled-bg, #f7f8f9)
+  color: var(--sel-caret, #5f6a75)
   font-size: 18px
   &:focus-visible
     outline: none
-    box-shadow: 0 0 0 3px var(--sel-focus-ring)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
 
 .field.is-disabled .control
-  background: var(--sel-disabled-bg)
-  color: var(--muted)
+  background: var(--sel-disabled-bg, #f7f8f9)
+  color: var(--muted, #5f6a75)
   cursor: default
 
 .field.is-error .control
-  border-color: var(--sel-error)
+  border-color: var(--sel-error, #b91c1c)
 
 .backdrop
   position: fixed
@@ -104,8 +104,8 @@
   right: 0
   z-index: 61
   margin-top: .35rem
-  background: var(--sel-menu-bg)
-  border: 1px solid var(--sel-menu-border)
+  background: var(--sel-menu-bg, #ffffff)
+  border: 1px solid var(--sel-menu-border, #e6e9ed)
   border-radius: .5rem
   box-shadow: 0 12px 24px rgba(0,0,0,.12)
   max-height: 340px
@@ -124,34 +124,34 @@
   justify-content: space-between
   padding: .75rem .85rem
   font-weight: 600
-  border-bottom: 1px solid var(--sel-menu-border)
+  border-bottom: 1px solid var(--sel-menu-border, #e6e9ed)
 
 .filter
   position: sticky
   top: 0
   z-index: 1
   padding: .5rem
-  background: var(--sel-menu-bg)
-  border-bottom: 1px solid var(--sel-menu-border)
+  background: var(--sel-menu-bg, #ffffff)
+  border-bottom: 1px solid var(--sel-menu-border, #e6e9ed)
   input
     box-sizing: border-box
     width: 100%
     min-height: 40px
     padding: 0 .65rem
-    border: 1px solid var(--sel-border)
+    border: 1px solid var(--sel-border, #e6e9ed)
     border-radius: .4rem
-    background: var(--sel-bg)
-    color: var(--sel-fg)
+    background: var(--sel-bg, #ffffff)
+    color: var(--sel-fg, #14171a)
     &:focus-visible
       outline: none
-      border-color: var(--accent)
+      border-color: var(--accent, #058075)
 
 .tree
   padding: .25rem 0
   &:focus-visible
     outline: none
     .node.is-active
-      box-shadow: inset 3px 0 0 var(--accent)
+      box-shadow: inset 3px 0 0 var(--accent, #058075)
 
 /* recuo por nível via --level (definido no template) */
 .node
@@ -162,35 +162,35 @@
   cursor: pointer
   user-select: none
   &.is-active
-    background: var(--sel-option-hover)
+    background: var(--sel-option-hover, color-mix(in srgb, #058075 16%, transparent))
   &.is-selected
-    background: var(--sel-option-active)
+    background: var(--sel-option-active, color-mix(in srgb, #058075 26%, white))
     font-weight: 600
   &.is-disabled
-    color: var(--muted)
+    color: var(--muted, #5f6a75)
     cursor: default
   &:not(.is-disabled):hover app-checkbox-mark
-    --cbm-border: var(--cb-checked-bg)
-    --cbm-ring: var(--cb-hover-ring)
+    --cbm-border: var(--cb-checked-bg, #058075)
+    --cbm-ring: var(--cb-hover-ring, color-mix(in srgb, #058075 16%, transparent))
 
 .twisty
   width: 1rem
   flex: none
   text-align: center
-  color: var(--sel-caret)
+  color: var(--sel-caret, #5f6a75)
   transition: transform .12s ease
   &.is-open
     transform: rotate(90deg)
 
 .empty
   padding: .75rem
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
 
 .hint, .error
   font-size: .85rem
 
 .error
-  color: var(--sel-error)
+  color: var(--sel-error, #b91c1c)
 
 /* carregando os filhos: anel girando no lugar da seta */
 .twisty.is-loading
@@ -198,8 +198,8 @@
   height: .85rem
   margin: 0 .075rem
   box-sizing: border-box
-  border: 2px solid var(--sel-border)
-  border-top-color: var(--accent)
+  border: 2px solid var(--sel-border, #e6e9ed)
+  border-top-color: var(--accent, #058075)
   border-radius: 50%
   animation: ts-spin .7s linear infinite
 
@@ -209,7 +209,7 @@
 
 .node-error
   font-size: .8rem
-  color: var(--sel-error)
+  color: var(--sel-error, #b91c1c)
 
 @media (prefers-reduced-motion: reduce)
   .twisty.is-loading

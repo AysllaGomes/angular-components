@@ -37,12 +37,12 @@
       opacity: .8
 
   .bullet
-    width: var(--stepper-bullet-size)
-    height: var(--stepper-bullet-size)
-    min-width: var(--stepper-bullet-size)
+    width: var(--stepper-bullet-size, 28px)
+    height: var(--stepper-bullet-size, 28px)
+    min-width: var(--stepper-bullet-size, 28px)
     border-radius: 9999px
-    border: 2px solid var(--stepper-color-default)
-    background: var(--stepper-bullet-bg)
+    border: 2px solid var(--stepper-color-default, #c8ccd2)
+    background: var(--stepper-bullet-bg, #FFFFFF)
     display: grid
     place-items: center
     font-weight: 600
@@ -50,12 +50,12 @@
 
   .index
     font-size: .85rem
-    color: var(--stepper-color-default)
+    color: var(--stepper-color-default, #c8ccd2)
 
   .check
     font-size: .9rem
     font-weight: 700
-    color: var(--stepper-color-done)
+    color: var(--stepper-color-done, #058075)
 
   .texts
     display: grid
@@ -63,7 +63,7 @@
     min-width: 0
 
     .label
-      color: var(--stepper-text)
+      color: var(--stepper-text, #14171a)
       font-weight: 600
       font-size: var(--stepper-label-size, 1rem)
       line-height: 1.2
@@ -73,7 +73,7 @@
 
     .caption
       display: block
-      color: var(--stepper-caption)
+      color: var(--stepper-caption, #5f6a75)
       font-weight: 400
       font-size: var(--stepper-caption-size, .75rem)
       line-height: 1.2
@@ -81,12 +81,12 @@
 
   .connector
     position: absolute
-    top: calc(var(--stepper-bullet-size) / 2 - 1px)
+    top: calc(var(--stepper-bullet-size, 28px) / 2 - 1px)
     /* liga o centro deste bullet ao centro do próximo, com folga de .5rem de cada lado */
-    left: calc(50% + var(--stepper-bullet-size) / 2 + .5rem)
-    right: calc(-50% - 1rem + var(--stepper-bullet-size) / 2 + .5rem)
+    left: calc(50% + var(--stepper-bullet-size, 28px) / 2 + .5rem)
+    right: calc(-50% - 1rem + var(--stepper-bullet-size, 28px) / 2 + .5rem)
     height: 2px
-    background: var(--stepper-connector)
+    background: var(--stepper-connector, #A4A4A4)
     pointer-events: none
 
   &:last-child .connector
@@ -94,22 +94,22 @@
 
 .stepper-item.is-active
   .bullet
-    border-color: var(--stepper-color-active)
-    background-color: var(--stepper-color-active)
+    border-color: var(--stepper-color-active, #058075)
+    background-color: var(--stepper-color-active, #058075)
 
   .index
-    color: var(--stepper-color-number-active)
+    color: var(--stepper-color-number-active, #FFFFFF)
 
   .label
-    color: var(--stepper-color-label-active, var(--stepper-color-active))
+    color: var(--stepper-color-label-active, var(--stepper-color-active, #058075))
 
   .connector
-    background: var(--stepper-connector)
+    background: var(--stepper-connector, #A4A4A4)
 
 .stepper-item.is-done
   .bullet
-    border-color: var(--stepper-color-done)
-    background: var(--stepper-bullet-bg)
+    border-color: var(--stepper-color-done, #058075)
+    background: var(--stepper-bullet-bg, #FFFFFF)
 
   .index
     display: none
@@ -118,33 +118,33 @@
     display: inline
 
   .connector
-    background: var(--stepper-connector-active)
+    background: var(--stepper-connector-active, #058075)
 
 .stepper-item.is-disabled
   .bullet
-    border-color: var(--stepper-color-disabled)
+    border-color: var(--stepper-color-disabled, #dcdfe4)
 
   .index
-    color: var(--stepper-color-disabled)
+    color: var(--stepper-color-disabled, #dcdfe4)
 
   .label, .caption
-    color: var(--stepper-color-disabled)
+    color: var(--stepper-color-disabled, #dcdfe4)
 
 /* força o label do passo ativo a usar o accent (mais específico que .texts .label) */
 .stepper-item.is-active .texts .label
-  color: var(--stepper-color-label-active, var(--stepper-color-active))
+  color: var(--stepper-color-label-active, var(--stepper-color-active, #058075))
 
 /* (opcional) se quiser o texto das etapas concluídas também no accent */
 .stepper-item.is-done .texts .label
-  color: var(--stepper-color-done)
+  color: var(--stepper-color-done, #058075)
 
 /* acessibilidade: anel de foco no bullet seguindo o accent */
 .stepper-item .stepper-button:focus-visible .bullet
-  outline: 3px solid color-mix(in srgb, var(--accent), transparent 70%)
+  outline: 3px solid color-mix(in srgb, var(--accent, #058075), transparent 70%)
   outline-offset: 2px
 
 .stepper-item.is-active .texts .caption
-  color: var(--stepper-color-label-active, var(--stepper-color-active))
+  color: var(--stepper-color-label-active, var(--stepper-color-active, #058075))
 
 @media (max-width: 720px)
   .stepper-item .texts .caption
@@ -156,8 +156,8 @@
     column-gap: .5rem
   .stepper-item
     .connector
-      left: calc(50% + var(--stepper-bullet-size) / 2 + .25rem)
-      right: calc(-50% - .5rem + var(--stepper-bullet-size) / 2 + .25rem)
+      left: calc(50% + var(--stepper-bullet-size, 28px) / 2 + .25rem)
+      right: calc(-50% - .5rem + var(--stepper-bullet-size, 28px) / 2 + .25rem)
     .texts .label
       font-size: var(--stepper-label-size, .875rem)
   .stepper-item:not(.is-active) .texts

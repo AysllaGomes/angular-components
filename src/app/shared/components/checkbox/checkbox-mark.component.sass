@@ -1,32 +1,32 @@
 /* a própria tag é a caixa; o pai pode trocar --cbm-border / --cbm-ring (hover, foco) */
 :host
-  --cbm-border: var(--cb-border)
+  --cbm-border: var(--cb-border, #6b7c80)
   --cbm-ring: transparent
   box-sizing: border-box
   flex: none
   display: inline-grid
   place-items: center
-  width: var(--cb-size)
-  height: var(--cb-size)
+  width: var(--cb-size, 20px)
+  height: var(--cb-size, 20px)
   border: 2px solid var(--cbm-border)
-  border-radius: var(--cb-radius)
-  background: var(--cb-bg)
-  color: var(--cb-mark)
+  border-radius: var(--cb-radius, 5px)
+  background: var(--cb-bg, #ffffff)
+  color: var(--cb-mark, #ffffff)
   box-shadow: 0 0 0 4px var(--cbm-ring)
   transition: background-color .12s ease, border-color .12s ease, box-shadow .12s ease
 
 :host(.is-on)
-  --cbm-border: var(--cb-checked-bg)
-  background: var(--cb-checked-bg)
+  --cbm-border: var(--cb-checked-bg, #058075)
+  background: var(--cb-checked-bg, #058075)
 
 :host(.is-disabled)
-  --cbm-border: var(--cb-disabled-border)
+  --cbm-border: var(--cb-disabled-border, #c4cacd)
   --cbm-ring: transparent
-  background: var(--cb-disabled-bg)
+  background: var(--cb-disabled-bg, #eef0f2)
 
 :host(.is-on.is-disabled)
-  --cbm-border: var(--cb-disabled-checked-bg)
-  background: var(--cb-disabled-checked-bg)
+  --cbm-border: var(--cb-disabled-checked-bg, #c4cacd)
+  background: var(--cb-disabled-checked-bg, #c4cacd)
 
 svg
   width: 80%

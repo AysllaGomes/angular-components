@@ -401,7 +401,7 @@ Global tokens (override as needed):
   --tbl-action: #058075     // action icon color (via currentColor)
 ```
 
-Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sass using your tokens.
+Chips render in the internal `app-table-chip`, which carries the `chip` / `chip--<variant>` classes. `teal` and `orange` come styled (tokens `--chip-*`, with defaults); other variants get the class and you style them from your app.
 
 ---
 

@@ -14,7 +14,7 @@
   padding: .5rem .75rem
   border-radius: .5rem
   background: color-mix(in oklab, var(--_a) 10%, var(--tbl-row-bg, #fff))
-  color: var(--tbl-fg)
+  color: var(--tbl-fg, #0f1720)
 
 .bulk-bar__count
   font-weight: 600
@@ -43,7 +43,7 @@
 
 :host(.is-idle[data-idle="hint"]) .bulk-bar__count
   font-weight: 400
-  color: var(--tbl-muted)
+  color: var(--tbl-muted, #6b7280)
 
 // hidden: não ocupa espaço (a tabela desce quando a barra aparece)
 :host(.is-idle[data-idle="hidden"])

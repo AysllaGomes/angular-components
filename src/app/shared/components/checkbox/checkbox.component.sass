@@ -8,7 +8,7 @@
   align-items: center
   gap: .6rem
   min-height: 32px
-  color: var(--fg)
+  color: var(--fg, #14171a)
   cursor: pointer
   user-select: none
 
@@ -24,17 +24,17 @@
 
 /* hover da linha inteira e foco por teclado realçam a caixa */
 .cb:not(.is-disabled):hover app-checkbox-mark
-  --cbm-border: var(--cb-checked-bg)
-  --cbm-ring: var(--cb-hover-ring)
+  --cbm-border: var(--cb-checked-bg, #058075)
+  --cbm-ring: var(--cb-hover-ring, color-mix(in srgb, #058075 16%, transparent))
 
 .cb__input:focus-visible + app-checkbox-mark
-  --cbm-ring: var(--cb-focus-ring)
+  --cbm-ring: var(--cb-focus-ring, color-mix(in srgb, #058075 45%, transparent))
 
 .cb.is-error app-checkbox-mark
-  --cbm-border: var(--danger)
+  --cbm-border: var(--danger, #b91c1c)
 
 .cb.is-disabled
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
   cursor: default
 
 .cb__label:empty
@@ -42,8 +42,8 @@
 
 .cb__msg
   font-size: .85rem
-  color: var(--muted)
-  padding-left: calc(var(--cb-size) + .6rem)
+  color: var(--muted, #5f6a75)
+  padding-left: calc(var(--cb-size, 20px) + .6rem)
 
 .cb__msg--error
-  color: var(--danger)
+  color: var(--danger, #b91c1c)

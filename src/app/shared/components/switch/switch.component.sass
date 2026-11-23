@@ -12,14 +12,14 @@
   align-items: center
   gap: .65rem
   min-height: 32px
-  color: var(--fg)
+  color: var(--fg, #14171a)
   cursor: pointer
   user-select: none
   &.label-first
     flex-direction: row-reverse
     justify-content: space-between
   &.is-disabled
-    color: var(--muted)
+    color: var(--muted, #5f6a75)
     cursor: default
 
 /* input nativo invisível sobre o switch (focável e anunciado) */
@@ -40,8 +40,8 @@
   width: var(--sw-w)
   height: var(--sw-h)
   border-radius: 9999px
-  border: 2px solid var(--cb-border)
-  background: var(--cb-bg)
+  border: 2px solid var(--cb-border, #6b7c80)
+  background: var(--cb-bg, #ffffff)
   box-shadow: 0 0 0 4px var(--_ring)
   transition: background-color .15s, border-color .15s, box-shadow .15s
 
@@ -52,42 +52,42 @@
   width: calc(var(--sw-h) - 2 * var(--sw-pad) - 4px)
   height: calc(var(--sw-h) - 2 * var(--sw-pad) - 4px)
   border-radius: 50%
-  background: var(--cb-border)
+  background: var(--cb-border, #6b7c80)
   transform: translateY(-50%)
   transition: left .15s, background-color .15s
 
 .sw__input:checked + .sw__track
-  background: var(--cb-checked-bg)
-  border-color: var(--cb-checked-bg)
+  background: var(--cb-checked-bg, #058075)
+  border-color: var(--cb-checked-bg, #058075)
   .sw__thumb
-    background: var(--cb-mark)
+    background: var(--cb-mark, #ffffff)
     left: calc(100% - var(--sw-h) + var(--sw-pad) + 4px)
 
 .sw:not(.is-disabled):hover .sw__track
-  --_ring: var(--cb-hover-ring)
+  --_ring: var(--cb-hover-ring, color-mix(in srgb, #058075 16%, transparent))
 
 .sw__input:focus-visible + .sw__track
-  --_ring: var(--cb-focus-ring)
+  --_ring: var(--cb-focus-ring, color-mix(in srgb, #058075 45%, transparent))
 
 .sw__input:disabled + .sw__track
-  border-color: var(--cb-disabled-border)
-  background: var(--cb-disabled-bg)
+  border-color: var(--cb-disabled-border, #c4cacd)
+  background: var(--cb-disabled-bg, #eef0f2)
   .sw__thumb
-    background: var(--cb-disabled-border)
+    background: var(--cb-disabled-border, #c4cacd)
 
 .sw__input:disabled:checked + .sw__track
-  background: var(--cb-disabled-checked-bg)
-  border-color: var(--cb-disabled-checked-bg)
+  background: var(--cb-disabled-checked-bg, #c4cacd)
+  border-color: var(--cb-disabled-checked-bg, #c4cacd)
   /* bolinha clara (como o ✓ do checkbox desabilitado), senão some no trilho cinza */
   .sw__thumb
-    background: var(--cb-mark)
+    background: var(--cb-mark, #ffffff)
 
 .sw__label:empty
   display: none
 
 .sw__hint
   font-size: .85rem
-  color: var(--muted)
+  color: var(--muted, #5f6a75)
 
 @media (prefers-reduced-motion: reduce)
   .sw__track, .sw__thumb
