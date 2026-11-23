@@ -26,6 +26,7 @@ export const TABLE: Dict = {
   'table.bulk.label': { pt: 'Ações em massa', en: 'Bulk actions' },
   'table.bulk.count.one': { pt: '{{n}} selecionado', en: '{{n}} selected' },
   'table.bulk.count.other': { pt: '{{n}} selecionados', en: '{{n}} selected' },
+  'table.bulk.none': { pt: 'Nenhuma linha selecionada', en: 'No rows selected' },
   'table.bulk.clear': { pt: 'Limpar seleção', en: 'Clear selection' },
   'table.bulk.export': { pt: 'Exportar', en: 'Export' },
   'table.bulk.delete': { pt: 'Excluir selecionados', en: 'Delete selected' },

@@ -9,7 +9,8 @@ import { TableBulkActionsContext } from './table.directives';
 /**
  * Barra de ações em massa da `app-table` (uso interno): contador, "Limpar seleção"
  * e os botões de `[bulkActions]` ou do slot `appBulkActions`.
- * O foco ao sumir fica com a tabela, que sabe para onde levá-lo.
+ * Fica sempre no lugar; sem seleção, só o texto aparece. Quando os botões somem,
+ * o foco fica com a tabela, que sabe para onde levá-lo.
  */
 @Component({
   selector: 'app-table-bulk-bar',
@@ -25,6 +26,8 @@ import { TableBulkActionsContext } from './table.directives';
 })
 export class TableBulkBarComponent {
   readonly label = input.required<string>();
+  /** sem seleção (0), só o texto fica visível; "Limpar" e as ações guardam o espaço */
+  readonly count = input.required<number>();
   readonly countText = input.required<string>();
   readonly clearLabel = input.required<string>();
   readonly actions = input<TableBulkAction[]>([]);

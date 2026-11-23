@@ -1,6 +1,9 @@
 // --_a: cor das ações, com o fallback num lugar só
+// min-width: min-content: o host acompanha a tabela quando ela passa da largura do wrapper
+// (a largura da tabela não muda), então a barra de ações em massa pode ficar sticky
 :host
   display: block
+  min-width: min-content
   --_a: var(--tbl-action, #058075)
 
 /* reset leve só pra botões internos */

@@ -1,8 +1,11 @@
-// barra acima da tabela; sticky: fica à vista quando o wrapper rola na horizontal
+// barra acima da tabela, do tamanho do conteúdo; sticky: fica à vista quando o wrapper
+// rola na horizontal (a tabela estende o host até a largura dela, ver `min-width` no :host da tabela)
 :host
   --_a: var(--tbl-action, #058075)
   position: sticky
   left: 0
+  width: fit-content
+  max-width: 100%
   display: flex
   flex-wrap: wrap
   align-items: center
@@ -15,6 +18,17 @@
 
 .bulk-bar__count
   font-weight: 600
+  &.is-idle
+    font-weight: 400
+    color: var(--tbl-muted)
+
+.bulk-bar__more
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: .5rem .75rem
+  &.is-idle
+    visibility: hidden
 
 button
   appearance: none
@@ -30,12 +44,6 @@ button
   padding: 0
   color: var(--_a)
   text-decoration: underline
-
-.bulk-bar__actions
-  display: flex
-  flex-wrap: wrap
-  gap: .5rem
-  margin-left: auto
 
 // borda por box-shadow, como o "Tentar novamente" da tabela
 .bulk-btn

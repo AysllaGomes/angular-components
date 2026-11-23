@@ -64,6 +64,7 @@ export interface ColumnDef<T = any> {
 | `bulkActionsLabel` | `string`                       | `'Ações em massa'`      | Screen-reader name of the bar.                                                        |
 | `selectedCountLabel` | `(n: number) => string`      | `'n selecionado(s)'`    | Counter text (also announced on every change).                                        |
 | `clearSelectionLabel` | `string`                    | `'Limpar seleção'`      | Text of the button that clears the selection.                                         |
+| `noSelectionLabel` | `string`                       | `'Nenhuma linha selecionada'` | Bar text without a selection.                                                    |
 | `sortKey`        | `string`                         |            —            | Controlled sort column key.                                                           |
 | `sortDir`        | `'asc'\|'desc'`                  |         `'asc'`         | Controlled sort direction.                                                            |
 
@@ -104,7 +105,7 @@ export interface ColumnDef<T = any> {
 
 ## Bulk actions
 
-With `selectable` and `[bulkActions]`, a bar shows above the table while rows are selected: the counter ("3 selecionados"), **Limpar seleção** and the buttons. A click emits `(bulkAction)` with the selected **keys**.
+With `selectable` and `[bulkActions]`, a bar sits above the table. With selected rows it shows the counter ("3 selecionados"), **Limpar seleção** and the buttons; without a selection, only "Nenhuma linha selecionada" (the buttons keep their space, invisible), so the table does not jump when the first row is checked. A click emits `(bulkAction)` with the selected **keys**.
 
 ```ts
 bulkActions: TableBulkAction<string>[] = [
@@ -142,10 +143,10 @@ export interface TableBulkAction<K = any> {
 ```
 
 - **Use `rowKey`:** the selection spans pages, so the event carries **keys**, including rows that are not in `data`. Without `rowKey`, you get indices into `data`.
-- **Clear the selection** (`selected`) once the action is done: the bar goes away and focus moves to "select all" (or the table) instead of falling to `<body>`.
+- **Clear the selection** (`selected`) once the action is done: the buttons go away and focus moves to "select all" (or the table) instead of falling to `<body>`.
 - Unavailable action: `aria-disabled` (stays focusable, the click emits nothing) and the reason shows in the tooltip.
-- The counter is announced to screen readers on every selection change. For another language, pass `selectedCountLabel`, `clearSelectionLabel` and `bulkActionsLabel`.
-- The bar stays in view when the wrapper scrolls horizontally (`position: sticky`).
+- The counter is announced to screen readers on every selection change. For another language, pass `selectedCountLabel`, `noSelectionLabel`, `clearSelectionLabel` and `bulkActionsLabel`.
+- The bar is as wide as its content and stays in view when the wrapper scrolls horizontally (`position: sticky`).
 
 ---
 ### Sorting (controlled)
@@ -318,7 +319,7 @@ Chip variants (`chip--teal`, `chip--orange`, …) are styled in the component Sa
 - Semantic `<table>`, sticky `<thead>`, labeled checkboxes (`aria-label`).
 - Visible focus on action buttons (`:focus-visible`).
 - Error state: announced message (`role="alert"`), `aria-busy` on the table while loading, and focus is not lost on retry.
-- Bulk actions: bar with `role="group"` and a name (`bulkActionsLabel`), announced counter (`aria-live="polite"`), and focus moves to "select all" when the bar goes away.
+- Bulk actions: bar with `role="group"` and a name (`bulkActionsLabel`), announced counter (`aria-live="polite"`), and focus moves to "select all" when the buttons go away.
 - Declarative actions: the name is also a tooltip; unavailable actions use `aria-disabled` (focusable, with the reason) and the actions column header has a screen-reader name (`actionsLabel`).
 - Avoid global resets like `button { border: none !important; ... }` — scope styles to `.icon-btn` instead.
 - Clickable header with `aria-sort="ascending|descending|none"` and visible focus on the `th` (Enter/Space toggles).

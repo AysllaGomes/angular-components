@@ -1,6 +1,8 @@
-<span class="bulk-bar__count">{{ countText() }}</span>
-<button type="button" class="bulk-bar__clear" (click)="clear.emit()">{{ clearLabel() }}</button>
-<div class="bulk-bar__actions">
+<!-- sempre presente: anuncia "3 selecionados" a cada mudança (uma região que aparece junto com o texto não seria lida) -->
+<span class="bulk-bar__count" [class.is-idle]="count() === 0" aria-live="polite">{{ countText() }}</span>
+<!-- sem seleção: invisível mas ocupando o espaço (a altura não muda); visibility também tira do foco e do leitor -->
+<div class="bulk-bar__more" [class.is-idle]="count() === 0">
+  <button type="button" class="bulk-bar__clear" (click)="clear.emit()">{{ clearLabel() }}</button>
   @if (tpl(); as t) {
     <ng-container [ngTemplateOutlet]="t" [ngTemplateOutletContext]="ctx()" />
   } @else {

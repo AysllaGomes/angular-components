@@ -10,7 +10,7 @@ Uma **tabela personalizável** com seleção por checkbox, coluna de ações, _c
 
 - **Colunas declarativas** via `ColumnDef` (texto, chip ou custom).
 - **Seleção**: checkbox por linha + “selecionar tudo”.
-- **Ações em massa**: barra que aparece ao selecionar (“3 selecionados”, Limpar seleção e botões), via `[bulkActions]` ou *slot* `appBulkActions`.
+- **Ações em massa**: barra acima da tabela (“3 selecionados”, Limpar seleção e botões; sem seleção, só “Nenhuma linha selecionada”), via `[bulkActions]` ou *slot* `appBulkActions`.
 - **Ações**:
   - **Declarativas** via `[actions]` (ex.: `['edit', 'delete']`) com ícones padrão.
   - **Customizadas** via *slot* `appActions` quando você precisa de controle total do markup.
@@ -153,6 +153,7 @@ export interface TableAction<T = any> {
 | `bulkActionsLabel` | `string`                     |                                                         `'Ações em massa'`                                                          | Nome do grupo da barra para leitor de tela.                                                                  |
 | `selectedCountLabel` | `(n: number) => string`    |                                                       `'1 selecionado'` / `'n selecionados'`                                        | Texto do contador (também anunciado a cada mudança).                                                         |
 | `clearSelectionLabel` | `string`                  |                                                          `'Limpar seleção'`                                                         | Texto do botão que limpa a seleção.                                                                          |
+| `noSelectionLabel` | `string`                     |                                                     `'Nenhuma linha selecionada'`                                                     | Texto da barra sem seleção.                                                                                  |
 | `sortKey`       | `string`                        |                                                                  —                                                                  | Chave da coluna ordenada (controlado).                                                                       |
 | `sortDir`       | `'asc' '\| desc'`               |                                                               `'asc'`                                                               | Direção da ordenação (controlado).                                                                           |
 
@@ -194,7 +195,7 @@ export interface TableAction<T = any> {
 
 ## Ações em massa
 
-Com `selectable` e `[bulkActions]`, uma barra aparece acima da tabela quando há linhas selecionadas: o contador ("3 selecionados"), **Limpar seleção** e os botões. O clique emite `(bulkAction)` com as **chaves** selecionadas.
+Com `selectable` e `[bulkActions]`, uma barra fica acima da tabela. Com linhas selecionadas, mostra o contador ("3 selecionados"), **Limpar seleção** e os botões; sem seleção, só "Nenhuma linha selecionada" (os botões guardam o espaço, invisíveis), então a tabela não pula ao marcar a primeira linha. O clique emite `(bulkAction)` com as **chaves** selecionadas.
 
 ```ts
 bulkActions: TableBulkAction<string>[] = [
@@ -232,10 +233,10 @@ export interface TableBulkAction<K = any> {
 ```
 
 - **Use `rowKey`:** a seleção atravessa páginas, então o evento traz **chaves**, inclusive de linhas que não estão em `data`. Sem `rowKey`, vêm índices em `data`.
-- **Limpe a seleção** (`selected`) depois de concluir a ação: a barra some e o foco vai para "Selecionar tudo" (ou para a tabela), sem cair no `<body>`.
+- **Limpe a seleção** (`selected`) depois de concluir a ação: os botões somem e o foco vai para "Selecionar tudo" (ou para a tabela), sem cair no `<body>`.
 - Ação indisponível: `aria-disabled` (continua focável, o clique não emite) e o motivo aparece na dica.
-- O contador é anunciado ao leitor de tela a cada mudança na seleção. Para outro idioma, passe `selectedCountLabel`, `clearSelectionLabel` e `bulkActionsLabel`.
-- A barra fica visível mesmo quando o wrapper rola na horizontal (`position: sticky`).
+- O contador é anunciado ao leitor de tela a cada mudança na seleção. Para outro idioma, passe `selectedCountLabel`, `noSelectionLabel`, `clearSelectionLabel` e `bulkActionsLabel`.
+- A barra tem a largura do conteúdo e fica visível quando o wrapper rola na horizontal (`position: sticky`).
 
 ---
 ### Ordenação (controlada)
@@ -349,7 +350,7 @@ No Sass do componente essas variáveis já são usadas em header, linhas, bordas
 ## Acessibilidade
 - Cabeçalho clicável com `aria-sort="ascending|descending|none"` e foco visível no `th` (Enter/Espaço para alternar).
 - Estado de erro: mensagem anunciada (`role="alert"`), `aria-busy` na tabela enquanto carrega e o foco não se perde ao tentar de novo.
-- Ações em massa: barra com `role="group"` e nome (`bulkActionsLabel`), contador anunciado (`aria-live="polite"`) e o foco vai para "Selecionar tudo" quando a barra some.
+- Ações em massa: barra com `role="group"` e nome (`bulkActionsLabel`), contador anunciado (`aria-live="polite"`) e o foco vai para "Selecionar tudo" quando os botões somem.
 - Ações declarativas: o nome também aparece como dica; ações indisponíveis usam `aria-disabled` (focáveis, com o motivo) e o cabeçalho da coluna de ações tem nome para leitor de tela (`actionsLabel`).
 
 ---

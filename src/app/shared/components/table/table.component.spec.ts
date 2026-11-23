@@ -365,6 +365,7 @@ describe('TableComponent bulk actions', () => {
   const live = () => first().querySelector('[aria-live]')!;
   const btn = (label: string) =>
     Array.from(first().querySelectorAll<HTMLButtonElement>('.bulk-bar button')).find(b => b.textContent!.includes(label))!;
+  const more = () => first().querySelector<HTMLElement>('.bulk-bar__more')!;
   const rowBoxes = () => Array.from(first().querySelectorAll<HTMLInputElement>('tbody input[type=checkbox]'));
   const selectAll = () => first().querySelector<HTMLInputElement>('thead input[type=checkbox]')!;
   const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); };
@@ -382,15 +383,15 @@ describe('TableComponent bulk actions', () => {
 
   afterEach(() => fixture.destroy());
 
-  it('shows the bar only with a selection, with a count announced on every change', async () => {
-    expect(bar()).toBeNull();
-    expect(live().textContent!.trim()).toBe('');
+  it('keeps the bar in place (only the text without a selection), with a count announced on every change', async () => {
+    expect(bar()!.getAttribute('role')).toBe('group');
+    expect(bar()!.getAttribute('aria-label')).toBe('Ações em massa');
+    expect(live().textContent!.trim()).toBe('Nenhuma linha selecionada');
+    expect(more().classList).toContain('is-idle'); // "Limpar" e ações guardam o espaço, invisíveis
 
     rowBoxes()[1].click();
     await settle();
-    expect(bar()!.getAttribute('role')).toBe('group');
-    expect(bar()!.getAttribute('aria-label')).toBe('Ações em massa');
-    expect(bar()!.textContent).toContain('1 selecionado');
+    expect(more().classList).not.toContain('is-idle');
     expect(live().textContent!.trim()).toBe('1 selecionado');
 
     selectAll().click();
@@ -431,7 +432,7 @@ describe('TableComponent bulk actions', () => {
     clear.click();
     await settle();
     expect(host.selected()).toEqual([]);
-    expect(bar()).toBeNull();
+    expect(more().classList).toContain('is-idle');
     expect(document.activeElement).toBe(selectAll());
   });
 

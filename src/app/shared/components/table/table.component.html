@@ -1,12 +1,10 @@
 <!-- AÇÕES EM MASSA -->
+<!-- sempre no lugar (sem seleção, só o texto): a tabela não pula ao marcar a primeira linha -->
 @if (hasBulk()) {
-  <!-- sempre presente: anuncia "3 selecionados" a cada mudança (uma região que aparece junto com o texto não seria lida) -->
-  <span class="sr-only" aria-live="polite">{{ selectedCountText() }}</span>
-}
-@if (bulkVisible()) {
-  <!-- foco: a tabela acompanha se ele está na barra, para não perdê-lo quando ela some -->
+  <!-- foco: a tabela acompanha se ele está na barra, para não perdê-lo quando os botões somem -->
   <app-table-bulk-bar
     [label]="bulkActionsLabel()"
+    [count]="selectedCount()"
     [countText]="selectedCountText()"
     [clearLabel]="clearSelectionLabel()"
     [actions]="bulkActions()"

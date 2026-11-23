@@ -53,6 +53,7 @@
         [bulkActions]="bulkActions()"
         [bulkActionsLabel]="'table.bulk.label' | t"
         [selectedCountLabel]="countLabel"
+        [noSelectionLabel]="'table.bulk.none' | t"
         [clearSelectionLabel]="'table.bulk.clear' | t"
         (bulkAction)="onBulk($any($event))"
         (action)="onAction($event)">

@@ -116,7 +116,10 @@ export class TableComponent<T = any> {
   readonly action = output<{ type: string; row: T; index: number }>();
 
   // ===== ações em massa =====
-  /** botões da barra que aparece ao selecionar (exige `selectable`) */
+  /**
+   * Botões da barra de ações em massa (exige `selectable`). A barra fica sempre no
+   * lugar, para a tabela não pular ao selecionar; sem seleção mostra só `noSelectionLabel`.
+   */
   readonly bulkActions = input<TableBulkAction[]>([]);
   /** nome do grupo da barra para leitor de tela */
   readonly bulkActionsLabel = input('Ações em massa');
@@ -124,6 +127,8 @@ export class TableComponent<T = any> {
   readonly selectedCountLabel = input<(n: number) => string>(
     n => (n === 1 ? '1 selecionado' : `${n} selecionados`)
   );
+  /** texto da barra sem seleção */
+  readonly noSelectionLabel = input('Nenhuma linha selecionada');
   readonly clearSelectionLabel = input('Limpar seleção');
   /** clique numa ação em massa: chaves (com `rowKey`) ou índices em `data` */
   readonly bulkAction = output<{ type: string; keys: any[] }>();
@@ -137,9 +142,8 @@ export class TableComponent<T = any> {
     this.selectable() && (this.bulkActions().length > 0 || !!this.bulkTpl())
   );
   readonly selectedCount = computed(() => this.selection().length);
-  readonly bulkVisible = computed(() => this.hasBulk() && this.selectedCount() > 0);
   readonly selectedCountText = computed(() =>
-    this.selectedCount() > 0 ? this.selectedCountLabel()(this.selectedCount()) : ''
+    this.selectedCount() > 0 ? this.selectedCountLabel()(this.selectedCount()) : this.noSelectionLabel()
   );
   readonly bulkCtx = computed<TableBulkActionsContext>(() => {
     const keys = [...this.selection()];
@@ -155,7 +159,8 @@ export class TableComponent<T = any> {
   private readonly tableEl = viewChild<ElementRef<HTMLTableElement>>('tbl');
   private readonly retryBtn = viewChild<ElementRef<HTMLButtonElement>>('retryBtn');
   private readonly selectAllEl = viewChild<ElementRef<HTMLInputElement>>('selectAll');
-  /** o foco estava na barra de ações em massa (ela some ao limpar a seleção) */
+  private readonly bulkBarEl = viewChild(TableBulkBarComponent, { read: ElementRef });
+  /** o foco estava na barra de ações em massa (os botões somem ao limpar a seleção) */
   private bulkHadFocus = false;
   /** clicou em "Tentar novamente" e o resultado ainda não chegou */
   private readonly retryPending = signal(false);
@@ -183,15 +188,17 @@ export class TableComponent<T = any> {
       else this.endRetry();
     });
 
-    // A barra some quando a seleção fica vazia ("Limpar seleção", ou o container limpou
-    // depois de uma ação): o foco iria para o <body>. Vai para "Selecionar tudo" (ou a tabela).
+    // Os botões da barra somem quando a seleção fica vazia ("Limpar seleção", ou o container
+    // limpou depois de uma ação): o foco ficaria num botão invisível ou no <body>.
+    // Vai para "Selecionar tudo" (ou a tabela).
     afterRenderEffect(() => {
-      const visible = this.bulkVisible();
+      const hasSelection = this.selectedCount() > 0;
       const selectAll = this.selectAllEl()?.nativeElement;
-      if (visible || !this.bulkHadFocus) return;
+      if (hasSelection || !this.bulkHadFocus) return;
       this.bulkHadFocus = false;
       const active = this.doc.activeElement;
-      if (active && active !== this.doc.body) return;
+      const bar = this.bulkBarEl()?.nativeElement as HTMLElement | undefined;
+      if (active && active !== this.doc.body && !bar?.contains(active)) return;
       if (selectAll && !selectAll.disabled) selectAll.focus();
       else this.tableEl()?.nativeElement.focus();
     });
