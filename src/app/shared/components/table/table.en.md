@@ -35,7 +35,6 @@ To use the Table in another Angular project, copy into a `shared/` folder **keep
 |---|---|
 | The component | `components/table/` |
 | Components it uses | `components/button/`, `components/pagination/`, `components/tooltip/` |
-| Types | `model/interface/chip-map-entry.interface.ts`<br>`model/interface/column-def.interface.ts`<br>`model/interface/table-action.interface.ts`<br>`model/interface/table-bulk-action.interface.ts`<br>`model/type/action-kind.type.ts`<br>`model/type/align.type.ts`<br>`model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts`<br>`model/type/cell.type.ts`<br>`model/type/sort-dir.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
 Global styles: add to your project's `styles.sass` (or `styles.scss`):
@@ -45,7 +44,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/tooltip/tooltip'
 ```
 
-Depends only on `@angular/common`, `@angular/core`. In total: 33 files, ~2860 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 24 files, ~2851 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Files

@@ -28,8 +28,7 @@ import {
   attachChildren, checkState, expandSelection, filterTree, indexTree, leafValue, normalize, summaryValue, toggleLeaves, visibleLeaves
 } from './tree-utils';
 
-import { ResponsiveMode } from '../../model/type/responsive-mode.type';
-import { TreeNode, TreeSelectionMode, TreeValueMode } from '../../model/interface/tree-select/tree-node.interface';
+import { ResponsiveMode, TreeNode, TreeSelectionMode, TreeValueMode } from './tree-select.types';
 
 let uid = 0;
 

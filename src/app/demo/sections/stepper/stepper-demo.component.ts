@@ -1,10 +1,10 @@
 import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
-import { I18nService } from '../../../shared/services/i18n.service';
+import { I18nService } from '../../../site/services/i18n.service';
 
-import { StepItem } from '../../../shared/model/interface/step-item.interface';
+import { StepItem } from '../../../shared/components/stepper/stepper.types';
 
 import { ButtonDirective } from '../../../shared/components/button/button.directive';
 

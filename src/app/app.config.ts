@@ -4,7 +4,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay, withNoIncrementalHydration } from '@angular/platform-browser';
 
-import { I18nService } from './shared/services/i18n.service';
+import { I18nService } from './site/services/i18n.service';
 import { UI_LABELS_EN, UI_LABELS_PT, provideUiLabels } from './shared/labels';
 
 export const appConfig: ApplicationConfig = {

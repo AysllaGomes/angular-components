@@ -17,7 +17,7 @@ import {
 import { injectUiLabels } from '../../labels';
 
 import { ModalSession } from '../../a11y/modal-session';
-import { AbSize } from '../../model/type/ab-size.type';
+import { AbSize } from './actionbar.types';
 import { ButtonDirective } from '../button/button.directive';
 
 let uid = 0;

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, provideZonelessChangeDetection, sig
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { RadioOption } from '../../model/interface/radio/radio-option.interface';
+import { RadioOption } from './radio.types';
 
 import { RadioGroupComponent } from './radio-group.component';
 

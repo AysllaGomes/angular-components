@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, computed, signal } from '@angular/c
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
 import { ButtonDirective } from '../../../shared/components/button/button.directive';
 import { CheckboxComponent } from '../../../shared/components/checkbox/checkbox.component';

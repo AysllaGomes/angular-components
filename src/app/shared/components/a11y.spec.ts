@@ -6,13 +6,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expectNoA11yViolations, writeA11yReport } from '../../../testing/axe';
 import { stubLayout } from '../../../testing/layout-stub';
 
-import { ColumnDef } from '../model/interface/column-def.interface';
-import { TableAction } from '../model/interface/table-action.interface';
-import { TableBulkAction } from '../model/interface/table-bulk-action.interface';
-import { TreeNode } from '../model/interface/tree-select/tree-node.interface';
-import { SelectOption } from '../model/interface/select/select-option.interface';
+import { ColumnDef, TableAction, TableBulkAction } from './table/table.types';
+import { TreeNode } from './tree-select/tree-select.types';
+import { SelectOption } from './select/select.types';
 
-import { ToastService } from '../services/toast.service';
+import { ToastService } from './toast/toast.service';
 import { TableComponent } from './table/table.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { SelectComponent } from './select/select.component';

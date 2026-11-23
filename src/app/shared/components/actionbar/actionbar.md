@@ -34,7 +34,7 @@ Para usar o ActionBar em outro projeto Angular, copie para dentro de uma pasta `
 |---|---|
 | O componente | `components/actionbar/` |
 | Componentes que ele usa | `components/button/` |
-| Tipos | `model/type/ab-size.type.ts`<br>`model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts` |
+| Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
 Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
@@ -43,7 +43,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 12 arquivos, ~890 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 10 arquivos, ~892 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Anatomia

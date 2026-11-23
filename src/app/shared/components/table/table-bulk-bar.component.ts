@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, TemplateRef, input, output } from '@angular/core';
 
-import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
+import { TableBulkAction, TableBulkBarIdle } from './table.types';
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkActionsContext } from './table.directives';

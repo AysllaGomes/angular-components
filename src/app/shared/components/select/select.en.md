@@ -36,10 +36,9 @@ To use the Select in another Angular project, copy into a `shared/` folder **kee
 | What | Copy |
 |---|---|
 | The component | `components/select/` |
-| Types | `model/interface/select/select-option.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 7 files, ~947 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 6 files, ~948 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Features

@@ -1,4 +1,4 @@
-import { TreeNode } from '../../model/interface/tree-select/tree-node.interface';
+import { TreeNode } from './tree-select.types';
 
 import {
   attachChildren, checkState, expandSelection, filterTree, indexTree, leafValue, summaryValue, toggleLeaves, visibleLeaves

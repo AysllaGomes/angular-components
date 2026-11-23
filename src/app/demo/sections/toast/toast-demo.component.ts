@@ -1,9 +1,9 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
-import { I18nService } from '../../../shared/services/i18n.service';
-import { ToastService } from '../../../shared/services/toast.service';
+import { I18nService } from '../../../site/services/i18n.service';
+import { ToastService } from '../../../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-toast-demo',

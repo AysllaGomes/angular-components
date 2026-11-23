@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UI_LABELS_EN, UI_LABELS_PT, provideUiLabels } from './ui-labels';
 import { FormErrorsService } from '../forms/form-errors';
-import { ColumnDef } from '../model/interface/column-def.interface';
+import { ColumnDef } from '../components/table/table.types';
 import { TableComponent } from '../components/table/table.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 

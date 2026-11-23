@@ -7,7 +7,7 @@
 Select cujas opções formam uma **árvore**: escolha um nó (com o caminho no campo) ou marque grupos inteiros com checkbox. Construído com **Angular Standalone + HTML/Sass**, sem dependências de UI libs.
 
 - **Arquivos:** `src/app/shared/components/tree-select/` (`tree-select.component.ts`, `tree-utils.ts`)
-- **Modelo:** `src/app/shared/model/interface/tree-select/tree-node.interface.ts`
+- **Modelo:** `src/app/shared/components/tree-select/tree-select.types.ts`
 - **Visual:** mesmos tokens do Select (`--sel-*`) e a caixa do Checkbox (`app-checkbox-mark`, tokens `--cb-*`).
 
 O componente **só apresenta**: recebe a árvore (ou uma função que busca os filhos) e devolve **keys**. Não conhece regra de negócio.
@@ -46,10 +46,9 @@ Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta 
 |---|---|
 | O componente | `components/tree-select/` |
 | Componentes que ele usa | `components/checkbox/` |
-| Tipos | `model/interface/tree-select/tree-node.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1587 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 12 arquivos, ~1589 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Dados

@@ -7,7 +7,7 @@
 **Single** choice among a few visible options. Built on a **native** `<fieldset>` + `<legend>` and `<input type="radio">`, using the Checkbox color tokens (`--cb-*`).
 
 - **File:** `src/app/shared/components/radio/radio-group.component.ts`
-- **Model:** `src/app/shared/model/interface/radio/radio-option.interface.ts`
+- **Model:** `src/app/shared/components/radio/radio.types.ts`
 
 | When to use | Component |
 |---|---|
@@ -40,10 +40,9 @@ To use the Radio group in another Angular project, copy into a `shared/` folder 
 | What | Copy |
 |---|---|
 | The component | `components/radio/` |
-| Types | `model/interface/radio/radio-option.interface.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`. In total: 6 files, ~479 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`. In total: 6 files, ~481 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage

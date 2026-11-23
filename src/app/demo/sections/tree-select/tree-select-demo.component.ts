@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
-import { I18nService } from '../../../shared/services/i18n.service';
+import { TPipe } from '../../../site/i18n/t.pipe';
+import { I18nService } from '../../../site/services/i18n.service';
 
-import { TreeNode } from '../../../shared/model/interface/tree-select/tree-node.interface';
+import { TreeNode } from '../../../shared/components/tree-select/tree-select.types';
 import { TreeChildrenLoader, TreeSelectComponent, TreeSelectValue } from '../../../shared/components/tree-select/tree-select.component';
 
 /** nomes próprios: iguais nos dois idiomas */

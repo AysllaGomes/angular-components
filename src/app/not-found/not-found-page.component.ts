@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, DOCUMENT, DestroyRef, computed, eff
 import { Meta, Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
 
-import { TPipe } from '../shared/i18n/t.pipe';
-import { I18nService } from '../shared/services/i18n.service';
-import { HeaderComponent } from '../demo/layout/header/header.component';
-import { FooterComponent } from '../demo/layout/footer/footer.component';
+import { TPipe } from '../site/i18n/t.pipe';
+import { I18nService } from '../site/services/i18n.service';
+import { HeaderComponent } from '../site/layout/header/header.component';
+import { FooterComponent } from '../site/layout/footer/footer.component';
 import { SITE_COMPONENTS, normalizeText, suggestComponent } from '../site/site-components';
 
 /**

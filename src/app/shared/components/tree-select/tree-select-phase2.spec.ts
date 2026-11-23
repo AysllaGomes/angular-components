@@ -4,7 +4,7 @@ import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { TreeNode, TreeSelectionMode, TreeValueMode } from '../../model/interface/tree-select/tree-node.interface';
+import { TreeNode, TreeSelectionMode, TreeValueMode } from './tree-select.types';
 
 import { TreeChildrenLoader, TreeSelectComponent, TreeSelectValue } from './tree-select.component';
 

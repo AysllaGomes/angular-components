@@ -1,6 +1,6 @@
 import { CheckState } from '../checkbox/checkbox-mark.component';
 
-import { TreeNode } from '../../model/interface/tree-select/tree-node.interface';
+import { TreeNode } from './tree-select.types';
 
 /** informações pré-calculadas de cada nó (índice da árvore) */
 export interface NodeInfo<T = unknown> {

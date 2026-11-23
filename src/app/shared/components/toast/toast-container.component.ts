@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component , computed } from '@angular/core';
 
 import { injectUiLabels } from '../../labels';
 
-import { ToastService } from '../../services/toast.service';
+import { ToastService } from './toast.service';
 
 import { ButtonDirective } from '../button/button.directive';
 
-import { Toast } from '../../model/interface/toast.interface';
+import { Toast } from './toast.types';
 
 @Component({
   selector: 'app-toast-container',

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { stubLayout } from '../../../../testing/layout-stub';
 
-import { DialogSize } from '../../model/type/dialog-size.type';
+import { DialogSize } from './dialog.types';
 
 import { DialogComponent } from './dialog.component';
 

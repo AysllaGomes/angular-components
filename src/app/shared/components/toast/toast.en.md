@@ -35,9 +35,7 @@ To use the Toast in another Angular project, copy into a `shared/` folder **keep
 |---|---|
 | The component | `components/toast/` |
 | Components it uses | `components/button/` |
-| Types | `model/interface/toast.interface.ts`<br>`model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts`<br>`model/type/toast.types.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
-| Service | `services/toast.service.ts` |
 
 Global styles: add to your project's `styles.sass` (or `styles.scss`):
 
@@ -45,7 +43,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/common`, `@angular/core`. In total: 13 files, ~712 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 10 files, ~711 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Files

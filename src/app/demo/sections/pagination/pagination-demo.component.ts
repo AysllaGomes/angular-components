@@ -1,6 +1,6 @@
 import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 

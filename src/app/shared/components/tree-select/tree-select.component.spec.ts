@@ -4,7 +4,7 @@ import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TreeNode, TreeSelectionMode } from '../../model/interface/tree-select/tree-node.interface';
+import { TreeNode, TreeSelectionMode } from './tree-select.types';
 
 import { TreeSelectComponent, TreeSelectValue } from './tree-select.component';
 

@@ -4,7 +4,7 @@ import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { SelectOption } from '../../model/interface/select/select-option.interface';
+import { SelectOption } from './select.types';
 
 import { SelectComponent, TYPEAHEAD_RESET_MS } from './select.component';
 

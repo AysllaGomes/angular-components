@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 

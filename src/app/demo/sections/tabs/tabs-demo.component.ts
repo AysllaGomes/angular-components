@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, computed, inject, input, signal } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
-import { I18nService } from '../../../shared/services/i18n.service';
+import { TPipe } from '../../../site/i18n/t.pipe';
+import { I18nService } from '../../../site/services/i18n.service';
 import { TABS_IMPORTS } from '../../../shared/components/tabs';
 import { SwitchComponent } from '../../../shared/components/switch/switch.component';
 

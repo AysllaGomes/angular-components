@@ -36,10 +36,10 @@ Para usar o Dialog em outro projeto Angular, copie para dentro de uma pasta `sha
 | O quê | Copiar |
 |---|---|
 | O componente | `components/dialog/` |
-| Tipos | `model/type/dialog-size.type.ts` |
+| Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~630 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~632 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso

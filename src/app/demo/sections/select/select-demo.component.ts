@@ -2,14 +2,14 @@ import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@a
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
-import { I18nService } from '../../../shared/services/i18n.service';
+import { I18nService } from '../../../site/services/i18n.service';
 
 import { ButtonDirective } from '../../../shared/components/button/button.directive';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 
-import { SelectOption } from '../../../shared/model/interface/select/select-option.interface';
+import { SelectOption } from '../../../shared/components/select/select.types';
 
 @Component({
   selector: 'app-select-demo',

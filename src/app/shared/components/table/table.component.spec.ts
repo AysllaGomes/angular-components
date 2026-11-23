@@ -4,9 +4,7 @@ import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ColumnDef } from '../../model/interface/column-def.interface';
-import { TableAction } from '../../model/interface/table-action.interface';
-import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
+import { ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle } from './table.types';
 
 import { TableComponent } from './table.component';
 import { TableBulkActionsTemplateDirective } from './table.directives';

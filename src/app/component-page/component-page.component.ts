@@ -1,16 +1,15 @@
-import { NgComponentOutlet } from '@angular/common';
+import { NgComponentOutlet, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DOCUMENT, PLATFORM_ID, afterNextRender, computed, effect, inject, signal } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
-import { TPipe } from '../shared/i18n/t.pipe';
-import { I18nService } from '../shared/services/i18n.service';
+import { TPipe } from '../site/i18n/t.pipe';
+import { I18nService } from '../site/services/i18n.service';
 import { TABS_IMPORTS } from '../shared/components/tabs';
-import { HeaderComponent } from '../demo/layout/header/header.component';
-import { FooterComponent } from '../demo/layout/footer/footer.component';
+import { HeaderComponent } from '../site/layout/header/header.component';
+import { FooterComponent } from '../site/layout/footer/footer.component';
 import { NotFoundPageComponent } from '../not-found/not-found-page.component';
 import { COMPONENT_DOCS } from '../site/component-docs.generated';
 import { SITE_COMPONENTS, SITE_GROUPS } from '../site/site-components';

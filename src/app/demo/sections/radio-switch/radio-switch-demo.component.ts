@@ -2,10 +2,10 @@ import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@a
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
-import { I18nService } from '../../../shared/services/i18n.service';
+import { TPipe } from '../../../site/i18n/t.pipe';
+import { I18nService } from '../../../site/services/i18n.service';
 
-import { RadioOption } from '../../../shared/model/interface/radio/radio-option.interface';
+import { RadioOption } from '../../../shared/components/radio/radio.types';
 import { ButtonDirective } from '../../../shared/components/button/button.directive';
 import { SwitchComponent } from '../../../shared/components/switch/switch.component';
 import { RadioGroupComponent } from '../../../shared/components/radio/radio-group.component';

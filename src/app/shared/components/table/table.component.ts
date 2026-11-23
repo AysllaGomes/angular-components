@@ -24,12 +24,8 @@ import {
 
 import { injectUiLabels } from '../../labels';
 
-import { ActionKind } from '../../model/type/action-kind.type';
-import { SortDir } from '../../model/type/sort-dir.type';
+import { ActionKind, SortDir, ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle } from './table.types';
 
-import { ColumnDef } from '../../model/interface/column-def.interface';
-import { TableAction } from '../../model/interface/table-action.interface';
-import { TableBulkAction, TableBulkBarIdle } from '../../model/interface/table-bulk-action.interface';
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
 import { TableBulkBarComponent } from './table-bulk-bar.component';

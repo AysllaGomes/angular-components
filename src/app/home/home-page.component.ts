@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { TPipe } from '../shared/i18n/t.pipe';
-import { HeaderComponent } from '../demo/layout/header/header.component';
-import { FooterComponent } from '../demo/layout/footer/footer.component';
+import { TPipe } from '../site/i18n/t.pipe';
+import { HeaderComponent } from '../site/layout/header/header.component';
+import { FooterComponent } from '../site/layout/footer/footer.component';
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
 import { HomeShowcaseComponent } from './showcase/home-showcase.component';
 import { HomeViewsComponent } from './views/home-views.component';

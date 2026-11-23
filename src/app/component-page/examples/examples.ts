@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Type, computed, inject, signal } from '@angular/core';
 
-import { I18nService } from '../../shared/services/i18n.service';
+import { I18nService } from '../../site/services/i18n.service';
 import { TABS_IMPORTS } from '../../shared/components/tabs';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { SelectComponent } from '../../shared/components/select/select.component';
-import { ColumnDef } from '../../shared/model/interface/column-def.interface';
-import { SelectOption } from '../../shared/model/interface/select/select-option.interface';
+import { ColumnDef } from '../../shared/components/table/table.types';
+import { SelectOption } from '../../shared/components/select/select.types';
 
 /*
  * Exemplos ao vivo das páginas de componente. Cada um reproduz o exemplo de "Uso"

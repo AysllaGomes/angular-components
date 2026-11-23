@@ -33,10 +33,9 @@ To use the Stepper in another Angular project, copy into a `shared/` folder **ke
 | What | Copy |
 |---|---|
 | The component | `components/stepper/` |
-| Types | `model/interface/step-item.interface.ts`<br>`model/type/step-state.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`. In total: 7 files, ~536 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 6 files, ~535 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Overview

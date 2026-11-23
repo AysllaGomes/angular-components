@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { TPipe } from '../../shared/i18n/t.pipe';
+import { TPipe } from '../../site/i18n/t.pipe';
 import { TABS_IMPORTS } from '../../shared/components/tabs';
 
 /** "Para quem vai usar" / "Como foi feito", nas Tabs da própria biblioteca */

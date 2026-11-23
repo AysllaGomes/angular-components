@@ -13,7 +13,7 @@ import {
 import { injectUiLabels } from '../../labels';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { RadioOption } from '../../model/interface/radio/radio-option.interface';
+import { RadioOption } from './radio.types';
 
 let uid = 0;
 

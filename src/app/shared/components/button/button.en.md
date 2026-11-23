@@ -31,7 +31,6 @@ To use the Button in another Angular project, copy into a `shared/` folder **kee
 | What | Copy |
 |---|---|
 | The component | `components/button/` |
-| Types | `model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts` |
 
 Global styles: add to your project's `styles.sass` (or `styles.scss`):
 
@@ -39,7 +38,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/core`. In total: 5 files, ~269 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 3 files, ~269 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage

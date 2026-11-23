@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { TPipe } from '../../shared/i18n/t.pipe';
+import { TPipe } from '../../site/i18n/t.pipe';
 import { SITE_COMPONENTS } from '../../site/site-components';
 
 /** os componentes, cada um levando à seção dele na demo (/demo#id) */

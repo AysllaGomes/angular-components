@@ -24,7 +24,7 @@ const DOCS = [
   { doc: 'components/switch/switch', name: { pt: 'o Switch', en: 'the Switch' }, entries: ['components/switch/switch.component.ts'] },
   { doc: 'components/table/table', name: { pt: 'a Tabela', en: 'the Table' }, entries: ['components/table/table.component.ts'] },
   { doc: 'components/tabs/tabs', name: { pt: 'as Tabs', en: 'the Tabs' }, entries: ['components/tabs/index.ts'] },
-  { doc: 'components/toast/toast', name: { pt: 'o Toast', en: 'the Toast' }, entries: ['components/toast/toast-container.component.ts', 'services/toast.service.ts'] },
+  { doc: 'components/toast/toast', name: { pt: 'o Toast', en: 'the Toast' }, entries: ['components/toast/toast-container.component.ts'] },
   { doc: 'components/tooltip/tooltip', name: { pt: 'o Tooltip', en: 'the Tooltip' }, entries: ['components/tooltip/tooltip.directive.ts'] },
   { doc: 'components/tree-select/tree-select', name: { pt: 'o TreeSelect', en: 'the TreeSelect' }, entries: ['components/tree-select/tree-select.component.ts'] },
   { doc: 'forms/forms', name: { pt: 'os Formulários', en: 'the Forms helpers' }, entries: ['forms/index.ts', 'components/form-field/form-field.component.ts'] },
@@ -73,13 +73,13 @@ const folderFiles = folder => readdirSync(join(shared, folder)).filter(n => !n.e
 function manifest(def) {
   const { files, external } = closure(def.entries);
   const rels = files.map(rel);
-  // pastas "do componente"; um serviço de entrada (Toast) vai na linha "Serviço"
-  const mainFolders = new Set(def.entries.filter(e => !e.startsWith('services/')).map(e => folderOf(e) ?? e.split('/')[0]));
+  // pastas "do componente" (os tipos públicos ficam dentro delas, em <x>.types.ts)
+  const mainFolders = new Set(def.entries.map(e => folderOf(e) ?? e.split('/')[0]));
   const compFolders = [...new Set(rels.map(folderOf).filter(Boolean))].filter(f => !mainFolders.has(f)).sort();
-  const other = rels.filter(r => !folderOf(r) && !def.entries.some(e => e.split('/')[0] === r.split('/')[0] && e.split('/')[0] !== 'services'));
-  const types = other.filter(r => r.startsWith('model/')).sort();
+  const other = rels.filter(r => !folderOf(r) && !def.entries.some(e => e.split('/')[0] === r.split('/')[0]));
   const labels = other.filter(r => r.startsWith('labels/')).length ? ['labels/'] : [];
-  const services = other.filter(r => r.startsWith('services/')).sort();
+  // arquivos avulsos fora das pastas de componente (ex.: a11y/modal-session.ts)
+  const helpers = other.filter(r => !r.startsWith('labels/')).sort();
 
   // arquivos que de fato vão: pastas inteiras dos componentes (sem specs/md) + avulsos
   const copied = new Set();
@@ -92,7 +92,7 @@ function manifest(def) {
   const lines = [...copied].reduce((n, f) => n + lineCount(f), 0);
 
   const globals = globalUses.filter(g => mainFolders.has(g.folder) || compFolders.includes(g.folder));
-  return { mainFolders: [...mainFolders], compFolders, types, labels, services, external, total, lines, globals };
+  return { mainFolders: [...mainFolders], compFolders, helpers, labels, external, total, lines, globals };
 }
 
 const T = {
@@ -100,7 +100,7 @@ const T = {
     title: '## O que copiar',
     intro: n => `Para usar ${n} em outro projeto Angular, copie para dentro de uma pasta \`shared/\` **mantendo a mesma estrutura de pastas** (os imports são relativos). Specs (\`*.spec.ts\`) e documentação são opcionais.`,
     head: '| O quê | Copiar |',
-    main: 'O componente', comps: 'Componentes que ele usa', types: 'Tipos', labels: 'Textos padrão', services: 'Serviço',
+    main: 'O componente', comps: 'Componentes que ele usa', helpers: 'Arquivos auxiliares', labels: 'Textos padrão',
     labelsNote: '([Textos dos componentes](LABELS))',
     globals: 'Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:',
     folder: '<sua-pasta>',
@@ -111,7 +111,7 @@ const T = {
     title: '## What to copy',
     intro: n => `To use ${n} in another Angular project, copy into a \`shared/\` folder **keeping the same folder structure** (imports are relative). Specs (\`*.spec.ts\`) and docs are optional.`,
     head: '| What | Copy |',
-    main: 'The component', comps: 'Components it uses', types: 'Types', labels: 'Default texts', services: 'Service',
+    main: 'The component', comps: 'Components it uses', helpers: 'Helper files', labels: 'Default texts',
     labelsNote: '([Component texts](LABELS))',
     globals: 'Global styles: add to your project\'s `styles.sass` (or `styles.scss`):',
     folder: '<your-folder>',
@@ -127,9 +127,8 @@ function section(def, m, lang, docPath) {
   const rows = [
     [t.main, m.mainFolders.map(f => code(f + '/')).join(', ')],
     m.compFolders.length && [t.comps, m.compFolders.map(f => code(f + '/')).join(', ')],
-    m.types.length && [t.types, m.types.map(code).join('<br>')],
+    m.helpers.length && [t.helpers, m.helpers.map(code).join('<br>')],
     m.labels.length && [t.labels, `${code('labels/')} ${t.labelsNote.replace('LABELS', labelsLink)}`],
-    m.services.length && [t.services, m.services.map(code).join(', ')],
   ].filter(Boolean);
   const out = [
     t.gen, t.title, '', t.intro(def.name[lang]), '', t.head, '|---|---|',

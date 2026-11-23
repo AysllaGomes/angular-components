@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, input, output , computed } from '@a
 
 import { injectUiLabels } from '../../labels';
 
-import { StepState } from '../../model/type/step-state.type';
+import { StepState, StepItem } from './stepper.types';
 
-import { StepItem } from '../../model/interface/step-item.interface';
 
 @Component({
   selector: 'app-stepper',

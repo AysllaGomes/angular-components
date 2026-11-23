@@ -7,7 +7,7 @@
 A select whose options form a **tree**: pick one node (with its path in the field) or check whole groups with checkboxes. Built with **Angular Standalone + HTML/Sass**, no UI libraries.
 
 - **Files:** `src/app/shared/components/tree-select/` (`tree-select.component.ts`, `tree-utils.ts`)
-- **Model:** `src/app/shared/model/interface/tree-select/tree-node.interface.ts`
+- **Model:** `src/app/shared/components/tree-select/tree-select.types.ts`
 - **Look:** same tokens as the Select (`--sel-*`) and the Checkbox box (`app-checkbox-mark`, `--cb-*` tokens).
 
 The component **only presents**: it receives the tree (or a function that fetches children) and returns **keys**. It knows no business rules.
@@ -46,10 +46,9 @@ To use the TreeSelect in another Angular project, copy into a `shared/` folder *
 |---|---|
 | The component | `components/tree-select/` |
 | Components it uses | `components/checkbox/` |
-| Types | `model/interface/tree-select/tree-node.interface.ts`<br>`model/type/responsive-mode.type.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1587 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 12 files, ~1589 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Data

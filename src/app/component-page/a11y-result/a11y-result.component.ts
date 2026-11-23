@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { TPipe } from '../../shared/i18n/t.pipe';
-import { I18nService } from '../../shared/services/i18n.service';
+import { TPipe } from '../../site/i18n/t.pipe';
+import { I18nService } from '../../site/services/i18n.service';
 import { A11yReportService, a11yTotals } from '../../site/a11y-report';
 
 /**

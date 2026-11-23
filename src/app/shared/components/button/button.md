@@ -31,7 +31,6 @@ Para usar o Button em outro projeto Angular, copie para dentro de uma pasta `sha
 | O quê | Copiar |
 |---|---|
 | O componente | `components/button/` |
-| Tipos | `model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts` |
 
 Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 
@@ -39,7 +38,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 5 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 3 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso

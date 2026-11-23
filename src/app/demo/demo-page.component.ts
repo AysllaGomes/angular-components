@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { HeaderComponent } from './layout/header/header.component';
-import { FooterComponent } from './layout/footer/footer.component';
+import { HeaderComponent } from '../site/layout/header/header.component';
+import { FooterComponent } from '../site/layout/footer/footer.component';
 import { TableDemoComponent } from './sections/table/table-demo.component';
 import { ToastDemoComponent } from './sections/toast/toast-demo.component';
 import { SelectDemoComponent } from './sections/select/select-demo.component';

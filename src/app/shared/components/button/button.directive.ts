@@ -1,8 +1,6 @@
 import { Directive, ElementRef, HostBinding, HostListener, booleanAttribute, computed, input } from '@angular/core';
 
-import { BtnTone } from '../../model/type/button/bnt-tone.type';
-import { BtnSize } from '../../model/type/button/bnt-size.type';
-import { BtnVariant } from '../../model/type/button/bnt-variant.type';
+import { BtnTone, BtnSize, BtnVariant } from './button.types';
 
 @Directive({
   // pode ser usado em <button> e <a>

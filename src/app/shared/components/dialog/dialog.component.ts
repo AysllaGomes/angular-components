@@ -18,7 +18,7 @@ import {
 import { injectUiLabels } from '../../labels';
 
 import { ModalSession } from '../../a11y/modal-session';
-import { DialogSize } from '../../model/type/dialog-size.type';
+import { DialogSize } from './dialog.types';
 
 let uid = 0;
 

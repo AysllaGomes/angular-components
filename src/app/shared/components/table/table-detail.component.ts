@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, TemplateRef, input } from '@angular/core';
 
-import { ColumnDef } from '../../model/interface/column-def.interface';
+import { ColumnDef } from './table.types';
 
 /**
  * Conteúdo da linha de detalhes da `app-table` (uso interno): as colunas recolhidas

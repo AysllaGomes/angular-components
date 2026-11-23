@@ -34,7 +34,6 @@ Para usar a Paginação em outro projeto Angular, copie para dentro de uma pasta
 |---|---|
 | O componente | `components/pagination/` |
 | Componentes que ele usa | `components/button/` |
-| Tipos | `model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
 Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
@@ -43,7 +42,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 10 arquivos, ~752 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 8 arquivos, ~752 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Objetivo

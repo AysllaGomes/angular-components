@@ -35,7 +35,6 @@ Para usar a Tabela em outro projeto Angular, copie para dentro de uma pasta `sha
 |---|---|
 | O componente | `components/table/` |
 | Componentes que ele usa | `components/button/`, `components/pagination/`, `components/tooltip/` |
-| Tipos | `model/interface/chip-map-entry.interface.ts`<br>`model/interface/column-def.interface.ts`<br>`model/interface/table-action.interface.ts`<br>`model/interface/table-bulk-action.interface.ts`<br>`model/type/action-kind.type.ts`<br>`model/type/align.type.ts`<br>`model/type/button/bnt-size.type.ts`<br>`model/type/button/bnt-tone.type.ts`<br>`model/type/button/bnt-variant.type.ts`<br>`model/type/cell.type.ts`<br>`model/type/sort-dir.type.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
 Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
@@ -45,7 +44,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/tooltip/tooltip'
 ```
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 33 arquivos, ~2860 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 24 arquivos, ~2851 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos

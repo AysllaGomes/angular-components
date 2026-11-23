@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { stubLayout } from '../../../../testing/layout-stub';
 
-import { AbSize } from '../../model/type/ab-size.type';
+import { AbSize } from './actionbar.types';
 
 import { ActionBarComponent } from './actionbar.component';
 

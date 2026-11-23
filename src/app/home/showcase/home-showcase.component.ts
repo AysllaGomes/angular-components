@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 
-import { TPipe } from '../../shared/i18n/t.pipe';
-import { I18nService } from '../../shared/services/i18n.service';
-import { ToastService } from '../../shared/services/toast.service';
-import { ColumnDef } from '../../shared/model/interface/column-def.interface';
-import { TableBulkAction } from '../../shared/model/interface/table-bulk-action.interface';
+import { TPipe } from '../../site/i18n/t.pipe';
+import { I18nService } from '../../site/services/i18n.service';
+import { ToastService } from '../../shared/components/toast/toast.service';
+import { ColumnDef, TableBulkAction } from '../../shared/components/table/table.types';
 import { TableComponent } from '../../shared/components/table/table.component';
 
 interface ShowcaseRow { doc: string; nome: string; tipo: 'holder' | 'additional'; limite: string; }

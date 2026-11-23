@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@a
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 
-import { TPipe } from '../shared/i18n/t.pipe';
-import { I18nService } from '../shared/services/i18n.service';
-import { HeaderComponent } from '../demo/layout/header/header.component';
-import { FooterComponent } from '../demo/layout/footer/footer.component';
+import { TPipe } from '../site/i18n/t.pipe';
+import { I18nService } from '../site/services/i18n.service';
+import { HeaderComponent } from '../site/layout/header/header.component';
+import { FooterComponent } from '../site/layout/footer/footer.component';
 import { A11yReportService, a11yTotals } from '../site/a11y-report';
 import { SITE_COMPONENTS } from '../site/site-components';
 

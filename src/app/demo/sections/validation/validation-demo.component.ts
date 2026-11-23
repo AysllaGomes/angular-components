@@ -1,13 +1,13 @@
 import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
-import { I18nService } from '../../../shared/services/i18n.service';
-import { ToastService } from '../../../shared/services/toast.service';
+import { TPipe } from '../../../site/i18n/t.pipe';
+import { I18nService } from '../../../site/services/i18n.service';
+import { ToastService } from '../../../shared/components/toast/toast.service';
 
 import { AppValidators, FieldErrorPipe, FormValidationDirective, MaskDirective } from '../../../shared/forms';
-import { RadioOption } from '../../../shared/model/interface/radio/radio-option.interface';
-import { SelectOption } from '../../../shared/model/interface/select/select-option.interface';
+import { RadioOption } from '../../../shared/components/radio/radio.types';
+import { SelectOption } from '../../../shared/components/select/select.types';
 import { ButtonDirective } from '../../../shared/components/button/button.directive';
 import { SelectComponent } from '../../../shared/components/select/select.component';
 import { CheckboxComponent } from '../../../shared/components/checkbox/checkbox.component';

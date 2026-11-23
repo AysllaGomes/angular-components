@@ -22,9 +22,8 @@ import { injectUiLabels } from '../../labels';
 import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { ResponsiveMode } from '../../model/type/responsive-mode.type';
+import { ResponsiveMode, SelectOption } from './select.types';
 
-import { SelectOption } from '../../model/interface/select/select-option.interface';
 
 let uid = 0;
 

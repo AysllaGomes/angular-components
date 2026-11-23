@@ -142,12 +142,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
+            "what": "Arquivos auxiliares",
             "items": [
-              "<code>model/type/ab-size.type.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
+              "<code>a11y/modal-session.ts</code>"
             ]
           },
           {
@@ -160,7 +157,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 12 arquivos, ~890 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~892 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -299,12 +296,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
+            "what": "Helper files",
             "items": [
-              "<code>model/type/ab-size.type.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
+              "<code>a11y/modal-session.ts</code>"
             ]
           },
           {
@@ -317,7 +311,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 12 files, ~890 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~892 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -408,20 +402,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             "items": [
               "<code>components/button/</code>"
             ]
-          },
-          {
-            "what": "Tipos",
-            "items": [
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
-            ]
           }
         ],
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 5 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 3 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.md"
     },
@@ -510,20 +496,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             "items": [
               "<code>components/button/</code>"
             ]
-          },
-          {
-            "what": "Types",
-            "items": [
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
-            ]
           }
         ],
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 5 files, ~269 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 3 files, ~269 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.en.md"
     }
@@ -988,9 +966,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
+            "what": "Arquivos auxiliares",
             "items": [
-              "<code>model/type/dialog-size.type.ts</code>"
+              "<code>a11y/modal-session.ts</code>"
             ]
           },
           {
@@ -1001,7 +979,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~630 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~632 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1151,9 +1129,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
+            "what": "Helper files",
             "items": [
-              "<code>model/type/dialog-size.type.ts</code>"
+              "<code>a11y/modal-session.ts</code>"
             ]
           },
           {
@@ -1164,7 +1142,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~630 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~632 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -1284,14 +1262,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -1301,7 +1271,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~752 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~752 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.md"
     },
@@ -1419,14 +1389,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -1436,7 +1398,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~752 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~752 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.en.md"
     }
@@ -1554,12 +1516,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/radio/radio-option.interface.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -1567,7 +1523,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~479 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~481 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.md"
     },
@@ -1683,12 +1639,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/radio/radio-option.interface.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -1696,7 +1646,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~479 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~481 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.en.md"
     }
@@ -1871,13 +1821,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/select/select-option.interface.ts</code>",
-              "<code>model/type/responsive-mode.type.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -1885,7 +1828,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 7 arquivos, ~947 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~948 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.md"
     },
@@ -2058,13 +2001,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/select/select-option.interface.ts</code>",
-              "<code>model/type/responsive-mode.type.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -2072,7 +2008,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 7 files, ~947 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~948 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md"
     }
@@ -2192,13 +2128,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/step-item.interface.ts</code>",
-              "<code>model/type/step-state.type.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -2206,7 +2135,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 7 arquivos, ~536 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~535 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.md"
     },
@@ -2322,13 +2251,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/step-item.interface.ts</code>",
-              "<code>model/type/step-state.type.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -2336,7 +2258,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 7 files, ~536 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~535 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.en.md"
     }
@@ -2868,22 +2790,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/chip-map-entry.interface.ts</code>",
-              "<code>model/interface/column-def.interface.ts</code>",
-              "<code>model/interface/table-action.interface.ts</code>",
-              "<code>model/interface/table-bulk-action.interface.ts</code>",
-              "<code>model/type/action-kind.type.ts</code>",
-              "<code>model/type/align.type.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>",
-              "<code>model/type/cell.type.ts</code>",
-              "<code>model/type/sort-dir.type.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -2894,7 +2800,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 33 arquivos, ~2860 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2851 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3202,22 +3108,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/chip-map-entry.interface.ts</code>",
-              "<code>model/interface/column-def.interface.ts</code>",
-              "<code>model/interface/table-action.interface.ts</code>",
-              "<code>model/interface/table-bulk-action.interface.ts</code>",
-              "<code>model/type/action-kind.type.ts</code>",
-              "<code>model/type/align.type.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>",
-              "<code>model/type/cell.type.ts</code>",
-              "<code>model/type/sort-dir.type.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -3228,7 +3118,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 33 files, ~2860 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2851 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }
@@ -3593,32 +3483,16 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/toast.interface.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>",
-              "<code>model/type/toast.types.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
-            ]
-          },
-          {
-            "what": "Serviço",
-            "items": [
-              "<code>services/toast.service.ts</code>"
             ]
           }
         ],
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 13 arquivos, ~712 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~711 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.md"
     },
@@ -3709,32 +3583,16 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/toast.interface.ts</code>",
-              "<code>model/type/button/bnt-size.type.ts</code>",
-              "<code>model/type/button/bnt-tone.type.ts</code>",
-              "<code>model/type/button/bnt-variant.type.ts</code>",
-              "<code>model/type/toast.types.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
-            ]
-          },
-          {
-            "what": "Service",
-            "items": [
-              "<code>services/toast.service.ts</code>"
             ]
           }
         ],
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 13 files, ~712 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~711 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md"
     }
@@ -4136,13 +3994,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Tipos",
-            "items": [
-              "<code>model/interface/tree-select/tree-node.interface.ts</code>",
-              "<code>model/type/responsive-mode.type.ts</code>"
-            ]
-          },
-          {
             "what": "Textos padrão",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
@@ -4150,7 +4001,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 13 arquivos, ~1587 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 12 arquivos, ~1589 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.md"
     },
@@ -4358,13 +4209,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ]
           },
           {
-            "what": "Types",
-            "items": [
-              "<code>model/interface/tree-select/tree-node.interface.ts</code>",
-              "<code>model/type/responsive-mode.type.ts</code>"
-            ]
-          },
-          {
             "what": "Default texts",
             "items": [
               "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
@@ -4372,7 +4216,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 13 files, ~1587 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 12 files, ~1589 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.en.md"
     }

@@ -1,15 +1,12 @@
 import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
-import { TPipe } from '../../../shared/i18n/t.pipe';
+import { TPipe } from '../../../site/i18n/t.pipe';
 
-import { I18nService } from '../../../shared/services/i18n.service';
+import { I18nService } from '../../../site/services/i18n.service';
 
-import { SortState } from '../../../shared/model/type/sort-state.type';
+import { SortState, AdicionalRow } from './adicional.types';
 
-import { ColumnDef } from '../../../shared/model/interface/column-def.interface';
-import { TableAction } from '../../../shared/model/interface/table-action.interface';
-import { TableBulkAction, TableBulkBarIdle } from '../../../shared/model/interface/table-bulk-action.interface';
-import { AdicionalRow } from '../../../shared/model/interface/adicional-row.interface';
+import { ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle } from '../../../shared/components/table/table.types';
 
 import { TableComponent } from '../../../shared/components/table/table.component';
 
