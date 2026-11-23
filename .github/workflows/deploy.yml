@@ -15,12 +15,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+# build e deploy em jobs separados: no mesmo job, o deploy-pages às vezes procura o artefato
+# logo depois do upload e não acha ("No artifacts named github-pages"); ver actions/deploy-pages#451
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -68,5 +67,13 @@ jobs:
         with:
           path: dist/angular-components/browser
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
