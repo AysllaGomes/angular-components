@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.7.0](https://github.com/AysllaGomes/angular-components/compare/v2.6.0...v2.7.0) (2026-11-23)
+### Features
+- **tooltip:** nova diretiva `appTooltip`: dica curta ao passar o mouse ou focar
+  pelo teclado:
+  - como nome de botões só com ícone (`tooltipAsLabel` → `aria-labelledby`) ou
+    como descrição (`aria-describedby`, mantendo os ids que já estavam lá); o
+    balão existe desde o início (escondido), então é lido ao focar;
+  - balão no `<body>` com `position: fixed`: não é cortado por `overflow`, vira
+    para o lado oposto sem espaço, nunca sai da janela e a seta continua
+    apontando para o elemento; acompanha rolagem e redimensionamento;
+  - WCAG 1.4.13: Esc fecha sem mover o foco (e não fecha junto um Dialog por
+    trás), dá para levar o mouse até o balão, fica aberto enquanto houver mouse
+    ou foco;
+  - foco por clique e toque não abrem; clicar no elemento fecha; um aberto por
+    vez, e passando de uma dica para outra não há espera;
+  - `tooltipPosition`, `tooltipDisabled`, `tooltipShowDelay`, `tooltipHideDelay`;
+    tokens `--tip-*`, invertido no tema escuro, alto contraste e "reduzir
+    movimento".
+- **table:** os botões de ação mostram o nome numa dica; sem `label`/`ariaLabel`
+  o nome padrão agora é em português (Editar, Excluir...), não o `kind`.
+- **table:** `disabledReason`: ação desabilitada usa `aria-disabled` (continua
+  focável, ignora o clique e não emite `action`) e a dica explica o motivo, ex.:
+  "Excluir (correntistas só podem ser removidos pela agência)".
+
+### Bug Fixes
+- **table:** `visible()` das ações declarativas era ignorado e a ação aparecia
+  sempre.
+- **table:** o cabeçalho da coluna de ações não tinha nome para leitor de tela;
+  novo input `actionsLabel` (padrão "Ações").
+
+### Demo
+- Nova seção Tooltip (barra de botões só com ícone, as quatro posições, ajuda ao
+  lado de um texto, ação indisponível com `aria-disabled`) e a ação Excluir na
+  tabela, indisponível para correntistas com o motivo na dica.
+
+### Build
+- Aviso de tamanho de estilo por componente de 4 kB para 5 kB (o erro continua em
+  8 kB): a Tabela, o maior componente por causa do modo cards no celular, passou
+  um pouco do limite.
+
 ## [2.6.0](https://github.com/AysllaGomes/angular-components/compare/v2.5.0...v2.6.0) (2026-11-19)
 ### Features
 - **tabs:** novos `app-tabs` / `app-tab`: abas no padrão WAI-ARIA

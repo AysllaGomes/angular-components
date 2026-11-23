@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.7.0](https://github.com/AysllaGomes/angular-components/compare/v2.6.0...v2.7.0) (2026-11-23)
+
+### Features
+
+* **tooltip:** new `appTooltip` directive: short hint on hover or keyboard focus ([8c210d0](https://github.com/AysllaGomes/angular-components/commit/8c210d0))
+  * as the name of icon-only buttons (`tooltipAsLabel` → `aria-labelledby`) or as a description (`aria-describedby`, keeping existing ids); the bubble exists from the start (hidden), so it is read on focus
+  * bubble in `<body>` with `position: fixed`: not clipped by `overflow`, flips to the opposite side without room, never leaves the window, the arrow keeps pointing at the element; follows scrolling/resizing
+  * WCAG 1.4.13: Esc closes it without moving focus (and does not close a Dialog behind it), the pointer can move onto the bubble, it stays open while hovered or focused
+  * click focus and touch do not open it; clicking the element closes it; one open at a time, moving between hints skips the delay
+  * `tooltipPosition`, `tooltipDisabled`, `tooltipShowDelay`, `tooltipHideDelay`; `--tip-*` tokens, inverted in the dark theme, High Contrast and reduced motion support
+* **table:** action buttons show their name in a tooltip; without `label`/`ariaLabel` the default name is now Portuguese (Editar, Excluir...) instead of the `kind` ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+* **table:** `disabledReason`: a disabled action uses `aria-disabled` (stays focusable, ignores the click, no `action` event) and the tooltip explains why, e.g. "Excluir (…)" ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+
+### Bug Fixes
+
+* **table:** `visible()` on declarative actions was ignored and the action always showed ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+* **table:** the actions column header had no name for screen readers; new `actionsLabel` input (default "Ações") ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+
+### Demo
+
+* New Tooltip section (icon-only toolbar, four positions, help next to a text, unavailable action with `aria-disabled`) and a Delete action in the table, unavailable for account holders with the reason in the tooltip ([8c210d0](https://github.com/AysllaGomes/angular-components/commit/8c210d0)), ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+
+### Build
+
+* Per-component style budget warning raised from 4 kB to 5 kB (error stays at 8 kB): the Table, the largest component with its mobile card mode, went just over it ([ea07fb7](https://github.com/AysllaGomes/angular-components/commit/ea07fb7))
+
 ## [2.6.0](https://github.com/AysllaGomes/angular-components/compare/v2.5.0...v2.6.0) (2026-11-19)
 
 
