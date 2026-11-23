@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/AysllaGomes/angular-components/compare/v2.11.0...v3.0.0) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+* **The components' default texts are now English.** To keep everything as in 2.x, add one line to your app config: `provideUiLabels(UI_LABELS_PT)` ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+* `provideFormErrorMessages` no longer accepts the demo's i18n keys (e.g. `'form.error.cnpj'`); pass the text (with `{{param}}`) or a function ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+
+### Features
+
+* **labels:** components depend on nothing but Angular, not even an i18n library: their own texts come from one dependency-free place, `src/app/shared/labels` ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+  * `UI_LABELS_EN` (default) and `UI_LABELS_PT` presets; `provideUiLabels({...})` changes only what it names (groups can be partial)
+  * `provideUiLabels(() => ...)` runs in the injection context and may return a signal, so the texts follow your app language live
+  * each component's text inputs (`emptyMessage`, `closeAriaLabel`, `rangeLabel`...) keep their names and still win per instance
+  * texts that were hard-coded in templates are now changeable too: "Close" (Dialog, ActionBar, Toast), "Select all"/"Select row" (Table), "Filter options" (Select), "Notifications" (Toast)
+  * form error messages (`fieldError`, `FormErrorsService`) come from `labels.formErrors`, still overridable with `provideFormErrorMessages`
+* **pagination:** no longer depends on the project i18n (`TPipe`), so it can be copied on its own ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+
+### Docs
+
+* New [Component texts](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md) page (PT/EN) with every text, precedence and how to migrate from 2.x; each component's "Default" column now points to `labels.*`; READMEs gain a "Texts and languages" section ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+
+### Demo
+
+* Stays bilingual by wiring its own i18n to `provideUiLabels` with a signal (`src/app/app.config.ts`); unused `form.error.*` and pagination keys removed from its dictionary ([b3d298d](https://github.com/AysllaGomes/angular-components/commit/b3d298d))
+
 ## [2.11.0](https://github.com/AysllaGomes/angular-components/compare/v2.10.0...v2.11.0) (2026-11-23)
 
 ### Features

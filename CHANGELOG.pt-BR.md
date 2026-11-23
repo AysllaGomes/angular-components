@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/AysllaGomes/angular-components/compare/v2.11.0...v3.0.0) (2026-11-23)
+### ⚠ Mudanças incompatíveis
+- **Os textos padrão dos componentes agora são em inglês.** Para manter tudo
+  como na 2.x, uma linha na configuração do app: `provideUiLabels(UI_LABELS_PT)`.
+- `provideFormErrorMessages` não aceita mais chaves do i18n da demo (ex.:
+  `'form.error.cnpj'`); passe o texto (com `{{param}}`) ou uma função.
+
+### Features
+- **labels:** os componentes não dependem de nada além do Angular, nem de
+  biblioteca de i18n: os textos próprios deles vêm de um lugar só, sem
+  dependências, `src/app/shared/labels`:
+  - pacotes `UI_LABELS_EN` (padrão) e `UI_LABELS_PT`; `provideUiLabels({...})`
+    troca só o que nomear (os grupos podem vir pela metade);
+  - `provideUiLabels(() => ...)` roda no contexto de injeção e pode devolver um
+    signal, então os textos acompanham o idioma do app ao vivo;
+  - os inputs de texto de cada componente (`emptyMessage`, `closeAriaLabel`,
+    `rangeLabel`...) mantêm o nome e continuam vencendo, por instância;
+  - textos que estavam fixos nos templates agora também são trocáveis: "Fechar"
+    (Dialog, ActionBar, Toast), "Selecionar tudo"/"Selecionar linha" (Tabela),
+    "Filtrar opções" (Select), "Notificações" (Toast);
+  - as mensagens de erro de formulário (`fieldError`, `FormErrorsService`) vêm de
+    `labels.formErrors`, e `provideFormErrorMessages` continua sobrescrevendo.
+- **pagination:** não depende mais do i18n do projeto (`TPipe`), então pode ser
+  copiada sozinha.
+
+### Documentação
+- Página nova [Textos dos componentes](src/app/shared/labels/labels.md) (PT/EN)
+  com todos os textos, a ordem de prioridade e como migrar da 2.x; a coluna
+  "Padrão" de cada componente agora aponta para `labels.*`; os READMEs ganham a
+  seção "Textos e idiomas".
+
+### Demo
+- Continua bilíngue ligando o i18n dela ao `provideUiLabels` com um signal
+  (`src/app/app.config.ts`); chaves `form.error.*` e da paginação que ficaram sem
+  uso saíram do dicionário.
+
 ## [2.11.0](https://github.com/AysllaGomes/angular-components/compare/v2.10.0...v2.11.0) (2026-11-23)
 ### Features
 - **table:** colunas que se recolhem: quando a tabela fica mais larga que o
