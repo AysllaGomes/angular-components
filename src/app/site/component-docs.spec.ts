@@ -43,7 +43,8 @@ describe('component docs (generated)', () => {
         expect(tags.filter(t => !['strong', 'em', 'code', 'a'].includes(t)), `${id}/${lang}: ${h}`).toEqual([]);
         for (const m of h.matchAll(/href="([^"]+)"/g)) {
           const href = m[1];
-          if (href.startsWith('/componentes/')) expect(ids, `${id}/${lang} → ${href}`).toContain(href.split('/')[2]);
+          // relativo ao <base href>: "/componentes/x" quebra no GitHub Pages (/angular-components/)
+          if (href.startsWith('componentes/')) expect(ids, `${id}/${lang} → ${href}`).toContain(href.split('/')[1]);
           else expect(href, `${id}/${lang}`).toMatch(/^(https:\/\/|mailto:)/);
         }
       }

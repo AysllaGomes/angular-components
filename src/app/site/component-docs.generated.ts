@@ -18,7 +18,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "O conteúdo é maior do que cabe confortavelmente num Dialog."
       ],
       "preferOther": [
-        "Uma confirmação curta: use o <a href=\"/componentes/dialog\">Dialog</a>.",
+        "Uma confirmação curta: use o <a href=\"componentes/dialog\">Dialog</a>.",
         "Conteúdo muito longo ou navegação completa: use uma página."
       ],
       "example": "<app-actionbar\n  [title]=\"'Título do actionbar'\"\n  size=\"md\"\n  [(opened)]=\"open\"\n  primaryLabel=\"Confirmar\"\n  secondaryLabel=\"Cancelar\"\n  (primary)=\"onConfirm()\"\n  (secondary)=\"open=false\">\n  <!-- seu conteúdo -->\n</app-actionbar>",
@@ -172,7 +172,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "The content is larger than fits comfortably in a Dialog."
       ],
       "preferOther": [
-        "A short confirmation: use the <a href=\"/componentes/dialog\">Dialog</a>.",
+        "A short confirmation: use the <a href=\"componentes/dialog\">Dialog</a>.",
         "Very long content or full navigation: use a page."
       ],
       "example": "<app-actionbar\n  [title]=\"'Action bar title'\"\n  size=\"md\"\n  [(opened)]=\"open\"\n  primaryLabel=\"Confirm\"\n  secondaryLabel=\"Cancel\"\n  (primary)=\"onConfirm()\"\n  (secondary)=\"open=false\">\n  <!-- your content -->\n</app-actionbar>",
@@ -328,7 +328,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Ações destrutivas: use <code>tone=&quot;danger&quot;</code>."
       ],
       "preferOther": [
-        "Um botão só com ícone: use o botão e dê o nome com o <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
+        "Um botão só com ícone: use o botão e dê o nome com o <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
         "Ir para outra página dentro de um texto: use um link comum, sem <code>appButton</code>."
       ],
       "example": "<button appButton type=\"submit\">Salvar</button>\n<button appButton=\"ghost\" tone=\"neutral\" type=\"button\">Voltar</button>\n<button appButton=\"outline\" tone=\"danger\" type=\"button\">Excluir</button>\n<button appButton [busy]=\"salvando()\" type=\"submit\">Enviar</button>\n<a appButton variant=\"link\" href=\"/ajuda\">Saiba mais</a>",
@@ -392,7 +392,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<code>busy</code> e <code>disabled</code> bloqueiam o clique. No <code>&lt;button&gt;</code> viram o atributo <code>disabled</code>; no <code>&lt;a&gt;</code>, que não tem <code>disabled</code>, viram <code>aria-disabled=&quot;true&quot;</code> e <code>tabindex=&quot;-1&quot;</code>.",
         "<code>busy</code> marca <code>aria-busy=&quot;true&quot;</code>; o texto do botão continua lá para o leitor de tela.",
         "Anel de foco (<code>:focus-visible</code>) na cor de destaque do tema, só no foco por teclado.",
-        "Botão só com ícone (<code>iconOnly</code>) não tem texto visível: dê o nome com <code>aria-label</code> ou com o <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
+        "Botão só com ícone (<code>iconOnly</code>) não tem texto visível: dê o nome com <code>aria-label</code> ou com o <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
       ],
       "tokens": [],
       "copy": {
@@ -422,7 +422,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Destructive actions: use <code>tone=&quot;danger&quot;</code>."
       ],
       "preferOther": [
-        "An icon-only button: use the button and name it with the <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
+        "An icon-only button: use the button and name it with the <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>).",
         "Going to another page inside a sentence: use a plain link, without <code>appButton</code>."
       ],
       "example": "<button appButton type=\"submit\">Save</button>\n<button appButton=\"ghost\" tone=\"neutral\" type=\"button\">Back</button>\n<button appButton=\"outline\" tone=\"danger\" type=\"button\">Delete</button>\n<button appButton [busy]=\"saving()\" type=\"submit\">Send</button>\n<a appButton variant=\"link\" href=\"/help\">Learn more</a>",
@@ -486,7 +486,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<code>busy</code> and <code>disabled</code> block clicks. On <code>&lt;button&gt;</code> they become the <code>disabled</code> attribute; on <code>&lt;a&gt;</code>, which has no <code>disabled</code>, they become <code>aria-disabled=&quot;true&quot;</code> and <code>tabindex=&quot;-1&quot;</code>.",
         "<code>busy</code> sets <code>aria-busy=&quot;true&quot;</code>; the button text stays there for screen readers.",
         "Focus ring (<code>:focus-visible</code>) in the theme accent color, on keyboard focus only.",
-        "An icon-only button (<code>iconOnly</code>) has no visible text: name it with <code>aria-label</code> or with the <a href=\"/componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
+        "An icon-only button (<code>iconOnly</code>) has no visible text: name it with <code>aria-label</code> or with the <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
       ],
       "tokens": [],
       "copy": {
@@ -518,10 +518,10 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Escolhas que só valem ao enviar o formulário."
       ],
       "preferOther": [
-        "Ligar ou desligar algo que vale na hora: use o <a href=\"/componentes/switch\">Switch</a>.",
-        "Escolher uma única opção entre poucas: use o <a href=\"/componentes/radio\">Radio group</a>.",
-        "Várias opções de uma lista, com o valor em lista: use o <a href=\"/componentes/checkboxgroup\">Checkbox group</a>.",
-        "Muitas opções em níveis: use o <a href=\"/componentes/treeselect\">TreeSelect</a>."
+        "Ligar ou desligar algo que vale na hora: use o <a href=\"componentes/switch\">Switch</a>.",
+        "Escolher uma única opção entre poucas: use o <a href=\"componentes/radio\">Radio group</a>.",
+        "Várias opções de uma lista, com o valor em lista: use o <a href=\"componentes/checkboxgroup\">Checkbox group</a>.",
+        "Muitas opções em níveis: use o <a href=\"componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-checkbox [(checked)]=\"aceito\">Aceito os termos</app-checkbox>",
       "api": [
@@ -674,10 +674,10 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Choices that only apply when the form is submitted."
       ],
       "preferOther": [
-        "Turning something on or off right away: use the <a href=\"/componentes/switch\">Switch</a>.",
-        "Picking one option among a few: use the <a href=\"/componentes/radio\">Radio group</a>.",
-        "Several options from a list, with a list value: use the <a href=\"/componentes/checkboxgroup\">Checkbox group</a>.",
-        "Many options in levels: use the <a href=\"/componentes/treeselect\">TreeSelect</a>."
+        "Turning something on or off right away: use the <a href=\"componentes/switch\">Switch</a>.",
+        "Picking one option among a few: use the <a href=\"componentes/radio\">Radio group</a>.",
+        "Several options from a list, with a list value: use the <a href=\"componentes/checkboxgroup\">Checkbox group</a>.",
+        "Many options in levels: use the <a href=\"componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-checkbox [(checked)]=\"accepted\">I accept the terms</app-checkbox>",
       "api": [
@@ -831,10 +831,10 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Vale mostrar todas as opções de uma vez, como preferências de aviso ou permissões."
       ],
       "preferOther": [
-        "Só uma opção pode ser escolhida: use o <a href=\"/componentes/radio\">Radio group</a>.",
-        "Um único sim/não, como aceitar os termos: use o <a href=\"/componentes/checkbox\">Checkbox</a>.",
-        "Muitas opções, ou organizadas em grupos dentro de grupos: use o <a href=\"/componentes/treeselect\">TreeSelect</a> no modo <code>checkbox</code>.",
-        "A mudança vale na hora, como ligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>."
+        "Só uma opção pode ser escolhida: use o <a href=\"componentes/radio\">Radio group</a>.",
+        "Um único sim/não, como aceitar os termos: use o <a href=\"componentes/checkbox\">Checkbox</a>.",
+        "Muitas opções, ou organizadas em grupos dentro de grupos: use o <a href=\"componentes/treeselect\">TreeSelect</a> no modo <code>checkbox</code>.",
+        "A mudança vale na hora, como ligar uma configuração: use o <a href=\"componentes/switch\">Switch</a>."
       ],
       "example": "<app-checkbox-group label=\"Avisos por e-mail\" selectAll required\n  [options]=\"topicos\" [formControl]=\"avisos\"\n  [error]=\"avisos.touched && avisos.invalid ? 'Escolha pelo menos um aviso.' : null\" />\n\n<!-- sem formulário -->\n<app-checkbox-group label=\"Interesses\" orientation=\"horizontal\" [options]=\"interesses\" [(value)]=\"escolhidos\" />",
       "api": [
@@ -984,10 +984,10 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "It helps to show every option at once, like notification preferences or permissions."
       ],
       "preferOther": [
-        "Only one option can be chosen: use the <a href=\"/componentes/radio\">Radio group</a>.",
-        "A single yes/no, like accepting the terms: use the <a href=\"/componentes/checkbox\">Checkbox</a>.",
-        "Many options, or groups within groups: use the <a href=\"/componentes/treeselect\">TreeSelect</a> in <code>checkbox</code> mode.",
-        "The change applies right away, like turning a setting on: use the <a href=\"/componentes/switch\">Switch</a>."
+        "Only one option can be chosen: use the <a href=\"componentes/radio\">Radio group</a>.",
+        "A single yes/no, like accepting the terms: use the <a href=\"componentes/checkbox\">Checkbox</a>.",
+        "Many options, or groups within groups: use the <a href=\"componentes/treeselect\">TreeSelect</a> in <code>checkbox</code> mode.",
+        "The change applies right away, like turning a setting on: use the <a href=\"componentes/switch\">Switch</a>."
       ],
       "example": "<app-checkbox-group label=\"Email alerts\" selectAll required\n  [options]=\"topics\" [formControl]=\"alerts\"\n  [error]=\"alerts.touched && alerts.invalid ? 'Choose at least one alert.' : null\" />\n\n<!-- without forms -->\n<app-checkbox-group label=\"Interests\" orientation=\"horizontal\" [options]=\"interests\" [(value)]=\"chosen\" />",
       "api": [
@@ -1140,9 +1140,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "A tarefa deve ser resolvida antes de voltar ao resto da tela."
       ],
       "preferOther": [
-        "Formulário ou revisão mais longos, ao lado do conteúdo: use o <a href=\"/componentes/actionbar\">ActionBar</a>.",
-        "Avisar que algo aconteceu, sem interromper: use o <a href=\"/componentes/toast\">Toast</a>.",
-        "Uma explicação curta sobre um elemento: use o <a href=\"/componentes/tooltip\">Tooltip</a>."
+        "Formulário ou revisão mais longos, ao lado do conteúdo: use o <a href=\"componentes/actionbar\">ActionBar</a>.",
+        "Avisar que algo aconteceu, sem interromper: use o <a href=\"componentes/toast\">Toast</a>.",
+        "Uma explicação curta sobre um elemento: use o <a href=\"componentes/tooltip\">Tooltip</a>."
       ],
       "example": "<button appButton type=\"button\" (click)=\"aberto = true\">Excluir pedido</button>\n\n<app-dialog\n  title=\"Excluir pedido?\"\n  [(opened)]=\"aberto\"\n  describedBy=\"excluir-desc\"\n  primaryLabel=\"Excluir\"\n  secondaryLabel=\"Cancelar\"\n  (primary)=\"excluir()\">\n  <p id=\"excluir-desc\">Esta ação não pode ser desfeita.</p>\n</app-dialog>",
       "api": [
@@ -1304,9 +1304,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "The task has to be finished before going back to the rest of the screen."
       ],
       "preferOther": [
-        "A longer form or review, beside the content: use the <a href=\"/componentes/actionbar\">ActionBar</a>.",
-        "Telling that something happened, without interrupting: use the <a href=\"/componentes/toast\">Toast</a>.",
-        "A short explanation about an element: use the <a href=\"/componentes/tooltip\">Tooltip</a>."
+        "A longer form or review, beside the content: use the <a href=\"componentes/actionbar\">ActionBar</a>.",
+        "Telling that something happened, without interrupting: use the <a href=\"componentes/toast\">Toast</a>.",
+        "A short explanation about an element: use the <a href=\"componentes/tooltip\">Tooltip</a>."
       ],
       "example": "<button appButton type=\"button\" (click)=\"open = true\">Delete order</button>\n\n<app-dialog\n  title=\"Delete order?\"\n  [(opened)]=\"open\"\n  describedBy=\"delete-desc\"\n  primaryLabel=\"Delete\"\n  secondaryLabel=\"Cancel\"\n  (primary)=\"delete()\">\n  <p id=\"delete-desc\">This action cannot be undone.</p>\n</app-dialog>",
       "api": [
@@ -1470,7 +1470,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "Listas curtas: mostre tudo, sem paginar.",
-        "Dados em tabela: a <a href=\"/componentes/table\">Table</a> já traz a paginação no rodapé."
+        "Dados em tabela: a <a href=\"componentes/table\">Table</a> já traz a paginação no rodapé."
       ],
       "example": "<app-pagination\n  [total]=\"42\"\n  [pageSize]=\"10\"\n  [pageIndex]=\"pageIndex\"\n  [maxVisible]=\"5\"\n  (pageChange)=\"pageIndex = $event\">\n</app-pagination>",
       "api": [
@@ -1597,7 +1597,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "Short lists: show everything, without pages.",
-        "Data in a table: the <a href=\"/componentes/table\">Table</a> already has pagination in its footer."
+        "Data in a table: the <a href=\"componentes/table\">Table</a> already has pagination in its footer."
       ],
       "example": "<app-pagination\n  [total]=\"42\"\n  [pageSize]=\"10\"\n  [pageIndex]=\"pageIndex\"\n  [maxVisible]=\"5\"\n  (pageChange)=\"pageIndex = $event\">\n</app-pagination>",
       "api": [
@@ -1724,9 +1724,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Vale mostrar todas as opções de uma vez, para comparar."
       ],
       "preferOther": [
-        "Muitas opções, ou pouco espaço: use o <a href=\"/componentes/select\">Select</a>.",
-        "Ligar ou desligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>.",
-        "Várias opções ao mesmo tempo: use o <a href=\"/componentes/checkboxgroup\">Checkbox group</a>."
+        "Muitas opções, ou pouco espaço: use o <a href=\"componentes/select\">Select</a>.",
+        "Ligar ou desligar uma configuração: use o <a href=\"componentes/switch\">Switch</a>.",
+        "Várias opções ao mesmo tempo: use o <a href=\"componentes/checkboxgroup\">Checkbox group</a>."
       ],
       "example": "<app-radio-group label=\"Plano\" [options]=\"plans\" [(value)]=\"plano\" />\n\n<app-radio-group label=\"Entrega\" orientation=\"horizontal\" required\n  [options]=\"entregas\" [formControl]=\"entrega\"\n  [error]=\"entrega.touched && entrega.invalid ? 'Escolha uma forma de entrega.' : null\" />",
       "api": [
@@ -1847,9 +1847,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Showing every option at once helps compare them."
       ],
       "preferOther": [
-        "Many options, or little space: use the <a href=\"/componentes/select\">Select</a>.",
-        "Turning a setting on or off: use the <a href=\"/componentes/switch\">Switch</a>.",
-        "Several options at the same time: use the <a href=\"/componentes/checkboxgroup\">Checkbox group</a>."
+        "Many options, or little space: use the <a href=\"componentes/select\">Select</a>.",
+        "Turning a setting on or off: use the <a href=\"componentes/switch\">Switch</a>.",
+        "Several options at the same time: use the <a href=\"componentes/checkboxgroup\">Checkbox group</a>."
       ],
       "example": "<app-radio-group label=\"Plan\" [options]=\"plans\" [(value)]=\"plan\" />\n\n<app-radio-group label=\"Shipping\" orientation=\"horizontal\" required\n  [options]=\"methods\" [formControl]=\"shipping\"\n  [error]=\"shipping.touched && shipping.invalid ? 'Choose a shipping method.' : null\" />",
       "api": [
@@ -1973,9 +1973,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "O campo faz parte de um formulário (Reactive Forms ou <code>ngModel</code>)."
       ],
       "preferOther": [
-        "Poucas opções que cabem na tela: use o <a href=\"/componentes/radio\">Radio group</a>, que mostra tudo sem abrir nada.",
-        "Opções em árvore (categorias e subcategorias): use o <a href=\"/componentes/treeselect\">TreeSelect</a>.",
-        "Ligar ou desligar uma configuração: use o <a href=\"/componentes/switch\">Switch</a>."
+        "Poucas opções que cabem na tela: use o <a href=\"componentes/radio\">Radio group</a>, que mostra tudo sem abrir nada.",
+        "Opções em árvore (categorias e subcategorias): use o <a href=\"componentes/treeselect\">TreeSelect</a>.",
+        "Ligar ou desligar uma configuração: use o <a href=\"componentes/switch\">Switch</a>."
       ],
       "example": "<app-select\n  label=\"Categoria\"\n  placeholder=\"Selecione\"\n  [required]=\"true\"\n  [options]=\"options\"\n  [value]=\"categoria()\"\n  (valueChange)=\"categoria.set($event)\"\n  hint=\"Usada para organizar os relatórios.\">\n</app-select>",
       "api": [
@@ -2165,9 +2165,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "The field is part of a form (Reactive Forms or <code>ngModel</code>)."
       ],
       "preferOther": [
-        "A few options that fit on screen: use the <a href=\"/componentes/radio\">Radio group</a>, which shows them all without opening anything.",
-        "Options in a tree (categories and subcategories): use the <a href=\"/componentes/treeselect\">TreeSelect</a>.",
-        "Turning a setting on or off: use the <a href=\"/componentes/switch\">Switch</a>."
+        "A few options that fit on screen: use the <a href=\"componentes/radio\">Radio group</a>, which shows them all without opening anything.",
+        "Options in a tree (categories and subcategories): use the <a href=\"componentes/treeselect\">TreeSelect</a>.",
+        "Turning a setting on or off: use the <a href=\"componentes/switch\">Switch</a>."
       ],
       "example": "<app-select\n  label=\"Category\"\n  placeholder=\"Select\"\n  [required]=\"true\"\n  [options]=\"options\"\n  [value]=\"category()\"\n  (valueChange)=\"category.set($event)\"\n  hint=\"Used to organize the reports.\">\n</app-select>",
       "api": [
@@ -2359,7 +2359,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "A pessoa precisa ver quanto falta para terminar."
       ],
       "preferOther": [
-        "Seções independentes, abertas em qualquer ordem: use as <a href=\"/componentes/tabs\">Tabs</a>.",
+        "Seções independentes, abertas em qualquer ordem: use as <a href=\"componentes/tabs\">Tabs</a>.",
         "Um formulário curto que cabe numa tela: não divida em etapas."
       ],
       "example": "<app-stepper\n  [steps]=\"steps\"\n  [current]=\"current\"\n  [clickable]=\"true\"\n  [showIndex]=\"true\"\n  [showCaption]=\"true\"\n  (stepChange)=\"goTo($event)\">\n</app-stepper>",
@@ -2484,7 +2484,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "People need to see how much is left."
       ],
       "preferOther": [
-        "Independent sections, opened in any order: use the <a href=\"/componentes/tabs\">Tabs</a>.",
+        "Independent sections, opened in any order: use the <a href=\"componentes/tabs\">Tabs</a>.",
         "A short form that fits on one screen: do not split it into steps."
       ],
       "example": "<app-stepper\n  [steps]=\"steps\"\n  [current]=\"current()\"\n  [clickable]=\"true\"\n  (stepChange)=\"goTo($event)\">\n</app-stepper>",
@@ -2608,8 +2608,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Um único liga/desliga, sem botão de salvar."
       ],
       "preferOther": [
-        "A escolha só vale ao enviar o formulário, ou é um aceite: use o <a href=\"/componentes/checkbox\">Checkbox</a>.",
-        "Mais de duas opções: use o <a href=\"/componentes/radio\">Radio group</a>."
+        "A escolha só vale ao enviar o formulário, ou é um aceite: use o <a href=\"componentes/checkbox\">Checkbox</a>.",
+        "Mais de duas opções: use o <a href=\"componentes/radio\">Radio group</a>."
       ],
       "example": "<app-switch [(checked)]=\"notificacoes\">Notificações por e-mail</app-switch>\n\n<!-- lista de configurações: rótulo à esquerda, switch à direita -->\n<app-switch labelFirst [formControl]=\"modoCompacto\">Modo compacto</app-switch>",
       "api": [
@@ -2715,8 +2715,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "A single on/off, with no save button."
       ],
       "preferOther": [
-        "The choice only applies when the form is submitted, or it is an agreement: use the <a href=\"/componentes/checkbox\">Checkbox</a>.",
-        "More than two options: use the <a href=\"/componentes/radio\">Radio group</a>."
+        "The choice only applies when the form is submitted, or it is an agreement: use the <a href=\"componentes/checkbox\">Checkbox</a>.",
+        "More than two options: use the <a href=\"componentes/radio\">Radio group</a>."
       ],
       "example": "<app-switch [(checked)]=\"notifications\">Email notifications</app-switch>\n\n<!-- settings list: label on the left, switch on the right -->\n<app-switch labelFirst [formControl]=\"compactMode\">Compact mode</app-switch>",
       "api": [
@@ -2826,8 +2826,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "Poucos itens, sem colunas para comparar: uma lista simples (<code>&lt;ul&gt;</code>) é mais leve.",
-        "Escolher um item para preencher um campo: use o <a href=\"/componentes/select\">Select</a>.",
-        "Escolher em dados hierárquicos: use o <a href=\"/componentes/treeselect\">TreeSelect</a>."
+        "Escolher um item para preencher um campo: use o <a href=\"componentes/select\">Select</a>.",
+        "Escolher em dados hierárquicos: use o <a href=\"componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-table\n  [columns]=\"columns\"\n  [data]=\"rows\"\n  [selectable]=\"true\"\n  [actions]=\"['edit']\"\n  [selected]=\"selected()\"\n  (selectedChange)=\"selected.set($event)\"\n  (action)=\"onAction($event)\">\n</app-table>",
       "api": [
@@ -3156,8 +3156,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "A few items with nothing to compare across columns: a plain list (<code>&lt;ul&gt;</code>) is lighter.",
-        "Picking an item to fill a field: use the <a href=\"/componentes/select\">Select</a>.",
-        "Picking from hierarchical data: use the <a href=\"/componentes/treeselect\">TreeSelect</a>."
+        "Picking an item to fill a field: use the <a href=\"componentes/select\">Select</a>.",
+        "Picking from hierarchical data: use the <a href=\"componentes/treeselect\">TreeSelect</a>."
       ],
       "example": "<app-table\n  [columns]=\"columns\"\n  [data]=\"rows\"\n  [selectable]=\"true\"\n  [actions]=\"['edit']\"\n  (action)=\"onAction($event)\">\n</app-table>",
       "api": [
@@ -3481,8 +3481,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Alguma seção é pesada: com <code>appTabContent</code> ela só é criada quando aberta."
       ],
       "preferOther": [
-        "Etapas em sequência, uma dependendo da outra: use o <a href=\"/componentes/stepper\">Stepper</a>.",
-        "Poucas opções que mudam um valor de formulário: use o <a href=\"/componentes/radio\">Radio group</a>.",
+        "Etapas em sequência, uma dependendo da outra: use o <a href=\"componentes/stepper\">Stepper</a>.",
+        "Poucas opções que mudam um valor de formulário: use o <a href=\"componentes/radio\">Radio group</a>.",
         "Ir para outra página: use links, não abas."
       ],
       "example": "<app-tabs ariaLabel=\"Conta\" [(selected)]=\"aba\">\n  <app-tab key=\"perfil\" label=\"Perfil\">…</app-tab>\n  <app-tab key=\"pedidos\" label=\"Pedidos\" [badge]=\"pendentes()\">…</app-tab>\n  <app-tab key=\"arquivo\" label=\"Arquivo\" disabled>…</app-tab>\n</app-tabs>",
@@ -3616,8 +3616,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "A section is heavy: with <code>appTabContent</code> it is only created when opened."
       ],
       "preferOther": [
-        "Steps in sequence, one depending on the other: use the <a href=\"/componentes/stepper\">Stepper</a>.",
-        "A few options that set a form value: use the <a href=\"/componentes/radio\">Radio group</a>.",
+        "Steps in sequence, one depending on the other: use the <a href=\"componentes/stepper\">Stepper</a>.",
+        "A few options that set a form value: use the <a href=\"componentes/radio\">Radio group</a>.",
         "Going to another page: use links, not tabs."
       ],
       "example": "<app-tabs ariaLabel=\"Account\" [(selected)]=\"tab\">\n  <app-tab key=\"profile\" label=\"Profile\">…</app-tab>\n  <app-tab key=\"orders\" label=\"Orders\" [badge]=\"pending()\">…</app-tab>\n  <app-tab key=\"archive\" label=\"Archive\" disabled>…</app-tab>\n</app-tabs>",
@@ -3753,8 +3753,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Oferecer uma ação rápida e opcional, como &quot;Desfazer&quot;."
       ],
       "preferOther": [
-        "A pessoa precisa decidir algo antes de seguir: use o <a href=\"/componentes/dialog\">Dialog</a>.",
-        "Erro de um campo de formulário: mostre junto do campo (<a href=\"/componentes/validation\">Formulários</a>).",
+        "A pessoa precisa decidir algo antes de seguir: use o <a href=\"componentes/dialog\">Dialog</a>.",
+        "Erro de um campo de formulário: mostre junto do campo (<a href=\"componentes/validation\">Formulários</a>).",
         "Informação que precisa ficar na tela: use um aviso fixo na página, não um toast que some."
       ],
       "example": "<app-toast-container></app-toast-container>",
@@ -3853,8 +3853,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Offering a quick, optional action, like &quot;Undo&quot;."
       ],
       "preferOther": [
-        "People must decide something before moving on: use the <a href=\"/componentes/dialog\">Dialog</a>.",
-        "A form field error: show it next to the field (<a href=\"/componentes/validation\">Forms</a>).",
+        "People must decide something before moving on: use the <a href=\"componentes/dialog\">Dialog</a>.",
+        "A form field error: show it next to the field (<a href=\"componentes/validation\">Forms</a>).",
         "Information that must stay on screen: use a fixed notice on the page, not a toast that goes away."
       ],
       "example": "<app-toast-container></app-toast-container>",
@@ -3956,7 +3956,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "Informação essencial: deixe no texto da tela, porque no celular não existe &quot;passar o mouse&quot;.",
-        "Conteúdo com links ou botões: use o <a href=\"/componentes/dialog\">Dialog</a> ou o <a href=\"/componentes/actionbar\">ActionBar</a>."
+        "Conteúdo com links ou botões: use o <a href=\"componentes/dialog\">Dialog</a> ou o <a href=\"componentes/actionbar\">ActionBar</a>."
       ],
       "example": "<button appButton=\"ghost\" iconOnly type=\"button\" appTooltip=\"Editar\" tooltipAsLabel>\n  <svg aria-hidden=\"true\">…</svg>\n</button>",
       "api": [
@@ -4051,7 +4051,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "preferOther": [
         "Essential information: keep it in the screen text, since phones have no hover.",
-        "Content with links or buttons: use the <a href=\"/componentes/dialog\">Dialog</a> or the <a href=\"/componentes/actionbar\">ActionBar</a>."
+        "Content with links or buttons: use the <a href=\"componentes/dialog\">Dialog</a> or the <a href=\"componentes/actionbar\">ActionBar</a>."
       ],
       "example": "<button appButton=\"ghost\" iconOnly type=\"button\" appTooltip=\"Edit\" tooltipAsLabel>\n  <svg aria-hidden=\"true\">…</svg>\n</button>",
       "api": [
@@ -4147,8 +4147,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "A árvore é grande e os filhos devem ser buscados só quando o nível abre (<code>loadChildren</code>)."
       ],
       "preferOther": [
-        "Lista sem níveis: use o <a href=\"/componentes/select\">Select</a>.",
-        "Um único sim/não: use o <a href=\"/componentes/checkbox\">Checkbox</a>."
+        "Lista sem níveis: use o <a href=\"componentes/select\">Select</a>.",
+        "Um único sim/não: use o <a href=\"componentes/checkbox\">Checkbox</a>."
       ],
       "example": "<app-tree-select label=\"Cidade\" [nodes]=\"lugares\" [(value)]=\"cidade\" />",
       "api": [
@@ -4368,8 +4368,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "The tree is large and children should be fetched only when a level opens (<code>loadChildren</code>)."
       ],
       "preferOther": [
-        "A list without levels: use the <a href=\"/componentes/select\">Select</a>.",
-        "A single yes/no: use the <a href=\"/componentes/checkbox\">Checkbox</a>."
+        "A list without levels: use the <a href=\"componentes/select\">Select</a>.",
+        "A single yes/no: use the <a href=\"componentes/checkbox\">Checkbox</a>."
       ],
       "example": "<app-tree-select label=\"City\" [nodes]=\"places\" [(value)]=\"city\" />",
       "api": [
@@ -4591,7 +4591,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Campos com formato fixo que ficam mais claros com máscara (telefone, CEP)."
       ],
       "preferOther": [
-        "Avisar o resultado do envio (salvo, falhou): use o <a href=\"/componentes/toast\">Toast</a>.",
+        "Avisar o resultado do envio (salvo, falhou): use o <a href=\"componentes/toast\">Toast</a>.",
         "Validação que depende do servidor: faça a chamada e mostre o erro no campo com a mesma mensagem central."
       ],
       "example": "<form [formGroup]=\"form\" appFormValidation (validSubmit)=\"salvar($event)\">\n  <app-form-field label=\"Nome completo\" required [error]=\"form.controls.nome | fieldError\">\n    <input formControlName=\"nome\" autocomplete=\"name\">\n  </app-form-field>\n\n  <app-form-field label=\"CPF ou CNPJ\" required [error]=\"form.controls.doc | fieldError\">\n    <input appMask=\"cpfCnpj\" formControlName=\"doc\">\n  </app-form-field>\n\n  <app-form-field label=\"Telefone\">\n    <input appMask=\"phone\" formControlName=\"fone\" type=\"tel\">\n  </app-form-field>\n\n  <app-radio-group label=\"Plano\" required [options]=\"planos\" formControlName=\"plano\"\n                   [error]=\"form.controls.plano | fieldError\" />\n\n  <app-checkbox formControlName=\"termos\" required [error]=\"form.controls.termos | fieldError\">\n    Li e aceito os termos\n  </app-checkbox>\n\n  <button appButton type=\"submit\">Enviar</button>\n</form>",
@@ -4762,7 +4762,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Fields with a fixed format that read better with a mask (phone, ZIP code)."
       ],
       "preferOther": [
-        "Telling the submit result (saved, failed): use the <a href=\"/componentes/toast\">Toast</a>.",
+        "Telling the submit result (saved, failed): use the <a href=\"componentes/toast\">Toast</a>.",
         "Validation that depends on the server: make the call and show the error on the field with the same central message."
       ],
       "example": "<form [formGroup]=\"form\" appFormValidation (validSubmit)=\"save($event)\">\n  <app-form-field label=\"Full name\" required [error]=\"form.controls.name | fieldError\">\n    <input formControlName=\"name\" autocomplete=\"name\">\n  </app-form-field>\n\n  <app-form-field label=\"CPF or CNPJ\" required [error]=\"form.controls.doc | fieldError\">\n    <input appMask=\"cpfCnpj\" formControlName=\"doc\">\n  </app-form-field>\n\n  <app-form-field label=\"Phone\">\n    <input appMask=\"phone\" formControlName=\"phone\" type=\"tel\">\n  </app-form-field>\n\n  <app-radio-group label=\"Plan\" required [options]=\"plans\" formControlName=\"plan\"\n                   [error]=\"form.controls.plan | fieldError\" />\n\n  <app-checkbox formControlName=\"terms\" required [error]=\"form.controls.terms | fieldError\">\n    I accept the terms\n  </app-checkbox>\n\n  <button appButton type=\"submit\">Submit</button>\n</form>",

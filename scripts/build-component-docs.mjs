@@ -59,7 +59,10 @@ function linkTarget(href, docPath) {
   if (href.startsWith('#')) return null; // âncora do .md: não existe na página
   const [file] = href.split('#');
   const target = posix.normalize(posix.join(posix.dirname(docPath), file)).replace(/(\.en)?\.md$/, '');
-  if (idByDoc[target]) return `/componentes/${idByDoc[target]}`;
+  // relativo: resolve a partir do <base href> ("/angular-components/" no GitHub Pages).
+  // Com "/" na frente o navegador ignoraria o base href, porque o HTML entra por innerHTML
+  // e não passa pelo routerLink. A página intercepta o clique e navega pelo Router.
+  if (idByDoc[target]) return `componentes/${idByDoc[target]}`;
   return `${repoBlob}/${posix.normalize(posix.join(posix.dirname(docPath), file))}`;
 }
 

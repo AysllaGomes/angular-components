@@ -1,7 +1,7 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
+import { ActivatedRoute, Router, convertToParamMap, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { expectNoA11yViolations } from '../../testing/axe';
@@ -47,8 +47,31 @@ describe('ComponentPageComponent', () => {
     for (const id of ['exemplo', 'por-que', 'quando-usar', 'api', 'acessibilidade', 'copiar', 'tema']) {
       expect(el.querySelector('#' + id), id).not.toBeNull();
     }
-    expect(el.querySelector('#quando-usar a[href="/componentes/stepper"]')).not.toBeNull();
+    expect(el.querySelector('#quando-usar a[href="componentes/stepper"]')).not.toBeNull();
     expect(TestBed.inject(Title).getTitle()).toBe('Tabs · Angular Components');
+  });
+
+  it('links from the docs are relative to <base href> and navigate through the Router', async () => {
+    await open('select');
+    // "/componentes/radio" ignoraria o base href no GitHub Pages (/angular-components/) → 404
+    expect(el.querySelectorAll('#quando-usar a[href^="/"]').length).toBe(0);
+    const link = el.querySelector<HTMLAnchorElement>('#quando-usar a[href="componentes/radio"]')!;
+    expect(link).not.toBeNull();
+
+    const nav = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
+    const click = (init: MouseEventInit = {}) => {
+      const e = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0, ...init });
+      link.dispatchEvent(e);
+      return e;
+    };
+
+    expect(click().defaultPrevented).toBe(true);
+    expect(nav).toHaveBeenCalledWith('/componentes/radio');
+
+    // Ctrl+clique (nova aba) fica com o navegador
+    nav.mockClear();
+    expect(click({ ctrlKey: true }).defaultPrevented).toBe(false);
+    expect(nav).not.toHaveBeenCalled();
   });
 
   it('live example and code: the same example, toggled', async () => {

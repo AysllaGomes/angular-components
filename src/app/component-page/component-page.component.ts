@@ -2,7 +2,7 @@ import { NgComponentOutlet, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DOCUMENT, PLATFORM_ID, afterNextRender, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
 import { TPipe } from '../site/i18n/t.pipe';
@@ -29,9 +29,11 @@ import { A11yResultComponent } from './a11y-result/a11y-result.component';
   ],
   templateUrl: './component-page.component.html',
   styleUrl: './component-page.component.sass',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(click)': 'onDocLinkClick($event)' }
 })
 export class ComponentPageComponent {
+  private readonly router = inject(Router);
   private readonly i18n = inject(I18nService);
   private readonly doc = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -111,6 +113,20 @@ export class ComponentPageComponent {
     afterNextRender(() => {
       if (this.doc.defaultView?.matchMedia?.('(max-width: 900px)').matches) this.navOpen.set(false);
     });
+  }
+
+  /**
+   * Links que vêm dos .md (innerHTML) são relativos ao <base href> ("componentes/radio").
+   * Sem routerLink, o navegador recarregaria a página; aqui o clique simples vai pelo Router.
+   * Ctrl/Shift/clique do meio seguem o comportamento normal (nova aba etc.).
+   */
+  onDocLinkClick(e: MouseEvent) {
+    if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    const a = (e.target as Element | null)?.closest?.('a');
+    const href = a?.getAttribute('href');
+    if (!a || !href || a.hasAttribute('target') || !href.startsWith('componentes/')) return;
+    e.preventDefault();
+    this.router.navigateByUrl('/' + href);
   }
 
   onNavToggle(e: Event) {
