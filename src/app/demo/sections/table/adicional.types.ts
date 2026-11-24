@@ -11,4 +11,4 @@ export interface AdicionalRow {
   nomeImpresso: string;
 }
 
-export type SortState = { key: keyof AdicionalRow | string; dir: SortDir };
+export interface SortState { key: keyof AdicionalRow | string; dir: SortDir }

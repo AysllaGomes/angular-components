@@ -23,8 +23,8 @@ export function stubLayout(): () => void {
   class FakeResizeObserver {
     constructor(private readonly callback: ResizeObserverCallback) {}
     observe() { queueMicrotask(() => this.callback([], this as unknown as ResizeObserver)); }
-    unobserve() {}
-    disconnect() {}
+    unobserve() { /* nada a desfazer: não há observação real */ }
+    disconnect() { /* idem */ }
   }
   vi.stubGlobal('ResizeObserver', FakeResizeObserver);
 

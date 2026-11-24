@@ -35,6 +35,7 @@ export class TableBulkBarComponent {
   readonly countText = input.required<string>();
   readonly clearLabel = input.required<string>();
   /** as da tabela, com o tipo de chave dela (que este componente interno não conhece) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- a barra é interna e não conhece o tipo de chave da tabela
   readonly actions = input<TableBulkAction<any>[]>([]);
   readonly keys = input.required<unknown[]>();
   readonly tpl = input<TemplateRef<TableBulkActionsContext> | null | undefined>(null);

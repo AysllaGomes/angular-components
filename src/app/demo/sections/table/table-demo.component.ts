@@ -117,8 +117,8 @@ export class TableDemoComponent {
     const dir = s.dir === 'asc' ? 1 : -1;
 
     return [...rows].sort((a, b) => {
-      const av = a[key] as any;
-      const bv = b[key] as any;
+      const av: unknown = a[key];
+      const bv: unknown = b[key];
       const cmp = (typeof av === 'number' && typeof bv === 'number')
         ? av - bv
         : this.collator.compare(String(av ?? ''), String(bv ?? ''));

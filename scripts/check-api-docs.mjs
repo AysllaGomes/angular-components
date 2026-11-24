@@ -8,7 +8,7 @@
 // O nome cobrado é o que quem usa escreve: o `alias`, quando existe.
 // Falha (exit 1) listando componente, doc e cada nome que falta.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { basename, dirname, join, relative } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 

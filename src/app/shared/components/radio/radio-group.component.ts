@@ -34,6 +34,7 @@ let uid = 0;
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => RadioGroupComponent), multi: true }
   ]
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export class RadioGroupComponent<T = any> implements ControlValueAccessor {
   /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
   protected readonly labels = injectUiLabels();

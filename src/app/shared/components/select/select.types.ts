@@ -1,5 +1,6 @@
 /** Tipos públicos do Select. */
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export interface SelectOption<T = any> {
   label: string;
   value: T;

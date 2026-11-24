@@ -35,6 +35,7 @@ export class FormValidationDirective {
   private readonly injector = inject(Injector);
 
   /** formulário válido enviado; payload = `form.getRawValue()` */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- o valor do form que você passou; any deixa o handler declarar o tipo dele
   readonly validSubmit = output<any>();
   /** formulário inválido enviado (o foco já foi para o primeiro erro) */
   readonly invalidSubmit = output<void>();

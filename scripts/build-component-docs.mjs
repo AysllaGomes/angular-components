@@ -76,6 +76,8 @@ function inline(md, docPath) {
   });
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/(^|[\s(])_([^_]+)_(?=[\s).,;:!?]|$)/g, '$1<em>$2</em>');
+  // \u0000 marca o lugar de cada `code` guardado antes de escapar o HTML (não aparece em .md)
+  // eslint-disable-next-line no-control-regex -- o marcador é justamente um caractere de controle
   return s.replace(/\u0000(\d+)\u0000/g, (_, i) => `<code>${escapeHtml(codes[i])}</code>`).trim();
 }
 

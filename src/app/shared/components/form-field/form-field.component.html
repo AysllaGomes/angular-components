@@ -1,4 +1,5 @@
 <div class="ff" [class.is-error]="!!error()">
+  <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -- o controle é projetado (ng-content); o `for` é ligado em runtime ao id dele -->
   <label class="ff__label">
     <span>{{ label() }}</span>
     @if (required()) {

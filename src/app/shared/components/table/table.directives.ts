@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, input } from '@angular/core';
+import { Directive, TemplateRef, inject, input } from '@angular/core';
 
 /** Célula custom de uma coluna específica */
 @Directive({
@@ -8,13 +8,14 @@ import { Directive, TemplateRef, input } from '@angular/core';
 export class TableCellTemplateDirective {
   /** nome da coluna (mesmo 'key' do ColumnDef) */
   readonly name = input.required<string>({ alias: "appCell" });
-  constructor(public tpl: TemplateRef<any>) {}
+  readonly tpl = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
 /**
  * contexto do `appBulkActions`: chaves selecionadas, quantidade e como limpar. O template
  * não enxerga os tipos da tabela: `keys` chega como `any[]` (tipe no método que o recebe).
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- o template não vê o tipo de chave da tabela; any deixa o método que recebe declarar o seu
 export interface TableBulkActionsContext<K = any> {
   $implicit: K[];
   keys: K[];
@@ -31,9 +32,9 @@ export interface TableBulkActionsContext<K = any> {
   standalone: true
 })
 export class TableBulkActionsTemplateDirective {
-  constructor(public tpl: TemplateRef<TableBulkActionsContext>) {}
+  readonly tpl = inject<TemplateRef<TableBulkActionsContext>>(TemplateRef);
 
-  static ngTemplateContextGuard(_d: TableBulkActionsTemplateDirective, ctx: unknown): ctx is TableBulkActionsContext {
+  static ngTemplateContextGuard(_d: TableBulkActionsTemplateDirective, _ctx: unknown): _ctx is TableBulkActionsContext {
     return true;
   }
 }
@@ -44,5 +45,5 @@ export class TableBulkActionsTemplateDirective {
   standalone: true
 })
 export class TableActionsTemplateDirective {
-  constructor(public tpl: TemplateRef<any>) {}
+  readonly tpl = inject<TemplateRef<unknown>>(TemplateRef);
 }

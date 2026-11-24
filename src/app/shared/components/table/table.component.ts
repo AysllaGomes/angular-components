@@ -56,6 +56,7 @@ function sortIndexes<K>(keys: K[]): K[] {
  * `T`: o tipo da linha (deduzido de `data`). `R`: o `rowKey` (deduzido do binding), que
  * define o tipo das chaves da seleção: veja `TableKey`.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export class TableComponent<T = any, R extends TableRowKey<T> = never> {
   /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
   protected readonly labels = injectUiLabels();
@@ -438,7 +439,7 @@ export class TableComponent<T = any, R extends TableRowKey<T> = never> {
     return Array.from({ length: Math.max(1, this.loadingRows()) });
   }
 
-  getTemplate(name: string): TemplateRef<any> | null {
+  getTemplate(name: string): TemplateRef<unknown> | null {
     return this.cellTplMap().get(String(name)) ?? null;
   }
 
@@ -515,14 +516,14 @@ export class TableComponent<T = any, R extends TableRowKey<T> = never> {
   }
 
   // ===== chip helpers =====
-  chipLabel(col: ColumnDef<T>, value: any): string {
+  chipLabel(col: ColumnDef<T>, value: unknown): string {
     if (!col.chipMap) return String(value ?? '');
     const entry = col.chipMap[String(value)] ?? { label: String(value ?? '') };
     return entry.label;
   }
 
   /** variante de cor do chip (`chipMap[valor].variant`), se houver */
-  chipVariant(col: ColumnDef<T>, value: any): string | undefined {
+  chipVariant(col: ColumnDef<T>, value: unknown): string | undefined {
     return col.chipMap?.[String(value)]?.variant;
   }
 

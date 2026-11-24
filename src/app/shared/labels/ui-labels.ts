@@ -1,6 +1,7 @@
 import { InjectionToken, Provider, Signal, computed, inject, isSignal } from '@angular/core';
 
 /** mensagem de erro de formulário: texto (com `{{param}}`) ou função com os dados do erro */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- cada validador tem o seu formato de erro (minlength, pattern...)
 export type ErrorMessage = string | ((error: any) => string);
 
 /**

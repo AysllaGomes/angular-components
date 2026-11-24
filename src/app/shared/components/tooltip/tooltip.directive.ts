@@ -162,6 +162,7 @@ export class TooltipDirective {
     const tip = this.tip;
     if (!tip || !this.active() || this.opened) return;
     if (openTooltip && openTooltip !== this) openTooltip.hide();
+    // eslint-disable-next-line @typescript-eslint/no-this-alias -- guarda qual dica está aberta (só uma por vez), não é um apelido de this
     openTooltip = this;
 
     this.opened = true;

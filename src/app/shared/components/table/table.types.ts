@@ -10,6 +10,7 @@ export interface ChipMapEntry {
   variant?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export interface ColumnDef<T = any> {
   /** chave do objeto (ex.: 'nome', 'tipo', ...) */
   key: keyof T | string;
@@ -29,6 +30,7 @@ export type SortDir = 'asc' | 'desc';
 
 export type ActionKind = 'edit' | 'delete' | 'view' | 'download';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export interface TableAction<T = any> {
   kind: ActionKind;                     // 'edit', 'delete', 'view', 'download'...
   label?: string;                       // nome curto (dica e leitor de tela); padrão: labels.table.action[kind] (provideUiLabels)
@@ -53,6 +55,7 @@ export type TableBulkBarIdle = 'space' | 'hint' | 'hidden';
  * Recebe as **chaves** selecionadas (com `rowKey`) ou os índices em `data` (sem `rowKey`):
  * com seleção entre páginas, as linhas de outras páginas não estão em `data`.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export interface TableBulkAction<K = any> {
   type: string;                                       // identificador emitido em (bulkAction)
   label: string;                                      // texto do botão

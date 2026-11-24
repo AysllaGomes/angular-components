@@ -48,10 +48,12 @@
   </div>
 
   @if (open() && sheet()) {
+    <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- fundo: o clique é atalho de mouse; no teclado, Esc fecha -->
     <div class="backdrop" (click)="closeAndFocus()"></div>
   }
 
   @if (open()) {
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -- contêiner: recebe o Tab da folha; os focáveis são o filtro e a árvore -->
     <div #panel class="panel" [class.is-sheet]="sheet()" (keydown)="onPanelKeydown($event)">
       @if (sheet()) {
         <div class="sheet-header">
@@ -85,6 +87,7 @@
         [attr.aria-activedescendant]="activeId()"
         (keydown)="onTreeKeydown($event)">
         @for (row of rows(); track row.key) {
+          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- item de árvore: o foco fica na árvore (aria-activedescendant), e as setas/Enter/Espaço agem -->
           <div
             class="node"
             role="treeitem"

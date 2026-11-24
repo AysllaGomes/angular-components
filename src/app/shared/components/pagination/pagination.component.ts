@@ -8,7 +8,7 @@ import {
   inject,
   input,
   output
-, computed } from '@angular/core';
+} from '@angular/core';
 
 import { injectUiLabels } from '../../labels';
 

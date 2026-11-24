@@ -49,7 +49,7 @@ Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta 
 | Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1798 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1802 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Dados

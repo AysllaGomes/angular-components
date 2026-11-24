@@ -21,14 +21,14 @@ export class ThemeService {
         try {
           this.doc!.documentElement.dataset["theme"] = t;
           localStorage.setItem('demo-theme', t);
-        } catch {}
+        } catch { /* sem storage: o tema vale só nesta visita */ }
       });
       effect(() => {
         const a = this.accent();
         try {
           this.doc!.documentElement.dataset["accent"] = a;
           localStorage.setItem('demo-accent', a);
-        } catch {}
+        } catch { /* sem storage: a cor vale só nesta visita */ }
       });
     }
   }

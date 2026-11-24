@@ -27,6 +27,7 @@
     <!-- a marca leva à apresentação (home) -->
     <a class="brand" routerLink="/">{{ 'brand' | t }}</a>
 
+    <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- delega o clique dos links (focáveis; o Enter neles já gera o clique) para fechar o menu no celular -->
     <nav
       id="demoNav"
       class="nav"

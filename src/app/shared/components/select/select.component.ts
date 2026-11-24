@@ -50,6 +50,7 @@ interface Section<T> { group: string | null; items: Positioned<T>[]; }
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent), multi: true }
   ]
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- padrão público: sem tipar, o uso continua funcionando; quem tipa ganha a checagem
 export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, ControlValueAccessor {
   /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
   protected readonly labels = injectUiLabels();

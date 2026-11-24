@@ -41,7 +41,7 @@ To use the Tabs in another Angular project, copy into a `shared/` folder **keepi
 |---|---|
 | The component | `components/tabs/` |
 
-Depends only on `@angular/common`, `@angular/core`. In total: 8 files, ~414 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 8 files, ~413 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage

@@ -41,7 +41,7 @@ Para usar as Tabs em outro projeto Angular, copie para dentro de uma pasta `shar
 |---|---|
 | O componente | `components/tabs/` |
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 8 arquivos, ~414 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 8 arquivos, ~413 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso

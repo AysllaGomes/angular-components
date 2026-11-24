@@ -40,7 +40,7 @@ export class I18nService {
   set(l: Lang) {
     this._lang.set(l);
     if (this.isBrowser) {
-      try { localStorage.setItem('demo-lang', l); } catch {}
+      try { localStorage.setItem('demo-lang', l); } catch { /* sem storage (modo privado): só não lembra */ }
     }
   }
 
@@ -51,7 +51,7 @@ export class I18nService {
       try {
         const v = localStorage.getItem('demo-lang');
         if (LANGS.includes(v as Lang)) return v as Lang;
-      } catch {}
+      } catch { /* sem storage: usa o padrão */ }
     }
     return 'pt';
   }
