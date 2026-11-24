@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.12.1](https://github.com/AysllaGomes/angular-components/compare/v3.12.0...v3.12.1) (2026-11-24)
+### Correções
+- **menu:** com o primeiro item focado, Shift+Tab levava o foco ao botão mas
+  deixava o menu aberto (`aria-expanded="true"`), e o Esc no botão não fechava.
+  Agora Tab e Shift+Tab fecham e deixam o navegador mover o foco; Esc no botão
+  fecha um menu aberto; clicar no botão continua só fechando (não fecha e
+  reabre).
+- **select, tree-select:** aberto numa janela larga e depois reduzido para
+  celular, o painel virava folha mas não era modal: sem fundo inerte, sem travar
+  a rolagem, e o `Tab` saía dela. Agora a sessão modal acompanha o modo com o
+  painel aberto (folha liga, menu desliga sem mover o foco), e a folha devolve o
+  foco ao campo.
+- **form-field:** os listeners de `input` e `submit` nunca eram removidos;
+  com campos em `@if` num formulário que fica na página, os de `submit` se
+  acumulavam no formulário (5 para 1 campo vivo depois de 4 ciclos) e prendiam
+  instâncias destruídas na memória. Agora saem ao trocar de campo e quando o
+  componente é destruído.
+
+### Interno
+- **test:** cada correção tem um teste que falha com o código anterior
+  (unitário), e os cenários relatados rodam no navegador: Shift+Tab no Menu, e
+  Select e TreeSelect abertos no desktop com a janela virando celular.
+
 ## [3.12.0](https://github.com/AysllaGomes/angular-components/compare/v3.11.0...v3.12.0) (2026-11-24)
 ### Features
 - **menu:** novo Menu: ações atrás de um botão, no padrão WAI-ARIA *menu

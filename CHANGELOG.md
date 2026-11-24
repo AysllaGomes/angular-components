@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.12.1](https://github.com/AysllaGomes/angular-components/compare/v3.12.0...v3.12.1) (2026-11-24)
+
+### Bug Fixes
+
+* **menu:** with the first item focused, Shift+Tab moved focus to the button but left the menu open (`aria-expanded="true"`), and Esc on the button did not close it. Tab and Shift+Tab now close it and let the browser move focus; Esc on the button closes an open menu; clicking the button still just closes it (it does not close and reopen) ([a506115](https://github.com/AysllaGomes/angular-components/commit/a506115))
+* **select, tree-select:** opened on a wide window and then resized to a phone, the panel turned into a sheet but was not modal: no inert background, no scroll lock, and `Tab` left it. The modal session now follows the mode while open (sheet turns it on, menu turns it off without moving focus), and the sheet returns focus to the field ([a74bace](https://github.com/AysllaGomes/angular-components/commit/a74bace))
+* **form-field:** the `input` and `submit` listeners were never removed; with fields inside `@if` in a form that stays on the page, `submit` listeners piled up on the form (5 for 1 live field after 4 cycles) and kept destroyed instances in memory. They are now removed when the field changes and when the component is destroyed ([6f9c2b8](https://github.com/AysllaGomes/angular-components/commit/6f9c2b8))
+
+### Internal
+
+* **test:** each fix has a test that fails with the previous code (unit), and the reported scenarios run in the browser: Shift+Tab in the Menu, and the Select and TreeSelect opened on desktop with the window turning into a phone ([9276b5d](https://github.com/AysllaGomes/angular-components/commit/9276b5d))
+
 ## [3.12.0](https://github.com/AysllaGomes/angular-components/compare/v3.11.0...v3.12.0) (2026-11-24)
 
 ### Features
