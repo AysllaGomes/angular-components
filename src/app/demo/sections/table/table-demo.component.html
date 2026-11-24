@@ -70,7 +70,7 @@
         [noSelectionLabel]="'table.bulk.none' | t"
         [bulkBarIdle]="bulkIdle()"
         [clearSelectionLabel]="'table.bulk.clear' | t"
-        (bulkAction)="onBulk($any($event))"
+        (bulkAction)="onBulk($event)"
         (action)="onAction($event)">
       </app-table>
     </div>

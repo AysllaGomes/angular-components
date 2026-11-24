@@ -2876,15 +2876,15 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ],
             [
               "<code>rowKey</code>",
-              "<code>keyof T | (row, i) =&gt; unknown</code>",
+              "<code>keyof T | (row, i) =&gt; K</code>",
               "—",
               "Identificador estável da linha. Com ele, <code>selected</code> guarda <strong>chaves</strong> e a seleção sobrevive a ordenação/paginação."
             ],
             [
               "<code>selected</code>",
-              "<code>any[]</code>",
+              "<code>TableKey&lt;T, R&gt;[]</code>",
               "<code>[]</code>",
-              "Seleção controlada: chaves (com <code>rowKey</code>) ou índices em <code>data</code> (sem <code>rowKey</code>)."
+              "Seleção controlada: chaves (com <code>rowKey</code>) ou índices em <code>data</code> (sem <code>rowKey</code>). O tipo vem do <code>rowKey</code> (Tipo das chaves)."
             ],
             [
               "<code>showActions</code>",
@@ -3066,7 +3066,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "rows": [
             [
               "<code>selectedChange</code>",
-              "<code>any[]</code> (chaves ou índices)",
+              "<code>TableKey&lt;T, R&gt;[]</code> (chaves ou índices)",
               "Alterou seleção (linha ou “selecionar tudo”)."
             ],
             [
@@ -3081,7 +3081,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ],
             [
               "<code>bulkAction</code>",
-              "<code>{ type: string; keys: any[] }</code>",
+              "<code>{ type: string; keys: TableKey&lt;T, R&gt;[] }</code>",
               "Clique numa ação em massa (chaves ou índices selecionados)."
             ],
             [
@@ -3098,6 +3098,31 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>sortChange</code>",
               "<code>{ key: string; dir: 'asc' | 'desc' }</code>",
               "Usuário clicou no cabeçalho e mudou a ordenação."
+            ]
+          ]
+        },
+        {
+          "title": "Tipo das chaves",
+          "head": [
+            "<code>rowKey</code>",
+            "Chaves",
+            "Exemplo"
+          ],
+          "rows": [
+            [
+              "nome de propriedade",
+              "o tipo dela",
+              "<code>rowKey=&quot;id&quot;</code> com <code>id: number</code> → <code>number[]</code>"
+            ],
+            [
+              "função",
+              "o que ela devolve",
+              "<code>[rowKey]=&quot;porEmail&quot;</code> com <code>(u) =&gt; string</code> → <code>string[]</code>"
+            ],
+            [
+              "sem <code>rowKey</code>",
+              "índices em <code>data</code>",
+              "<code>number[]</code>"
             ]
           ]
         }
@@ -3156,7 +3181,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2866 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2898 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3212,15 +3237,15 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ],
             [
               "<code>rowKey</code>",
-              "<code>keyof T | (row, i) =&gt; unknown</code>",
+              "<code>keyof T | (row, i) =&gt; K</code>",
               "—",
               "Stable row id. With it, <code>selected</code> holds <strong>keys</strong> and survives sorting/pagination."
             ],
             [
               "<code>selected</code>",
-              "<code>any[]</code>",
+              "<code>TableKey&lt;T, R&gt;[]</code>",
               "<code>[]</code>",
-              "Controlled selection: keys (with <code>rowKey</code>) or indices into <code>data</code> (without it)."
+              "Controlled selection: keys (with <code>rowKey</code>) or indices into <code>data</code> (without it). The type comes from <code>rowKey</code> (Key type)."
             ],
             [
               "<code>actions</code>",
@@ -3396,7 +3421,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "rows": [
             [
               "<code>selectedChange</code>",
-              "<code>any[]</code> (keys or indices)",
+              "<code>TableKey&lt;T, R&gt;[]</code> (keys or indices)",
               "Row or “select all” changes."
             ],
             [
@@ -3411,7 +3436,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             ],
             [
               "<code>bulkAction</code>",
-              "<code>{ type: string; keys: any[] }</code>",
+              "<code>{ type: string; keys: TableKey&lt;T, R&gt;[] }</code>",
               "A bulk action was clicked (selected keys or indices)."
             ],
             [
@@ -3428,6 +3453,31 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>sortChange</code>",
               "<code>{ key: string; dir: 'asc' | 'desc' }</code>",
               "User clicked a header and changed sorting."
+            ]
+          ]
+        },
+        {
+          "title": "Key type",
+          "head": [
+            "<code>rowKey</code>",
+            "Keys",
+            "Example"
+          ],
+          "rows": [
+            [
+              "property name",
+              "its type",
+              "<code>rowKey=&quot;id&quot;</code> with <code>id: number</code> → <code>number[]</code>"
+            ],
+            [
+              "function",
+              "what it returns",
+              "<code>[rowKey]=&quot;byEmail&quot;</code> with <code>(u) =&gt; string</code> → <code>string[]</code>"
+            ],
+            [
+              "no <code>rowKey</code>",
+              "indices into <code>data</code>",
+              "<code>number[]</code>"
             ]
           ]
         }
@@ -3480,7 +3530,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2866 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2898 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }

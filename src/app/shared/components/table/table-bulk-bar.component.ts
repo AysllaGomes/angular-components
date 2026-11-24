@@ -34,13 +34,14 @@ export class TableBulkBarComponent {
   readonly idle = input<TableBulkBarIdle>('space');
   readonly countText = input.required<string>();
   readonly clearLabel = input.required<string>();
-  readonly actions = input<TableBulkAction[]>([]);
-  readonly keys = input.required<any[]>();
+  /** as da tabela, com o tipo de chave dela (que este componente interno não conhece) */
+  readonly actions = input<TableBulkAction<any>[]>([]);
+  readonly keys = input.required<unknown[]>();
   readonly tpl = input<TemplateRef<TableBulkActionsContext> | null | undefined>(null);
   readonly ctx = input.required<TableBulkActionsContext>();
 
   readonly clear = output<void>();
-  readonly action = output<{ type: string; keys: any[] }>();
+  readonly action = output<{ type: string; keys: unknown[] }>();
 
   isDisabled(a: TableBulkAction): boolean {
     return a.disabled ? !!a.disabled([...this.keys()]) : false;

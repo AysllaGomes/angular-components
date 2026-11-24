@@ -44,7 +44,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/tooltip/tooltip'
 ```
 
-Depends only on `@angular/common`, `@angular/core`. In total: 24 files, ~2866 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 24 files, ~2898 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Files
@@ -94,8 +94,8 @@ export interface ColumnDef<T = any> {
 | `columns`        | `ColumnDef<T>[]`                 |            —            | Declarative columns.                                                                  |
 | `selectable`     | `boolean`                        |         `false`         | Show row checkbox and “select all”.                                                   |
 | `showActions`    | `boolean`                        |         `false`         | Show actions column. (Automatically true if `[actions]` or `appActions` is provided.) |
-| `rowKey`         | `keyof T \| (row, i) => unknown` |            —            | Stable row id. With it, `selected` holds **keys** and survives sorting/pagination.    |
-| `selected`       | `any[]`                          |          `[]`           | Controlled selection: keys (with `rowKey`) or indices into `data` (without it).       |
+| `rowKey`         | `keyof T \| (row, i) => K` |            —            | Stable row id. With it, `selected` holds **keys** and survives sorting/pagination.    |
+| `selected`       | `TableKey<T, R>[]`               |          `[]`           | Controlled selection: keys (with `rowKey`) or indices into `data` (without it). The type comes from `rowKey` ([Key type](#key-type)).       |
 | `actions`        | `(TableAction<T>\|ActionKind)[]` |          `[]`           | Declarative actions rendered automatically when no `appActions` slot is provided.     |
 | `actionsLabel`   | `string`                         | `labels.table.actions` | Screen-reader name of the actions column (its header is visually empty).              |
 | `actionsColWidth`| `string \| number`               |          `44`           | Width of the actions column (number = px).                                            |
@@ -127,13 +127,31 @@ export interface ColumnDef<T = any> {
 ### Outputs
 | Output           | Payload                                   | When                                                  |
 |------------------|-------------------------------------------|-------------------------------------------------------|
-| `selectedChange` | `any[]` (keys or indices)                 | Row or “select all” changes.                          |
+| `selectedChange` | `TableKey<T, R>[]` (keys or indices)      | Row or “select all” changes.                          |
 | `action`         | `{ type: string; row: T; index: number }` | When a declarative action is clicked (auto-rendered). |
 | `retry`          | `void`                                    | The retry button was clicked in the error state.      |
-| `bulkAction`     | `{ type: string; keys: any[] }`           | A bulk action was clicked (selected keys or indices). |
+| `bulkAction`     | `{ type: string; keys: TableKey<T, R>[] }` | A bulk action was clicked (selected keys or indices). |
 | `pageIndexChange` | `number`                                 | Page changed (click, sorting, or fix after `data` shrinks). |
 | `pageSizeChange` | `number`                                  | "Itens por página" changed.                           |
 | `sortChange`     | `{ key: string; dir: 'asc' \| 'desc' }` | User clicked a header and changed sorting. |
+### Key type
+
+The table infers the type of the selection keys from `rowKey`, without you writing generics: `selected`, `selectedChange`, `bulkAction` and the `TableBulkAction` functions use that type, and a handler with the wrong type is a compile error.
+
+| `rowKey` | Keys | Example |
+|---|---|---|
+| property name | its type | `rowKey="id"` with `id: number` → `number[]` |
+| function | what it returns | `[rowKey]="byEmail"` with `(u) => string` → `string[]` |
+| no `rowKey` | indices into `data` | `number[]` |
+
+```html
+<app-table [data]="orders" [columns]="cols" selectable rowKey="number"
+           [selected]="selected()" (selectedChange)="selected.set($event)" />
+<!-- selected = signal<number[]>([]): with signal<string[]> it does not compile -->
+```
+
+In `appBulkActions`, `keys` arrives as `any[]` (the template cannot see the table's types): declare the type in the method that receives the keys.
+
 ### Projectable templates
 - **Custom cell (`appCell`)** — context: `$implicit` (value), `row`, `index`
   ```html

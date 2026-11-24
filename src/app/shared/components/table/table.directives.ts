@@ -11,10 +11,13 @@ export class TableCellTemplateDirective {
   constructor(public tpl: TemplateRef<any>) {}
 }
 
-/** contexto do `appBulkActions`: chaves selecionadas, quantidade e como limpar */
-export interface TableBulkActionsContext {
-  $implicit: any[];
-  keys: any[];
+/**
+ * contexto do `appBulkActions`: chaves selecionadas, quantidade e como limpar. O template
+ * não enxerga os tipos da tabela: `keys` chega como `any[]` (tipe no método que o recebe).
+ */
+export interface TableBulkActionsContext<K = any> {
+  $implicit: K[];
+  keys: K[];
   count: number;
   clear: () => void;
 }

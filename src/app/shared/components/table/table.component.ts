@@ -24,7 +24,7 @@ import {
 
 import { injectUiLabels } from '../../labels';
 
-import { ActionKind, SortDir, ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle } from './table.types';
+import { ActionKind, SortDir, ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle, TableKey, TableRowKey } from './table.types';
 
 
 import { TooltipDirective } from '../tooltip/tooltip.directive';
@@ -39,6 +39,11 @@ import {
   TableCellTemplateDirective
 } from './table.directives';
 
+/** sem `rowKey` a seleção são índices em `data`: guardados em ordem crescente */
+function sortIndexes<K>(keys: K[]): K[] {
+  return (keys as unknown as number[]).sort((a, b) => a - b) as unknown as K[];
+}
+
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -47,7 +52,11 @@ import {
   styleUrl: './table.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent<T = any> {
+/**
+ * `T`: o tipo da linha (deduzido de `data`). `R`: o `rowKey` (deduzido do binding), que
+ * define o tipo das chaves da seleção: veja `TableKey`.
+ */
+export class TableComponent<T = any, R extends TableRowKey<T> = never> {
   /** textos padrão (UI_LABELS_EN, ou o que provideUiLabels trocou) */
   protected readonly labels = injectUiLabels();
 
@@ -198,14 +207,14 @@ export class TableComponent<T = any> {
    * Com ele, `selected` guarda **chaves** em vez de índices, e a seleção
    * sobrevive a ordenação, paginação e filtros feitos fora da tabela.
    */
-  readonly rowKey = input<keyof T | ((row: T, index: number) => unknown)>();
+  readonly rowKey = input<R>();
 
   /** Linhas selecionadas: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`). */
-  readonly selected = input<any[]>([]);
+  readonly selected = input<TableKey<T, R>[]>([]);
   /** seleção atual: segue o input `selected` e é atualizada pelos checkboxes */
   private readonly selection = linkedSignal(() => this.selected());
 
-  readonly selectedChange = output<any[]>();
+  readonly selectedChange = output<TableKey<T, R>[]>();
   readonly sortChange = output<{ key: string; dir: SortDir }>();
 
   /** evento para ações padrão (se você quiser escutar) */
@@ -213,7 +222,7 @@ export class TableComponent<T = any> {
 
   // ===== ações em massa =====
   /** botões da barra de ações em massa (exige `selectable`) */
-  readonly bulkActions = input<TableBulkAction[]>([]);
+  readonly bulkActions = input<TableBulkAction<TableKey<T, R>>[]>([]);
   /**
    * Barra sem seleção: `'space'` não mostra nada mas guarda o espaço (a tabela não pula),
    * `'hint'` mostra `noSelectionLabel`, `'hidden'` só aparece com seleção (a tabela desce).
@@ -231,7 +240,7 @@ export class TableComponent<T = any> {
   readonly clearSelectionLabelInput = input<string | undefined>(undefined, { alias: 'clearSelectionLabel' });
   readonly clearSelectionLabel = computed(() => this.clearSelectionLabelInput() ?? this.labels().clearSelection);
   /** clique numa ação em massa: chaves (com `rowKey`) ou índices em `data` */
-  readonly bulkAction = output<{ type: string; keys: any[] }>();
+  readonly bulkAction = output<{ type: string; keys: TableKey<T, R>[] }>();
 
   private readonly cellTemplates = contentChildren(TableCellTemplateDirective);
   readonly actionsTpl = contentChild(TableActionsTemplateDirective);
@@ -376,6 +385,11 @@ export class TableComponent<T = any> {
     });
   }
 
+  /** a barra interna não conhece o tipo das chaves; são as da seleção desta tabela */
+  onBulkAction(e: { type: string; keys: unknown[] }) {
+    this.bulkAction.emit({ type: e.type, keys: e.keys as TableKey<T, R>[] });
+  }
+
   onBulkFocusIn() { this.bulkHadFocus = true; }
 
   /** só sai da barra quando o foco foi para outro elemento (sem destino: removido ou clique no vazio) */
@@ -430,14 +444,14 @@ export class TableComponent<T = any> {
 
   // ===== seleção =====
   /** Chave da linha usada na seleção e no `track` do @for (índice quando não há `rowKey`). */
-  rowId(row: T, i: number): unknown {
-    const k = this.rowKey();
-    if (k == null) return i;
-    return typeof k === 'function' ? k(row, i) : row[k];
+  rowId(row: T, i: number): TableKey<T, R> {
+    const k: TableRowKey<T> | undefined = this.rowKey();
+    const id = k == null ? i : typeof k === 'function' ? k(row, i) : row[k];
+    return id as TableKey<T, R>;
   }
 
   /** chaves das linhas na tela; sem `rowKey`, índices em `data` (no modo local, somando o `offset`) */
-  private get pageIds(): unknown[] {
+  private get pageIds(): TableKey<T, R>[] {
     const offset = this.offset();
     return this.rows().map((row, i) => this.rowId(row, offset + i));
   }
@@ -456,7 +470,7 @@ export class TableComponent<T = any> {
     const rest = this.selection().filter(s => s !== id);
     const next = checked ? [...rest, id] : rest;
     // sem rowKey mantém o comportamento original (índices ordenados)
-    this.updateSelection(this.rowKey() == null ? next.sort((a, b) => a - b) : next);
+    this.updateSelection(this.rowKey() == null ? sortIndexes(next) : next);
   }
 
   get allSelected() {
@@ -480,7 +494,7 @@ export class TableComponent<T = any> {
     const keepOthers = !byIndex || this.paginate() === 'client';
     const rest = keepOthers ? this.selection().filter(s => !ids.includes(s)) : [];
     const next = checked ? [...rest, ...ids] : rest;
-    this.updateSelection(byIndex && keepOthers ? next.sort((a, b) => a - b) : next);
+    this.updateSelection(byIndex && keepOthers ? sortIndexes(next) : next);
   }
 
   // ===== paginação =====
@@ -495,7 +509,7 @@ export class TableComponent<T = any> {
     this.goToPage(Math.floor(first / n));
   }
 
-  private updateSelection(next: any[]) {
+  private updateSelection(next: TableKey<T, R>[]) {
     this.selection.set(next);
     this.selectedChange.emit(next);
   }

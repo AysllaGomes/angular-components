@@ -60,3 +60,17 @@ export interface TableBulkAction<K = any> {
   disabled?: (keys: K[]) => boolean;                  // continua focável (aria-disabled)
   disabledReason?: (keys: K[]) => string | null | undefined; // motivo, mostrado na dica
 }
+
+/** `rowKey`: o nome de uma propriedade da linha ou uma função que devolve a chave dela */
+export type TableRowKey<T> = keyof T | ((row: T, index: number) => unknown);
+
+/**
+ * Tipo das chaves da seleção (`selected`, `selectedChange`, `bulkAction`), deduzido do `rowKey`:
+ * o tipo da propriedade (`rowKey="id"` → `T['id']`), o retorno da função, ou `number`
+ * (o índice em `data`) quando não há `rowKey`.
+ */
+export type TableKey<T, R> =
+  [R] extends [never] ? number
+  : R extends keyof T ? T[R]
+  : R extends (row: T, index: number) => infer K ? K
+  : unknown;

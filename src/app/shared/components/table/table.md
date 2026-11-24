@@ -44,7 +44,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/tooltip/tooltip'
 ```
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 24 arquivos, ~2866 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 24 arquivos, ~2898 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos
@@ -184,8 +184,8 @@ export interface TableAction<T = any> {
 | `data`          | `T[]`                           |                                                                  —                                                                  | Linhas da tabela.                                                                                            |
 | `columns`       | `ColumnDef<T>[]`                |                                                                  —                                                                  | Colunas declarativas.                                                                                        |
 | `selectable`    | `boolean`                       |                                                               `false`                                                               | Mostra checkbox por linha e “selecionar tudo”.                                                               |
-| `rowKey`        | `keyof T \| (row, i) => unknown` |                                                                  —                                                                  | Identificador estável da linha. Com ele, `selected` guarda **chaves** e a seleção sobrevive a ordenação/paginação. |
-| `selected`      | `any[]`                         |                                                                `[]`                                                                 | Seleção controlada: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`).                               |
+| `rowKey`        | `keyof T \| (row, i) => K` |                                                                  —                                                                  | Identificador estável da linha. Com ele, `selected` guarda **chaves** e a seleção sobrevive a ordenação/paginação. |
+| `selected`      | `TableKey<T, R>[]`              |                                                                `[]`                                                                 | Seleção controlada: chaves (com `rowKey`) ou índices em `data` (sem `rowKey`). O tipo vem do `rowKey` ([Tipo das chaves](#tipo-das-chaves)).                               |
 | `showActions`   | `boolean`                       |                                                               `false`                                                               | (Opcional) força a coluna de ações. Normalmente **não precisa** quando você usa `[actions]` ou `appActions`. |
 | `actions`       | `(TableAction \| ActionKind)[]` |                                                                `[]`                                                                 | Define ações **declarativas** com ícones padrão ou por `iconUrl`.                                            |
 | `actionsLabel`  | `string`                        | `labels.table.actions` | Nome da coluna de ações para leitor de tela (o cabeçalho é visualmente vazio).                               |
@@ -218,13 +218,31 @@ export interface TableAction<T = any> {
 ### Outputs
 | Evento            | Payload                                         | Quando dispara                                            |
 |-------------------|-------------------------------------------------|-----------------------------------------------------------|
-| `selectedChange`  | `any[]` (chaves ou índices)                     | Alterou seleção (linha ou “selecionar tudo”).             |
+| `selectedChange`  | `TableKey<T, R>[]` (chaves ou índices)          | Alterou seleção (linha ou “selecionar tudo”).             |
 | `action`          | `{ type: ActionKind; row: T; index: number }`   | Clique numa ação declarativa (quando usando `[actions]`). |
 | `retry`           | `void`                                          | Clicou em "Tentar novamente" no estado de erro.           |
-| `bulkAction`      | `{ type: string; keys: any[] }`                 | Clique numa ação em massa (chaves ou índices selecionados). |
+| `bulkAction`      | `{ type: string; keys: TableKey<T, R>[] }`      | Clique numa ação em massa (chaves ou índices selecionados). |
 | `pageIndexChange` | `number`                                        | Mudou de página (clique, ordenação ou correção após `data` encolher). |
 | `pageSizeChange`  | `number`                                        | Trocou "Itens por página".                                |
 | `sortChange`      | `{ key: string; dir: 'asc' \| 'desc' }`       | Usuário clicou no cabeçalho e mudou a ordenação. |
+### Tipo das chaves
+
+A tabela deduz o tipo das chaves da seleção a partir do `rowKey`, sem você escrever genéricos: `selected`, `selectedChange`, `bulkAction` e as funções de `TableBulkAction` usam esse tipo, e um handler com o tipo errado vira erro de compilação.
+
+| `rowKey` | Chaves | Exemplo |
+|---|---|---|
+| nome de propriedade | o tipo dela | `rowKey="id"` com `id: number` → `number[]` |
+| função | o que ela devolve | `[rowKey]="porEmail"` com `(u) => string` → `string[]` |
+| sem `rowKey` | índices em `data` | `number[]` |
+
+```html
+<app-table [data]="pedidos" [columns]="cols" selectable rowKey="numero"
+           [selected]="selecionados()" (selectedChange)="selecionados.set($event)" />
+<!-- selecionados = signal<number[]>([]): com signal<string[]>, não compila -->
+```
+
+No `appBulkActions`, `keys` chega como `any[]` (o template não enxerga os tipos da tabela): declare o tipo no método que recebe as chaves.
+
 ### Templates projetáveis
 - **Célula custom (`appCell`)**  
   Contexto: `$implicit` (valor), `row` (linha), `index` (índice).

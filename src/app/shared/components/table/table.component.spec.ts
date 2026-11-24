@@ -4,7 +4,7 @@ import { UI_LABELS_PT, provideUiLabels } from '../../labels';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle } from './table.types';
+import { ColumnDef, TableAction, TableBulkAction, TableBulkBarIdle, TableKey } from './table.types';
 
 import { TableComponent } from './table.component';
 import { TableBulkActionsTemplateDirective } from './table.directives';
@@ -805,5 +805,92 @@ describe('TableComponent collapsible columns', () => {
     await settle();
     await setWidth(150);
     expect(headers()).toEqual(['', 'Nome', 'Tipo', 'Documento', 'Cidade']);
+  });
+});
+
+// ===== tipo das chaves: deduzido do rowKey (o spec só compila se a dedução estiver certa)
+interface Pedido { numero: number; cliente: string; }
+
+// checado pelo compilador ao rodar os testes (os templates não são: os valores ficam nos its abaixo)
+type Same<A, B> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X extends B ? 1 : 2) ? true : false;
+type Expect<T extends true> = T;
+type Emitted<C extends { selectedChange: { emit(v: never): void } }> = Parameters<C['selectedChange']['emit']>[0];
+export type KeyTypeChecks = [
+  Expect<Same<TableKey<Pedido, 'numero'>, number>>,
+  Expect<Same<TableKey<Pedido, 'cliente'>, string>>,
+  Expect<Same<TableKey<Pedido, (p: Pedido) => Date>, Date>>,
+  Expect<Same<TableKey<Pedido, never>, number>>,
+  // o componente: nada de any[] na saída
+  Expect<Same<Emitted<TableComponent<Pedido, 'cliente'>>, string[]>>,
+  Expect<Same<Emitted<TableComponent<Pedido>>, number[]>>,
+];
+const PEDIDOS: Pedido[] = [{ numero: 10, cliente: 'Ana' }, { numero: 20, cliente: 'Bruno' }];
+const PEDIDO_COLS: ColumnDef<Pedido>[] = [{ key: 'cliente', header: 'Cliente' }];
+
+@Component({
+  imports: [TableComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-table id="prop" [data]="pedidos" [columns]="cols" [selectable]="true" rowKey="numero"
+      [selected]="numeros()" (selectedChange)="numeros.set($event)"
+      [bulkActions]="porNumero" (bulkAction)="onNumeros($event.keys)" />
+    <app-table id="fn" [data]="pedidos" [columns]="cols" [selectable]="true" [rowKey]="porCliente"
+      (selectedChange)="onClientes($event)" />
+    <app-table id="idx" [data]="pedidos" [columns]="cols" [selectable]="true"
+      (selectedChange)="onIndices($event)" />
+  `
+})
+class TypedKeysHostComponent {
+  pedidos = PEDIDOS;
+  cols = PEDIDO_COLS;
+  numeros = signal<number[]>([]);
+  /** `disabled` recebe as chaves já com o tipo da propriedade */
+  porNumero: TableBulkAction<number>[] = [{ type: 'faturar', label: 'Faturar', disabled: keys => keys.some(n => n > 100) }];
+  porCliente = (p: Pedido) => p.cliente.toUpperCase();
+  bulk: number[] = [];
+  clientes: string[] = [];
+  indices: number[] = [];
+  onNumeros(keys: number[]) { this.bulk = keys; }
+  onClientes(keys: string[]) { this.clientes = keys; }
+  onIndices(keys: number[]) { this.indices = keys; }
+}
+
+describe('TableComponent: key types follow rowKey', () => {
+  let fixture: ComponentFixture<TypedKeysHostComponent>;
+  let host: TypedKeysHostComponent;
+  let el: HTMLElement;
+  const firstRowBox = (id: string) => el.querySelector<HTMLInputElement>(`#${id} tbody input[type="checkbox"]`)!;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TypedKeysHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+    fixture = TestBed.createComponent(TypedKeysHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  it('property name: the value of that property (number here), also in bulk actions', async () => {
+    firstRowBox('prop').click();
+    await fixture.whenStable();
+    expect(host.numeros()).toEqual([10]);
+
+    const faturar = Array.from(el.querySelectorAll<HTMLButtonElement>('#prop button')).find(b => b.textContent!.trim() === 'Faturar')!;
+    faturar.click();
+    expect(host.bulk).toEqual([10]);
+  });
+
+  it('function: what it returns (string here)', async () => {
+    firstRowBox('fn').click();
+    await fixture.whenStable();
+    expect(host.clientes).toEqual(['ANA']);
+  });
+
+  it('no rowKey: indexes in data', async () => {
+    firstRowBox('idx').click();
+    await fixture.whenStable();
+    expect(host.indices).toEqual([0]);
   });
 });

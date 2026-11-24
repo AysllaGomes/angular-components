@@ -13,7 +13,7 @@
     [tpl]="bulkTpl()?.tpl"
     [ctx]="bulkCtx()"
     (clear)="clearSelection()"
-    (action)="bulkAction.emit($event)"
+    (action)="onBulkAction($event)"
     (focusin)="onBulkFocusIn()"
     (focusout)="onBulkFocusOut($event)" />
 }
