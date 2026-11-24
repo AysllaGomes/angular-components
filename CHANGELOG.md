@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.1](https://github.com/AysllaGomes/angular-components/compare/v3.10.0...v3.10.1) (2026-11-24)
+
+### Bug Fixes
+
+* **dialog, actionbar:** confirming in a Dialog opened over an ActionBar closes both in the same update, and the page was left with scrolling locked (`body` `overflow: hidden`) and focus on `<body>` ([173ba0f](https://github.com/AysllaGomes/angular-components/commit/173ba0f))
+  * each modal saved and restored the body `overflow` on its own, so one could put back the other's `hidden`; the modal stack now saves the original value when the first one opens and restores it when the last one closes
+  * a modal closing while another is still on top no longer focuses the (inert) background; the top one inherits its focus target, so focus ends where the sequence started
+* **select, tree-select:** explicit focus contract for menu and sheet ([Select](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md)) ([de2e53e](https://github.com/AysllaGomes/angular-components/commit/de2e53e))
+  * **menu**: closes when focus leaves the component, without taking focus back (the Select panel stayed open after `Tab`)
+  * **sheet** (phones): a modal, through `ModalSession`: inert, non-scrolling background and `Tab` kept inside; the × and the dimmed background now return focus to the field (it went to `<body>`), like `Esc` and picking an option
+  * the sheet mode is computed again on open (changing `responsive` after the first render had no effect)
+  * "What to copy" for Select and TreeSelect now includes `a11y/modal-session.ts`
+* **theme:** text contrast ≥ 4.5:1 with every accent color and theme, hover included ([2744576](https://github.com/AysllaGomes/angular-components/commit/2744576))
+  * reported: white on orange in solid buttons, 3.21:1. A new browser matrix found more: the solid hover lightened the background (no accent passed, 2.76–4.18), orange as text on the light theme (outline/ghost/link, Dialog secondary action), the outline/ghost hover tint (teal, blue, rose, violet), and on the dark theme white on the light neutral/danger tones (2.56/2.77) and the Dialog secondary action using `--accent` instead of `--accent-text`
+  * new tokens `--accent-fill`, `--neutral-fill`, `--danger-fill` for backgrounds under white text (orange `#A85A17`; on dark, neutral `#475569` and danger `#b91c1c`), orange `--accent-text` `#A85A17` on the light theme; the solid hover now darkens, and the outline/ghost hover moves the text toward `--fg`
+  * component fallbacks pass without the theme too (danger default `#b91c1c`)
+
+### Internal
+
+* **test:** contrast matrix in the browser (`e2e/contrast.spec.ts`): light/dark × 5 accents × every text that uses the accent, hover included, in CI before publishing; e2e for closing both modals (scroll and focus) and for the Select/TreeSelect focus contract on a phone (390px) and desktop with real `Tab`. Each one checked to fail with the previous code ([173ba0f](https://github.com/AysllaGomes/angular-components/commit/173ba0f), [de2e53e](https://github.com/AysllaGomes/angular-components/commit/de2e53e), [2744576](https://github.com/AysllaGomes/angular-components/commit/2744576))
+
 ## [3.10.0](https://github.com/AysllaGomes/angular-components/compare/v3.9.0...v3.10.0) (2026-11-24)
 
 ### Features

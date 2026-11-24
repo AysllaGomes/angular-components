@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.1](https://github.com/AysllaGomes/angular-components/compare/v3.10.0...v3.10.1) (2026-11-24)
+### Correções
+- **dialog, actionbar:** confirmar num Dialog aberto sobre uma ActionBar fecha os
+  dois na mesma atualização, e a página ficava com a rolagem travada (`overflow:
+  hidden` no `body`) e o foco no `<body>`:
+  - cada modal guardava e restaurava o `overflow` do body por conta própria, e um
+    devolvia o `hidden` do outro; agora a pilha de modais guarda o valor original
+    no primeiro e o devolve quando o último fecha;
+  - um modal que fecha com outro ainda por cima não foca mais o fundo (inerte); o
+    de cima herda o destino de foco dele, e o foco termina onde a sequência
+    começou.
+- **select, tree-select:** contrato de foco explícito para menu e folha:
+  - **menu**: fecha quando o foco sai do componente, sem roubar o foco (o painel
+    do Select ficava aberto depois do `Tab`);
+  - **folha** (celular): é um modal, via `ModalSession`: fundo inerte e sem
+    rolagem, `Tab` preso nela; o × e o fundo escurecido agora devolvem o foco ao
+    campo (ia para o `<body>`), como o `Esc` e a escolha de uma opção;
+  - o modo folha é recalculado ao abrir (mudar `responsive` depois do primeiro
+    render não tinha efeito);
+  - o "O que copiar" do Select e do TreeSelect passa a incluir
+    `a11y/modal-session.ts`.
+- **tema:** contraste de texto ≥ 4,5:1 com todas as cores de destaque e temas,
+  também no hover:
+  - relatado: branco sobre laranja nos botões sólidos, 3,21:1. Uma matriz nova no
+    navegador achou mais: o hover do sólido clareava o fundo (nenhuma cor passava,
+    2,76–4,18), laranja como texto no tema claro (outline/ghost/link, ação
+    secundária do Dialog), a tinta no hover de outline/ghost (teal, azul, rose,
+    violeta) e, no tema escuro, branco sobre os tons claros de neutral/danger
+    (2,56/2,77) e a ação secundária do Dialog usando `--accent` em vez de
+    `--accent-text`;
+  - tokens novos `--accent-fill`, `--neutral-fill`, `--danger-fill` para fundos
+    com texto branco (laranja `#A85A17`; no escuro, neutral `#475569` e danger
+    `#b91c1c`), `--accent-text` laranja `#A85A17` no tema claro; o hover do
+    sólido agora escurece, e o de outline/ghost aproxima o texto de `--fg`;
+  - os valores padrão dos componentes também passam sem o tema (danger padrão
+    `#b91c1c`).
+
+### Interno
+- **test:** matriz de contraste no navegador (`e2e/contrast.spec.ts`):
+  claro/escuro × 5 cores × todo texto que usa a cor de destaque, com hover, no CI
+  antes de publicar; e2e de fechar os dois modais (rolagem e foco) e do contrato
+  de foco do Select/TreeSelect no celular (390px) e no desktop, com `Tab` real.
+  Cada um conferido falhando com o código anterior.
+
 ## [3.10.0](https://github.com/AysllaGomes/angular-components/compare/v3.9.0...v3.10.0) (2026-11-24)
 ### Features
 - **table:** o tipo das chaves da seleção agora vem do `rowKey`, sem escrever
