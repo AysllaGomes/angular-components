@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.2](https://github.com/AysllaGomes/angular-components/compare/v3.10.1...v3.10.2) (2026-11-24)
+
+### Bug Fixes
+
+* **select:** the field caption was a `<label>` with no control (the field is a button, named by `aria-labelledby`); it is now a `<div class="label">`, as in the TreeSelect ([d8a77d9](https://github.com/AysllaGomes/angular-components/commit/d8a77d9))
+
+### Internal
+
+* **ci:** lint with [angular-eslint](https://github.com/angular-eslint/angular-eslint) (`npm run lint`), first step in CI and before every deploy: TypeScript (recommended + stylistic), Angular templates and template accessibility. The library (`shared/`) must be OnPush; exceptions sit next to the code with the reason, and an exception that no longer applies is an error ([f24295e](https://github.com/AysllaGomes/angular-components/commit/f24295e))
+* **refactor:** what the lint pointed out: `inject()` instead of constructor injection, `any` → `unknown` where the API does not change (the public `T = any` generics, `validSubmit` and `ErrorMessage` stay, with the reason), unused imports, and a written reason for each template accessibility exception (clickable backdrops closed by Esc, containers that delegate keys, options with `aria-activedescendant`) ([06e7be2](https://github.com/AysllaGomes/angular-components/commit/06e7be2))
+
 ## [3.10.1](https://github.com/AysllaGomes/angular-components/compare/v3.10.0...v3.10.1) (2026-11-24)
 
 ### Bug Fixes

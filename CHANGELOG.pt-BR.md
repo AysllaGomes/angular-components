@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.2](https://github.com/AysllaGomes/angular-components/compare/v3.10.1...v3.10.2) (2026-11-24)
+### Correções
+- **select:** o rótulo do campo era um `<label>` sem controle (o campo é um
+  botão, nomeado por `aria-labelledby`); agora é um `<div class="label">`, como
+  no TreeSelect.
+
+### Interno
+- **ci:** lint com angular-eslint (`npm run lint`), primeiro passo do CI e antes
+  de cada deploy: TypeScript (recommended + stylistic), templates Angular e
+  acessibilidade nos templates. A biblioteca (`shared/`) precisa ser OnPush; as
+  exceções ficam ao lado do código, com o motivo, e uma exceção que não se aplica
+  mais vira erro.
+- **refactor:** o que o lint apontou: `inject()` no lugar de injeção pelo
+  construtor, `any` → `unknown` onde a API não muda (os genéricos públicos
+  `T = any`, `validSubmit` e `ErrorMessage` ficam, com o motivo), imports sem
+  uso e o motivo escrito de cada exceção de acessibilidade nos templates (fundos
+  clicáveis que o Esc fecha, contêineres que delegam teclas, opções com
+  `aria-activedescendant`).
+
 ## [3.10.1](https://github.com/AysllaGomes/angular-components/compare/v3.10.0...v3.10.1) (2026-11-24)
 ### Correções
 - **dialog, actionbar:** confirmar num Dialog aberto sobre uma ActionBar fecha os
