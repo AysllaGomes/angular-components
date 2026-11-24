@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.11.0](https://github.com/AysllaGomes/angular-components/compare/v3.10.2...v3.11.0) (2026-11-24)
+### Features
+- **form-field:** o Campo de texto (`app-form-field`) vira um componente
+  próprio, e continua envolvendo o `<input>`/`<textarea>`/`<select>` **nativo**
+  (formulários, `appMask`, `type`, `autocomplete` seguem funcionando):
+  - `counter`: "42/280" a partir do `maxlength` do campo, ligado por
+    `aria-describedby` ("42 de 280 caracteres"); acompanha a digitação e os
+    valores do formulário; perto do limite (`counterAnnounceAt`, padrão os
+    últimos 20%) o leitor de tela ouve "Restam 5 caracteres" depois de 1 s de
+    pausa, não a cada tecla;
+  - `[ffPrefix]` / `[ffSuffix]`: texto ou ícone dentro da caixa, fora do
+    valor; com texto ("R$", "kg"), também descreve o campo;
+  - `passwordToggle`: botão com nome fixo ("Mostrar senha") e `aria-pressed`;
+    a senha volta a ficar oculta quando o formulário é enviado;
+  - `appAutosize` no `<textarea>`: cresce com o texto até N linhas (padrão 8)
+    e depois rola; acompanha `setValue`/`reset` e a largura do campo;
+  - a caixa (borda, anel de foco por `:focus-within`) passa do input para o
+    `.ff__control`, para prefixo, sufixo e botão ficarem dentro dela;
+  - textos novos `labels.formField` (`counter`, `remaining`, `showPassword`)
+    no `provideUiLabels`.
+- **site:** página "Campo de texto" com exemplo ao vivo, seção na demo, menu,
+  catálogo da home (17 componentes) e relatório do axe; o "O que copiar" ganha
+  entrada própria para ele, e a documentação de Formulários aponta para ela.
+
+### Interno
+- **test:** specs unitários (contador, prefixo/sufixo, senha, textarea que
+  cresce), axe (prefixo/sufixo, senha visível e oculta, contador) e testes de
+  navegador (textarea que cresce com layout de verdade, senha mantém o foco no
+  botão, prefixo dentro da caixa).
+
 ## [3.10.2](https://github.com/AysllaGomes/angular-components/compare/v3.10.1...v3.10.2) (2026-11-24)
 ### Correções
 - **select:** o rótulo do campo era um `<label>` sem controle (o campo é um

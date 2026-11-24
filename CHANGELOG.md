@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.11.0](https://github.com/AysllaGomes/angular-components/compare/v3.10.2...v3.11.0) (2026-11-24)
+
+### Features
+
+* **form-field:** the [Text field](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.en.md) (`app-form-field`) becomes a component of its own, still wrapping the **native** `<input>`/`<textarea>`/`<select>` (forms, `appMask`, `type`, `autocomplete` keep working) ([6b07052](https://github.com/AysllaGomes/angular-components/commit/6b07052))
+  * `counter`: "42/280" from the field's `maxlength`, tied by `aria-describedby` ("42 of 280 characters"); follows typing and values set by the form; near the limit (`counterAnnounceAt`, default the last 20%) screen readers hear "5 characters left" after a 1 s pause, not on every key
+  * `[ffPrefix]` / `[ffSuffix]`: text or icon inside the box, not part of the value; text ("$", "kg") also describes the field
+  * `passwordToggle`: a button with a fixed name ("Show password") and `aria-pressed`; the password is hidden again when the form is submitted
+  * `appAutosize` on `<textarea>`: grows with the text up to N rows (default 8), then scrolls; follows `setValue`/`reset` and the field width
+  * the box (border, focus ring via `:focus-within`) moves from the input to `.ff__control`, so prefix, suffix and the button sit inside it
+  * new `labels.formField` texts (`counter`, `remaining`, `showPassword`) in `provideUiLabels`
+* **site:** "Text field" page with a live example, demo section, menu, home catalog (17 components) and axe report; "What to copy" now has its own entry for it, and the Forms docs point to it ([5363965](https://github.com/AysllaGomes/angular-components/commit/5363965))
+
+### Internal
+
+* **test:** unit specs (counter, affixes, password, autosize), axe (prefix/suffix, password shown and hidden, counter) and browser tests (growing textarea with real layout, password toggle keeps focus, prefix inside the box)
+
 ## [3.10.2](https://github.com/AysllaGomes/angular-components/compare/v3.10.1...v3.10.2) (2026-11-24)
 
 ### Bug Fixes
