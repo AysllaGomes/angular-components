@@ -46,10 +46,10 @@ To use the Forms helpers in another Angular project, copy into a `shared/` folde
 
 | What | Copy |
 |---|---|
-| The component | `forms/`, `components/form-field/` |
+| The component | `forms/` |
 | Default texts | `labels/` ([Component texts](../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`. In total: 12 files, ~771 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`. In total: 9 files, ~636 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Full example
@@ -195,15 +195,7 @@ Use the native attribute to show the expected **format** — it disappears while
 
 ## Text field — `app-form-field`
 
-```html
-<app-form-field label="Email" required hint="Used to recover your password" [error]="ctrl | fieldError">
-  <input type="email" [formControl]="ctrl" autocomplete="email">
-</app-form-field>
-```
-
-Full table in the [API](#api), below.
-
-The projected field stays **native** (`<input>`, `<textarea>` or `<select>`): forms, `appMask` and browser *autocomplete* work as usual. An existing `id` on the field is kept. Look: Select tokens (`--sel-*`).
+The examples above use the [Text field](../components/form-field/form-field.en.md): label, hint, error, counter, prefix/suffix and show-password around the native `<input>`. Its full API is on its own page.
 
 ---
 
@@ -240,16 +232,6 @@ Selector: `input[appMask]`.
 | Usage | Returns | Description |
 |---|---|---|
 | `control \| fieldError` | `string \| null` | Message for the first error (`required` before the others), only after the field was touched or the form submitted. |
-
-### `app-form-field`
-
-| Input           | Type             | Default       | Description |
-|-----------------|------------------|---------------|-------------|
-| `label`         | `string`         | `''`          | Label (linked to the field via `for`/`id`). |
-| `required`      | `boolean`        | `false`       | Shows "required" and sets `aria-required`. |
-| `hint`          | `string \| null` | `null`        | Helper text (`aria-describedby`). |
-| `error`         | `string \| null` | `null`        | Error: replaces the hint, turns the border red and sets `aria-invalid`. |
-| `requiredLabel` | `string`         | `labels.required` | Indicator text (i18n). |
 
 ## Accessibility
 

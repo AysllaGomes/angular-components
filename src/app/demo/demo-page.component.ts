@@ -17,6 +17,7 @@ import { RadioSwitchDemoComponent } from './sections/radio-switch/radio-switch-d
 import { TabsDemoComponent } from './sections/tabs/tabs-demo.component';
 import { TooltipDemoComponent } from './sections/tooltip/tooltip-demo.component';
 import { ValidationDemoComponent } from './sections/validation/validation-demo.component';
+import { TextFieldDemoComponent } from './sections/text-field/text-field-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -37,6 +38,7 @@ import { ValidationDemoComponent } from './sections/validation/validation-demo.c
     TreeSelectDemoComponent,
     RadioSwitchDemoComponent,
     ValidationDemoComponent,
+    TextFieldDemoComponent,
     TabsDemoComponent,
     TooltipDemoComponent,
   ],

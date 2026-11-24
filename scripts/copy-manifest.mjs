@@ -28,7 +28,8 @@ const DOCS = [
   { doc: 'components/toast/toast', name: { pt: 'o Toast', en: 'the Toast' }, entries: ['components/toast/toast-container.component.ts'] },
   { doc: 'components/tooltip/tooltip', name: { pt: 'o Tooltip', en: 'the Tooltip' }, entries: ['components/tooltip/tooltip.directive.ts'] },
   { doc: 'components/tree-select/tree-select', name: { pt: 'o TreeSelect', en: 'the TreeSelect' }, entries: ['components/tree-select/tree-select.component.ts'] },
-  { doc: 'forms/forms', name: { pt: 'os Formulários', en: 'the Forms helpers' }, entries: ['forms/index.ts', 'components/form-field/form-field.component.ts'] },
+  { doc: 'components/form-field/form-field', name: { pt: 'o Campo de texto', en: 'the Text field' }, entries: ['components/form-field/form-field.component.ts', 'components/form-field/autosize.directive.ts'] },
+  { doc: 'forms/forms', name: { pt: 'os Formulários', en: 'the Forms helpers' }, entries: ['forms/index.ts'] },
 ];
 
 const read = f => readFileSync(f, 'utf8');

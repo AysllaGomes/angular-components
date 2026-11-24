@@ -13,6 +13,7 @@ import { RadioGroupComponent } from '../../shared/components/radio/radio-group.c
 import { RadioOption } from '../../shared/components/radio/radio.types';
 import { SwitchComponent } from '../../shared/components/switch/switch.component';
 import { FormFieldComponent } from '../../shared/components/form-field/form-field.component';
+import { AutosizeDirective } from '../../shared/components/form-field/autosize.directive';
 import { ButtonDirective } from '../../shared/components/button/button.directive';
 import { AppValidators, FieldErrorPipe, FormValidationDirective, MaskDirective } from '../../shared/forms';
 
@@ -260,4 +261,51 @@ export class ValidationExampleComponent {
     : [{ label: 'Básico', value: 'basic' }, { label: 'Pro', value: 'pro' }]);
 
   save() { this.sent.set(true); }
+}
+
+/** form-field.md → ## Uso */
+@Component({
+  selector: 'app-textfield-example',
+  imports: [ReactiveFormsModule, FormFieldComponent, AutosizeDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @let en = isEn();
+    <form class="fields" [formGroup]="form" (submit)="$event.preventDefault()">
+      <app-form-field [label]="en ? 'Email' : 'E-mail'" required
+        [hint]="en ? 'We use it to recover your password' : 'Usaremos para recuperar a senha'">
+        <input type="email" autocomplete="email" formControlName="email">
+      </app-form-field>
+
+      <app-form-field [label]="en ? 'Password' : 'Senha'" required passwordToggle>
+        <input type="password" autocomplete="current-password" formControlName="password">
+      </app-form-field>
+
+      <app-form-field [label]="en ? 'Order amount' : 'Valor do pedido'">
+        <span ffPrefix>{{ en ? '$' : 'R$' }}</span>
+        <input inputmode="decimal" formControlName="amount">
+      </app-form-field>
+
+      <app-form-field [label]="en ? 'Notes' : 'Observações'" counter
+        [hint]="en ? 'Only the team sees this' : 'Visível só para a equipe'">
+        <textarea maxlength="280" appAutosize="6" formControlName="notes"></textarea>
+      </app-form-field>
+    </form>
+  `,
+  styles: `
+:host
+  display: block
+  max-width: 24rem
+.fields
+  display: grid
+  gap: 1rem
+`
+})
+export class TextFieldExampleComponent {
+  readonly isEn = injectIsEn();
+  readonly form = new FormGroup({
+    email: new FormControl('', { nonNullable: true }),
+    password: new FormControl('', { nonNullable: true }),
+    amount: new FormControl('', { nonNullable: true }),
+    notes: new FormControl('', { nonNullable: true }),
+  });
 }

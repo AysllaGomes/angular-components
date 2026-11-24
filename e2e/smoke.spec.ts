@@ -190,3 +190,55 @@ test.describe('Select e TreeSelect: foco ao fechar', () => {
     });
   });
 });
+
+test.describe('Campo de texto', () => {
+  test('textarea cresce com o texto até o máximo de linhas e depois rola', async ({ page }) => {
+    await page.goto('demo/');
+    const ta = page.locator('#textfield textarea');
+    await ta.scrollIntoViewIfNeeded();
+    const h0 = await ta.evaluate(e => e.getBoundingClientRect().height);
+
+    await ta.fill('linha\n'.repeat(4));
+    const h1 = await ta.evaluate(e => e.getBoundingClientRect().height);
+    expect(h1).toBeGreaterThan(h0);
+    expect(await ta.evaluate(e => getComputedStyle(e).overflowY)).toBe('hidden');
+
+    await ta.fill('linha\n'.repeat(30)); // passa de 6 linhas (appAutosize="6"): para de crescer e rola
+    const h2 = await ta.evaluate(e => e.getBoundingClientRect().height);
+    await ta.fill('linha\n'.repeat(60));
+    const h3 = await ta.evaluate(e => e.getBoundingClientRect().height);
+    expect(h3).toBe(h2);
+    expect(await ta.evaluate(e => getComputedStyle(e).overflowY)).toBe('auto');
+
+    await ta.fill('curto'); // e encolhe
+    expect(await ta.evaluate(e => e.getBoundingClientRect().height)).toBeLessThan(h2);
+  });
+
+  test('contador acompanha a digitação; senha alterna e mantém o foco no botão', async ({ page }) => {
+    await page.goto('demo/');
+    const section = page.locator('#textfield');
+    await section.locator('textarea').fill('abc');
+    await expect(section.locator('.ff__count [aria-hidden="true"]')).toHaveText('3/140');
+
+    const pwd = section.locator('input[autocomplete="new-password"]');
+    await pwd.fill('segredo');
+    const toggle = section.getByRole('button', { name: 'Mostrar senha' });
+    await toggle.click();
+    await expect(pwd).toHaveAttribute('type', 'text');
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(toggle).toBeFocused();
+    await toggle.press('Enter');
+    await expect(pwd).toHaveAttribute('type', 'password');
+  });
+
+  test('prefixo e sufixo ficam dentro da caixa, sem entrar no valor', async ({ page }) => {
+    await page.goto('demo/');
+    const field = page.locator('#textfield app-form-field', { has: page.getByText('Valor do pedido') });
+    const box = await field.locator('.ff__control').boundingBox();
+    const prefix = await field.locator('.ff__affix--prefix').boundingBox();
+    expect(prefix!.x).toBeGreaterThanOrEqual(box!.x);
+    expect(prefix!.x + prefix!.width).toBeLessThanOrEqual(box!.x + box!.width);
+    await field.locator('input').fill('120,50');
+    await expect(field.locator('input')).toHaveValue('120,50');
+  });
+});

@@ -46,10 +46,10 @@ Para usar os Formulários em outro projeto Angular, copie para dentro de uma pas
 
 | O quê | Copiar |
 |---|---|
-| O componente | `forms/`, `components/form-field/` |
+| O componente | `forms/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`. Ao todo: 12 arquivos, ~771 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 9 arquivos, ~636 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Exemplo completo
@@ -195,15 +195,7 @@ Use o atributo nativo para mostrar o **formato** esperado — ele some ao digita
 
 ## Campo de texto — `app-form-field`
 
-```html
-<app-form-field label="E-mail" required hint="Usaremos para recuperar a senha" [error]="ctrl | fieldError">
-  <input type="email" [formControl]="ctrl" autocomplete="email">
-</app-form-field>
-```
-
-Tabela completa na [API](#api), abaixo.
-
-O campo projetado continua **nativo** (`<input>`, `<textarea>` ou `<select>`): formulários, `appMask` e o *autocomplete* do navegador funcionam normalmente. Se o campo já tiver `id`, ele é mantido. Visual: tokens do Select (`--sel-*`).
+Os exemplos acima usam o [Campo de texto](../components/form-field/form-field.md): rótulo, dica, erro, contador, prefixo/sufixo e mostrar a senha em volta do `<input>` nativo. A API completa está na página dele.
 
 ---
 
@@ -240,16 +232,6 @@ Seletor: `input[appMask]`.
 | Uso | Retorno | Descrição |
 |---|---|---|
 | `control \| fieldError` | `string \| null` | Mensagem do primeiro erro (`required` antes dos outros), só depois que o campo foi tocado ou o formulário enviado. |
-
-### `app-form-field`
-
-| Propriedade     | Tipo             | Padrão        | Descrição |
-|-----------------|------------------|---------------|-----------|
-| `label`         | `string`         | `''`          | Rótulo (ligado ao campo por `for`/`id`). |
-| `required`      | `boolean`        | `false`       | Mostra "requerido" e marca `aria-required`. |
-| `hint`          | `string \| null` | `null`        | Texto de apoio (`aria-describedby`). |
-| `error`         | `string \| null` | `null`        | Erro: substitui a dica, deixa a borda vermelha e marca `aria-invalid`. |
-| `requiredLabel` | `string`         | `labels.required` | Texto do indicador (i18n). |
 
 ## Acessibilidade
 

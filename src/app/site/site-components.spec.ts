@@ -6,9 +6,9 @@ describe('site components', () => {
     expect(normalizeText('Tree-Select')).toBe('treeselect');
   });
 
-  it('lists the 16 components, ids unique', () => {
-    expect(SITE_COMPONENTS.length).toBe(16);
-    expect(new Set(SITE_COMPONENTS.map(c => c.id)).size).toBe(16);
+  it('lists the 17 components, ids unique', () => {
+    expect(SITE_COMPONENTS.length).toBe(17);
+    expect(new Set(SITE_COMPONENTS.map(c => c.id)).size).toBe(17);
   });
 
   it('suggests by name in English or Portuguese', () => {

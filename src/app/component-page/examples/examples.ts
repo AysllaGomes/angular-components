@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 
-import { CheckboxExampleComponent, CheckboxGroupExampleComponent, RadioExampleComponent, SelectExampleComponent, SwitchExampleComponent, TreeSelectExampleComponent, ValidationExampleComponent } from './forms.examples';
+import { CheckboxExampleComponent, CheckboxGroupExampleComponent, RadioExampleComponent, SelectExampleComponent, SwitchExampleComponent, TextFieldExampleComponent, TreeSelectExampleComponent, ValidationExampleComponent } from './forms.examples';
 import { PaginationExampleComponent, TableExampleComponent } from './data.examples';
 import { ActionBarExampleComponent, DialogExampleComponent, ToastExampleComponent, TooltipExampleComponent } from './overlays.examples';
 import { ButtonExampleComponent, StepperExampleComponent, TabsExampleComponent } from './navigation.examples';
@@ -13,6 +13,7 @@ import { ButtonExampleComponent, StepperExampleComponent, TabsExampleComponent }
  */
 export const LIVE_EXAMPLES: Record<string, Type<unknown>> = {
   // Formulário
+  textfield: TextFieldExampleComponent,
   select: SelectExampleComponent,
   treeselect: TreeSelectExampleComponent,
   checkbox: CheckboxExampleComponent,

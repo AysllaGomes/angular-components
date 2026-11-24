@@ -1,0 +1,53 @@
+<section id="textfield" class="demo-section">
+  <h2>{{ 'section.textfield.title' | t }}</h2>
+  <p class="lead">{{ 'section.textfield.lead' | t }}</p>
+
+  <div class="tf-grid">
+    <article class="card">
+      <h3>{{ 'textfield.demo.basic.title' | t }}</h3>
+      <div class="tf-stack">
+        <app-form-field required [label]="'textfield.demo.name' | t" [hint]="'textfield.demo.name.hint' | t"
+          [requiredLabel]="'form.required.label' | t">
+          <input autocomplete="name" [formControl]="name">
+        </app-form-field>
+        <app-form-field [label]="'textfield.demo.email' | t" [error]="'textfield.demo.email.error' | t">
+          <input type="email" autocomplete="email" [formControl]="email">
+        </app-form-field>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>{{ 'textfield.demo.affix.title' | t }}</h3>
+      <div class="tf-stack">
+        <app-form-field [label]="'textfield.demo.amount' | t">
+          <span ffPrefix>{{ 'textfield.demo.amount.prefix' | t }}</span>
+          <input inputmode="decimal" [formControl]="amount">
+        </app-form-field>
+        <app-form-field [label]="'textfield.demo.weight' | t">
+          <input inputmode="decimal" [formControl]="weight">
+          <span ffSuffix>kg</span>
+        </app-form-field>
+        <app-form-field [label]="'textfield.demo.search' | t">
+          <svg ffPrefix width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15ZM21 21l-5.2-5.2"/>
+          </svg>
+          <input type="search" [formControl]="search">
+        </app-form-field>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>{{ 'textfield.demo.password.title' | t }}</h3>
+      <app-form-field passwordToggle [label]="'textfield.demo.password' | t" [hint]="'textfield.demo.password.hint' | t">
+        <input type="password" autocomplete="new-password" [formControl]="password">
+      </app-form-field>
+    </article>
+
+    <article class="card">
+      <h3>{{ 'textfield.demo.text.title' | t }}</h3>
+      <app-form-field counter [label]="'textfield.demo.notes' | t" [hint]="'textfield.demo.notes.hint' | t">
+        <textarea maxlength="140" appAutosize="6" [formControl]="notes"></textarea>
+      </app-form-field>
+    </article>
+  </div>
+</section>

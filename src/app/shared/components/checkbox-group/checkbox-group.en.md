@@ -27,7 +27,7 @@ To use the Checkbox group in another Angular project, copy into a `shared/` fold
 | Components it uses | `components/checkbox/` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`. In total: 11 files, ~783 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`. In total: 11 files, ~803 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Why it exists

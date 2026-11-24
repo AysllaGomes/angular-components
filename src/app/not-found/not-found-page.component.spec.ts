@@ -72,7 +72,7 @@ describe('NotFoundPageComponent', () => {
     const count = () => el.querySelector('#nf-count')!;
     const names = () => Array.from(el.querySelectorAll('.results a span:first-child')).map(s => s.textContent!.trim());
     expect(count().getAttribute('aria-live')).toBe('polite');
-    expect(count().textContent).toContain('16 componentes');
+    expect(count().textContent).toContain('17 componentes');
 
     await type('dica'); // apelido em português do Tooltip
     expect(names()).toEqual(['Tooltip']);

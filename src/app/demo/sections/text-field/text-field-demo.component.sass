@@ -1,0 +1,12 @@
+.tf-grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr))
+  gap: 1rem
+
+.tf-stack
+  display: grid
+  gap: 1rem
+
+/* cards da mesma linha esticam juntos: o conteúdo fica no topo */
+.tf-grid > .card
+  align-content: start

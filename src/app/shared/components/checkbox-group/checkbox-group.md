@@ -27,7 +27,7 @@ Para usar o Checkbox group em outro projeto Angular, copie para dentro de uma pa
 | Componentes que ele usa | `components/checkbox/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`. Ao todo: 11 arquivos, ~783 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 11 arquivos, ~803 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Por que existe

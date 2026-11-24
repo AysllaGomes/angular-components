@@ -15,6 +15,7 @@ export interface SiteComponent {
 
 export const SITE_COMPONENTS: readonly SiteComponent[] = [
   { id: 'table', group: 'data', aliases: ['table', 'tabela', 'tabla', 'grid', 'datatable'] },
+  { id: 'textfield', group: 'forms', aliases: ['textfield', 'campo', 'campodetexto', 'texto', 'input', 'textarea', 'senha', 'password'] },
   { id: 'select', group: 'forms', aliases: ['select', 'selecao', 'seletor', 'dropdown', 'combo', 'combobox'] },
   { id: 'treeselect', group: 'forms', aliases: ['treeselect', 'tree', 'arvore'] },
   { id: 'tabs', group: 'navigation', aliases: ['tabs', 'tab', 'abas', 'aba'] },

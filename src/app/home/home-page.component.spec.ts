@@ -35,12 +35,12 @@ describe('HomePageComponent', () => {
     expect(table.querySelector('app-table-bulk-bar')!.textContent).toContain('2');
   });
 
-  it('the catalog lists the 16 components, each linking to its demo section by name', () => {
+  it('the catalog lists the 17 components, each linking to its demo section by name', () => {
     const links = Array.from(el.querySelectorAll<HTMLAnchorElement>('#componentes .item a'));
-    expect(links.length).toBe(16);
+    expect(links.length).toBe(17);
     expect(links[0].getAttribute('href')).toBe('/componentes/table');
     expect(links[0].textContent).toContain('Tabela');
-    expect(new Set(links.map(a => a.textContent!.trim())).size).toBe(16); // nomes distintos para o leitor de tela
+    expect(new Set(links.map(a => a.textContent!.trim())).size).toBe(17); // nomes distintos para o leitor de tela
   });
 
   it('the two views are real tabs', async () => {

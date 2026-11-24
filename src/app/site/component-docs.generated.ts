@@ -3,7 +3,7 @@
 import { ComponentDocs } from './component-docs.types';
 
 /** componentes com página completa (têm "Por que existe" nos dois idiomas) */
-export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","checkboxgroup","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation"];
+export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","checkboxgroup","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation","textfield"];
 
 export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "actionbar": {
@@ -161,7 +161,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~993 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~1013 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -319,7 +319,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~993 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~1013 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -980,7 +980,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 11 arquivos, ~783 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 11 arquivos, ~803 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.md"
     },
@@ -1133,7 +1133,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 11 files, ~783 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 11 files, ~803 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.en.md"
     }
@@ -1303,7 +1303,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~719 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~739 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1468,7 +1468,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~719 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~739 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -1597,7 +1597,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~775 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~795 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.md"
     },
@@ -1724,7 +1724,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~775 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~795 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.en.md"
     }
@@ -1849,7 +1849,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~492 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~512 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.md"
     },
@@ -1972,7 +1972,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~492 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~512 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.en.md"
     }
@@ -2181,7 +2181,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 7 arquivos, ~1198 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 7 arquivos, ~1218 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.md"
     },
@@ -2388,7 +2388,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 7 files, ~1198 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 7 files, ~1218 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md"
     }
@@ -2515,7 +2515,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~544 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~564 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.md"
     },
@@ -2638,7 +2638,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~544 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~564 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.en.md"
     }
@@ -3211,7 +3211,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2913 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2933 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3560,7 +3560,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2913 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2933 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }
@@ -3947,7 +3947,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~850 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~870 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.md"
     },
@@ -4060,7 +4060,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~850 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~870 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md"
     }
@@ -4484,7 +4484,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 13 arquivos, ~1802 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 13 arquivos, ~1822 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.md"
     },
@@ -4714,7 +4714,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 13 files, ~1802 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 13 files, ~1822 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.en.md"
     }
@@ -4818,47 +4818,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Mensagem do primeiro erro (<code>required</code> antes dos outros), só depois que o campo foi tocado ou o formulário enviado."
             ]
           ]
-        },
-        {
-          "title": "<code>app-form-field</code>",
-          "head": [
-            "Propriedade",
-            "Tipo",
-            "Padrão",
-            "Descrição"
-          ],
-          "rows": [
-            [
-              "<code>label</code>",
-              "<code>string</code>",
-              "<code>''</code>",
-              "Rótulo (ligado ao campo por <code>for</code>/<code>id</code>)."
-            ],
-            [
-              "<code>required</code>",
-              "<code>boolean</code>",
-              "<code>false</code>",
-              "Mostra &quot;requerido&quot; e marca <code>aria-required</code>."
-            ],
-            [
-              "<code>hint</code>",
-              "<code>string | null</code>",
-              "<code>null</code>",
-              "Texto de apoio (<code>aria-describedby</code>)."
-            ],
-            [
-              "<code>error</code>",
-              "<code>string | null</code>",
-              "<code>null</code>",
-              "Erro: substitui a dica, deixa a borda vermelha e marca <code>aria-invalid</code>."
-            ],
-            [
-              "<code>requiredLabel</code>",
-              "<code>string</code>",
-              "<code>labels.required</code>",
-              "Texto do indicador (i18n)."
-            ]
-          ]
         }
       ],
       "a11y": [
@@ -4875,8 +4834,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           {
             "what": "O componente",
             "items": [
-              "<code>forms/</code>",
-              "<code>components/form-field/</code>"
+              "<code>forms/</code>"
             ]
           },
           {
@@ -4887,7 +4845,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 12 arquivos, ~771 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 9 arquivos, ~636 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.md"
     },
@@ -4989,47 +4947,6 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Message for the first error (<code>required</code> before the others), only after the field was touched or the form submitted."
             ]
           ]
-        },
-        {
-          "title": "<code>app-form-field</code>",
-          "head": [
-            "Input",
-            "Type",
-            "Default",
-            "Description"
-          ],
-          "rows": [
-            [
-              "<code>label</code>",
-              "<code>string</code>",
-              "<code>''</code>",
-              "Label (linked to the field via <code>for</code>/<code>id</code>)."
-            ],
-            [
-              "<code>required</code>",
-              "<code>boolean</code>",
-              "<code>false</code>",
-              "Shows &quot;required&quot; and sets <code>aria-required</code>."
-            ],
-            [
-              "<code>hint</code>",
-              "<code>string | null</code>",
-              "<code>null</code>",
-              "Helper text (<code>aria-describedby</code>)."
-            ],
-            [
-              "<code>error</code>",
-              "<code>string | null</code>",
-              "<code>null</code>",
-              "Error: replaces the hint, turns the border red and sets <code>aria-invalid</code>."
-            ],
-            [
-              "<code>requiredLabel</code>",
-              "<code>string</code>",
-              "<code>labels.required</code>",
-              "Indicator text (i18n)."
-            ]
-          ]
         }
       ],
       "a11y": [
@@ -5046,7 +4963,286 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           {
             "what": "The component",
             "items": [
-              "<code>forms/</code>",
+              "<code>forms/</code>"
+            ]
+          },
+          {
+            "what": "Default texts",
+            "items": [
+              "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md\">Component texts</a>)"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 9 files, ~636 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.en.md"
+    }
+  },
+  "textfield": {
+    "pt": {
+      "lead": "Moldura para <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code> e <code>&lt;select&gt;</code> <strong>nativos</strong>: rótulo, &quot;requerido&quot;, dica, erro, contador de caracteres, prefixo/sufixo e botão de mostrar a senha. O campo continua sendo o elemento nativo, então <code>formControl</code>, <code>ngModel</code>, <code>appMask</code>, <code>type</code>, <code>autocomplete</code> e <code>inputmode</code> funcionam como sempre. Para o <code>&lt;textarea&gt;</code> crescer com o texto, use a diretiva <code>appAutosize</code>.",
+      "why": [
+        "Um campo de texto acessível precisa de rótulo ligado por <code>for</code>/<code>id</code>, dica e erro ligados por <code>aria-describedby</code>, <code>aria-invalid</code> e <code>aria-required</code> no lugar certo, e o mesmo visual em todo o formulário. Componentes que <strong>recriam</strong> o <code>&lt;input&gt;</code> costumam esconder atributos nativos (<code>type</code>, <code>autocomplete</code>, <code>inputmode</code>) e atrapalhar máscaras e gerenciadores de senha. Esta moldura faz o contrário: você escreve o <code>&lt;input&gt;</code> nativo e ela liga tudo nele, além de oferecer contador, prefixo/sufixo e mostrar a senha sem reinventar o campo."
+      ],
+      "useWhen": [
+        "A pessoa digita: nome, e-mail, telefone, CPF/CNPJ (com <code>appMask</code>), valores, senha, observações.",
+        "O campo tem limite de caracteres que vale mostrar (<code>maxlength</code> + <code>counter</code>).",
+        "Há uma unidade ou símbolo fixo junto do valor, como &quot;R$&quot; ou &quot;kg&quot;."
+      ],
+      "preferOther": [
+        "As respostas possíveis são conhecidas: use o <a href=\"componentes/select\">Select</a>, ou o <a href=\"componentes/radio\">Radio group</a> se forem poucas e couberem na tela.",
+        "Opções organizadas em níveis: use o <a href=\"componentes/treeselect\">TreeSelect</a>.",
+        "Um sim/não: use o <a href=\"componentes/checkbox\">Checkbox</a> ou, se vale na hora, o <a href=\"componentes/switch\">Switch</a>."
+      ],
+      "example": "<app-form-field label=\"E-mail\" required hint=\"Usaremos para recuperar a senha\" [error]=\"form.controls.email | fieldError\">\n  <input type=\"email\" autocomplete=\"email\" formControlName=\"email\">\n</app-form-field>\n\n<app-form-field label=\"Senha\" required passwordToggle>\n  <input type=\"password\" autocomplete=\"current-password\" formControlName=\"senha\">\n</app-form-field>\n\n<app-form-field label=\"Valor do pedido\">\n  <span ffPrefix>R$</span>\n  <input inputmode=\"decimal\" formControlName=\"valor\">\n</app-form-field>\n\n<app-form-field label=\"Observações\" counter hint=\"Visível só para a equipe\">\n  <textarea maxlength=\"280\" appAutosize=\"6\" formControlName=\"obs\"></textarea>\n</app-form-field>",
+      "api": [
+        {
+          "title": "<code>app-form-field</code> · Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Rótulo do campo (ligado por <code>for</code>/<code>id</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Mostra o marcador e põe <code>aria-required</code> no campo. Para validar, use o validador do formulário."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Texto do marcador."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Dica abaixo do campo (some quando há erro)."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Erro (ex.: <code>ctrl | fieldError</code>); marca <code>aria-invalid</code>."
+            ],
+            [
+              "<code>counter</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Mostra &quot;n/máximo&quot; a partir do <code>maxlength</code> do campo."
+            ],
+            [
+              "<code>counterAnnounceAt</code>",
+              "<code>number | null</code>",
+              "20% do limite (mín. 5)",
+              "A partir de quantos caracteres restantes o leitor de tela ouve &quot;Restam N&quot;."
+            ],
+            [
+              "<code>passwordToggle</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Botão de mostrar/ocultar no <code>&lt;input type=&quot;password&quot;&gt;</code>."
+            ],
+            [
+              "<code>showPasswordLabel</code>",
+              "<code>string</code>",
+              "<code>labels.formField.showPassword</code>",
+              "Nome do botão (o estado vai em <code>aria-pressed</code>)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appAutosize</code> (no <code>&lt;textarea&gt;</code>)",
+          "head": [
+            "Entrada",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>appAutosize</code>",
+              "<code>number</code>",
+              "<code>8</code>",
+              "Máximo de linhas antes de rolar (<code>appAutosize</code> sozinho = 8; <code>0</code> = sem limite)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "<strong>Rótulo</strong> ligado ao campo por <code>for</code>/<code>id</code> (o id do campo é mantido; sem id, a moldura cria um).",
+        "<strong>Descrição</strong> (<code>aria-describedby</code>): o erro ou a dica, o texto do prefixo/sufixo e o contador, nessa ordem. <code>aria-invalid</code> com erro e <code>aria-required</code> com <code>required</code>.",
+        "<strong>Contador</strong>: o &quot;42/280&quot; visível é <code>aria-hidden</code>; o leitor de tela lê a frase inteira (&quot;42 de 280 caracteres&quot;). O aviso de limite usa uma região <code>aria-live=&quot;polite&quot;</code>, só nos últimos caracteres e depois de 1 s sem digitar.",
+        "<strong>Mostrar a senha</strong>: botão de verdade, com nome fixo (&quot;Mostrar senha&quot;) e o estado em <code>aria-pressed</code>, apontando para o campo (<code>aria-controls</code>). O foco fica no botão ao alternar.",
+        "<strong>Foco visível</strong>: o anel fica na caixa inteira (<code>:focus-within</code>), inclusive com prefixo/sufixo.",
+        "<strong>Textarea que cresce</strong>: não muda o foco nem a posição do cursor; o puxador manual some (a altura é automática)."
+      ],
+      "tokens": [
+        "--sel-bg",
+        "--sel-fg",
+        "--sel-border",
+        "--sel-placeholder",
+        "--sel-focus-ring",
+        "--sel-disabled-bg",
+        "--sel-error",
+        "--accent",
+        "--muted"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "O componente",
+            "items": [
+              "<code>components/form-field/</code>"
+            ]
+          },
+          {
+            "what": "Textos padrão",
+            "items": [
+              "<code>labels/</code> (<a href=\"https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.md\">Textos dos componentes</a>)"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~688 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.md"
+    },
+    "en": {
+      "lead": "A frame for <strong>native</strong> <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code> and <code>&lt;select&gt;</code>: label, &quot;required&quot;, hint, error, character counter, prefix/suffix and a show-password button. The field is still the native element, so <code>formControl</code>, <code>ngModel</code>, <code>appMask</code>, <code>type</code>, <code>autocomplete</code> and <code>inputmode</code> work as usual. To make a <code>&lt;textarea&gt;</code> grow with its text, use the <code>appAutosize</code> directive.",
+      "why": [
+        "An accessible text field needs a label tied by <code>for</code>/<code>id</code>, hint and error tied by <code>aria-describedby</code>, <code>aria-invalid</code> and <code>aria-required</code> in the right place, and the same look across the form. Components that <strong>recreate</strong> the <code>&lt;input&gt;</code> tend to hide native attributes (<code>type</code>, <code>autocomplete</code>, <code>inputmode</code>) and get in the way of masks and password managers. This frame does the opposite: you write the native <code>&lt;input&gt;</code> and it wires everything onto it, and adds a counter, prefix/suffix and show-password without reinventing the field."
+      ],
+      "useWhen": [
+        "People type: name, email, phone, tax id (with <code>appMask</code>), amounts, password, notes.",
+        "The field has a character limit worth showing (<code>maxlength</code> + <code>counter</code>).",
+        "A unit or symbol sits next to the value, such as &quot;$&quot; or &quot;kg&quot;."
+      ],
+      "preferOther": [
+        "The possible answers are known: use the <a href=\"componentes/select\">Select</a>, or the <a href=\"componentes/radio\">Radio group</a> if they are few and fit on screen.",
+        "Options organized in levels: use the <a href=\"componentes/treeselect\">TreeSelect</a>.",
+        "A yes/no: use the <a href=\"componentes/checkbox\">Checkbox</a> or, if it applies right away, the <a href=\"componentes/switch\">Switch</a>."
+      ],
+      "example": "<app-form-field label=\"Email\" required hint=\"We use it to recover your password\" [error]=\"form.controls.email | fieldError\">\n  <input type=\"email\" autocomplete=\"email\" formControlName=\"email\">\n</app-form-field>\n\n<app-form-field label=\"Password\" required passwordToggle>\n  <input type=\"password\" autocomplete=\"current-password\" formControlName=\"password\">\n</app-form-field>\n\n<app-form-field label=\"Order amount\">\n  <span ffPrefix>$</span>\n  <input inputmode=\"decimal\" formControlName=\"amount\">\n</app-form-field>\n\n<app-form-field label=\"Notes\" counter hint=\"Only the team sees this\">\n  <textarea maxlength=\"280\" appAutosize=\"6\" formControlName=\"notes\"></textarea>\n</app-form-field>",
+      "api": [
+        {
+          "title": "<code>app-form-field</code> · Inputs",
+          "head": [
+            "Prop",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string</code>",
+              "<code>''</code>",
+              "Field label (tied by <code>for</code>/<code>id</code>)."
+            ],
+            [
+              "<code>required</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Shows the marker and sets <code>aria-required</code> on the field. To validate, use the form validator."
+            ],
+            [
+              "<code>requiredLabel</code>",
+              "<code>string</code>",
+              "<code>labels.required</code>",
+              "Marker text."
+            ],
+            [
+              "<code>hint</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Hint below the field (hidden while there is an error)."
+            ],
+            [
+              "<code>error</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Error (e.g. <code>ctrl | fieldError</code>); sets <code>aria-invalid</code>."
+            ],
+            [
+              "<code>counter</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Shows &quot;n/max&quot; from the field's <code>maxlength</code>."
+            ],
+            [
+              "<code>counterAnnounceAt</code>",
+              "<code>number | null</code>",
+              "20% of the limit (min. 5)",
+              "From how many characters left screen readers hear &quot;N characters left&quot;."
+            ],
+            [
+              "<code>passwordToggle</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Show/hide button on <code>&lt;input type=&quot;password&quot;&gt;</code>."
+            ],
+            [
+              "<code>showPasswordLabel</code>",
+              "<code>string</code>",
+              "<code>labels.formField.showPassword</code>",
+              "Button name (the state goes in <code>aria-pressed</code>)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appAutosize</code> (on <code>&lt;textarea&gt;</code>)",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>appAutosize</code>",
+              "<code>number</code>",
+              "<code>8</code>",
+              "Max rows before scrolling (bare <code>appAutosize</code> = 8; <code>0</code> = no limit)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "<strong>Label</strong> tied to the field by <code>for</code>/<code>id</code> (the field's own id is kept; without one, the frame creates it).",
+        "<strong>Description</strong> (<code>aria-describedby</code>): the error or hint, the prefix/suffix text and the counter, in that order. <code>aria-invalid</code> with an error and <code>aria-required</code> with <code>required</code>.",
+        "<strong>Counter</strong>: the visible &quot;42/280&quot; is <code>aria-hidden</code>; screen readers read the full sentence (&quot;42 of 280 characters&quot;). The limit warning uses an <code>aria-live=&quot;polite&quot;</code> region, only for the last characters and after 1 s without typing.",
+        "<strong>Show password</strong>: a real button, with a fixed name (&quot;Show password&quot;) and the state in <code>aria-pressed</code>, pointing to the field (<code>aria-controls</code>). Focus stays on the button when toggling.",
+        "<strong>Visible focus</strong>: the ring goes around the whole box (<code>:focus-within</code>), prefix/suffix included.",
+        "<strong>Growing textarea</strong>: does not move focus or the caret; the manual resize handle is gone (the height is automatic)."
+      ],
+      "tokens": [
+        "--sel-bg",
+        "--sel-fg",
+        "--sel-border",
+        "--sel-placeholder",
+        "--sel-focus-ring",
+        "--sel-disabled-bg",
+        "--sel-error",
+        "--accent",
+        "--muted"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "The component",
+            "items": [
               "<code>components/form-field/</code>"
             ]
           },
@@ -5058,9 +5254,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 12 files, ~771 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~688 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
-      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.en.md"
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.en.md"
     }
   }
 };
