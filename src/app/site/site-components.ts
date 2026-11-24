@@ -21,6 +21,7 @@ export const SITE_COMPONENTS: readonly SiteComponent[] = [
   { id: 'tabs', group: 'navigation', aliases: ['tabs', 'tab', 'abas', 'aba'] },
   { id: 'dialog', group: 'overlays', aliases: ['dialog', 'dialogo', 'modal'] },
   { id: 'actionbar', group: 'overlays', aliases: ['actionbar', 'painel', 'drawer', 'sheet', 'sidesheet'] },
+  { id: 'menu', group: 'overlays', aliases: ['menu', 'dropdown', 'acoes', 'mais', 'kebab', 'contextmenu', 'opcoes'] },
   { id: 'tooltip', group: 'overlays', aliases: ['tooltip', 'dica', 'hint'] },
   { id: 'toast', group: 'overlays', aliases: ['toast', 'notificacao', 'snackbar'] },
   { id: 'stepper', group: 'navigation', aliases: ['stepper', 'etapas', 'passos', 'steps', 'wizard'] },

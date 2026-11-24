@@ -18,6 +18,7 @@ import { PAGINATION } from './pagination';
 import { TREE_SELECT } from './tree-select';
 import { RADIO_SWITCH } from './radio-switch';
 import { TEXT_FIELD } from './text-field';
+import { MENU } from './menu';
 
 import { Dict } from '../i18n.types';
 
@@ -40,6 +41,7 @@ export const DICT: Dict = {
   ...RADIO_SWITCH,
   ...VALIDATION,
   ...TEXT_FIELD,
+  ...MENU,
   ...TABS,
   ...TOOLTIP,
 };

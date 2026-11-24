@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 
 import { CheckboxExampleComponent, CheckboxGroupExampleComponent, RadioExampleComponent, SelectExampleComponent, SwitchExampleComponent, TextFieldExampleComponent, TreeSelectExampleComponent, ValidationExampleComponent } from './forms.examples';
 import { PaginationExampleComponent, TableExampleComponent } from './data.examples';
-import { ActionBarExampleComponent, DialogExampleComponent, ToastExampleComponent, TooltipExampleComponent } from './overlays.examples';
+import { ActionBarExampleComponent, DialogExampleComponent, MenuExampleComponent, ToastExampleComponent, TooltipExampleComponent } from './overlays.examples';
 import { ButtonExampleComponent, StepperExampleComponent, TabsExampleComponent } from './navigation.examples';
 
 /*
@@ -26,6 +26,7 @@ export const LIVE_EXAMPLES: Record<string, Type<unknown>> = {
   pagination: PaginationExampleComponent,
   // Sobreposições
   dialog: DialogExampleComponent,
+  menu: MenuExampleComponent,
   actionbar: ActionBarExampleComponent,
   tooltip: TooltipExampleComponent,
   toast: ToastExampleComponent,

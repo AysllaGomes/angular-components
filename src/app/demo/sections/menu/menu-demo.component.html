@@ -1,0 +1,59 @@
+<section id="menu" class="demo-section">
+  <h2>{{ 'section.menu.title' | t }}</h2>
+  <p class="lead">{{ 'section.menu.lead' | t }}</p>
+
+  <div class="mn-grid">
+    <article class="card">
+      <h3>{{ 'menu.demo.actions.title' | t }}</h3>
+      <p class="hint">{{ 'menu.demo.actions.hint' | t }}</p>
+      <div>
+        <button appButton variant="outline" type="button" [appMenuTrigger]="actions">
+          {{ 'menu.demo.actions' | t }}
+          <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+        </button>
+      </div>
+      <app-menu #actions>
+        <button appMenuItem (click)="choose('menu.demo.edit')">{{ 'menu.demo.edit' | t }}</button>
+        <button appMenuItem (click)="choose('menu.demo.duplicate')">{{ 'menu.demo.duplicate' | t }}</button>
+        <button appMenuItem (click)="choose('menu.demo.archive')">{{ 'menu.demo.archive' | t }}</button>
+        <button appMenuItem disabled>{{ 'menu.demo.move' | t }}</button>
+        <hr appMenuSeparator>
+        <button appMenuItem tone="danger" (click)="confirmOpen.set(true)">{{ 'menu.demo.delete' | t }}</button>
+      </app-menu>
+      <p class="mn-status" role="status">{{ chosen() }}</p>
+    </article>
+
+    <article class="card">
+      <h3>{{ 'menu.demo.rows.title' | t }}</h3>
+      <p class="hint">{{ 'menu.demo.rows.hint' | t }}</p>
+      <ul class="mn-rows" tabindex="0" [attr.aria-label]="'menu.demo.rows.label' | t">
+        @for (n of orders; track n) {
+          <li>
+            <span>#{{ n }}</span>
+            <button appButton variant="ghost" tone="neutral" iconOnly type="button"
+              [attr.aria-label]="'menu.demo.row.more' | t: { n: n }" [appMenuTrigger]="row">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/></svg>
+            </button>
+            <app-menu #row placement="bottom-end" [label]="'menu.demo.row.menu' | t: { n: n }">
+              <button appMenuItem (click)="choose('menu.demo.row.open', n)">{{ 'menu.demo.row.open' | t }}</button>
+              <button appMenuItem (click)="choose('menu.demo.row.copy', n)">{{ 'menu.demo.row.copy' | t }}</button>
+              <hr appMenuSeparator>
+              <button appMenuItem tone="danger" (click)="choose('menu.demo.row.cancel', n)">{{ 'menu.demo.row.cancel' | t }}</button>
+            </app-menu>
+          </li>
+        }
+      </ul>
+    </article>
+  </div>
+
+  <app-dialog
+    [title]="'menu.demo.confirm.title' | t"
+    size="sm"
+    [opened]="confirmOpen()"
+    (openedChange)="confirmOpen.set($event)"
+    [primaryLabel]="'menu.demo.confirm.yes' | t"
+    [secondaryLabel]="'menu.demo.confirm.no' | t"
+    (primary)="delete()">
+    <p>{{ 'menu.demo.confirm.body' | t }}</p>
+  </app-dialog>
+</section>

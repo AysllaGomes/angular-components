@@ -7,6 +7,7 @@ import { TooltipDirective } from '../../shared/components/tooltip/tooltip.direct
 import { ToastContainerComponent } from '../../shared/components/toast/toast-container.component';
 import { ToastService } from '../../shared/components/toast/toast.service';
 import { ButtonDirective } from '../../shared/components/button/button.directive';
+import { MENU_IMPORTS } from '../../shared/components/menu';
 
 /*
  * Exemplos ao vivo do grupo Sobreposições. Cada um reproduz o exemplo de "Uso" do .md
@@ -132,4 +133,28 @@ export class ToastExampleComponent {
 
   ok() { this.toast.success(this.isEn() ? 'Card requested successfully.' : 'Cartão solicitado com sucesso.'); }
   fail() { this.toast.error(this.isEn() ? 'Could not request the card.' : 'Falha ao solicitar cartão.', { duration: 7000 }); }
+}
+
+/** menu.md → ## Uso */
+@Component({
+  selector: 'app-menu-example',
+  imports: [...MENU_IMPORTS, ButtonDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @let en = isEn();
+    <button appButton variant="outline" type="button" [appMenuTrigger]="actions">{{ en ? 'Actions' : 'Ações' }}</button>
+    <app-menu #actions>
+      <button appMenuItem (click)="done.set(en ? 'Edit' : 'Editar')">{{ en ? 'Edit' : 'Editar' }}</button>
+      <button appMenuItem (click)="done.set(en ? 'Duplicate' : 'Duplicar')">{{ en ? 'Duplicate' : 'Duplicar' }}</button>
+      <button appMenuItem disabled>{{ en ? 'Move (no permission)' : 'Mover (sem permissão)' }}</button>
+      <hr appMenuSeparator>
+      <button appMenuItem tone="danger" (click)="done.set(en ? 'Delete' : 'Excluir')">{{ en ? 'Delete' : 'Excluir' }}</button>
+    </app-menu>
+    <p class="status" role="status">{{ done() ? (en ? 'Chosen: ' : 'Escolhido: ') + done() : '' }}</p>
+  `,
+  styles: STATUS
+})
+export class MenuExampleComponent {
+  readonly isEn = injectIsEn();
+  readonly done = signal('');
 }

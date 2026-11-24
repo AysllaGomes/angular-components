@@ -242,3 +242,73 @@ test.describe('Campo de texto', () => {
     await expect(field.locator('input')).toHaveValue('120,50');
   });
 });
+
+test.describe('Menu', () => {
+  test('teclado: abre no primeiro item, setas, Esc volta ao botão; item desabilitado não age', async ({ page }) => {
+    await page.goto('demo/');
+    const trigger = page.locator('#menu').getByRole('button', { name: 'Ações', exact: true });
+    await trigger.focus();
+    await page.keyboard.press('Enter');
+    const menu = page.getByRole('menu', { name: 'Ações', exact: true });
+    await expect(menu).toBeVisible();
+    await expect(menu.getByRole('menuitem', { name: 'Editar' })).toBeFocused();
+
+    await page.keyboard.press('ArrowUp');
+    await expect(menu.getByRole('menuitem', { name: 'Excluir' })).toBeFocused();
+    await page.keyboard.press('ArrowUp');
+    const move = menu.getByRole('menuitem', { name: 'Mover (sem permissão)' });
+    await expect(move).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeVisible(); // desabilitado: nada acontece
+
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
+
+  test('escolher "Excluir" abre a confirmação, e ao fechá-la o foco volta ao botão do menu', async ({ page }) => {
+    await page.goto('demo/');
+    const trigger = page.locator('#menu').getByRole('button', { name: 'Ações', exact: true });
+    await trigger.click();
+    await page.getByRole('menuitem', { name: 'Excluir' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Excluir o pedido?' });
+    await expect(dialog).toBeVisible();
+    await expect(page.getByRole('menu', { name: 'Ações', exact: true })).toBeHidden();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+  });
+
+  test('o menu de uma linha não é cortado pela lista com rolagem e fica dentro da janela', async ({ page }) => {
+    await page.goto('demo/');
+    const list = page.locator('#menu .mn-rows');
+    const trigger = list.getByRole('button', { name: 'Mais ações do pedido 1047' });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+    const menu = page.getByRole('menu', { name: 'Ações do pedido 1047' });
+    await expect(menu).toBeVisible();
+
+    const m = (await menu.boundingBox())!;
+    const l = (await list.boundingBox())!;
+    const vp = page.viewportSize()!;
+    // sai da caixa da lista (seria cortado se fosse absolute dentro dela) e continua clicável
+    expect(m.y + m.height > l.y + l.height || m.y < l.y).toBe(true);
+    expect(m.x).toBeGreaterThanOrEqual(0);
+    expect(m.x + m.width).toBeLessThanOrEqual(vp.width);
+    await menu.getByRole('menuitem', { name: 'Copiar número' }).click();
+    await expect(page.locator('#menu .mn-status')).toHaveText('Escolhido: Copiar número #1047');
+    await expect(trigger).toBeFocused();
+  });
+
+  test('Tab fecha o menu e segue para o próximo elemento', async ({ page }) => {
+    await page.goto('demo/');
+    const trigger = page.locator('#menu').getByRole('button', { name: 'Ações', exact: true });
+    await trigger.click();
+    await expect(page.getByRole('menu', { name: 'Ações', exact: true })).toBeVisible();
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('menu', { name: 'Ações', exact: true })).toBeHidden();
+    expect(await page.evaluate(() => document.activeElement === document.body)).toBe(false);
+  });
+});

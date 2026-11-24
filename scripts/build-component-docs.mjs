@@ -44,6 +44,7 @@ const DOCS = {
   treeselect: 'components/tree-select/tree-select',
   validation: 'forms/forms',
   textfield: 'components/form-field/form-field',
+  menu: 'components/menu/menu',
 };
 const idByDoc = Object.fromEntries(Object.entries(DOCS).map(([id, doc]) => [doc, id]));
 

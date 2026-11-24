@@ -3,7 +3,7 @@
 import { ComponentDocs } from './component-docs.types';
 
 /** componentes com página completa (têm "Por que existe" nos dois idiomas) */
-export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","checkboxgroup","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation","textfield"];
+export const COMPONENT_PAGES_READY: readonly string[] = ["actionbar","button","checkbox","checkboxgroup","dialog","pagination","radio","select","stepper","switch","table","tabs","toast","tooltip","treeselect","validation","textfield","menu"];
 
 export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
   "actionbar": {
@@ -5257,6 +5257,270 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~688 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.en.md"
+    }
+  },
+  "menu": {
+    "pt": {
+      "lead": "Lista de <strong>ações</strong> que abre a partir de um botão (padrão WAI-ARIA *menu button*). O botão ganha <code>[appMenuTrigger]</code>, e os itens são <code>&lt;button&gt;</code> e <code>&lt;a&gt;</code> <strong>nativos</strong> com <code>appMenuItem</code>: o seu <code>(click)</code>, <code>routerLink</code>, <code>href</code> e ícones funcionam como sempre. Abre junto ao botão com <code>position: fixed</code> (não é cortado por <code>overflow</code>) e vira para cima quando falta espaço.",
+      "why": [
+        "Um &quot;menu&quot; feito com <code>&lt;div&gt;</code>s e <code>*ngIf</code> costuma falhar no teclado e no leitor de tela: o foco não entra na lista, as setas não andam, o Esc não fecha, o foco se perde ao escolher, e o painel some cortado dentro de uma tabela com rolagem. Este componente segue o padrão de *menu button*: foco gerenciado pelas setas, busca pela inicial, Esc e Tab fecham, o foco volta ao botão, e o painel flutua por cima de tudo."
+      ],
+      "useWhen": [
+        "Há várias ações para o mesmo item e não cabem todas na tela, como &quot;Editar, Duplicar, Arquivar, Excluir&quot; numa linha de tabela.",
+        "As ações são secundárias e ficariam pesadas como botões soltos."
+      ],
+      "preferOther": [
+        "A pessoa escolhe um <strong>valor</strong> que fica visível no campo: use o <a href=\"componentes/select\">Select</a>.",
+        "Uma ou duas ações importantes: deixe como botões visíveis (<a href=\"componentes/button\">Button</a>); esconder a ação principal num menu atrapalha.",
+        "Trocar de seção na mesma tela: use as <a href=\"componentes/tabs\">Tabs</a>."
+      ],
+      "example": "<button appButton variant=\"outline\" [appMenuTrigger]=\"acoes\">Ações</button>\n<app-menu #acoes>\n  <button appMenuItem (click)=\"editar()\">Editar</button>\n  <a appMenuItem routerLink=\"/pedidos/1042\">Abrir o pedido</a>\n  <button appMenuItem disabled>Mover (sem permissão)</button>\n  <hr appMenuSeparator>\n  <button appMenuItem tone=\"danger\" (click)=\"excluir()\">Excluir</button>\n</app-menu>\n\n<!-- só ícone: dê nome ao botão; o menu é nomeado pelo label -->\n<button appButton variant=\"ghost\" iconOnly aria-label=\"Mais ações do pedido 1042\" [appMenuTrigger]=\"mais\">⋮</button>\n<app-menu #mais label=\"Ações do pedido 1042\" placement=\"bottom-end\">...</app-menu>",
+      "api": [
+        {
+          "title": "<code>app-menu</code> · Inputs",
+          "head": [
+            "Propriedade",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Nome do menu (<code>aria-label</code>). Sem ele, o menu é nomeado pelo texto do botão (<code>aria-labelledby</code>)."
+            ],
+            [
+              "<code>placement</code>",
+              "<code>MenuPlacement</code>",
+              "<code>'bottom-start'</code>",
+              "Lado e alinhamento preferidos: <code>bottom-start</code>, <code>bottom-end</code>, <code>top-start</code>, <code>top-end</code>."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-menu</code> · Outputs e métodos",
+          "head": [
+            "Nome",
+            "Tipo / payload",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>openedChange</code>",
+              "<code>boolean</code>",
+              "Abriu (<code>true</code>) ou fechou (<code>false</code>)."
+            ],
+            [
+              "<code>close()</code>",
+              "método",
+              "Fecha (devolve o foco ao botão). Use com <code>#acoes</code> no template."
+            ]
+          ]
+        },
+        {
+          "title": "<code>[appMenuTrigger]</code>",
+          "head": [
+            "Entrada",
+            "Tipo",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>appMenuTrigger</code>",
+              "<code>MenuComponent</code>",
+              "O menu que o botão abre (a variável <code>#acoes</code> do <code>&lt;app-menu&gt;</code>)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appMenuItem</code> (em <code>&lt;button&gt;</code> ou <code>&lt;a&gt;</code>)",
+          "head": [
+            "Entrada",
+            "Tipo",
+            "Padrão",
+            "Descrição"
+          ],
+          "rows": [
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Focável mas sem ação (<code>aria-disabled</code>)."
+            ],
+            [
+              "<code>tone</code>",
+              "<code>'default' | 'danger'</code>",
+              "<code>'default'</code>",
+              "<code>danger</code> para ações destrutivas (texto vermelho)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "O botão tem <code>aria-haspopup=&quot;menu&quot;</code>, <code>aria-expanded</code> e <code>aria-controls</code> (enquanto aberto).",
+        "<code>role=&quot;menu&quot;</code> com nome (<code>label</code>, ou o texto do botão); itens <code>role=&quot;menuitem&quot;</code> fora da ordem do Tab (o menu move o foco).",
+        "Clique fora fecha sem roubar o foco; escolher um item devolve o foco ao botão.",
+        "Botão só com ícone: dê <code>aria-label</code> a ele (o Tooltip ajuda quem enxerga)."
+      ],
+      "tokens": [
+        "--menu-bg",
+        "--surface",
+        "--menu-fg",
+        "--fg",
+        "--menu-border",
+        "--border",
+        "--menu-shadow",
+        "--menu-item-hover",
+        "--accent",
+        "--danger",
+        "--muted"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "O componente",
+            "items": [
+              "<code>components/menu/</code>"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 7 arquivos, ~454 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/menu/menu.md"
+    },
+    "en": {
+      "lead": "A list of <strong>actions</strong> that opens from a button (WAI-ARIA *menu button* pattern). The button gets <code>[appMenuTrigger]</code>, and the items are <strong>native</strong> <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> with <code>appMenuItem</code>: your <code>(click)</code>, <code>routerLink</code>, <code>href</code> and icons work as usual. It opens next to the button with <code>position: fixed</code> (not clipped by <code>overflow</code>) and flips up when there is no room.",
+      "why": [
+        "A &quot;menu&quot; built with <code>&lt;div&gt;</code>s and <code>*ngIf</code> usually fails keyboard and screen reader users: focus does not enter the list, arrows do nothing, Esc does not close it, focus is lost after choosing, and the panel gets clipped inside a scrolling table. This component follows the *menu button* pattern: focus managed by the arrows, type-to-find, Esc and Tab close it, focus goes back to the button, and the panel floats above everything."
+      ],
+      "useWhen": [
+        "One item has several actions that do not all fit on screen, like &quot;Edit, Duplicate, Archive, Delete&quot; on a table row.",
+        "The actions are secondary and would be heavy as loose buttons."
+      ],
+      "preferOther": [
+        "People pick a <strong>value</strong> that stays visible in the field: use the <a href=\"componentes/select\">Select</a>.",
+        "One or two important actions: keep them as visible buttons (<a href=\"componentes/button\">Button</a>); hiding the main action in a menu gets in the way.",
+        "Switching sections on the same screen: use the <a href=\"componentes/tabs\">Tabs</a>."
+      ],
+      "example": "<button appButton variant=\"outline\" [appMenuTrigger]=\"actions\">Actions</button>\n<app-menu #actions>\n  <button appMenuItem (click)=\"edit()\">Edit</button>\n  <a appMenuItem routerLink=\"/orders/1042\">Open the order</a>\n  <button appMenuItem disabled>Move (no permission)</button>\n  <hr appMenuSeparator>\n  <button appMenuItem tone=\"danger\" (click)=\"delete()\">Delete</button>\n</app-menu>\n\n<!-- icon only: name the button; the menu is named by label -->\n<button appButton variant=\"ghost\" iconOnly aria-label=\"More actions for order 1042\" [appMenuTrigger]=\"more\">⋮</button>\n<app-menu #more label=\"Actions for order 1042\" placement=\"bottom-end\">...</app-menu>",
+      "api": [
+        {
+          "title": "<code>app-menu</code> · Inputs",
+          "head": [
+            "Prop",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>label</code>",
+              "<code>string | null</code>",
+              "<code>null</code>",
+              "Menu name (<code>aria-label</code>). Without it, the menu is named by the button text (<code>aria-labelledby</code>)."
+            ],
+            [
+              "<code>placement</code>",
+              "<code>MenuPlacement</code>",
+              "<code>'bottom-start'</code>",
+              "Preferred side and alignment: <code>bottom-start</code>, <code>bottom-end</code>, <code>top-start</code>, <code>top-end</code>."
+            ]
+          ]
+        },
+        {
+          "title": "<code>app-menu</code> · Outputs and methods",
+          "head": [
+            "Name",
+            "Type / payload",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>openedChange</code>",
+              "<code>boolean</code>",
+              "Opened (<code>true</code>) or closed (<code>false</code>)."
+            ],
+            [
+              "<code>close()</code>",
+              "method",
+              "Closes it (returns focus to the button). Use with <code>#actions</code> in the template."
+            ]
+          ]
+        },
+        {
+          "title": "<code>[appMenuTrigger]</code>",
+          "head": [
+            "Input",
+            "Type",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>appMenuTrigger</code>",
+              "<code>MenuComponent</code>",
+              "The menu the button opens (the <code>#actions</code> variable on <code>&lt;app-menu&gt;</code>)."
+            ]
+          ]
+        },
+        {
+          "title": "<code>appMenuItem</code> (on <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code>)",
+          "head": [
+            "Input",
+            "Type",
+            "Default",
+            "Description"
+          ],
+          "rows": [
+            [
+              "<code>disabled</code>",
+              "<code>boolean</code>",
+              "<code>false</code>",
+              "Reachable but inactive (<code>aria-disabled</code>)."
+            ],
+            [
+              "<code>tone</code>",
+              "<code>'default' | 'danger'</code>",
+              "<code>'default'</code>",
+              "<code>danger</code> for destructive actions (red text)."
+            ]
+          ]
+        }
+      ],
+      "a11y": [
+        "The button has <code>aria-haspopup=&quot;menu&quot;</code>, <code>aria-expanded</code> and <code>aria-controls</code> (while open).",
+        "<code>role=&quot;menu&quot;</code> with a name (<code>label</code>, or the button text); <code>role=&quot;menuitem&quot;</code> items out of the Tab order (the menu moves focus).",
+        "Clicking outside closes it without taking focus; choosing an item returns focus to the button.",
+        "Icon-only button: give it an <code>aria-label</code> (the Tooltip helps sighted users)."
+      ],
+      "tokens": [
+        "--menu-bg",
+        "--surface",
+        "--menu-fg",
+        "--fg",
+        "--menu-border",
+        "--border",
+        "--menu-shadow",
+        "--menu-item-hover",
+        "--accent",
+        "--danger",
+        "--muted"
+      ],
+      "copy": {
+        "rows": [
+          {
+            "what": "The component",
+            "items": [
+              "<code>components/menu/</code>"
+            ]
+          }
+        ],
+        "globals": [],
+        "summary": "Depends only on <code>@angular/core</code>. In total: 7 files, ~454 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+      },
+      "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/menu/menu.en.md"
     }
   }
 };

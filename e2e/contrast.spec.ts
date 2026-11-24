@@ -26,6 +26,10 @@ const DIALOG: Target[] = [
   { name: 'Dialog: ação principal', selector: '[role="dialog"] .dlg__auto-actions .btn:not(.btn--ghost)', hover: true },
   { name: 'Dialog: ação secundária', selector: '[role="dialog"] .dlg__auto-actions .btn--ghost', hover: true },
 ];
+const MENU: Target[] = [
+  { name: 'Menu: item', selector: '#menu [role="menu"]:not([hidden]) .menu__item:not(.menu__item--danger):not([aria-disabled])', hover: true },
+  { name: 'Menu: item de perigo', selector: '#menu [role="menu"]:not([hidden]) .menu__item--danger', hover: true },
+];
 const HOME: Target[] = [
   { name: 'Home: botão principal', selector: '.btn.btn--primary', hover: true },
 ];
@@ -106,6 +110,10 @@ for (const theme of THEMES) {
       await page.getByRole('button', { name: 'Abrir (padrão)' }).click();
       await expect(page.getByRole('dialog')).toBeVisible();
       await check(page, DIALOG, failures, look);
+      await page.keyboard.press('Escape');
+
+      await page.locator('#menu').getByRole('button', { name: 'Ações', exact: true }).click();
+      await check(page, MENU, failures, look);
       await page.keyboard.press('Escape');
 
       await page.goto('./');

@@ -18,6 +18,7 @@ const DOCS = [
   { doc: 'components/checkbox/checkbox', name: { pt: 'o Checkbox', en: 'the Checkbox' }, entries: ['components/checkbox/checkbox.component.ts'] },
   { doc: 'components/checkbox-group/checkbox-group', name: { pt: 'o Checkbox group', en: 'the Checkbox group' }, entries: ['components/checkbox-group/checkbox-group.component.ts'] },
   { doc: 'components/dialog/dialog', name: { pt: 'o Dialog', en: 'the Dialog' }, entries: ['components/dialog/dialog.component.ts'] },
+  { doc: 'components/menu/menu', name: { pt: 'o Menu', en: 'the Menu' }, entries: ['components/menu/index.ts'] },
   { doc: 'components/pagination/pagination', name: { pt: 'a Paginação', en: 'the Pagination' }, entries: ['components/pagination/pagination.component.ts'] },
   { doc: 'components/radio/radio-group', name: { pt: 'o Radio group', en: 'the Radio group' }, entries: ['components/radio/radio-group.component.ts'] },
   { doc: 'components/select/select', name: { pt: 'o Select', en: 'the Select' }, entries: ['components/select/select.component.ts'] },

@@ -18,6 +18,7 @@ import { TabsDemoComponent } from './sections/tabs/tabs-demo.component';
 import { TooltipDemoComponent } from './sections/tooltip/tooltip-demo.component';
 import { ValidationDemoComponent } from './sections/validation/validation-demo.component';
 import { TextFieldDemoComponent } from './sections/text-field/text-field-demo.component';
+import { MenuDemoComponent } from './sections/menu/menu-demo.component';
 
 @Component({
   selector: 'app-demo-page',
@@ -39,6 +40,7 @@ import { TextFieldDemoComponent } from './sections/text-field/text-field-demo.co
     RadioSwitchDemoComponent,
     ValidationDemoComponent,
     TextFieldDemoComponent,
+    MenuDemoComponent,
     TabsDemoComponent,
     TooltipDemoComponent,
   ],
