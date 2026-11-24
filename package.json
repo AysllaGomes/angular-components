@@ -18,7 +18,8 @@
     "check:copy-compile": "node scripts/check-copy-compile.mjs",
     "check:api": "node scripts/check-api-docs.mjs",
     "docs:pages": "node scripts/build-component-docs.mjs",
-    "check:pages": "node scripts/build-component-docs.mjs --check"
+    "check:pages": "node scripts/build-component-docs.mjs --check",
+    "check:links": "node scripts/check-links.mjs"
   },
   "prettier": {
     "printWidth": 100,

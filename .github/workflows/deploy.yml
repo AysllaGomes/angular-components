@@ -48,6 +48,10 @@ jobs:
       # use o script do package.json (já com --base-href /angular-components/)
       - run: npm run build
 
+      # links do site publicado resolvem a partir do base href (/angular-components/):
+      # um href="/x" ou um routerLink para rota inexistente vira 404 no GitHub Pages
+      - run: npm run check:links
+
       # a raiz é a home pré-renderizada (index.html) e /demo/ a demo (demo/index.html).
       # 404.html = a casca sem conteúdo pré-renderizado (index.csr.html): num endereço
       # desconhecido o roteador decide o que mostrar, sem conflito com a hidratação.

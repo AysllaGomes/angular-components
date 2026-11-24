@@ -58,6 +58,7 @@ It also accepts a function returning a signal, to follow your app language live.
 - Color contrast is checked in the browser, in both themes (jsdom does not render colors).
 - `npm run check:css` makes sure every CSS variable the components use has a default (`var(--x, value)`), so a component copied into another project keeps its look without this project's `styles.sass`; CI runs it before the tests. The global theme still overrides those defaults (light/dark, accent colors).
 - Each component's docs have a **What to copy** section generated from the real imports (`npm run docs:copy`): its folder (types included), the components and helper files it uses, and any global style. `npm run check:copy` fails in CI if a section gets out of date, and `npm run check:copy-compile` copies only what each section lists into an empty folder and compiles it (strict TypeScript), so the list is proven to be enough. `npm run check:api` fails if a public input, model or output is missing from a component's docs (PT or EN).
+- `npm run check:links` (after `npm run build`) reads the prerendered site and resolves every internal link the way the browser does, from the `<base href>` (`/angular-components/` on GitHub Pages): it fails if a link leaves the site, points to a page that does not exist, or to an anchor (`#id`) missing from the target page. CI runs it before publishing.
 
 ## License
 

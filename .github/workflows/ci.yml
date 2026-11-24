@@ -29,3 +29,5 @@ jobs:
       - run: npm run check:pages
       - run: npm run test:ci
       - run: npm run build
+      # links do site publicado resolvem a partir do base href (/angular-components/)
+      - run: npm run check:links
