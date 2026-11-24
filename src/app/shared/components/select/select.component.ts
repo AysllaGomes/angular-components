@@ -79,6 +79,10 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   readonly autoValidate = input(true);
   readonly hint = input<string | null>(null);
 
+  /** painel sem opções (busca sem resultado): texto mostrado e anunciado; padrão `labels.noOptions` */
+  readonly emptyMessageInput = input<string | undefined>(undefined, { alias: 'emptyMessage' });
+  readonly emptyMessage = computed(() => this.emptyMessageInput() ?? this.labels().noOptions);
+
   /** Clear (×) */
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly clearAriaLabelInput = input<string | undefined>(undefined, { alias: 'clearAriaLabel' });
@@ -125,6 +129,8 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
 
   private readonly injector = inject(Injector);
   private readonly panelEl = viewChild<ElementRef<HTMLDivElement>>('panel');
+  /** a lista (role="listbox"): recebe o foco e o aria-activedescendant */
+  private readonly listboxEl = viewChild<ElementRef<HTMLDivElement>>('listbox');
   private readonly btnEl = viewChild<ElementRef<HTMLButtonElement>>('button');
   private readonly filterInputEl = viewChild<ElementRef<HTMLInputElement>>('filterInput');
 
@@ -179,6 +185,12 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   get listboxId() { return `${this.id}-listbox`; }
   get labelId() { return `${this.id}-label`; }
   get valueId() { return `${this.id}-value`; }
+  get hintId() { return `${this.id}-hint`; }
+  get errorId() { return `${this.id}-error`; }
+  /** o controle aponta para a mensagem visível: o erro, senão a dica */
+  readonly describedBy = computed(() => this.displayError() ? this.errorId : this.hint() ? this.hintId : null);
+  /** painel aberto sem nenhuma opção para mostrar (ex.: busca sem resultado) */
+  readonly noOptions = computed(() => this.open() && this.filtered().length === 0);
   optionId(i: number) { return `${this.id}-opt-${i}`; }
   groupId(si: number) { return `${this.id}-grp-${si}`; }
 
@@ -272,7 +284,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
       // depois que o painel (@if) for desenhado: foco no filtro ou na lista,
       // senão o teclado (↑/↓/Enter) continua no botão e não navega
       afterNextRender(
-        () => (this.filterInputEl()?.nativeElement ?? this.panelEl()?.nativeElement)?.focus(),
+        () => (this.filterInputEl()?.nativeElement ?? this.listboxEl()?.nativeElement)?.focus(),
         { injector: this.injector }
       );
     }
@@ -340,7 +352,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
 
   onPanelKeydown(e: KeyboardEvent) {
     if (e.target === this.filterInputEl()?.nativeElement) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); this.highlight(0); (this.panelEl()?.nativeElement as HTMLElement)?.focus(); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); this.highlight(0); this.listboxEl()?.nativeElement.focus(); }
       if (e.key === 'Escape') { e.preventDefault(); this.close(); this.btnEl()?.nativeElement.focus(); }
       return;
     }

@@ -36,7 +36,7 @@ To use the Select in another Angular project, copy into a `shared/` folder **kee
 | The component | `components/select/` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 6 files, ~952 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 6 files, ~994 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Features
@@ -211,6 +211,7 @@ categoryError(): string | null {
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'` |              `'auto'` | `auto`: becomes a bottom *sheet* up to `sheetBreakpoint` px; `menu`/`sheet` force one of them. |
 | `sheetBreakpoint`   | `number`            |                 `560` | Max window width (px) for the *sheet* mode in `auto`. |
 | `hint`              | `string \| null`    |                `null` | Helper text (when no error).                            |
+| `emptyMessage`      | `string`            | `labels.noOptions` | Message for a panel with no options (e.g. a search with no match), shown and announced. |
 | `options`           | `SelectOption<T>[]` |                     — | Options `{ label, value, disabled?, group? }`.                |
 | `value`             | `T \| null`         |                `null` | Selected value (without forms).                         |
 
@@ -224,7 +225,9 @@ categoryError(): string | null {
 ## Accessibility
 
 - **Button** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` (only while the list is open, when it exists) and `aria-invalid` on error.
-- **List**: `role="listbox"`, items with `role="option"` and `aria-selected`; the highlighted option is announced (`aria-activedescendant`).
+- **Hint and error**: the button points to the message on screen (`aria-describedby`): the error when there is one, otherwise the hint. On focus, screen readers read why it is invalid, not just "invalid".
+- **List**: `role="listbox"`, items with `role="option"` and `aria-selected`; the highlighted option is announced (`aria-activedescendant`). The filter and the sheet header sit outside the list (a listbox only holds options and groups); the filter points to it (`aria-controls`).
+- **Search with no match**: the panel shows `emptyMessage` (`labels.noOptions`, "No options found" by default) and the message is announced in a `role="status"` region, without moving focus from the filter.
 - **Label**: `label` names the button (together with the value: "Food, Banana") and the list (`aria-labelledby`). On open, focus moves to the search or the list.
 - Closes on **Escape**, outside click and after selection.
 - **Keyboard**: `Enter`/`Space` to open; inside the panel use `↑/↓`, `Home/End`, `Enter` to select.
@@ -274,6 +277,7 @@ The Select does not depend on any translation library. The texts you pass (`labe
 | Close button name of the sheet (phones) | `labels.close` | `closeAriaLabel` |
 | Sheet title, without `panelTitle` or `label` | `labels.selectTitle` | `panelTitle` |
 | Filter field name | `labels.filterOptions` | — |
+| Panel with no options (search with no match) | `labels.noOptions` | `emptyMessage` |
 
 ---
 

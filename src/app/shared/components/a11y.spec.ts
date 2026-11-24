@@ -106,6 +106,9 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-select label="Comida" responsive="menu" [options]="options" value="banana"
                     [clearable]="true" hint="Escolha uma" />
       </section>
+      <section id="select-search">
+        <app-select label="Bebida" responsive="menu" [options]="options" filterable error="Escolha uma bebida" />
+      </section>
 
       <!-- TreeSelect: single aberto e checkbox com seleção -->
       <section id="treeselect">
@@ -226,6 +229,17 @@ describe('Acessibilidade (axe-core)', () => {
     await expectNoA11yViolations(section('select'), { component: 'select', state: { pt: 'fechado', en: 'closed' } });
     await open(section('select'));
     await expectNoA11yViolations(section('select'), { component: 'select', state: { pt: 'aberto, com grupos', en: 'open, with groups' } });
+  });
+
+  it('Select com erro e busca sem resultado', async () => {
+    const scope = section('select-search');
+    await open(scope);
+    const input = scope.querySelector<HTMLInputElement>('.filter input')!;
+    input.value = 'nada parecido';
+    input.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    expect(scope.querySelector('.empty')).not.toBeNull();
+    await expectNoA11yViolations(scope, { component: 'select', state: { pt: 'com erro, busca sem resultado', en: 'with error, search with no match' } });
   });
 
   it('TreeSelect fechado e aberto (single e checkbox)', async () => {

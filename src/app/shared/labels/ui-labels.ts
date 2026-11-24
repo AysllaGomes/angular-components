@@ -19,6 +19,8 @@ export interface UiLabels {
   clearSelection: string;
   /** campo de busca dentro do Select */
   filterOptions: string;
+  /** painel do Select sem opções (busca sem resultado): mostrado e anunciado */
+  noOptions: string;
   /** título da folha do Select no celular, quando não há `panelTitle` nem `label` */
   selectTitle: string;
   /** caixa "marcar todas" do CheckboxGroup (`selectAll`) */
@@ -68,6 +70,7 @@ export const UI_LABELS_EN: UiLabels = {
   requiredError: 'This field is required',
   clearSelection: 'Clear selection',
   filterOptions: 'Filter options',
+  noOptions: 'No options found',
   selectTitle: 'Select an option',
   selectAll: 'Select all',
   notifications: 'Notifications',
@@ -118,6 +121,7 @@ export const UI_LABELS_PT: UiLabels = {
   requiredError: 'Campo obrigatório',
   clearSelection: 'Limpar seleção',
   filterOptions: 'Filtrar opções',
+  noOptions: 'Nenhuma opção encontrada',
   selectTitle: 'Selecionar',
   selectAll: 'Selecionar todos',
   notifications: 'Notificações',

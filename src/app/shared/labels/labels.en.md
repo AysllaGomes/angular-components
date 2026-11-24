@@ -63,6 +63,7 @@ For form error messages, `provideFormErrorMessages` comes before `formErrors` (s
 | `requiredError` | built-in required error (Select, TreeSelect) | This field is required | Campo obrigatório |
 | `clearSelection` | clear button (Select, TreeSelect, Table bulk actions) | Clear selection | Limpar seleção |
 | `filterOptions` | Select search field | Filter options | Filtrar opções |
+| `noOptions` | Select panel with no options (search with no match), shown and announced | No options found | Nenhuma opção encontrada |
 | `selectTitle` | Select sheet title on phones, without `panelTitle` or `label` | Select an option | Selecionar |
 | `selectAll` | CheckboxGroup "check all" box (`selectAll`) | Select all | Selecionar todos |
 | `notifications` | name of the Toast stack | Notifications | Notificações |

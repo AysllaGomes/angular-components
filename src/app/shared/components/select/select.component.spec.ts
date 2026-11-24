@@ -262,7 +262,7 @@ describe('SelectComponent typeahead and groups', () => {
   let el: HTMLElement;
 
   const button = () => el.querySelector<HTMLButtonElement>('button.control')!;
-  const panel = () => el.querySelector<HTMLElement>('.panel');
+  const panel = () => el.querySelector<HTMLElement>('[role="listbox"]');
   const activeLabel = () => el.querySelector('.option.is-active')?.textContent?.trim();
 
   async function type(target: HTMLElement, keys: string) {
@@ -399,5 +399,88 @@ describe('SelectComponent typeahead and groups', () => {
     button().click();
     await fixture.whenStable();
     expect(document.activeElement).toBe(el.querySelector('.filter input'));
+  });
+});
+
+@Component({
+  imports: [SelectComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-select label="Fruta" responsive="menu" [filterable]="true" [options]="options"
+      [hint]="hint()" [error]="error()" [emptyMessage]="empty()" />
+  `
+})
+class MessagesHostComponent {
+  options: SelectOption<string>[] = [{ label: 'Maçã', value: 'apple' }, { label: 'Banana', value: 'banana' }];
+  hint = signal<string | null>('Escolha a sua preferida');
+  error = signal<string | null>(null);
+  empty = signal<string | undefined>(undefined);
+}
+
+describe('SelectComponent: messages for assistive technology', () => {
+  let fixture: ComponentFixture<MessagesHostComponent>;
+  let host: MessagesHostComponent;
+  let el: HTMLElement;
+  const control = () => el.querySelector<HTMLButtonElement>('button.control')!;
+  const describedText = () => {
+    const id = control().getAttribute('aria-describedby');
+    return id ? el.querySelector('#' + id)?.textContent?.trim() : null;
+  };
+  const status = () => el.querySelector('[role="status"]')!.textContent!.trim();
+  const search = async (q: string) => {
+    const input = el.querySelector<HTMLInputElement>('.filter input')!;
+    input.value = q;
+    input.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MessagesHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+    fixture = TestBed.createComponent(MessagesHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  it('the control is described by the message on screen: the hint, then the error instead', async () => {
+    expect(describedText()).toBe('Escolha a sua preferida');
+
+    host.error.set('Escolha uma fruta');
+    await fixture.whenStable();
+    expect(describedText()).toBe('Escolha uma fruta');
+    expect(control().getAttribute('aria-invalid')).toBe('true');
+
+    host.error.set(null);
+    host.hint.set(null);
+    await fixture.whenStable();
+    expect(control().hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('a search with no match says so, on screen and in the status region', async () => {
+    control().click();
+    await fixture.whenStable();
+    expect(status()).toBe('');
+
+    await search('kiwi');
+    expect(el.querySelectorAll('[role="option"]').length).toBe(0);
+    expect(el.querySelector('.panel .empty')!.textContent!.trim()).toBe('Nenhuma opção encontrada');
+    expect(status()).toBe('Nenhuma opção encontrada');
+    // a busca continua no filtro: nada aponta para uma opção que não existe
+    expect(el.querySelector('[role="listbox"]')!.hasAttribute('aria-activedescendant')).toBe(false);
+
+    await search('ban');
+    expect(el.querySelector('.panel .empty')).toBeNull();
+    expect(status()).toBe('');
+  });
+
+  it('the empty message can be changed per instance', async () => {
+    host.empty.set('Nada com esse nome');
+    control().click();
+    await fixture.whenStable();
+    await search('kiwi');
+    expect(status()).toBe('Nada com esse nome');
   });
 });

@@ -17,6 +17,7 @@
       [attr.aria-controls]="open() ? listboxId : null"
       [attr.aria-labelledby]="labelId + ' ' + valueId"
       [attr.aria-invalid]="hasError() || null"
+      [attr.aria-describedby]="describedBy()"
       [attr.aria-disabled]="isDisabled() || null"
       [disabled]="isDisabled()"
       (click)="toggle()"
@@ -48,12 +49,7 @@
       #panel
       class="panel"
       [class.is-sheet]="sheet()"
-      tabindex="0"
-      role="listbox"
-      [attr.aria-labelledby]="labelId"
-      [id]="listboxId"
-      (keydown)="onPanelKeydown($event)"
-      [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+      (keydown)="onPanelKeydown($event)">
       <!-- header da sheet -->
       @if (sheet()) {
         <div class="sheet-header">
@@ -70,26 +66,44 @@
             [placeholder]="filterPlaceholder()"
             [value]="filter()"
             (input)="filter.set($any($event.target).value); syncHighlight()"
-            [attr.aria-label]="labels().filterOptions" />
+            [attr.aria-label]="labels().filterOptions"
+            [attr.aria-controls]="listboxId" />
           </div>
         }
-        <!-- lista (opções com `group` ficam sob um título, em role="group") -->
-        @for (sec of sections(); track $index; let si = $index) {
-          @if (sec.group !== null) {
-            <div class="group" role="group" [attr.aria-labelledby]="groupId(si)">
-              <div class="group-label" [id]="groupId(si)" role="presentation">{{ sec.group }}</div>
+        <!-- só opções e grupos dentro do listbox: o filtro e o cabeçalho da folha ficam fora -->
+        <div
+          #listbox
+          class="listbox"
+          role="listbox"
+          tabindex="0"
+          [id]="listboxId"
+          [attr.aria-labelledby]="labelId"
+          [attr.aria-activedescendant]="highlighted()>=0 ? optionId(highlighted()) : null">
+          <!-- lista (opções com `group` ficam sob um título, em role="group") -->
+          @for (sec of sections(); track $index; let si = $index) {
+            @if (sec.group !== null) {
+              <div class="group" role="group" [attr.aria-labelledby]="groupId(si)">
+                <div class="group-label" [id]="groupId(si)" role="presentation">{{ sec.group }}</div>
+                @for (p of sec.items; track p.i) {
+                  <ng-container [ngTemplateOutlet]="optionTpl" [ngTemplateOutletContext]="{ $implicit: p }" />
+                }
+              </div>
+            } @else {
               @for (p of sec.items; track p.i) {
                 <ng-container [ngTemplateOutlet]="optionTpl" [ngTemplateOutletContext]="{ $implicit: p }" />
               }
-            </div>
-          } @else {
-            @for (p of sec.items; track p.i) {
-              <ng-container [ngTemplateOutlet]="optionTpl" [ngTemplateOutletContext]="{ $implicit: p }" />
             }
           }
-        }
+          <!-- o leitor de tela ouve pela região "status" abaixo (fora do listbox) -->
+          @if (noOptions()) {
+            <div class="empty" aria-hidden="true">{{ emptyMessage() }}</div>
+          }
+        </div>
       </div>
     }
+
+    <!-- busca sem resultado, anunciada sem tirar o foco do filtro -->
+    <div class="sr-only" role="status">{{ noOptions() ? emptyMessage() : '' }}</div>
 
     <ng-template #optionTpl let-p>
       <div
@@ -108,9 +122,9 @@
     </ng-template>
 
     @if (!displayError() && hint()) {
-      <div class="hint">{{ hint() }}</div>
+      <div class="hint" [id]="hintId">{{ hint() }}</div>
     }
     @if (displayError()) {
-      <div class="error">{{ displayError() }}</div>
+      <div class="error" [id]="errorId">{{ displayError() }}</div>
     }
   </div>

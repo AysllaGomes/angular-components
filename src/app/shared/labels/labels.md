@@ -63,6 +63,7 @@ Para as mensagens de erro de formulário, `provideFormErrorMessages` vem antes d
 | `requiredError` | erro automático de obrigatório (Select, TreeSelect) | This field is required | Campo obrigatório |
 | `clearSelection` | botão que limpa (Select, TreeSelect, ações em massa da Tabela) | Clear selection | Limpar seleção |
 | `filterOptions` | campo de busca do Select | Filter options | Filtrar opções |
+| `noOptions` | painel do Select sem opções (busca sem resultado), mostrado e anunciado | No options found | Nenhuma opção encontrada |
 | `selectTitle` | título da folha do Select no celular, sem `panelTitle` nem `label` | Select an option | Selecionar |
 | `selectAll` | caixa "marcar todas" do CheckboxGroup (`selectAll`) | Select all | Selecionar todos |
 | `notifications` | nome da pilha de Toasts | Notifications | Notificações |

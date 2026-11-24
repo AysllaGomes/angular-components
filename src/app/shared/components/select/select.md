@@ -36,7 +36,7 @@ Para usar o Select em outro projeto Angular, copie para dentro de uma pasta `sha
 | O componente | `components/select/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~952 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~994 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos
@@ -212,6 +212,7 @@ erroCategoria(): string | null {
 | `responsive`        | `'auto' \| 'menu' \| 'sheet'` |              `'auto'` | `auto`: vira *sheet* (painel de baixo) até `sheetBreakpoint` px; `menu`/`sheet` fixam um dos dois. |
 | `sheetBreakpoint`   | `number`            |                 `560` | Largura máxima (px) da janela para o modo *sheet* em `auto`. |
 | `hint`              | `string \| null`    |                `null` | Texto auxiliar abaixo do campo (quando não há erro).       |
+| `emptyMessage`      | `string`            | `labels.noOptions` | Mensagem do painel sem opções (ex.: busca sem resultado), mostrada e anunciada. |
 | `options`           | `SelectOption<T>[]` |                     — | Lista de opções `{ label, value, disabled?, group? }`.           |
 | `value`             | `T \| null`         |                `null` | Valor selecionado (sem formulários).                       |
 
@@ -225,7 +226,9 @@ erroCategoria(): string | null {
 ## Acessibilidade
 
 - **Botão** control: `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` (só com a lista aberta, quando ela existe) e `aria-invalid` quando há erro.
-- **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`; a opção destacada é anunciada (`aria-activedescendant`).
+- **Dica e erro**: o botão aponta para a mensagem que está na tela (`aria-describedby`): o erro, quando há, senão a dica. Ao focar, o leitor de tela lê o motivo do erro, não só "inválido".
+- **Lista**: `role="listbox"`, itens com `role="option"` e `aria-selected`; a opção destacada é anunciada (`aria-activedescendant`). O filtro e o cabeçalho da folha ficam fora da lista (um listbox só contém opções e grupos); o filtro aponta para ela (`aria-controls`).
+- **Busca sem resultado**: o painel mostra `emptyMessage` (`labels.noOptions`, "No options found" por padrão) e a mensagem é anunciada numa região `role="status"`, sem tirar o foco do filtro.
 - **Rótulo**: o `label` nomeia o botão (junto com o valor: "Comida, Banana") e a lista (`aria-labelledby`). Ao abrir, o foco vai para a busca ou para a lista.
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
@@ -276,6 +279,7 @@ O Select não depende de nenhuma biblioteca de tradução. Os textos que você p
 | Nome do botão de fechar a folha (celular) | `labels.close` | `closeAriaLabel` |
 | Título da folha, sem `panelTitle` nem `label` | `labels.selectTitle` | `panelTitle` |
 | Nome do campo de filtro | `labels.filterOptions` | — |
+| Painel sem opções (busca sem resultado) | `labels.noOptions` | `emptyMessage` |
 
 ---
 
