@@ -20,6 +20,7 @@ import {
 } from '@angular/core';
 
 import { injectUiLabels } from '../../labels';
+import { ModalSession } from '../../a11y/modal-session';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, firstValueFrom, isObservable } from 'rxjs';
 
@@ -238,6 +239,12 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   private readonly injector = inject(Injector);
   private readonly btnEl = viewChild<ElementRef<HTMLButtonElement>>('button');
   private readonly treeEl = viewChild<ElementRef<HTMLElement>>('tree');
+  private readonly panelEl = viewChild<ElementRef<HTMLElement>>('panel');
+  /**
+   * Folha (celular): é um modal. Fundo inerte, rolagem travada, Tab preso nela e o foco
+   * volta ao campo ao fechar. O menu comum não usa: fecha quando o foco sai.
+   */
+  private readonly modal = new ModalSession(this.host.nativeElement);
   private readonly filterInputEl = viewChild<ElementRef<HTMLInputElement>>('filterInput');
 
   // ---- ControlValueAccessor
@@ -249,7 +256,7 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   registerOnTouched(fn: () => void): void { this.onTouched = fn; }
   setDisabledState(isDisabled: boolean): void {
     this.formDisabled.set(isDisabled);
-    if (isDisabled) this.open.set(false);
+    if (isDisabled) { this.open.set(false); this.modal.close(false); }
   }
 
   private commit(v: TreeSelectValue) {
@@ -260,7 +267,11 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
 
   ngAfterViewInit(): void { this.recalcSheet(); }
 
-  ngOnDestroy(): void { if (this.typeTimer) clearTimeout(this.typeTimer); }
+  ngOnDestroy(): void {
+    if (this.typeTimer) clearTimeout(this.typeTimer);
+    // destruído com a folha aberta: não deixa a página inerte nem travada
+    this.modal.close(false);
+  }
 
   // ---- responsividade (sheet no mobile)
   @HostListener('window:resize')
@@ -381,6 +392,7 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
 
   openPanel() {
     if (this.isDisabled()) return;
+    this.recalcSheet(); // `responsive` pode ter mudado desde o último resize
     this.filter.set('');
     // single: abre os ancestrais do escolhido para ele aparecer já ativo
     const v = this.current();
@@ -397,6 +409,7 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
     // nós sob demanda que já começam abertos (expandedKeys)
     for (const key of this.expanded()) void this.load(key);
     this.open.set(true);
+    if (this.sheet()) this.modal.open();
     // depois que o painel (@if) for desenhado: foco no filtro ou na árvore
     afterNextRender(() => {
       (this.filterInputEl()?.nativeElement ?? this.treeEl()?.nativeElement)?.focus();
@@ -407,7 +420,29 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   close() {
     if (!this.open()) return;
     this.open.set(false);
+    this.modal.close();
     this.markTouchedAndValidate();
+  }
+
+  /** fechar pelo × ou pelo fundo da folha: o foco volta ao campo (como no Esc) */
+  closeAndFocus() {
+    this.close();
+    this.focusButton();
+  }
+
+  /** menu comum: o foco saiu do componente (Tab, clique em outro campo) → fecha, sem roubar o foco */
+  @HostListener('focusout', ['$event'])
+  onFocusOut(e: FocusEvent) {
+    if (!this.open() || this.sheet()) return;
+    const next = e.relatedTarget as Node | null;
+    if (next && !this.host.nativeElement.contains(next)) this.close();
+  }
+
+  /** folha: Tab circula dentro dela (é modal) */
+  onPanelKeydown(e: KeyboardEvent) {
+    if (e.key === 'Tab' && this.sheet()) {
+      this.modal.handleKeydown(e, this.panelEl()?.nativeElement, () => this.closeAndFocus());
+    }
   }
 
   private focusButton() { this.btnEl()?.nativeElement.focus(); }
@@ -439,13 +474,12 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   onFilterKeydown(e: KeyboardEvent) {
     if (e.key === 'ArrowDown') { e.preventDefault(); this.treeEl()?.nativeElement.focus(); }
     else if (e.key === 'Escape') { e.preventDefault(); this.close(); this.focusButton(); }
-    else if (e.key === 'Tab' && !e.shiftKey) { this.close(); }
   }
 
   /** padrão WAI-ARIA de árvore */
   onTreeKeydown(e: KeyboardEvent) {
     if (e.key === 'Escape') { e.preventDefault(); this.close(); this.focusButton(); return; }
-    if (e.key === 'Tab') { this.close(); return; } // fecha e deixa o Tab seguir o fluxo da página
+    if (e.key === 'Tab') return; // menu: o Tab segue e o focusout fecha; folha: onPanelKeydown
     const rows = this.rows();
     if (!rows.length) return;
     const i = Math.max(0, this.activeIndex());

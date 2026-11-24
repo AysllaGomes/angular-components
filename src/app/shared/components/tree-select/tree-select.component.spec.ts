@@ -252,12 +252,15 @@ describe('TreeSelectComponent', () => {
       expect(document.activeElement).toBe(button());
     });
 
-    it('Tab closes without preventing the default (focus moves on)', async () => {
+    it('Tab is not prevented; when focus leaves for the next field, the menu closes', async () => {
       const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
       tree()!.dispatchEvent(ev);
-      await fixture.whenStable();
       expect(ev.defaultPrevented).toBe(false);
+      // o navegador move o foco (o jsdom não): o menu fecha quando ele sai do componente
+      el.querySelector<HTMLButtonElement>('#after')!.focus();
+      await fixture.whenStable();
       expect(tree()).toBeNull();
+      expect(document.activeElement?.id).toBe('after');
     });
 
     it('typing jumps to the next visible node with that initial', async () => {
@@ -398,4 +401,64 @@ describe('TreeSelectComponent: messages for assistive technology', () => {
     await search('Santos');
     expect(status()).toBe('');
   });
+});
+
+@Component({
+  imports: [TreeSelectComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-tree-select label="Local" [responsive]="mode()" [filterable]="true" [nodes]="nodes" />
+    <button id="after" type="button">depois</button>
+  `
+})
+class SheetHostComponent {
+  nodes = TREE;
+  mode = signal<'menu' | 'sheet'>('sheet');
+}
+
+describe('TreeSelectComponent: the sheet is modal', () => {
+  let fixture: ComponentFixture<SheetHostComponent>;
+  let el: HTMLElement;
+  const control = () => el.querySelector<HTMLButtonElement>('button.control')!;
+  const panel = () => el.querySelector<HTMLElement>('.panel');
+  const settle = async () => { await fixture.whenStable(); await new Promise(r => setTimeout(r)); await fixture.whenStable(); };
+  const open = async () => { control().focus(); control().click(); await settle(); };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SheetHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+    fixture = TestBed.createComponent(SheetHostComponent);
+    el = fixture.nativeElement;
+    await settle();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('inert background and locked scroll while open; Tab stays inside', async () => {
+    await open();
+    expect(el.querySelector('#after')!.closest('[inert]')).not.toBeNull();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    const treeEl = el.querySelector<HTMLElement>('[role="tree"]')!;
+    treeEl.focus();
+    const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    treeEl.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+    expect(panel()!.contains(document.activeElement)).toBe(true);
+    expect(panel()).not.toBeNull();
+  });
+
+  for (const how of ['×', 'backdrop'] as const) {
+    it(`closing by ${how} returns focus to the field and releases the page`, async () => {
+      await open();
+      el.querySelector<HTMLElement>(how === '×' ? '.sheet-close' : '.backdrop')!.click();
+      await settle();
+      expect(panel()).toBeNull();
+      expect(document.activeElement).toBe(control());
+      expect(document.querySelectorAll('[inert]').length).toBe(0);
+      expect(document.body.style.overflow).toBe('');
+    });
+  }
 });

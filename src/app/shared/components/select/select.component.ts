@@ -19,6 +19,7 @@ import {
 } from '@angular/core';
 
 import { injectUiLabels } from '../../labels';
+import { ModalSession } from '../../a11y/modal-session';
 import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -117,7 +118,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   registerOnTouched(fn: () => void): void { this.onTouched = fn; }
   setDisabledState(isDisabled: boolean): void {
     this.formDisabled.set(isDisabled);
-    if (isDisabled) this.open.set(false);
+    if (isDisabled) { this.open.set(false); this.modal.close(false); }
   }
 
   /** mudança feita pelo usuário: atualiza estado, two-way binding e formulário */
@@ -128,6 +129,12 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   }
 
   private readonly injector = inject(Injector);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  /**
+   * Folha (celular): é um modal. Fundo inerte, rolagem travada, Tab preso nela e o foco
+   * volta ao campo ao fechar. O menu comum não usa: fecha quando o foco sai.
+   */
+  private readonly modal = new ModalSession(this.host);
   private readonly panelEl = viewChild<ElementRef<HTMLDivElement>>('panel');
   /** a lista (role="listbox"): recebe o foco e o aria-activedescendant */
   private readonly listboxEl = viewChild<ElementRef<HTMLDivElement>>('listbox');
@@ -231,6 +238,8 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
 
   ngOnDestroy(): void {
     if (this.typeTimer) clearTimeout(this.typeTimer);
+    // destruído com a folha aberta: não deixa a página inerte nem travada
+    this.modal.close(false);
   }
 
   get selectedLabel(): string | null {
@@ -276,7 +285,13 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
     // fechar pelo botão também marca como tocado/valida
     if (this.open()) this.close(); else this.openPanel();
   }
-  openPanel() { if (!this.isDisabled()) { this.open.set(true); this.postOpen(); } }
+  openPanel() {
+    if (this.isDisabled()) return;
+    this.recalcSheet(); // `responsive` pode ter mudado desde o último resize
+    this.open.set(true);
+    if (this.sheet()) this.modal.open();
+    this.postOpen();
+  }
   private postOpen() {
     if (this.open()) {
       this.filter.set('');
@@ -289,7 +304,25 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
       );
     }
   }
-  close() { this.open.set(false); this.markTouchedAndValidate(); }
+  close() {
+    this.open.set(false);
+    this.modal.close();
+    this.markTouchedAndValidate();
+  }
+
+  /** fechar pelo × ou pelo fundo da folha: o foco volta ao campo (como no Esc e ao escolher) */
+  closeAndFocus() {
+    this.close();
+    this.btnEl()?.nativeElement.focus();
+  }
+
+  /** menu comum: o foco saiu do componente (Tab, clique em outro campo) → fecha, sem roubar o foco */
+  @HostListener('focusout', ['$event'])
+  onFocusOut(e: FocusEvent) {
+    if (!this.open() || this.sheet()) return;
+    const next = e.relatedTarget as Node | null;
+    if (next && !this.host.contains(next)) this.close();
+  }
 
   // ---- seleção
   select(opt: SelectOption<T>, fi: number) {
@@ -351,6 +384,11 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   }
 
   onPanelKeydown(e: KeyboardEvent) {
+    // folha: Tab circula dentro dela (é modal); no menu, o Tab segue e o focusout fecha
+    if (e.key === 'Tab') {
+      if (this.sheet()) this.modal.handleKeydown(e, this.panelEl()?.nativeElement, () => this.closeAndFocus());
+      return;
+    }
     if (e.target === this.filterInputEl()?.nativeElement) {
       if (e.key === 'ArrowDown') { e.preventDefault(); this.highlight(0); this.listboxEl()?.nativeElement.focus(); }
       if (e.key === 'Escape') { e.preventDefault(); this.close(); this.btnEl()?.nativeElement.focus(); }

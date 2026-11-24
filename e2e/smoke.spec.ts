@@ -124,3 +124,69 @@ test.describe('modal sobre modal (ActionBar + Dialog)', () => {
     await expect(opener).toBeFocused();
   });
 });
+
+test.describe('Select e TreeSelect: foco ao fechar', () => {
+  const selectCard = (page: import('@playwright/test').Page) =>
+    page.locator('#select article', { has: page.getByRole('heading', { name: 'Com filtro' }) });
+
+  test('menu (desktop): Tab sai do componente, o painel fecha e o foco segue', async ({ page }) => {
+    await page.goto('demo/');
+    const card = selectCard(page);
+    await card.locator('button.control').click();
+    await expect(card.getByRole('listbox')).toBeVisible();
+
+    await page.keyboard.press('Tab'); // do filtro para a lista
+    await page.keyboard.press('Tab'); // da lista para fora do componente
+    await expect(card.getByRole('listbox')).toHaveCount(0);
+    expect(await card.evaluate(c => c.querySelector('app-select')!.contains(document.activeElement))).toBe(false);
+    expect(await page.evaluate(() => document.activeElement === document.body)).toBe(false);
+  });
+
+  test('TreeSelect menu: Tab fecha e o foco segue para o próximo campo', async ({ page }) => {
+    await page.goto('demo/');
+    const card = page.locator('#treeselect article', { has: page.getByRole('heading', { name: 'Seleção única (caminho no campo)' }) });
+    await card.locator('button.control').click();
+    await expect(card.getByRole('tree')).toBeVisible();
+
+    await page.keyboard.press('Tab');
+    await expect(card.getByRole('tree')).toHaveCount(0);
+    expect(await page.evaluate(() => document.activeElement === document.body)).toBe(false);
+  });
+
+  test.describe('folha (celular)', () => {
+    test.use({ viewport: { width: 390, height: 780 } });
+
+    test('é modal: Tab fica nela; × devolve o foco ao campo e libera a página', async ({ page }) => {
+      await page.goto('demo/');
+      const card = selectCard(page);
+      const control = card.locator('button.control');
+      await control.click();
+      const sheet = card.locator('.panel.is-sheet');
+      await expect(sheet).toBeVisible();
+      expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
+
+      for (let i = 0; i < 6; i++) {
+        await page.keyboard.press('Tab');
+        expect(await sheet.evaluate(s => s.contains(document.activeElement))).toBe(true);
+      }
+
+      await sheet.getByRole('button', { name: 'Fechar' }).click();
+      await expect(sheet).toHaveCount(0);
+      await expect(control).toBeFocused();
+      expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+      await expect(page.locator('[inert]')).toHaveCount(0);
+    });
+
+    test('tocar no fundo escurecido também devolve o foco ao campo', async ({ page }) => {
+      await page.goto('demo/');
+      const card = selectCard(page);
+      const control = card.locator('button.control');
+      await control.click();
+      await expect(card.locator('.panel.is-sheet')).toBeVisible();
+
+      await card.locator('.backdrop').click({ position: { x: 20, y: 20 } });
+      await expect(card.locator('.panel')).toHaveCount(0);
+      await expect(control).toBeFocused();
+    });
+  });
+});

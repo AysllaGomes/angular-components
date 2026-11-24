@@ -46,9 +46,10 @@ To use the TreeSelect in another Angular project, copy into a `shared/` folder *
 |---|---|
 | The component | `components/tree-select/` |
 | Components it uses | `components/checkbox/` |
+| Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 12 files, ~1605 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1798 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Data
@@ -185,7 +186,7 @@ The panel follows the **WAI-ARIA tree pattern** (`role="tree"`, `treeitem` with 
 | `Enter` / `Space` | Picks (`single`) or checks/unchecks (`checkbox`) |
 | Letters         | Jumps to the next visible node with that initial |
 | `Esc`           | Closes and returns to the field |
-| `Tab`           | Closes and moves on to the next field |
+| `Tab`           | Menu: closes and moves on to the next field. Sheet: cycles inside it |
 
 - With `filterable`, focus opens on the search; `↓` moves into the tree.
 - `single`: the picked node has `aria-selected="true"`. `checkbox`: each node has `aria-checked` (`true`/`false`/`mixed`); the visual box is decoration only.
@@ -194,6 +195,9 @@ The panel follows the **WAI-ARIA tree pattern** (`role="tree"`, `treeitem` with 
 - Search with no match: the same region announces `emptyMessage`, without moving focus from the search.
 - Hint and error: the field points to the message on screen (`aria-describedby`): the error when there is one, otherwise the hint.
 - Clicking outside closes it.
+- **Menu and sheet behave differently**, on purpose:
+  - **menu** (popup under the field): closes when focus leaves the TreeSelect (`Tab`, clicking another field), without taking focus back;
+  - **sheet** (phones, with a dimmed background): it is a **modal**. The rest of the page is inert and does not scroll, `Tab` cycles inside it only, and **every** way of closing it (×, tapping the background, `Esc`, picking) returns focus to the field.
 
 ---
 

@@ -34,9 +34,10 @@ Para usar o Select em outro projeto Angular, copie para dentro de uma pasta `sha
 | O quê | Copiar |
 |---|---|
 | O componente | `components/select/` |
+| Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~994 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~1191 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos
@@ -231,6 +232,9 @@ erroCategoria(): string | null {
 - **Busca sem resultado**: o painel mostra `emptyMessage` (`labels.noOptions`, "No options found" por padrão) e a mensagem é anunciada numa região `role="status"`, sem tirar o foco do filtro.
 - **Rótulo**: o `label` nomeia o botão (junto com o valor: "Comida, Banana") e a lista (`aria-labelledby`). Ao abrir, o foco vai para a busca ou para a lista.
 - Fecha com **Escape**, clique fora e ao selecionar.
+- **Menu e folha se comportam diferente**, de propósito:
+  - **menu** (popup sob o campo): fecha quando o foco sai do Select (`Tab`, clique em outro campo), sem roubar o foco de onde ele foi;
+  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
 - **Typeahead**: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (`Enter` confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com `filterable`, o texto vai para o filtro.
 - **Foco**: ao selecionar, o foco retorna ao botão.

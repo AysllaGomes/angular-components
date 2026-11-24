@@ -484,3 +484,98 @@ describe('SelectComponent: messages for assistive technology', () => {
     expect(status()).toBe('Nada com esse nome');
   });
 });
+
+@Component({
+  imports: [SelectComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <button id="before" type="button">antes</button>
+    <app-select label="Fruta" [responsive]="mode()" [filterable]="true" [options]="options" />
+    <button id="after" type="button">depois</button>
+  `
+})
+class FocusHostComponent {
+  mode = signal<'menu' | 'sheet'>('menu');
+  options: SelectOption<string>[] = [{ label: 'Maçã', value: 'apple' }, { label: 'Banana', value: 'banana' }];
+}
+
+describe('SelectComponent: focus contract (menu closes on leave, sheet is modal)', () => {
+  let fixture: ComponentFixture<FocusHostComponent>;
+  let host: FocusHostComponent;
+  let el: HTMLElement;
+  const control = () => el.querySelector<HTMLButtonElement>('button.control')!;
+  const panel = () => el.querySelector<HTMLElement>('.panel');
+  const settle = async () => { await fixture.whenStable(); await new Promise(r => setTimeout(r)); await fixture.whenStable(); };
+  const open = async () => { control().focus(); control().click(); await settle(); };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FocusHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+    fixture = TestBed.createComponent(FocusHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await settle();
+  });
+
+  afterEach(() => fixture.destroy());
+
+  it('menu: focus leaving the component closes it, without taking focus back', async () => {
+    await open();
+    expect(panel()).not.toBeNull();
+    el.querySelector<HTMLButtonElement>('#after')!.focus();
+    await settle();
+    expect(panel()).toBeNull();
+    expect(document.activeElement?.id).toBe('after');
+  });
+
+  it('menu: moving focus inside the component (filter → list) keeps it open', async () => {
+    await open();
+    el.querySelector<HTMLElement>('[role="listbox"]')!.focus();
+    await settle();
+    expect(panel()).not.toBeNull();
+  });
+
+  describe('sheet', () => {
+    beforeEach(async () => { host.mode.set('sheet'); await settle(); });
+
+    it('is modal while open: the rest of the page is inert and does not scroll', async () => {
+      await open();
+      expect(el.querySelector('#after')!.closest('[inert]')).not.toBeNull();
+      expect(document.body.style.overflow).toBe('hidden');
+      expect(el.querySelector('app-select')!.closest('[inert]')).toBeNull();
+    });
+
+    it('Tab stays inside the sheet', async () => {
+      await open();
+      const inside = Array.from(panel()!.querySelectorAll<HTMLElement>('button, input, [tabindex="0"]'));
+      const last = inside[inside.length - 1];
+      last.focus();
+      const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+      last.dispatchEvent(ev);
+      expect(ev.defaultPrevented).toBe(true);
+      expect(panel()!.contains(document.activeElement)).toBe(true);
+    });
+
+    for (const how of ['×', 'backdrop'] as const) {
+      it(`closing by ${how} returns focus to the field and releases the page`, async () => {
+        await open();
+        const target = how === '×' ? el.querySelector<HTMLElement>('.sheet-close')! : el.querySelector<HTMLElement>('.backdrop')!;
+        target.click();
+        await settle();
+        expect(panel()).toBeNull();
+        expect(document.activeElement).toBe(control());
+        expect(document.querySelectorAll('[inert]').length).toBe(0);
+        expect(document.body.style.overflow).toBe('');
+      });
+    }
+
+    it('does not close when focus moves inside it (it is not a menu)', async () => {
+      await open();
+      el.querySelector<HTMLElement>('.sheet-close')!.focus();
+      await settle();
+      expect(panel()).not.toBeNull();
+    });
+  });
+});

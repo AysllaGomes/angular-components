@@ -41,7 +41,7 @@
 
   <!-- backdrop só no modo sheet -->
   @if (open() && sheet()) {
-    <div class="backdrop" (click)="close()"></div>
+    <div class="backdrop" (click)="closeAndFocus()"></div>
   }
 
   @if (open()) {
@@ -54,7 +54,7 @@
       @if (sheet()) {
         <div class="sheet-header">
           <div class="title">{{ panelTitle() || label() || labels().selectTitle }}</div>
-          <button type="button" class="sheet-close" (click)="close()" [attr.aria-label]="closeAriaLabel()">×</button>
+          <button type="button" class="sheet-close" (click)="closeAndFocus()" [attr.aria-label]="closeAriaLabel()">×</button>
         </div>
       }
       <!-- filtro -->

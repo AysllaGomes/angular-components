@@ -46,9 +46,10 @@ Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta 
 |---|---|
 | O componente | `components/tree-select/` |
 | Componentes que ele usa | `components/checkbox/` |
+| Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 12 arquivos, ~1605 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1798 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Dados
@@ -185,7 +186,7 @@ O painel segue o **padrão WAI-ARIA de árvore** (`role="tree"`, `treeitem` com 
 | `Enter` / `Espaço` | Escolhe (`single`) ou marca/desmarca (`checkbox`) |
 | Letras          | Pula para o próximo nó visível com aquela inicial |
 | `Esc`           | Fecha e volta ao campo |
-| `Tab`           | Fecha e segue para o próximo campo |
+| `Tab`           | Menu: fecha e segue para o próximo campo. Folha: circula dentro dela |
 
 - Com `filterable`, o foco abre na busca; `↓` leva para a árvore.
 - `single`: o nó escolhido tem `aria-selected="true"`. `checkbox`: cada nó tem `aria-checked` (`true`/`false`/`mixed`); a caixa visual é só decoração.
@@ -194,6 +195,9 @@ O painel segue o **padrão WAI-ARIA de árvore** (`role="tree"`, `treeitem` com 
 - Busca sem resultado: a mesma região anuncia `emptyMessage`, sem tirar o foco da busca.
 - Dica e erro: o campo aponta para a mensagem que está na tela (`aria-describedby`): o erro, quando há, senão a dica.
 - Clique fora fecha.
+- **Menu e folha se comportam diferente**, de propósito:
+  - **menu** (popup sob o campo): fecha quando o foco sai do TreeSelect (`Tab`, clique em outro campo), sem roubar o foco de onde ele foi;
+  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo.
 
 ---
 
