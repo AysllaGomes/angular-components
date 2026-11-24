@@ -116,6 +116,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "a11y": [
         "<code>role=&quot;dialog&quot;</code> + <code>aria-modal=&quot;true&quot;</code> + <code>aria-labelledby</code> amarrado ao título.",
         "<strong>Teclado:</strong> <code>Esc</code> fecha; Tab mantém o foco preso dentro do sheet (focus‑trap).",
+        "<strong>Um modal sobre outro</strong> (ex.: um Dialog de confirmação aberto a partir de uma ActionBar, ou o contrário): só o de cima responde a <code>Esc</code> e <code>Tab</code>; cada <code>Esc</code> fecha um, de cima para baixo. O de cima continua usável mesmo sendo irmão do de baixo (que tinha deixado o resto da página inerte), e ao fechar volta a ser fundo dele.",
+        "<strong><code>Esc</code> já tratado dentro do modal</strong> não fecha o modal: fechar um Select, TreeSelect ou Tooltip aberto dentro dele fecha só o painel.",
         "<strong>Foco inicial:</strong> ao abrir, o foco vai para o botão de fechar.",
         "<strong>Foco devolvido:</strong> ao fechar (botão, <code>Esc</code>, backdrop ou <code>opened=false</code>), o foco volta ao elemento que estava focado antes de abrir (normalmente o botão que abriu), se ele ainda estiver na página.",
         "<strong>Fundo inerte e sem rolagem:</strong> enquanto aberto, a rolagem da página trava e o resto da página recebe <code>inert</code> (sem foco, clique ou leitor de tela). Ao fechar, só o que o painel marcou é liberado. Elementos com <code>data-dialog-keep-active</code> continuam ativos (o <code>app-toast-container</code> já vem com ele).",
@@ -157,7 +159,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~907 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~970 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -270,6 +272,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "a11y": [
         "<code>role=&quot;dialog&quot;</code>, <code>aria-modal=&quot;true&quot;</code>, and <code>aria-labelledby</code> bound to the title.",
         "<strong>Keyboard:</strong> <code>Esc</code> closes; Tab keeps focus trapped inside.",
+        "<strong>A modal over another</strong> (e.g. a confirmation Dialog opened from an ActionBar, or the other way around): only the top one answers <code>Esc</code> and <code>Tab</code>; each <code>Esc</code> closes one, top to bottom. The top one stays usable even as a sibling of the one below (which had made the rest of the page inert), and goes back to being its background when it closes.",
+        "<strong>An <code>Esc</code> already handled inside the modal</strong> does not close it: closing a Select, TreeSelect or Tooltip open inside it closes just that panel.",
         "<strong>Initial focus:</strong> goes to the close button when opening.",
         "<strong>Focus restore:</strong> on close (button, <code>Esc</code>, backdrop or <code>opened=false</code>), focus returns to the element that was focused before opening (usually the opener), if it is still in the page.",
         "<strong>Inert, non-scrolling background:</strong> while open, page scrolling is locked and the rest of the page gets <code>inert</code> (no focus, clicks or screen reader access). On close, only what the sheet marked is released. Elements with <code>data-dialog-keep-active</code> stay active (<code>app-toast-container</code> already has it).",
@@ -311,7 +315,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~907 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~970 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -1250,6 +1254,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<strong>Foco devolvido</strong>: ao fechar (botão, <code>Esc</code>, backdrop ou <code>opened=false</code>), o foco volta ao elemento que estava focado antes de abrir — normalmente o botão que abriu —, se ele ainda estiver na página.",
         "<strong>Fundo inerte</strong>: enquanto aberto, o resto da página recebe <code>inert</code> (sem foco, clique ou leitura por leitor de tela). Ao fechar, só os elementos marcados pelo dialog são liberados (o que já era <code>inert</code> continua). Para manter algo ativo — como avisos —, use o atributo <code>data-dialog-keep-active</code> nesse elemento; o <code>app-toast-container</code> já vem com ele.",
         "<strong>Teclado:</strong> <code>Esc</code> fecha; <code>Tab</code>/<code>Shift+Tab</code> navega entre itens focáveis.",
+        "<strong>Um modal sobre outro</strong> (ex.: um Dialog de confirmação aberto a partir de uma ActionBar, ou o contrário): só o de cima responde a <code>Esc</code> e <code>Tab</code>; cada <code>Esc</code> fecha um, de cima para baixo. O de cima continua usável mesmo sendo irmão do de baixo (que tinha deixado o resto da página inerte), e ao fechar volta a ser fundo dele.",
+        "<strong><code>Esc</code> já tratado dentro do modal</strong> não fecha o modal: fechar um Select, TreeSelect ou Tooltip aberto dentro dele fecha só o painel.",
         "<strong>Backdrop:</strong> habilitado por padrão; pode ser desativado com <code>closeOnBackdrop=false</code>."
       ],
       "tokens": [
@@ -1289,7 +1295,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~640 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~702 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1414,6 +1420,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<strong>Focus restore</strong>: on close (button, <code>Esc</code>, backdrop or <code>opened=false</code>), focus returns to the element that was focused before opening (usually the opener), if it is still in the page.",
         "<strong>Inert background</strong>: while open, the rest of the page gets <code>inert</code> (no focus, clicks or screen reader access). On close, only the elements the dialog marked are released (already-<code>inert</code> ones stay inert). To keep something active (such as notifications), add the <code>data-dialog-keep-active</code> attribute to it; <code>app-toast-container</code> already has it.",
         "<strong>Keys:</strong> <code>Esc</code> closes; <code>Tab</code>/<code>Shift+Tab</code> cycles focus.",
+        "<strong>A modal over another</strong> (e.g. a confirmation Dialog opened from an ActionBar, or the other way around): only the top one answers <code>Esc</code> and <code>Tab</code>; each <code>Esc</code> closes one, top to bottom. The top one stays usable even as a sibling of the one below (which had made the rest of the page inert), and goes back to being its background when it closes.",
+        "<strong>An <code>Esc</code> already handled inside the modal</strong> does not close it: closing a Select, TreeSelect or Tooltip open inside it closes just that panel.",
         "<strong>Backdrop:</strong> enabled by default; can be disabled with <code>closeOnBackdrop=false</code>."
       ],
       "tokens": [
@@ -1452,7 +1460,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~640 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~702 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }

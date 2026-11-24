@@ -126,11 +126,10 @@ export class DialogComponent implements OnDestroy {
   }
 
   // ===== A11y / fechamento =====
+  /** Esc fecha e Tab circula dentro do dialog (só no modal de cima; veja ModalSession) */
   @HostListener('document:keydown', ['$event'])
   onKey(e: KeyboardEvent) {
-    if (!this.opened()) return;
-    if (e.key === 'Escape') { e.preventDefault(); this.close(); }
-    if (e.key === 'Tab') this.trapFocus(e);
+    this.modal.handleKeydown(e, this.dlgRef()?.nativeElement, () => this.close());
   }
 
   onBackdropClick(e: MouseEvent) {
@@ -140,17 +139,4 @@ export class DialogComponent implements OnDestroy {
 
   openDialog() { this.opened.set(true); }
   close()      { this.opened.set(false); }
-
-  // Focus trap simples dentro do dialog
-  private trapFocus(e: KeyboardEvent) {
-    const root = this.dlgRef()?.nativeElement; if (!root) return;
-    const focusables = root.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    const list = Array.from(focusables).filter(n => !n.hasAttribute('disabled'));
-    if (!list.length) return;
-    const first = list[0], last = list[list.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  }
 }

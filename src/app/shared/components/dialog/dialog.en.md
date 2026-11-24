@@ -39,7 +39,7 @@ To use the Dialog in another Angular project, copy into a `shared/` folder **kee
 | Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~640 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~702 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage
@@ -100,6 +100,8 @@ On close, focus returns to the "Delete order" button. For translated texts, pass
 - **Focus restore**: on close (button, `Esc`, backdrop or `opened=false`), focus returns to the element that was focused before opening (usually the opener), if it is still in the page.
 - **Inert background**: while open, the rest of the page gets `inert` (no focus, clicks or screen reader access). On close, only the elements the dialog marked are released (already-`inert` ones stay inert). To keep something active (such as notifications), add the `data-dialog-keep-active` attribute to it; `app-toast-container` already has it.
 - **Keys:** `Esc` closes; `Tab`/`Shift+Tab` cycles focus.
+- **A modal over another** (e.g. a confirmation Dialog opened from an ActionBar, or the other way around): only the top one answers `Esc` and `Tab`; each `Esc` closes one, top to bottom. The top one stays usable even as a sibling of the one below (which had made the rest of the page inert), and goes back to being its background when it closes.
+- **An `Esc` already handled inside the modal** does not close it: closing a Select, TreeSelect or Tooltip open inside it closes just that panel.
 - **Backdrop:** enabled by default; can be disabled with `closeOnBackdrop=false`.
 
 ---

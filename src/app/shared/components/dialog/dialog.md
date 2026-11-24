@@ -39,7 +39,7 @@ Para usar o Dialog em outro projeto Angular, copie para dentro de uma pasta `sha
 | Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~640 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~702 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso
@@ -100,6 +100,8 @@ Ao fechar, o foco volta ao botão "Excluir pedido". Para textos traduzidos, pass
 - **Foco devolvido**: ao fechar (botão, `Esc`, backdrop ou `opened=false`), o foco volta ao elemento que estava focado antes de abrir — normalmente o botão que abriu —, se ele ainda estiver na página.
 - **Fundo inerte**: enquanto aberto, o resto da página recebe `inert` (sem foco, clique ou leitura por leitor de tela). Ao fechar, só os elementos marcados pelo dialog são liberados (o que já era `inert` continua). Para manter algo ativo — como avisos —, use o atributo `data-dialog-keep-active` nesse elemento; o `app-toast-container` já vem com ele.
 - **Teclado:** `Esc` fecha; `Tab`/`Shift+Tab` navega entre itens focáveis.
+- **Um modal sobre outro** (ex.: um Dialog de confirmação aberto a partir de uma ActionBar, ou o contrário): só o de cima responde a `Esc` e `Tab`; cada `Esc` fecha um, de cima para baixo. O de cima continua usável mesmo sendo irmão do de baixo (que tinha deixado o resto da página inerte), e ao fechar volta a ser fundo dele.
+- **`Esc` já tratado dentro do modal** não fecha o modal: fechar um Select, TreeSelect ou Tooltip aberto dentro dele fecha só o painel.
 - **Backdrop:** habilitado por padrão; pode ser desativado com `closeOnBackdrop=false`.
 
 ---
@@ -230,7 +232,7 @@ O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro)
   - [ ] Suporte a *TemplateRef* e componentes dinâmicos.
 - [ ] **Empilhamento**
   - [ ] Gerenciador de z-index e foco para múltiplos diálogos.
-  - [ ] Fechar em cascata com *Esc* respeitando o topo.
+  - [x] Fechar em cascata com *Esc* respeitando o topo.
 - [ ] **Form helpers**
   - [ ] `submitOnEnter` (Enter confirma se o formulário é válido).
   - [ ] `disablePrimaryWhenInvalid` com *FormGroup* injetável.

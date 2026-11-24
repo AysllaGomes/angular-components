@@ -43,7 +43,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/core`. In total: 10 files, ~907 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 10 files, ~970 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Anatomy
@@ -89,6 +89,8 @@ Depends only on `@angular/core`. In total: 10 files, ~907 lines. CSS variables h
 ## Accessibility
 - `role="dialog"`, `aria-modal="true"`, and `aria-labelledby` bound to the title.
 - **Keyboard:** `Esc` closes; Tab keeps focus trapped inside.
+- **A modal over another** (e.g. a confirmation Dialog opened from an ActionBar, or the other way around): only the top one answers `Esc` and `Tab`; each `Esc` closes one, top to bottom. The top one stays usable even as a sibling of the one below (which had made the rest of the page inert), and goes back to being its background when it closes.
+- **An `Esc` already handled inside the modal** does not close it: closing a Select, TreeSelect or Tooltip open inside it closes just that panel.
 - **Initial focus:** goes to the close button when opening.
 - **Focus restore:** on close (button, `Esc`, backdrop or `opened=false`), focus returns to the element that was focused before opening (usually the opener), if it is still in the page.
 - **Inert, non-scrolling background:** while open, page scrolling is locked and the rest of the page gets `inert` (no focus, clicks or screen reader access). On close, only what the sheet marked is released. Elements with `data-dialog-keep-active` stay active (`app-toast-container` already has it).

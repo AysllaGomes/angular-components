@@ -5,7 +5,11 @@
  *   (se ainda estiver na página);
  * - **scroll**: trava a rolagem do `<body>` enquanto aberto;
  * - **fundo inerte**: marca com `inert` os irmãos do host e de cada ancestral até
- *   o `<body>`, então o resto da página não recebe foco, clique nem leitor de tela.
+ *   o `<body>`, então o resto da página não recebe foco, clique nem leitor de tela;
+ * - **teclado** (`handleKeydown`): Esc fecha e Tab circula dentro do painel. Com um
+ *   modal aberto sobre outro (um Dialog de confirmação sobre uma ActionBar), só o de
+ *   cima responde; e um Esc já tratado dentro dele (fechar um Select aberto) não fecha
+ *   o modal junto.
  *
  * Só desfaz o que ela mesma fez: elementos que já eram `inert` continuam inertes, e
  * o `overflow` do body volta ao valor anterior. Elementos com o atributo
@@ -14,19 +18,39 @@
  * Seguro em SSR: sem `document`, não faz nada.
  */
 export class ModalSession {
+  /** modais abertos, do mais antigo ao mais recente: o último é o de cima */
+  private static readonly stack: ModalSession[] = [];
+
   private active = false;
   private returnFocusTo: HTMLElement | null = null;
   private prevOverflow = '';
   private inerted: HTMLElement[] = [];
+  /** o host (ou um ancestral) que um modal de baixo tinha deixado inerte: reativado enquanto este estiver aberto */
+  private revived: HTMLElement[] = [];
 
   /** @param host elemento do componente; tudo fora dele vira fundo inerte */
   constructor(private readonly host: HTMLElement) {}
 
   get isActive() { return this.active; }
 
+  /** é o modal de cima (o que recebe Esc e Tab) */
+  get isTop() { return this.active && ModalSession.stack.at(-1) === this; }
+
   open() {
     if (this.active || typeof document === 'undefined') return;
     this.active = true;
+
+    // aberto sobre outro modal: o de baixo deixou inerte tudo fora dele, talvez este
+    // host também (ex.: um Dialog de confirmação ao lado de uma ActionBar aberta)
+    for (const below of ModalSession.stack) {
+      for (const el of below.inerted) {
+        if (el.contains(this.host) && el.hasAttribute('inert')) {
+          el.removeAttribute('inert');
+          this.revived.push(el);
+        }
+      }
+    }
+    ModalSession.stack.push(this);
 
     const focused = document.activeElement;
     this.returnFocusTo = focused instanceof HTMLElement && focused !== document.body ? focused : null;
@@ -41,15 +65,41 @@ export class ModalSession {
   close(restoreFocus = true) {
     if (!this.active) return;
     this.active = false;
+    const i = ModalSession.stack.indexOf(this);
+    if (i >= 0) ModalSession.stack.splice(i, 1);
 
     document.body.style.overflow = this.prevOverflow;
 
     for (const el of this.inerted) el.removeAttribute('inert');
     this.inerted = [];
 
+    // o que este reativou volta a ser fundo do modal de baixo, se ele continua aberto
+    for (const el of this.revived) {
+      if (ModalSession.stack.some(s => s.inerted.includes(el))) el.setAttribute('inert', '');
+    }
+    this.revived = [];
+
     const el = this.returnFocusTo;
     this.returnFocusTo = null;
     if (restoreFocus && el?.isConnected) el.focus();
+  }
+
+  /**
+   * Teclado do modal (chame do `keydown` do documento). Só age no modal de cima:
+   * - **Esc** fecha, a não ser que alguém dentro dele já tenha tratado a tecla
+   *   (`preventDefault`, ex.: Select ou TreeSelect fechando o painel);
+   * - **Tab** circula entre os elementos focáveis de `root`, e traz de volta o foco
+   *   que estiver fora dele.
+   */
+  handleKeydown(e: KeyboardEvent, root: HTMLElement | null | undefined, close: () => void) {
+    if (!this.isTop) return;
+    if (e.key === 'Escape') {
+      if (e.defaultPrevented) return;
+      e.preventDefault();
+      close();
+    } else if (e.key === 'Tab' && root) {
+      trapFocus(e, root);
+    }
   }
 
   private makeBackgroundInert() {
@@ -65,4 +115,30 @@ export class ModalSession {
       node = node.parentElement;
     }
   }
+}
+
+const FOCUSABLE = [
+  'a[href]', 'area[href]', 'button', 'input', 'select', 'textarea', 'iframe', 'summary',
+  '[contenteditable]:not([contenteditable="false"])', '[tabindex]',
+].join(', ');
+
+/** elementos que o Tab alcança dentro de `root`, na ordem do documento */
+function tabbables(root: HTMLElement): HTMLElement[] {
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(n =>
+    n.tabIndex >= 0 &&
+    !(n as HTMLButtonElement).disabled &&
+    !(n instanceof HTMLInputElement && n.type === 'hidden') &&
+    !n.closest('[inert], [hidden]')
+  );
+}
+
+function trapFocus(e: KeyboardEvent, root: HTMLElement) {
+  const list = tabbables(root);
+  if (!list.length) { e.preventDefault(); return; }
+  const first = list[0], last = list[list.length - 1];
+  const active = root.ownerDocument.activeElement;
+  // foco fora do painel (ex.: clicou no fundo antes de ele ficar inerte): volta para dentro
+  if (!active || !root.contains(active)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); return; }
+  if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
 }

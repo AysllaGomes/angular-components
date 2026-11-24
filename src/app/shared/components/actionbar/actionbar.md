@@ -43,7 +43,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 10 arquivos, ~907 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 10 arquivos, ~970 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Anatomia
@@ -90,6 +90,8 @@ Depende só de `@angular/core`. Ao todo: 10 arquivos, ~907 linhas. As variáveis
 
 - `role="dialog"` + `aria-modal="true"` + `aria-labelledby` amarrado ao título.
 - **Teclado:** `Esc` fecha; Tab mantém o foco preso dentro do sheet (focus‑trap).
+- **Um modal sobre outro** (ex.: um Dialog de confirmação aberto a partir de uma ActionBar, ou o contrário): só o de cima responde a `Esc` e `Tab`; cada `Esc` fecha um, de cima para baixo. O de cima continua usável mesmo sendo irmão do de baixo (que tinha deixado o resto da página inerte), e ao fechar volta a ser fundo dele.
+- **`Esc` já tratado dentro do modal** não fecha o modal: fechar um Select, TreeSelect ou Tooltip aberto dentro dele fecha só o painel.
 - **Foco inicial:** ao abrir, o foco vai para o botão de fechar.
 - **Foco devolvido:** ao fechar (botão, `Esc`, backdrop ou `opened=false`), o foco volta ao elemento que estava focado antes de abrir (normalmente o botão que abriu), se ele ainda estiver na página.
 - **Fundo inerte e sem rolagem:** enquanto aberto, a rolagem da página trava e o resto da página recebe `inert` (sem foco, clique ou leitor de tela). Ao fechar, só o que o painel marcou é liberado. Elementos com `data-dialog-keep-active` continuam ativos (o `app-toast-container` já vem com ele).
