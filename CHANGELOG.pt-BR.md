@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.9.0](https://github.com/AysllaGomes/angular-components/compare/v3.8.1...v3.9.0) (2026-11-24)
+### Features
+- **select:** busca sem resultado agora avisa: o painel mostra `emptyMessage` e
+  a mensagem é anunciada numa região `role="status"`, sem tirar o foco do
+  filtro; novo label `noOptions` no `provideUiLabels` ("No options found" /
+  "Nenhuma opção encontrada").
+
+### Correções
+- **select:** o campo aponta para a mensagem que está na tela
+  (`aria-describedby`: o erro, senão a dica), como os outros campos de
+  formulário já faziam; o leitor de tela diz o motivo do erro, não só
+  "inválido":
+  - com `filterable`, a busca e o cabeçalho da folha ficavam dentro do
+    `role="listbox"`, que só pode ter opções e grupos (axe
+    `aria-required-children`); a lista agora é um elemento próprio, com o foco
+    e o `aria-activedescendant`, e o filtro aponta para ela (`aria-controls`).
+- **tree-select:** o mesmo `aria-describedby` para dica/erro, e a busca sem
+  resultado é anunciada na região `role="status"` que já existia.
+- **toast:** tempo e anúncios seguem o WCAG 2.2.1:
+  - o tempo de todos os toasts para com o mouse sobre um toast ou o foco na
+    pilha e continua de onde estava (novos `pause()`/`resume()` no serviço);
+  - toast com `actionLabel` não fecha mais sozinho em 4 s (o `duration` padrão
+    passa a ser `0`), a menos que você passe `duration`;
+  - o anúncio vem de duas regiões vivas que existem desde o primeiro render
+    (`status`, e `alert` para erros), uma vez por toast; a pilha virou
+    `<section>`, com nome só quando tem toasts, em vez de `<nav>` com
+    `aria-live`;
+  - `toasts` é só leitura (`Signal<Toast[]>`), e os toasts que saem pelo
+    limite de 5 não deixam timer para trás.
+- **button:** um `<a appButton>` desabilitado ou ocupado ainda rodava o
+  `(click)` e navegava com `routerLink`; o clique agora é barrado na fase de
+  captura, antes de qualquer outro tratador do elemento.
+
+### Interno
+- **test:** specs de Toast (serviço e container), Button e FormField, que só
+  tinham a checagem do axe; o axe também cobre o Select com erro e busca sem
+  resultado (338 testes).
+
 ## [3.8.1](https://github.com/AysllaGomes/angular-components/compare/v3.8.0...v3.8.1) (2026-11-24)
 ### Correções
 - **site:** links entre as páginas de componente não levam mais a um 404 no

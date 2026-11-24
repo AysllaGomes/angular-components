@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.9.0](https://github.com/AysllaGomes/angular-components/compare/v3.8.1...v3.9.0) (2026-11-24)
+
+### Features
+
+* **select:** a search with no match now says so: the panel shows `emptyMessage` and the message is announced in a `role="status"` region, without moving focus from the filter; new `noOptions` label in [`provideUiLabels`](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/labels/labels.en.md) ("No options found" / "Nenhuma opção encontrada") ([84a8e2c](https://github.com/AysllaGomes/angular-components/commit/84a8e2c))
+
+### Bug Fixes
+
+* **select:** the control points to the message on screen (`aria-describedby`: the error, otherwise the hint), as the other form fields already did; screen readers now say why it is invalid, not just "invalid" ([84a8e2c](https://github.com/AysllaGomes/angular-components/commit/84a8e2c))
+  * with `filterable`, the search field and the sheet header were inside `role="listbox"`, which may only hold options and groups (axe `aria-required-children`); the list is now its own element, with the focus and `aria-activedescendant`, and the filter points to it (`aria-controls`)
+* **tree-select:** same `aria-describedby` for hint/error, and a search with no match is announced in the existing `role="status"` region ([22ccdd5](https://github.com/AysllaGomes/angular-components/commit/22ccdd5))
+* **toast:** timing and announcements follow WCAG 2.2.1 ([docs](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md)) ([5854a9e](https://github.com/AysllaGomes/angular-components/commit/5854a9e))
+  * every timer stops while the pointer is over a toast or focus is inside the stack, and continues from where it was (new `pause()`/`resume()` on the service)
+  * a toast with `actionLabel` no longer closes on its own after 4 s (default `duration` is `0` then), unless you pass `duration`
+  * announcements come from two live regions that exist from the first render (`status`, and `alert` for errors), each toast once; the stack is now a `<section>`, named only while it has toasts, instead of a `<nav>` with `aria-live`
+  * `toasts` is read-only (`Signal<Toast[]>`), and toasts dropped by the 5-toast limit no longer leave a timer behind
+* **button:** a disabled or busy `<a appButton>` still ran its `(click)` and navigated with `routerLink`; the click is now stopped in the capture phase, before any other handler on the element ([f2d369e](https://github.com/AysllaGomes/angular-components/commit/f2d369e))
+
+### Internal
+
+* **test:** specs for Toast (service and container), Button and FormField, which had only the axe check; axe also covers the Select with an error and a search with no match (338 tests) ([5854a9e](https://github.com/AysllaGomes/angular-components/commit/5854a9e), [f2d369e](https://github.com/AysllaGomes/angular-components/commit/f2d369e), [e5bc3bc](https://github.com/AysllaGomes/angular-components/commit/e5bc3bc))
+
 ## [3.8.1](https://github.com/AysllaGomes/angular-components/compare/v3.8.0...v3.8.1) (2026-11-24)
 
 ### Bug Fixes
