@@ -157,7 +157,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~896 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~907 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -311,7 +311,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~896 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~907 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -389,7 +389,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "a11y": [
         "Continua sendo o <code>&lt;button&gt;</code> ou <code>&lt;a&gt;</code> nativo: Enter e Espaço, envio de formulário e navegação funcionam sem nada a mais.",
-        "<code>busy</code> e <code>disabled</code> bloqueiam o clique. No <code>&lt;button&gt;</code> viram o atributo <code>disabled</code>; no <code>&lt;a&gt;</code>, que não tem <code>disabled</code>, viram <code>aria-disabled=&quot;true&quot;</code> e <code>tabindex=&quot;-1&quot;</code>.",
+        "<code>busy</code> e <code>disabled</code> bloqueiam o clique. No <code>&lt;button&gt;</code> viram o atributo <code>disabled</code>; no <code>&lt;a&gt;</code>, que não tem <code>disabled</code>, viram <code>aria-disabled=&quot;true&quot;</code> e <code>tabindex=&quot;-1&quot;</code>. No <code>&lt;a&gt;</code> o clique é barrado antes de qualquer outro tratador do elemento: nem o seu <code>(click)</code> nem o <code>routerLink</code> rodam.",
         "<code>busy</code> marca <code>aria-busy=&quot;true&quot;</code>; o texto do botão continua lá para o leitor de tela.",
         "Anel de foco (<code>:focus-visible</code>) na cor de destaque do tema, só no foco por teclado.",
         "Botão só com ícone (<code>iconOnly</code>) não tem texto visível: dê o nome com <code>aria-label</code> ou com o <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
@@ -407,7 +407,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 3 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 3 arquivos, ~276 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.md"
     },
@@ -483,7 +483,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "a11y": [
         "It is still the native <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code>: Enter and Space, form submission and navigation work with nothing extra.",
-        "<code>busy</code> and <code>disabled</code> block clicks. On <code>&lt;button&gt;</code> they become the <code>disabled</code> attribute; on <code>&lt;a&gt;</code>, which has no <code>disabled</code>, they become <code>aria-disabled=&quot;true&quot;</code> and <code>tabindex=&quot;-1&quot;</code>.",
+        "<code>busy</code> and <code>disabled</code> block clicks. On <code>&lt;button&gt;</code> they become the <code>disabled</code> attribute; on <code>&lt;a&gt;</code>, which has no <code>disabled</code>, they become <code>aria-disabled=&quot;true&quot;</code> and <code>tabindex=&quot;-1&quot;</code>. On <code>&lt;a&gt;</code> the click is stopped before any other handler on the element: neither your <code>(click)</code> nor <code>routerLink</code> runs.",
         "<code>busy</code> sets <code>aria-busy=&quot;true&quot;</code>; the button text stays there for screen readers.",
         "Focus ring (<code>:focus-visible</code>) in the theme accent color, on keyboard focus only.",
         "An icon-only button (<code>iconOnly</code>) has no visible text: name it with <code>aria-label</code> or with the <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
@@ -501,7 +501,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 3 files, ~269 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 3 files, ~276 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.en.md"
     }
@@ -970,7 +970,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 11 arquivos, ~776 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 11 arquivos, ~780 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.md"
     },
@@ -1123,7 +1123,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 11 files, ~776 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 11 files, ~780 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.en.md"
     }
@@ -1289,7 +1289,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~636 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~640 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1452,7 +1452,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~636 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~640 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -1581,7 +1581,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~756 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~767 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.md"
     },
@@ -1708,7 +1708,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~756 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~767 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.en.md"
     }
@@ -1833,7 +1833,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~485 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~489 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.md"
     },
@@ -1956,7 +1956,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~485 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~489 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/radio/radio-group.en.md"
     }
@@ -2073,6 +2073,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Texto auxiliar abaixo do campo (quando não há erro)."
             ],
             [
+              "<code>emptyMessage</code>",
+              "<code>string</code>",
+              "<code>labels.noOptions</code>",
+              "Mensagem do painel sem opções (ex.: busca sem resultado), mostrada e anunciada."
+            ],
+            [
               "<code>options</code>",
               "<code>SelectOption&lt;T&gt;[]</code>",
               "—",
@@ -2104,7 +2110,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "a11y": [
         "<strong>Botão</strong> control: <code>aria-haspopup=&quot;listbox&quot;</code>, <code>aria-expanded</code>, <code>aria-controls</code> (só com a lista aberta, quando ela existe) e <code>aria-invalid</code> quando há erro.",
-        "<strong>Lista</strong>: <code>role=&quot;listbox&quot;</code>, itens com <code>role=&quot;option&quot;</code> e <code>aria-selected</code>; a opção destacada é anunciada (<code>aria-activedescendant</code>).",
+        "<strong>Dica e erro</strong>: o botão aponta para a mensagem que está na tela (<code>aria-describedby</code>): o erro, quando há, senão a dica. Ao focar, o leitor de tela lê o motivo do erro, não só &quot;inválido&quot;.",
+        "<strong>Lista</strong>: <code>role=&quot;listbox&quot;</code>, itens com <code>role=&quot;option&quot;</code> e <code>aria-selected</code>; a opção destacada é anunciada (<code>aria-activedescendant</code>). O filtro e o cabeçalho da folha ficam fora da lista (um listbox só contém opções e grupos); o filtro aponta para ela (<code>aria-controls</code>).",
+        "<strong>Busca sem resultado</strong>: o painel mostra <code>emptyMessage</code> (<code>labels.noOptions</code>, &quot;No options found&quot; por padrão) e a mensagem é anunciada numa região <code>role=&quot;status&quot;</code>, sem tirar o foco do filtro.",
         "<strong>Rótulo</strong>: o <code>label</code> nomeia o botão (junto com o valor: &quot;Comida, Banana&quot;) e a lista (<code>aria-labelledby</code>). Ao abrir, o foco vai para a busca ou para a lista.",
         "Fecha com <strong>Escape</strong>, clique fora e ao selecionar.",
         "<strong>Teclado</strong>: <code>Enter</code>/<code>Space</code> abre; no painel use <code>↑/↓</code> para navegar, <code>Home/End</code> para extremos e <code>Enter</code> para escolher.",
@@ -2150,7 +2158,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~952 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~994 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.md"
     },
@@ -2265,6 +2273,12 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "Helper text (when no error)."
             ],
             [
+              "<code>emptyMessage</code>",
+              "<code>string</code>",
+              "<code>labels.noOptions</code>",
+              "Message for a panel with no options (e.g. a search with no match), shown and announced."
+            ],
+            [
               "<code>options</code>",
               "<code>SelectOption&lt;T&gt;[]</code>",
               "—",
@@ -2296,7 +2310,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "a11y": [
         "<strong>Button</strong> control: <code>aria-haspopup=&quot;listbox&quot;</code>, <code>aria-expanded</code>, <code>aria-controls</code> (only while the list is open, when it exists) and <code>aria-invalid</code> on error.",
-        "<strong>List</strong>: <code>role=&quot;listbox&quot;</code>, items with <code>role=&quot;option&quot;</code> and <code>aria-selected</code>; the highlighted option is announced (<code>aria-activedescendant</code>).",
+        "<strong>Hint and error</strong>: the button points to the message on screen (<code>aria-describedby</code>): the error when there is one, otherwise the hint. On focus, screen readers read why it is invalid, not just &quot;invalid&quot;.",
+        "<strong>List</strong>: <code>role=&quot;listbox&quot;</code>, items with <code>role=&quot;option&quot;</code> and <code>aria-selected</code>; the highlighted option is announced (<code>aria-activedescendant</code>). The filter and the sheet header sit outside the list (a listbox only holds options and groups); the filter points to it (<code>aria-controls</code>).",
+        "<strong>Search with no match</strong>: the panel shows <code>emptyMessage</code> (<code>labels.noOptions</code>, &quot;No options found&quot; by default) and the message is announced in a <code>role=&quot;status&quot;</code> region, without moving focus from the filter.",
         "<strong>Label</strong>: <code>label</code> names the button (together with the value: &quot;Food, Banana&quot;) and the list (<code>aria-labelledby</code>). On open, focus moves to the search or the list.",
         "Closes on <strong>Escape</strong>, outside click and after selection.",
         "<strong>Keyboard</strong>: <code>Enter</code>/<code>Space</code> to open; inside the panel use <code>↑/↓</code>, <code>Home/End</code>, <code>Enter</code> to select.",
@@ -2342,7 +2358,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~952 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~994 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md"
     }
@@ -2469,7 +2485,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~539 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 6 arquivos, ~543 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.md"
     },
@@ -2592,7 +2608,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~539 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 6 files, ~543 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/stepper/stepper.en.md"
     }
@@ -3140,7 +3156,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2855 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2866 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3464,7 +3480,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2855 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2866 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }
@@ -3770,7 +3786,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             [
               "<code>show(message, kind?, options?)</code>",
               "<code>number</code> (id)",
-              "Mostra um toast. <code>kind</code> padrão <code>'info'</code>; <code>options</code> são os campos opcionais de <code>Toast</code> (<code>duration</code> padrão <code>4000</code> ms, <code>0</code> não fecha sozinho)."
+              "Mostra um toast. <code>kind</code> padrão <code>'info'</code>; <code>options</code> são os campos opcionais de <code>Toast</code> (<code>duration</code> padrão <code>4000</code> ms, <code>0</code> não fecha sozinho; <strong>com <code>actionLabel</code> o padrão é <code>0</code></strong>, para a ação não sumir antes de a pessoa chegar nela)."
             ],
             [
               "<code>success(message, options?)</code>",
@@ -3801,14 +3817,27 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>clear()</code>",
               "<code>void</code>",
               "Fecha todos."
+            ],
+            [
+              "<code>pause()</code> / <code>resume()</code>",
+              "<code>void</code>",
+              "Para / retoma o tempo de todos os toasts, de onde parou. O container já chama sozinho (mouse sobre um toast, foco na pilha); use se quiser pausar por outro motivo."
+            ],
+            [
+              "<code>toasts</code>",
+              "<code>Signal&lt;Toast[]&gt;</code>",
+              "A pilha atual, do mais novo para o mais antigo (só leitura; no máximo 5)."
             ]
           ]
         }
       ],
       "a11y": [
-        "<code>aria-live=&quot;polite&quot;</code> na pilha; para erro, <code>role=&quot;alert&quot;</code> (assertivo).",
-        "Botão de fechar com <code>aria-label=&quot;Fechar&quot;</code>.",
-        "Foco visível em botões de ação/fechar."
+        "<strong>Anúncio</strong>: duas regiões vivas invisíveis que existem desde o primeiro render (uma região criada junto com o texto costuma não ser lida): erros em <code>role=&quot;alert&quot;</code> (assertivo), o resto em <code>role=&quot;status&quot;</code> (educado). Cada toast é anunciado uma vez; a pilha visual não é região viva.",
+        "<strong>Pilha</strong>: <code>&lt;section&gt;</code> com nome (<code>labels.notifications</code>) só enquanto tem toasts; não usa <code>&lt;nav&gt;</code>, porque não é navegação.",
+        "<strong>Tempo</strong> (WCAG 2.2.1): com o mouse sobre um toast ou o foco dentro da pilha, o tempo de todos para e depois continua de onde estava. Toast com <code>actionLabel</code> não fecha sozinho, a menos que você passe <code>duration</code>.",
+        "Botão de fechar com nome (<code>labels.close</code>, &quot;Close&quot; por padrão).",
+        "Foco visível em botões de ação/fechar.",
+        "Continua clicável com um Dialog aberto (o resto da página fica inerte)."
       ],
       "tokens": [
         "--toast-radius",
@@ -3838,7 +3867,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~715 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~843 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.md"
     },
@@ -3870,7 +3899,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
             [
               "<code>show(message, kind?, options?)</code>",
               "<code>number</code> (id)",
-              "Shows a toast. <code>kind</code> defaults to <code>'info'</code>; <code>options</code> are the optional <code>Toast</code> fields (<code>duration</code> defaults to <code>4000</code> ms, <code>0</code> never closes on its own)."
+              "Shows a toast. <code>kind</code> defaults to <code>'info'</code>; <code>options</code> are the optional <code>Toast</code> fields (<code>duration</code> defaults to <code>4000</code> ms, <code>0</code> never closes on its own; <strong>with <code>actionLabel</code> the default is <code>0</code></strong>, so the action does not vanish before the person reaches it)."
             ],
             [
               "<code>success(message, options?)</code>",
@@ -3901,14 +3930,27 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
               "<code>clear()</code>",
               "<code>void</code>",
               "Closes all of them."
+            ],
+            [
+              "<code>pause()</code> / <code>resume()</code>",
+              "<code>void</code>",
+              "Stops / resumes the time of every toast, from where it stopped. The container already calls them (pointer over a toast, focus in the stack); use them to pause for another reason."
+            ],
+            [
+              "<code>toasts</code>",
+              "<code>Signal&lt;Toast[]&gt;</code>",
+              "The current stack, newest first (read-only; at most 5)."
             ]
           ]
         }
       ],
       "a11y": [
-        "<code>aria-live=&quot;polite&quot;</code> on the stack; <code>role=&quot;alert&quot;</code> for errors (assertive).",
-        "Close button with <code>aria-label=&quot;Close&quot;</code>.",
-        "Visible focus styles for action/close buttons."
+        "<strong>Announcements</strong>: two invisible live regions that exist from the first render (a region created together with its text is often not read): errors in <code>role=&quot;alert&quot;</code> (assertive), the rest in <code>role=&quot;status&quot;</code> (polite). Each toast is announced once; the visual stack is not a live region.",
+        "<strong>Stack</strong>: a <code>&lt;section&gt;</code> named <code>labels.notifications</code> only while it has toasts; not a <code>&lt;nav&gt;</code>, since it is not navigation.",
+        "<strong>Timing</strong> (WCAG 2.2.1): with the pointer over a toast or focus inside the stack, every timer stops and later continues from where it was. A toast with <code>actionLabel</code> does not close on its own unless you pass <code>duration</code>.",
+        "Close button with a name (<code>labels.close</code>, &quot;Close&quot; by default).",
+        "Visible focus styles for action/close buttons.",
+        "Still clickable while a Dialog is open (the rest of the page is inert)."
       ],
       "tokens": [
         "--toast-radius",
@@ -3938,7 +3980,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~715 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~843 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md"
     }
@@ -4328,6 +4370,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<code>single</code>: o nó escolhido tem <code>aria-selected=&quot;true&quot;</code>. <code>checkbox</code>: cada nó tem <code>aria-checked</code> (<code>true</code>/<code>false</code>/<code>mixed</code>); a caixa visual é só decoração.",
         "Os chips são lidos como lista (&quot;Ver pedidos, Relatórios, +1&quot;).",
         "Carregando filhos: <code>aria-busy</code> na linha e anúncio numa região <code>role=&quot;status&quot;</code> (também para o erro).",
+        "Busca sem resultado: a mesma região anuncia <code>emptyMessage</code>, sem tirar o foco da busca.",
+        "Dica e erro: o campo aponta para a mensagem que está na tela (<code>aria-describedby</code>): o erro, quando há, senão a dica.",
         "Clique fora fecha."
       ],
       "tokens": [],
@@ -4353,7 +4397,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 12 arquivos, ~1593 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 12 arquivos, ~1605 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.md"
     },
@@ -4549,6 +4593,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<code>single</code>: the picked node has <code>aria-selected=&quot;true&quot;</code>. <code>checkbox</code>: each node has <code>aria-checked</code> (<code>true</code>/<code>false</code>/<code>mixed</code>); the visual box is decoration only.",
         "Chips are read as a list (&quot;View orders, Reports, +1&quot;).",
         "Loading children: <code>aria-busy</code> on the row and an announcement in a <code>role=&quot;status&quot;</code> region (also for errors).",
+        "Search with no match: the same region announces <code>emptyMessage</code>, without moving focus from the search.",
+        "Hint and error: the field points to the message on screen (<code>aria-describedby</code>): the error when there is one, otherwise the hint.",
         "Clicking outside closes it."
       ],
       "tokens": [],
@@ -4574,7 +4620,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 12 files, ~1593 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 12 files, ~1605 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.en.md"
     }
@@ -4747,7 +4793,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 12 arquivos, ~764 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 12 arquivos, ~768 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.md"
     },
@@ -4918,7 +4964,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 12 files, ~764 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 12 files, ~768 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/forms/forms.en.md"
     }

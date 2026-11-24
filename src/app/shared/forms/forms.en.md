@@ -49,7 +49,7 @@ To use the Forms helpers in another Angular project, copy into a `shared/` folde
 | The component | `forms/`, `components/form-field/` |
 | Default texts | `labels/` ([Component texts](../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`. In total: 12 files, ~764 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`. In total: 12 files, ~768 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Full example
