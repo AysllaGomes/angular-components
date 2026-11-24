@@ -6,8 +6,6 @@
 
 A lightweight, accessible **select** themed with **CSS Variables**. Supports optional **filtering**, keyboard navigation, required validation and simple i18n. Compatible with your global theme/accent tokens.
 
-> This doc describes the current API you shipped. I added optional improvement ideas at the end.
-
 ---
 
 ## Why it exists
@@ -131,7 +129,7 @@ The required marker and error message come from [`provideUiLabels`](../../labels
 </app-select>
 ```
 
-### New: Clearable
+### Clearable
 ```html
 <app-select
   label="Category"
@@ -290,18 +288,15 @@ The Select does not depend on any translation library. The texts you pass (`labe
 
 ---
 
-## Roadmap / ideas
-- [x] **ControlValueAccessor** for `formControlName`/`ngModel`.
-- [x] **Clear button** (×) inside the control.
-- [x] **Typeahead**: typing selects (closed) or highlights (open) the option.
-- [x] **Groups** (`group` field, with `role="group"`).
-- [ ] **Async** data + skeleton in panel.
-- [ ] **Virtual scroll** for large lists.
-- [ ] Optional **Portal/Overlay** to escape clipping containers.
+## Known limitations
+
+- **No remote loading**: options arrive ready in `options` (for children on demand, see the [TreeSelect](../tree-select/tree-select.en.md)).
+- **No virtual scroll**: very large lists render every option.
+- **Panel in the page flow**: a container with `overflow: hidden` can clip it (there is no portal/overlay).
 
 ---
 
-## Licença
+## License
 
-MIT — use e adapte à vontade dentro do projeto.
+MIT — use and adapt freely.
 

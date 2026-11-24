@@ -6,8 +6,6 @@
 
 Componente de **select** leve, acessível e tematizável por **CSS Variables**. Suporta **filtro** no painel, navegação por teclado, validação de obrigatório e integração simples com i18n. Mantém compatibilidade com os tokens globais de tema/acentos.
 
-> Esta doc descreve a API atual do componente enviado por você. Onde coube, deixei sugestões de melhorias opcionais no final.
-
 ---
 
 ## Por que existe
@@ -131,7 +129,7 @@ O marcador de obrigatório e a mensagem de erro vêm de [`provideUiLabels`](../.
 </app-select>
 ```
 
-### Novo: Clearable (limpar seleção)
+### Clearable (limpar seleção)
 ```html
 <app-select
   label="Categoria"
@@ -292,15 +290,11 @@ O Select não depende de nenhuma biblioteca de tradução. Os textos que você p
 
 ---
 
-## Ideias de evolução
+## Limitações conhecidas
 
-- [x] **ControlValueAccessor** (`formControlName`/`ngModel`) e estados `touched/dirty` do Angular Forms.
-- [x] **Clear button** opcional (×) dentro do controle.
-- [x] **Typeahead**: digitar seleciona (fechado) ou destaca (aberto) a opção.
-- [x] **Grupos** (campo `group`, com `role="group"`).
-- [ ] **Async** (carregamento remoto) + esqueleto dentro do painel.
-- [ ] **Virtual scroll** para listas grandes.
-- [ ] **Portal/Overlay** opcional para flutuar fora do fluxo (evitar `overflow: hidden` do container).
+- **Sem carregamento remoto**: as opções chegam prontas em `options` (para filhos sob demanda, veja o [TreeSelect](../tree-select/tree-select.md)).
+- **Sem virtual scroll**: listas muito grandes renderizam todas as opções.
+- **Painel no fluxo da página**: um container com `overflow: hidden` pode cortá-lo (não há portal/overlay).
 
 ---
 
