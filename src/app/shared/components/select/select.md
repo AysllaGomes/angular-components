@@ -37,7 +37,7 @@ Para usar o Select em outro projeto Angular, copie para dentro de uma pasta `sha
 | Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~1218 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`, `@angular/forms`. Ao todo: 7 arquivos, ~1227 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Recursos
@@ -234,7 +234,7 @@ erroCategoria(): string | null {
 - Fecha com **Escape**, clique fora e ao selecionar.
 - **Menu e folha se comportam diferente**, de propósito:
   - **menu** (popup sob o campo): fecha quando o foco sai do Select (`Tab`, clique em outro campo), sem roubar o foco de onde ele foi;
-  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo.
+  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo. Se a janela mudar de tamanho com o painel aberto (menu ↔ folha), o comportamento acompanha.
 - **Teclado**: `Enter`/`Space` abre; no painel use `↑/↓` para navegar, `Home/End` para extremos e `Enter` para escolher.
 - **Typeahead**: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (`Enter` confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com `filterable`, o texto vai para o filtro.
 - **Foco**: ao selecionar, o foco retorna ao botão.

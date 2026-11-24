@@ -436,6 +436,30 @@ describe('TreeSelectComponent: the sheet is modal', () => {
 
   afterEach(() => fixture.destroy());
 
+  it('open as a menu, the window turns it into a sheet: it becomes modal; back to a menu: released', async () => {
+    const host = fixture.componentInstance;
+    host.mode.set('menu');
+    await settle();
+    await open();
+    expect(document.body.style.overflow).toBe('');
+
+    host.mode.set('sheet');
+    await settle();
+    window.dispatchEvent(new Event('resize'));
+    await settle();
+    expect(panel()!.classList).toContain('is-sheet');
+    expect(el.querySelector('#after')!.closest('[inert]')).not.toBeNull();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    host.mode.set('menu');
+    await settle();
+    window.dispatchEvent(new Event('resize'));
+    await settle();
+    expect(panel()).not.toBeNull();
+    expect(document.querySelectorAll('[inert]').length).toBe(0);
+    expect(document.body.style.overflow).toBe('');
+  });
+
   it('inert background and locked scroll while open; Tab stays inside', async () => {
     await open();
     expect(el.querySelector('#after')!.closest('[inert]')).not.toBeNull();

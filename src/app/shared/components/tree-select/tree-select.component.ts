@@ -277,10 +277,19 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   @HostListener('window:resize')
   recalcSheet() {
     const mode = this.responsive();
-    if (mode === 'sheet') return this.sheetMode.set(true);
-    if (mode === 'menu') return this.sheetMode.set(false);
     const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    this.sheetMode.set(w <= this.sheetBreakpoint());
+    this.sheetMode.set(mode === 'sheet' || (mode === 'auto' && w <= this.sheetBreakpoint()));
+    this.syncSheetModal();
+  }
+
+  /**
+   * Com o painel aberto, a janela mudou de tamanho e ele virou folha (ou deixou de ser):
+   * a sessão modal acompanha. Na folha, o foco volta ao campo ao fechar.
+   */
+  private syncSheetModal() {
+    if (!this.open()) return;
+    if (this.sheet()) this.modal.open(this.btnEl()?.nativeElement);
+    else this.modal.close(false); // volta a ser menu: o foco fica onde está
   }
 
   // ---- regras de cada nó
@@ -409,7 +418,7 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
     // nós sob demanda que já começam abertos (expandedKeys)
     for (const key of this.expanded()) void this.load(key);
     this.open.set(true);
-    if (this.sheet()) this.modal.open();
+    if (this.sheet()) this.modal.open(this.btnEl()?.nativeElement);
     // depois que o painel (@if) for desenhado: foco no filtro ou na árvore
     afterNextRender(() => {
       (this.filterInputEl()?.nativeElement ?? this.treeEl()?.nativeElement)?.focus();

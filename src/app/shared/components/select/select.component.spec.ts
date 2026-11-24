@@ -530,6 +530,42 @@ describe('SelectComponent: focus contract (menu closes on leave, sheet is modal)
     expect(document.activeElement?.id).toBe('after');
   });
 
+  it('open as a menu, the window turns it into a sheet: it becomes modal; back to a menu: released', async () => {
+    await open();
+    expect(document.body.style.overflow).toBe('');
+
+    // o que o resize faz: o modo muda com o painel aberto
+    host.mode.set('sheet');
+    await settle();
+    window.dispatchEvent(new Event('resize'));
+    await settle();
+    expect(panel()!.classList).toContain('is-sheet');
+    expect(el.querySelector('#after')!.closest('[inert]')).not.toBeNull();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    host.mode.set('menu');
+    await settle();
+    window.dispatchEvent(new Event('resize'));
+    await settle();
+    expect(panel()).not.toBeNull(); // continua aberto, agora como menu
+    expect(panel()!.classList).not.toContain('is-sheet');
+    expect(document.querySelectorAll('[inert]').length).toBe(0);
+    expect(document.body.style.overflow).toBe('');
+  });
+
+  it('a sheet that came from a resize still returns focus to the field when closed', async () => {
+    await open();
+    host.mode.set('sheet');
+    await settle();
+    window.dispatchEvent(new Event('resize'));
+    await settle();
+    el.querySelector<HTMLElement>('.sheet-close')!.click();
+    await settle();
+    expect(document.activeElement).toBe(control());
+    expect(document.querySelectorAll('[inert]').length).toBe(0);
+    expect(document.body.style.overflow).toBe('');
+  });
+
   it('menu: moving focus inside the component (filter → list) keeps it open', async () => {
     await open();
     el.querySelector<HTMLElement>('[role="listbox"]')!.focus();

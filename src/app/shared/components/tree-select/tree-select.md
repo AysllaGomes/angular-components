@@ -49,7 +49,7 @@ Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta 
 | Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1822 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 13 arquivos, ~1832 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Dados
@@ -197,7 +197,7 @@ O painel segue o **padrão WAI-ARIA de árvore** (`role="tree"`, `treeitem` com 
 - Clique fora fecha.
 - **Menu e folha se comportam diferente**, de propósito:
   - **menu** (popup sob o campo): fecha quando o foco sai do TreeSelect (`Tab`, clique em outro campo), sem roubar o foco de onde ele foi;
-  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo.
+  - **folha** (celular, com fundo escurecido): é um **modal**. O resto da página fica inerte e sem rolagem, o `Tab` circula só dentro dela, e **toda** forma de fechar (×, tocar no fundo, `Esc`, escolher) devolve o foco ao campo. Se a janela mudar de tamanho com o painel aberto (menu ↔ folha), o comportamento acompanha.
 
 ---
 

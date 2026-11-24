@@ -38,7 +38,8 @@ export class ModalSession {
   /** é o modal de cima (o que recebe Esc e Tab) */
   get isTop() { return this.active && ModalSession.stack.at(-1) === this; }
 
-  open() {
+  /** @param returnFocusTo para onde o foco volta ao fechar (padrão: o que estava focado ao abrir) */
+  open(returnFocusTo?: HTMLElement | null) {
     if (this.active || typeof document === 'undefined') return;
     this.active = true;
 
@@ -58,7 +59,7 @@ export class ModalSession {
     }
     ModalSession.stack.push(this);
 
-    const focused = document.activeElement;
+    const focused = returnFocusTo ?? document.activeElement;
     this.returnFocusTo = focused instanceof HTMLElement && focused !== document.body ? focused : null;
 
     this.makeBackgroundInert();

@@ -49,7 +49,7 @@ To use the TreeSelect in another Angular project, copy into a `shared/` folder *
 | Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1822 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 13 files, ~1832 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Data
@@ -197,7 +197,7 @@ The panel follows the **WAI-ARIA tree pattern** (`role="tree"`, `treeitem` with 
 - Clicking outside closes it.
 - **Menu and sheet behave differently**, on purpose:
   - **menu** (popup under the field): closes when focus leaves the TreeSelect (`Tab`, clicking another field), without taking focus back;
-  - **sheet** (phones, with a dimmed background): it is a **modal**. The rest of the page is inert and does not scroll, `Tab` cycles inside it only, and **every** way of closing it (×, tapping the background, `Esc`, picking) returns focus to the field.
+  - **sheet** (phones, with a dimmed background): it is a **modal**. The rest of the page is inert and does not scroll, `Tab` cycles inside it only, and **every** way of closing it (×, tapping the background, `Esc`, picking) returns focus to the field. If the window is resized while the panel is open (menu ↔ sheet), the behavior follows.
 
 ---
 

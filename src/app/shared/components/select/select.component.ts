@@ -258,11 +258,19 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
   @HostListener('window:resize')
   recalcSheet() {
     const responsive = this.responsive();
-    if (responsive === 'sheet') return this.sheetMode.set(true);
-    if (responsive === 'menu')  return this.sheetMode.set(false);
-    // auto
     const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    this.sheetMode.set(w <= this.sheetBreakpoint());
+    this.sheetMode.set(responsive === 'sheet' || (responsive === 'auto' && w <= this.sheetBreakpoint()));
+    this.syncSheetModal();
+  }
+
+  /**
+   * Com o painel aberto, a janela mudou de tamanho e ele virou folha (ou deixou de ser):
+   * a sessão modal acompanha. Na folha, o foco volta ao campo ao fechar.
+   */
+  private syncSheetModal() {
+    if (!this.open()) return;
+    if (this.sheet()) this.modal.open(this.btnEl()?.nativeElement);
+    else this.modal.close(false); // volta a ser menu: o foco fica onde está
   }
 
   // ---- clear
@@ -290,7 +298,7 @@ export class SelectComponent<T = any> implements AfterViewInit, OnDestroy, Contr
     if (this.isDisabled()) return;
     this.recalcSheet(); // `responsive` pode ter mudado desde o último resize
     this.open.set(true);
-    if (this.sheet()) this.modal.open();
+    if (this.sheet()) this.modal.open(this.btnEl()?.nativeElement);
     this.postOpen();
   }
   private postOpen() {

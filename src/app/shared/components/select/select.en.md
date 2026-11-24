@@ -37,7 +37,7 @@ To use the Select in another Angular project, copy into a `shared/` folder **kee
 | Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 7 files, ~1218 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`, `@angular/forms`. In total: 7 files, ~1227 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Features
@@ -233,7 +233,7 @@ categoryError(): string | null {
 - Closes on **Escape**, outside click and after selection.
 - **Menu and sheet behave differently**, on purpose:
   - **menu** (popup under the field): closes when focus leaves the Select (`Tab`, clicking another field), without taking focus back;
-  - **sheet** (phones, with a dimmed background): it is a **modal**. The rest of the page is inert and does not scroll, `Tab` cycles inside it only, and **every** way of closing it (×, tapping the background, `Esc`, picking) returns focus to the field.
+  - **sheet** (phones, with a dimmed background): it is a **modal**. The rest of the page is inert and does not scroll, `Tab` cycles inside it only, and **every** way of closing it (×, tapping the background, `Esc`, picking) returns focus to the field. If the window is resized while the panel is open (menu ↔ sheet), the behavior follows.
 - **Keyboard**: `Enter`/`Space` to open; inside the panel use `↑/↓`, `Home/End`, `Enter` to select.
 - **Typeahead**: with the field focused and closed, typing picks the first option whose label starts with the text (accent/case-insensitive) without opening; repeating the same letter cycles through options with that initial. With the panel open, typing only moves the highlight (`Enter` confirms). Disabled options are skipped; the search resets after 500 ms of no typing. With `filterable`, text goes to the filter.
 - **Focus** returns to the button after selection.
