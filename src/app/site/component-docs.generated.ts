@@ -161,7 +161,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~1013 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~1014 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -319,7 +319,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~1013 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~1014 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -1303,7 +1303,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~739 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~740 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1468,7 +1468,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~739 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~740 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -2131,7 +2131,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<strong>Busca sem resultado</strong>: o painel mostra <code>emptyMessage</code> (<code>labels.noOptions</code>, &quot;No options found&quot; por padrão) e a mensagem é anunciada numa região <code>role=&quot;status&quot;</code>, sem tirar o foco do filtro.",
         "<strong>Rótulo</strong>: o <code>label</code> nomeia o botão (junto com o valor: &quot;Comida, Banana&quot;) e a lista (<code>aria-labelledby</code>). Ao abrir, o foco vai para a busca ou para a lista.",
         "Fecha com <strong>Escape</strong>, clique fora e ao selecionar.",
-        "<strong>Menu e folha se comportam diferente</strong>, de propósito: - <strong>menu</strong> (popup sob o campo): fecha quando o foco sai do Select (<code>Tab</code>, clique em outro campo), sem roubar o foco de onde ele foi; - <strong>folha</strong> (celular, com fundo escurecido): é um <strong>modal</strong>. O resto da página fica inerte e sem rolagem, o <code>Tab</code> circula só dentro dela, e <strong>toda</strong> forma de fechar (×, tocar no fundo, <code>Esc</code>, escolher) devolve o foco ao campo.",
+        "<strong>Menu e folha se comportam diferente</strong>, de propósito: - <strong>menu</strong> (popup sob o campo): fecha quando o foco sai do Select (<code>Tab</code>, clique em outro campo), sem roubar o foco de onde ele foi; - <strong>folha</strong> (celular, com fundo escurecido): é um <strong>modal</strong>. O resto da página fica inerte e sem rolagem, o <code>Tab</code> circula só dentro dela, e <strong>toda</strong> forma de fechar (×, tocar no fundo, <code>Esc</code>, escolher) devolve o foco ao campo. Se a janela mudar de tamanho com o painel aberto (menu ↔ folha), o comportamento acompanha.",
         "<strong>Teclado</strong>: <code>Enter</code>/<code>Space</code> abre; no painel use <code>↑/↓</code> para navegar, <code>Home/End</code> para extremos e <code>Enter</code> para escolher.",
         "<strong>Typeahead</strong>: com o campo focado e fechado, digitar escolhe a primeira opção cujo rótulo começa com o texto (sem acento/caixa), sem abrir o painel; repetir a mesma letra alterna entre as opções com essa inicial. Com o painel aberto, digitar só move o destaque (<code>Enter</code> confirma). Opções desabilitadas são puladas; a busca recomeça após 500 ms sem digitar. Com <code>filterable</code>, o texto vai para o filtro.",
         "<strong>Foco</strong>: ao selecionar, o foco retorna ao botão.",
@@ -2181,7 +2181,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 7 arquivos, ~1218 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 7 arquivos, ~1227 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.md"
     },
@@ -2338,7 +2338,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "<strong>Search with no match</strong>: the panel shows <code>emptyMessage</code> (<code>labels.noOptions</code>, &quot;No options found&quot; by default) and the message is announced in a <code>role=&quot;status&quot;</code> region, without moving focus from the filter.",
         "<strong>Label</strong>: <code>label</code> names the button (together with the value: &quot;Food, Banana&quot;) and the list (<code>aria-labelledby</code>). On open, focus moves to the search or the list.",
         "Closes on <strong>Escape</strong>, outside click and after selection.",
-        "<strong>Menu and sheet behave differently</strong>, on purpose: - <strong>menu</strong> (popup under the field): closes when focus leaves the Select (<code>Tab</code>, clicking another field), without taking focus back; - <strong>sheet</strong> (phones, with a dimmed background): it is a <strong>modal</strong>. The rest of the page is inert and does not scroll, <code>Tab</code> cycles inside it only, and <strong>every</strong> way of closing it (×, tapping the background, <code>Esc</code>, picking) returns focus to the field.",
+        "<strong>Menu and sheet behave differently</strong>, on purpose: - <strong>menu</strong> (popup under the field): closes when focus leaves the Select (<code>Tab</code>, clicking another field), without taking focus back; - <strong>sheet</strong> (phones, with a dimmed background): it is a <strong>modal</strong>. The rest of the page is inert and does not scroll, <code>Tab</code> cycles inside it only, and <strong>every</strong> way of closing it (×, tapping the background, <code>Esc</code>, picking) returns focus to the field. If the window is resized while the panel is open (menu ↔ sheet), the behavior follows.",
         "<strong>Keyboard</strong>: <code>Enter</code>/<code>Space</code> to open; inside the panel use <code>↑/↓</code>, <code>Home/End</code>, <code>Enter</code> to select.",
         "<strong>Typeahead</strong>: with the field focused and closed, typing picks the first option whose label starts with the text (accent/case-insensitive) without opening; repeating the same letter cycles through options with that initial. With the panel open, typing only moves the highlight (<code>Enter</code> confirms). Disabled options are skipped; the search resets after 500 ms of no typing. With <code>filterable</code>, text goes to the filter.",
         "<strong>Focus</strong> returns to the button after selection.",
@@ -2388,7 +2388,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 7 files, ~1218 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>, <code>@angular/forms</code>. In total: 7 files, ~1227 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/select/select.en.md"
     }
@@ -4453,7 +4453,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Busca sem resultado: a mesma região anuncia <code>emptyMessage</code>, sem tirar o foco da busca.",
         "Dica e erro: o campo aponta para a mensagem que está na tela (<code>aria-describedby</code>): o erro, quando há, senão a dica.",
         "Clique fora fecha.",
-        "<strong>Menu e folha se comportam diferente</strong>, de propósito: - <strong>menu</strong> (popup sob o campo): fecha quando o foco sai do TreeSelect (<code>Tab</code>, clique em outro campo), sem roubar o foco de onde ele foi; - <strong>folha</strong> (celular, com fundo escurecido): é um <strong>modal</strong>. O resto da página fica inerte e sem rolagem, o <code>Tab</code> circula só dentro dela, e <strong>toda</strong> forma de fechar (×, tocar no fundo, <code>Esc</code>, escolher) devolve o foco ao campo."
+        "<strong>Menu e folha se comportam diferente</strong>, de propósito: - <strong>menu</strong> (popup sob o campo): fecha quando o foco sai do TreeSelect (<code>Tab</code>, clique em outro campo), sem roubar o foco de onde ele foi; - <strong>folha</strong> (celular, com fundo escurecido): é um <strong>modal</strong>. O resto da página fica inerte e sem rolagem, o <code>Tab</code> circula só dentro dela, e <strong>toda</strong> forma de fechar (×, tocar no fundo, <code>Esc</code>, escolher) devolve o foco ao campo. Se a janela mudar de tamanho com o painel aberto (menu ↔ folha), o comportamento acompanha."
       ],
       "tokens": [],
       "copy": {
@@ -4484,7 +4484,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 13 arquivos, ~1822 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. Ao todo: 13 arquivos, ~1832 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.md"
     },
@@ -4683,7 +4683,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "Search with no match: the same region announces <code>emptyMessage</code>, without moving focus from the search.",
         "Hint and error: the field points to the message on screen (<code>aria-describedby</code>): the error when there is one, otherwise the hint.",
         "Clicking outside closes it.",
-        "<strong>Menu and sheet behave differently</strong>, on purpose: - <strong>menu</strong> (popup under the field): closes when focus leaves the TreeSelect (<code>Tab</code>, clicking another field), without taking focus back; - <strong>sheet</strong> (phones, with a dimmed background): it is a <strong>modal</strong>. The rest of the page is inert and does not scroll, <code>Tab</code> cycles inside it only, and <strong>every</strong> way of closing it (×, tapping the background, <code>Esc</code>, picking) returns focus to the field."
+        "<strong>Menu and sheet behave differently</strong>, on purpose: - <strong>menu</strong> (popup under the field): closes when focus leaves the TreeSelect (<code>Tab</code>, clicking another field), without taking focus back; - <strong>sheet</strong> (phones, with a dimmed background): it is a <strong>modal</strong>. The rest of the page is inert and does not scroll, <code>Tab</code> cycles inside it only, and <strong>every</strong> way of closing it (×, tapping the background, <code>Esc</code>, picking) returns focus to the field. If the window is resized while the panel is open (menu ↔ sheet), the behavior follows."
       ],
       "tokens": [],
       "copy": {
@@ -4714,7 +4714,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 13 files, ~1822 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>, <code>rxjs</code>. In total: 13 files, ~1832 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/tree-select/tree-select.en.md"
     }
@@ -5115,7 +5115,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~688 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>, <code>@angular/forms</code>. Ao todo: 6 arquivos, ~708 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.md"
     },
@@ -5254,7 +5254,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~688 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>, <code>@angular/forms</code>. In total: 6 files, ~708 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/form-field/form-field.en.md"
     }
@@ -5387,7 +5387,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 7 arquivos, ~454 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 7 arquivos, ~473 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/menu/menu.md"
     },
@@ -5518,7 +5518,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 7 files, ~454 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 7 files, ~473 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/menu/menu.en.md"
     }

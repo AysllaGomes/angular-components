@@ -39,7 +39,7 @@ To use the Dialog in another Angular project, copy into a `shared/` folder **kee
 | Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~739 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~740 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage

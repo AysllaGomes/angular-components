@@ -312,3 +312,46 @@ test.describe('Menu', () => {
     expect(await page.evaluate(() => document.activeElement === document.body)).toBe(false);
   });
 });
+
+test.describe('regressões da revisão da 3.12.0', () => {
+  test('Menu: Shift+Tab no primeiro item fecha o menu e o foco fica no botão; Esc no botão não reabre nada', async ({ page }) => {
+    await page.goto('demo/');
+    const trigger = page.locator('#menu').getByRole('button', { name: 'Ações', exact: true });
+    const menu = page.getByRole('menu', { name: 'Ações', exact: true });
+    await trigger.click();
+    await expect(menu.getByRole('menuitem', { name: 'Editar' })).toBeFocused();
+
+    await page.keyboard.press('Shift+Tab');
+    await expect(menu).toBeHidden();
+    await expect(trigger).toBeFocused();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  for (const which of ['select', 'treeselect'] as const) {
+    test(`${which}: aberto no desktop e a janela vira celular: a folha é modal`, async ({ page }) => {
+      await page.setViewportSize({ width: 1200, height: 900 });
+      await page.goto('demo/');
+      const card = which === 'select'
+        ? page.locator('#select article', { has: page.getByRole('heading', { name: 'Com filtro' }) })
+        : page.locator('#treeselect article', { has: page.getByRole('heading', { name: 'Seleção única (caminho no campo)' }) });
+      const control = card.locator('button.control');
+      await control.click();
+      const panel = card.locator('.panel');
+      await expect(panel).toBeVisible();
+
+      await page.setViewportSize({ width: 390, height: 800 });
+      await expect(panel).toHaveClass(/is-sheet/);
+      expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
+      expect(await page.locator('[inert]').count()).toBeGreaterThan(0);
+      for (let i = 0; i < 6; i++) {
+        await page.keyboard.press('Tab');
+        expect(await panel.evaluate(p => p.contains(document.activeElement))).toBe(true);
+      }
+
+      await panel.getByRole('button', { name: 'Fechar' }).click();
+      await expect(control).toBeFocused();
+      expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+      await expect(page.locator('[inert]')).toHaveCount(0);
+    });
+  }
+});
