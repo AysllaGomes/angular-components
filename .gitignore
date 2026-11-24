@@ -43,3 +43,7 @@ Thumbs.db
 
 # relatório de acessibilidade gerado pelos testes (o CI gera antes do build)
 /public/a11y-report.json
+
+# testes de navegador (Playwright)
+/test-results/
+/playwright-report/

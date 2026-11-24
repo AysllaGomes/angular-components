@@ -31,3 +31,6 @@ jobs:
       - run: npm run build
       # links do site publicado resolvem a partir do base href (/angular-components/)
       - run: npm run check:links
+      # fluxos principais num navegador de verdade, no site servido como o GitHub Pages
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e

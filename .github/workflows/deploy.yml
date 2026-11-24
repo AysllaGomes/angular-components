@@ -52,6 +52,11 @@ jobs:
       # um href="/x" ou um routerLink para rota inexistente vira 404 no GitHub Pages
       - run: npm run check:links
 
+      # fluxos principais num navegador de verdade (navegação, foco, modais), no site
+      # servido como o GitHub Pages: se falharem, nada é publicado
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+
       # a raiz é a home pré-renderizada (index.html) e /demo/ a demo (demo/index.html).
       # 404.html = a casca sem conteúdo pré-renderizado (index.csr.html): num endereço
       # desconhecido o roteador decide o que mostrar, sem conflito com a hidratação.

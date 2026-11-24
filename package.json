@@ -19,7 +19,8 @@
     "check:api": "node scripts/check-api-docs.mjs",
     "docs:pages": "node scripts/build-component-docs.mjs",
     "check:pages": "node scripts/build-component-docs.mjs --check",
-    "check:links": "node scripts/check-links.mjs"
+    "check:links": "node scripts/check-links.mjs",
+    "e2e": "playwright test"
   },
   "prettier": {
     "printWidth": 100,
@@ -53,6 +54,7 @@
     "@angular/build": "^22.2.7",
     "@angular/cli": "^22.2.7",
     "@angular/compiler-cli": "^22.3.0",
+    "@playwright/test": "1.65.0",
     "@types/express": "^5.0.1",
     "@types/node": "^24.19.2",
     "axe-core": "4.14.0",
