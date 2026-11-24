@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.12.0](https://github.com/AysllaGomes/angular-components/compare/v3.11.0...v3.12.0) (2026-11-24)
+
+### Features
+
+* **menu:** new [Menu](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/menu/menu.en.md): actions behind a button, following the WAI-ARIA *menu button* pattern. `app-menu` + `[appMenuTrigger]` + `appMenuItem` on **native** `<button>`/`<a>` (your `(click)`, `routerLink` and icons keep working) + `appMenuSeparator`, imported with `MENU_IMPORTS` ([157263d](https://github.com/AysllaGomes/angular-components/commit/157263d))
+  * the button gets `aria-haspopup`, `aria-expanded` and `aria-controls`; Enter, Space and ↓ open on the first item, ↑ on the last
+  * in the menu: arrows (wrapping), Home/End, type-to-find, Space on links too; Esc closes without reaching a Dialog behind; Tab and clicking outside close it without taking focus
+  * choosing an item closes the menu and returns focus to the button **before** the item's `(click)` runs, so a confirmation Dialog opened by the action returns focus to the button when it closes
+  * disabled items stay reachable (`aria-disabled`; the native `disabled` is removed on purpose) and do nothing; `tone="danger"` for destructive actions
+  * `position: fixed` next to the button: flips when there is no room, stays inside the window, scrolls when too tall, and is not clipped by `overflow` (e.g. inside a scrolling table); `placement` `bottom-start` | `bottom-end` | `top-start` | `top-end`
+* **site:** Menu page with a live example, demo section (actions with a confirmation, one menu per row in a scrolling list), menu, home catalog (18 components), axe report and "What to copy" entry ([b64773f](https://github.com/AysllaGomes/angular-components/commit/b64773f))
+
+### Internal
+
+* **test:** unit specs (keyboard, focus, the capture-phase click, `placeMenu`), axe closed and open, browser tests (real keyboard, focus handed to the Dialog and back, panel outside the scrolling list); menu items join the contrast matrix
+* **lint:** an unused `eslint-disable` is now an error in templates too
+
 ## [3.11.0](https://github.com/AysllaGomes/angular-components/compare/v3.10.2...v3.11.0) (2026-11-24)
 
 ### Features

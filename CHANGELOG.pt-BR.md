@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.12.0](https://github.com/AysllaGomes/angular-components/compare/v3.11.0...v3.12.0) (2026-11-24)
+### Features
+- **menu:** novo Menu: ações atrás de um botão, no padrão WAI-ARIA *menu
+  button*. `app-menu` + `[appMenuTrigger]` + `appMenuItem` em `<button>`/`<a>`
+  **nativos** (o seu `(click)`, `routerLink` e ícones continuam funcionando) +
+  `appMenuSeparator`, importados com `MENU_IMPORTS`:
+  - o botão ganha `aria-haspopup`, `aria-expanded` e `aria-controls`; Enter,
+    Espaço e ↓ abrem no primeiro item, ↑ no último;
+  - no menu: setas (dão a volta), Home/End, busca pela inicial, Espaço também em
+    links; Esc fecha sem chegar a um Dialog por trás; Tab e clique fora fecham
+    sem puxar o foco;
+  - escolher um item fecha o menu e devolve o foco ao botão **antes** do
+    `(click)` do item, então um Dialog de confirmação aberto pela ação devolve o
+    foco ao botão quando fecha;
+  - item desabilitado continua alcançável (`aria-disabled`; o `disabled` nativo
+    é retirado de propósito) e não age; `tone="danger"` para ações destrutivas;
+  - `position: fixed` junto ao botão: vira quando falta espaço, fica dentro da
+    janela, rola quando é alto e não é cortado por `overflow` (ex.: dentro de
+    uma tabela com rolagem); `placement` `bottom-start` | `bottom-end` |
+    `top-start` | `top-end`.
+- **site:** página do Menu com exemplo ao vivo, seção na demo (ações com
+  confirmação e um menu por linha numa lista com rolagem), menu, catálogo da home
+  (18 componentes), relatório do axe e entrada no "O que copiar".
+
+### Interno
+- **test:** specs unitários (teclado, foco, clique na fase de captura,
+  `placeMenu`), axe fechado e aberto, testes de navegador (teclado real, foco
+  passando para o Dialog e voltando, painel fora da lista com rolagem); os itens
+  do menu entram na matriz de contraste.
+- **lint:** `eslint-disable` sem uso agora também é erro nos templates.
+
 ## [3.11.0](https://github.com/AysllaGomes/angular-components/compare/v3.10.2...v3.11.0) (2026-11-24)
 ### Features
 - **form-field:** o Campo de texto (`app-form-field`) vira um componente
