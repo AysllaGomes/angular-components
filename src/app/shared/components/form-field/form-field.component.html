@@ -7,13 +7,45 @@
     }
   </label>
 
+  <!-- a caixa: prefixo, o campo nativo, sufixo e o botão da senha -->
   <div class="ff__control">
+    <span #prefix class="ff__affix ff__affix--prefix" [id]="prefixId"><ng-content select="[ffPrefix]" /></span>
     <ng-content />
+    <span #suffix class="ff__affix ff__affix--suffix" [id]="suffixId"><ng-content select="[ffSuffix]" /></span>
+    @if (passwordToggle() && isPassword()) {
+      <button
+        type="button"
+        class="ff__reveal"
+        [attr.aria-label]="showPasswordLabel()"
+        [attr.aria-pressed]="revealed()"
+        [attr.aria-controls]="controlId"
+        (click)="toggleReveal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          @if (revealed()) {
+            <path fill="currentColor" d="M2.1 3.5 3.5 2.1l18.4 18.4-1.4 1.4-3.2-3.2A10.9 10.9 0 0 1 12 19.5C6.5 19.5 2.7 15.4 1.5 12c.6-1.6 1.7-3.3 3.3-4.7L2.1 3.5Zm6.1 6.1A4 4 0 0 0 14.4 15.8L13 14.4a2 2 0 0 1-2.4-2.4L8.2 9.6ZM12 4.5c5.5 0 9.3 4.1 10.5 7.5a12 12 0 0 1-3 4.4l-1.4-1.4A9.8 9.8 0 0 0 20.4 12C19.3 9.4 16.2 6.5 12 6.5c-.9 0-1.8.1-2.6.4L7.8 5.3A11 11 0 0 1 12 4.5Z"/>
+          } @else {
+            <path fill="currentColor" d="M12 4.5c5.5 0 9.3 4.1 10.5 7.5-1.2 3.4-5 7.5-10.5 7.5S2.7 15.4 1.5 12C2.7 8.6 6.5 4.5 12 4.5Zm0 2C7.8 6.5 4.7 9.4 3.6 12c1.1 2.6 4.2 5.5 8.4 5.5s7.3-2.9 8.4-5.5c-1.1-2.6-4.2-5.5-8.4-5.5Zm0 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm0 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"/>
+          }
+        </svg>
+      </button>
+    }
   </div>
 
-  @if (error()) {
-    <div class="ff__msg ff__msg--error" [id]="errorId">{{ error() }}</div>
-  } @else if (hint()) {
-    <div class="ff__msg" [id]="hintId">{{ hint() }}</div>
+  @if (error() || hint() || showCounter()) {
+    <div class="ff__foot">
+      @if (error()) {
+        <div class="ff__msg ff__msg--error" [id]="errorId">{{ error() }}</div>
+      } @else if (hint()) {
+        <div class="ff__msg" [id]="hintId">{{ hint() }}</div>
+      }
+      @if (showCounter()) {
+        <!-- visível "42/200"; o leitor de tela lê a frase inteira (via aria-describedby do campo) -->
+        <div class="ff__count" [id]="counterId" [class.is-near]="nearLimit()">
+          <span aria-hidden="true">{{ count() }}/{{ max() }}</span>
+          <span class="ff__sr">{{ labels().formField.counter(count(), max()!) }}</span>
+        </div>
+      }
+    </div>
   }
+  <div class="ff__sr" aria-live="polite">{{ announcement() }}</div>
 </div>

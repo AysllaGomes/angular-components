@@ -30,6 +30,14 @@ export interface UiLabels {
   notifications: string;
 
   stepper: { label: string; done: string };
+  /** campo de texto (app-form-field): contador de caracteres e botão de mostrar a senha */
+  formField: {
+    /** texto do contador para leitor de tela ("42 de 200 caracteres") */
+    counter: (count: number, max: number) => string;
+    /** anúncio perto do limite ("Restam 5 caracteres"; 0 = limite atingido) */
+    remaining: (left: number) => string;
+    showPassword: string;
+  };
   treeSelect: { loading: string; loadError: string; empty: string };
   pagination: {
     nav: string; first: string; prev: string; next: string; last: string;
@@ -57,8 +65,9 @@ export interface UiLabels {
 }
 
 /** textos parciais: só o que você quer trocar (grupos também podem vir pela metade) */
-export type UiLabelsInput = Partial<Omit<UiLabels, 'stepper' | 'treeSelect' | 'pagination' | 'table' | 'formErrors'>> & {
+export type UiLabelsInput = Partial<Omit<UiLabels, 'stepper' | 'formField' | 'treeSelect' | 'pagination' | 'table' | 'formErrors'>> & {
   stepper?: Partial<UiLabels['stepper']>;
+  formField?: Partial<UiLabels['formField']>;
   treeSelect?: Partial<UiLabels['treeSelect']>;
   pagination?: Partial<UiLabels['pagination']>;
   table?: Partial<Omit<UiLabels['table'], 'action'>> & { action?: Partial<UiLabels['table']['action']> };
@@ -76,6 +85,11 @@ export const UI_LABELS_EN: UiLabels = {
   selectAll: 'Select all',
   notifications: 'Notifications',
   stepper: { label: 'Steps', done: 'completed' },
+  formField: {
+    counter: (count, max) => `${count} of ${max} characters`,
+    remaining: left => left <= 0 ? 'Character limit reached' : left === 1 ? '1 character left' : `${left} characters left`,
+    showPassword: 'Show password',
+  },
   treeSelect: {
     loading: 'Loading…',
     loadError: 'Could not load. Open it again to retry.',
@@ -127,6 +141,11 @@ export const UI_LABELS_PT: UiLabels = {
   selectAll: 'Selecionar todos',
   notifications: 'Notificações',
   stepper: { label: 'Etapas do fluxo', done: 'concluída' },
+  formField: {
+    counter: (count, max) => `${count} de ${max} caracteres`,
+    remaining: left => left <= 0 ? 'Limite de caracteres atingido' : left === 1 ? 'Resta 1 caractere' : `Restam ${left} caracteres`,
+    showPassword: 'Mostrar senha',
+  },
   treeSelect: {
     loading: 'Carregando…',
     loadError: 'Não foi possível carregar. Abra de novo para tentar.',
@@ -202,6 +221,7 @@ function mergeLabels(base: UiLabels, over: UiLabelsInput | null | undefined): Ui
     ...base,
     ...over,
     stepper: { ...base.stepper, ...over.stepper },
+    formField: { ...base.formField, ...over.formField },
     treeSelect: { ...base.treeSelect, ...over.treeSelect },
     pagination: { ...base.pagination, ...over.pagination },
     table: { ...base.table, ...over.table, action: { ...base.table.action, ...over.table?.action } },

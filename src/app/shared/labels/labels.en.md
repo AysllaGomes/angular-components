@@ -68,6 +68,9 @@ For form error messages, `provideFormErrorMessages` comes before `formErrors` (s
 | `selectAll` | CheckboxGroup "check all" box (`selectAll`) | Select all | Selecionar todos |
 | `notifications` | name of the Toast stack | Notifications | Notificações |
 | `stepper.label` / `stepper.done` | navigation name / completed step (screen reader) | Steps / completed | Etapas do fluxo / concluída |
+| `formField.counter(n, max)` | Text field counter, for screen readers | 42 of 280 characters | 42 de 280 caracteres |
+| `formField.remaining(n)` | warning near the limit (0 = reached) | 5 characters left · Character limit reached | Restam 5 caracteres · Limite de caracteres atingido |
+| `formField.showPassword` | show-password button | Show password | Mostrar senha |
 | `treeSelect.loading` / `loadError` / `empty` | on-demand loading and empty search | Loading… / Could not load… / No items found | Carregando… / Não foi possível carregar… / Nenhum item encontrado |
 | `pagination.nav` / `first` / `prev` / `next` / `last` | navigation name and buttons | Pagination / First / Previous / Next / Last | Paginação / Primeira / Anterior / Próxima / Última |
 | `pagination.status(page, total)` | compact mode | Page 2 of 5 | Página 2 de 5 |

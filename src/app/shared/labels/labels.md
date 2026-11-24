@@ -68,6 +68,9 @@ Para as mensagens de erro de formulário, `provideFormErrorMessages` vem antes d
 | `selectAll` | caixa "marcar todas" do CheckboxGroup (`selectAll`) | Select all | Selecionar todos |
 | `notifications` | nome da pilha de Toasts | Notifications | Notificações |
 | `stepper.label` / `stepper.done` | nome da navegação / etapa concluída (leitor de tela) | Steps / completed | Etapas do fluxo / concluída |
+| `formField.counter(n, max)` | contador do Campo de texto, para leitor de tela | 42 of 280 characters | 42 de 280 caracteres |
+| `formField.remaining(n)` | aviso perto do limite (0 = atingido) | 5 characters left · Character limit reached | Restam 5 caracteres · Limite de caracteres atingido |
+| `formField.showPassword` | botão de mostrar a senha | Show password | Mostrar senha |
 | `treeSelect.loading` / `loadError` / `empty` | carregamento sob demanda e busca vazia | Loading… / Could not load… / No items found | Carregando… / Não foi possível carregar… / Nenhum item encontrado |
 | `pagination.nav` / `first` / `prev` / `next` / `last` | nome da navegação e botões | Pagination / First / Previous / Next / Last | Paginação / Primeira / Anterior / Próxima / Última |
 | `pagination.status(page, total)` | modo compacto | Page 2 of 5 | Página 2 de 5 |

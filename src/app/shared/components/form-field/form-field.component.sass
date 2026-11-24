@@ -17,34 +17,87 @@ app-form-field
   font-size: .8rem
   color: var(--muted, #5f6a75)
 
+/* a caixa: prefixo + campo nativo + sufixo + botão da senha */
 .ff__control
+  display: flex
+  align-items: stretch
+  box-sizing: border-box
+  min-height: 44px
+  background: var(--sel-bg, #ffffff)
+  border: 1px solid var(--sel-border, #e6e9ed)
+  border-radius: .5rem
+  transition: border-color .15s, box-shadow .15s
+  &:focus-within
+    border-color: var(--accent, #058075)
+    box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
+  &:has(> :disabled)
+    background: var(--sel-disabled-bg, #f7f8f9)
   > input, > textarea, > select
+    flex: 1
+    min-width: 0
     box-sizing: border-box
-    width: 100%
-    min-height: 44px
     padding: .6rem .7rem
     font: inherit
     color: var(--sel-fg, #14171a)
-    background: var(--sel-bg, #ffffff)
-    border: 1px solid var(--sel-border, #e6e9ed)
-    border-radius: .5rem
-    transition: border-color .15s, box-shadow .15s
+    background: transparent
+    border: 0
+    border-radius: inherit
+    outline: none
     &::placeholder
       color: var(--sel-placeholder, #5f6a75)
-    &:focus-visible
-      outline: none
-      border-color: var(--accent, #058075)
-      box-shadow: 0 0 0 3px var(--sel-focus-ring, color-mix(in srgb, #058075 60%, transparent))
     &:disabled
-      background: var(--sel-disabled-bg, #f7f8f9)
       color: var(--muted, #5f6a75)
   > textarea
-    min-height: 96px
+    min-height: 94px
     resize: vertical
 
 .ff.is-error .ff__control
-  > input, > textarea, > select
-    border-color: var(--sel-error, #b91c1c)
+  border-color: var(--sel-error, #b91c1c)
+
+/* prefixo/sufixo: texto ou ícone fixo, fora do valor */
+.ff__affix
+  display: inline-flex
+  align-items: center
+  align-self: center
+  gap: .25rem
+  color: var(--muted, #5f6a75)
+  white-space: nowrap
+  &:empty
+    display: none
+  &--prefix
+    padding-left: .7rem
+  &--suffix
+    padding-right: .7rem
+.ff__affix--prefix:not(:empty) + *
+  padding-left: .4rem
+.ff__control > :has(+ .ff__affix--suffix:not(:empty))
+  padding-right: .4rem
+
+.ff__reveal
+  align-self: center
+  display: inline-grid
+  place-items: center
+  flex: none
+  width: 2.25rem
+  height: 2.25rem
+  margin-right: .25rem
+  border: 0
+  border-radius: .4rem
+  background: transparent
+  color: var(--muted, #5f6a75)
+  cursor: pointer
+  &:hover
+    background: color-mix(in srgb, var(--sel-fg, #14171a) 8%, transparent)
+  &:focus-visible
+    outline: 2px solid var(--accent, #058075)
+    outline-offset: 1px
+  &[aria-pressed="true"]
+    color: var(--sel-fg, #14171a)
+
+.ff__foot
+  display: flex
+  align-items: baseline
+  gap: .75rem
 
 .ff__msg
   font-size: .85rem
@@ -52,3 +105,21 @@ app-form-field
   color: var(--muted, #5f6a75)
   &--error
     color: var(--sel-error, #b91c1c)
+
+.ff__count
+  margin-left: auto
+  font-size: .8rem
+  color: var(--muted, #5f6a75)
+  font-variant-numeric: tabular-nums
+  white-space: nowrap
+  &.is-near
+    color: var(--sel-fg, #14171a)
+    font-weight: 600
+
+.ff__sr
+  position: absolute
+  width: 1px
+  height: 1px
+  overflow: hidden
+  clip-path: inset(50%)
+  white-space: nowrap

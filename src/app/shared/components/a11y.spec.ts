@@ -21,6 +21,7 @@ import { SwitchComponent } from './switch/switch.component';
 import { RadioGroupComponent } from './radio/radio-group.component';
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import { FormFieldComponent } from './form-field/form-field.component';
+import { AutosizeDirective } from './form-field/autosize.directive';
 import { MaskDirective } from '../forms/mask.directive';
 import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
@@ -52,7 +53,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
 @Component({
   imports: [
-    ButtonDirective, CheckboxComponent, CheckboxGroupComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
+    ButtonDirective, CheckboxComponent, CheckboxGroupComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, AutosizeDirective, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
     TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS, TooltipDirective,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -79,6 +80,17 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-form-field label="Nome" required hint="Como no documento"><input></app-form-field>
         <app-form-field label="CPF" error="CPF inválido"><input appMask="cpf"></app-form-field>
         <app-form-field label="Obs."><textarea></textarea></app-form-field>
+      </section>
+
+      <!-- Campo de texto: contador, prefixo/sufixo, senha, textarea que cresce -->
+      <section id="textfield">
+        <app-form-field label="Valor" hint="Com centavos"><span ffPrefix>R$</span><input inputmode="decimal"></app-form-field>
+        <app-form-field label="Buscar">
+          <svg ffPrefix width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 3h18v18H3z"/></svg>
+          <input type="search"><span ffSuffix>kg</span>
+        </app-form-field>
+        <app-form-field label="Senha" passwordToggle error="Mínimo de 8 caracteres"><input type="password"></app-form-field>
+        <app-form-field label="Observações" counter hint="Visível só para a equipe"><textarea maxlength="140" appAutosize="4"></textarea></app-form-field>
       </section>
 
       <!-- Checkbox group -->
@@ -222,6 +234,15 @@ describe('Acessibilidade (axe-core)', () => {
   it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio'), { component: 'radio', state: { pt: 'obrigatório, horizontal com erro e desabilitado', en: 'required, horizontal with error and disabled' } }); });
 
   it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch'), { component: 'switch', state: { pt: 'ligado, rótulo antes, desabilitado e só aria-label', en: 'on, label first, disabled and aria-label only' } }); });
+
+  it('Campo de texto (prefixo/sufixo, senha visível e oculta, contador, textarea que cresce)', async () => {
+    const scope = section('textfield');
+    await expectNoA11yViolations(scope, { component: 'textfield', state: { pt: 'prefixo, sufixo, senha com erro e contador', en: 'prefix, suffix, password with error and counter' } });
+    scope.querySelector<HTMLButtonElement>('.ff__reveal')!.click();
+    await fixture.whenStable();
+    expect(scope.querySelector('input[type="text"]')).not.toBeNull();
+    await expectNoA11yViolations(scope, { component: 'textfield', state: { pt: 'senha visível', en: 'password shown' } });
+  });
 
   it('Form field (dica, erro, máscara, textarea)', async () => { await expectNoA11yViolations(section('formfield'), { component: 'validation', state: { pt: 'campo com dica, erro, máscara e área de texto', en: 'field with hint, error, mask and textarea' } }); });
 
