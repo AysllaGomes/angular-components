@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.8.1](https://github.com/AysllaGomes/angular-components/compare/v3.8.0...v3.8.1) (2026-11-24)
+
+### Bug Fixes
+
+* **site:** links between component pages no longer lead to a 404 on GitHub Pages ([ca610b7](https://github.com/AysllaGomes/angular-components/commit/ca610b7))
+  * links that come from the docs (e.g. "Radio group" under "Prefer another" on the Select page) pointed to `/componentes/radio`, ignoring the `/angular-components/` base href; they are now relative to it, and a plain click navigates without reloading the page (Ctrl/middle click still open a new tab)
+  * the "Docs (link)" example in the Button demo pointed to `/docs`, a route that does not exist; it now opens the Button page
+* **docs:** the Select docs (PT and EN) lose leftover editorial notes ("the current API you shipped", "New:" on Clearable); the ideas list, with items already done, becomes "Known limitations" (no remote loading, no virtual scroll, panel in the page flow) ([afc035c](https://github.com/AysllaGomes/angular-components/commit/afc035c))
+
+### Internal
+
+* **ci:** new `npm run check:links`, after the build in CI and deploy: it reads the prerendered site and resolves every internal link from the `<base href>`, as the browser does, and fails on a link that leaves the site, a page that does not exist or a missing anchor (it would have caught both links above) ([7ca2fb5](https://github.com/AysllaGomes/angular-components/commit/7ca2fb5))
+
 ## [3.8.0](https://github.com/AysllaGomes/angular-components/compare/v3.7.2...v3.8.0) (2026-11-23)
 
 ### Features

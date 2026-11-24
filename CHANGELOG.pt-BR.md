@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.8.1](https://github.com/AysllaGomes/angular-components/compare/v3.8.0...v3.8.1) (2026-11-24)
+### Correções
+- **site:** links entre as páginas de componente não levam mais a um 404 no
+  GitHub Pages:
+  - os links que vêm da documentação (ex.: "Radio group" em "Prefira outro",
+    na página do Select) apontavam para `/componentes/radio`, ignorando o
+    base href `/angular-components/`; agora são relativos a ele, e o clique
+    simples navega sem recarregar a página (Ctrl/clique do meio continuam
+    abrindo nova aba);
+  - o exemplo "Docs (link)" da demo do Button apontava para `/docs`, rota que
+    não existe; agora abre a página do Button.
+- **docs:** a documentação do Select (PT e EN) perde sobras editoriais ("componente
+  enviado por você", "Novo:" no Clearable); a lista de ideias, com itens já
+  feitos, vira "Limitações conhecidas" (sem carregamento remoto, sem virtual
+  scroll, painel no fluxo da página).
+
+### Interno
+- **ci:** novo `npm run check:links`, depois do build no CI e no deploy: lê o
+  site pré-renderizado e resolve cada link interno a partir do `<base href>`,
+  como o navegador; falha em link que sai do site, página que não existe ou
+  âncora ausente (teria pego os dois links acima).
+
 ## [3.8.0](https://github.com/AysllaGomes/angular-components/compare/v3.7.2...v3.8.0) (2026-11-23)
 ### Features
 - **checkbox-group:** novo [`app-checkbox-group`](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/checkbox-group/checkbox-group.md), o
