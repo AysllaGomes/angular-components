@@ -38,7 +38,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 3 arquivos, ~269 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 3 arquivos, ~276 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso
@@ -70,7 +70,7 @@ A variante pode vir no próprio atributo (`appButton="ghost"`) ou em `variant`, 
 ## Acessibilidade
 
 - Continua sendo o `<button>` ou `<a>` nativo: Enter e Espaço, envio de formulário e navegação funcionam sem nada a mais.
-- `busy` e `disabled` bloqueiam o clique. No `<button>` viram o atributo `disabled`; no `<a>`, que não tem `disabled`, viram `aria-disabled="true"` e `tabindex="-1"`.
+- `busy` e `disabled` bloqueiam o clique. No `<button>` viram o atributo `disabled`; no `<a>`, que não tem `disabled`, viram `aria-disabled="true"` e `tabindex="-1"`. No `<a>` o clique é barrado antes de qualquer outro tratador do elemento: nem o seu `(click)` nem o `routerLink` rodam.
 - `busy` marca `aria-busy="true"`; o texto do botão continua lá para o leitor de tela.
 - Anel de foco (`:focus-visible`) na cor de destaque do tema, só no foco por teclado.
 - Botão só com ícone (`iconOnly`) não tem texto visível: dê o nome com `aria-label` ou com o [Tooltip](../tooltip/tooltip.md) (`tooltipAsLabel`).

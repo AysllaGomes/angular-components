@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostBinding, HostListener, booleanAttribute, computed, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, HostBinding, booleanAttribute, computed, inject, input } from '@angular/core';
 
 import { BtnTone, BtnSize, BtnVariant } from './button.types';
 
@@ -29,7 +29,22 @@ export class ButtonDirective {
   readonly busy = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
 
-  constructor(private el: ElementRef<HTMLElement>) {}
+  private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  constructor() {
+    // desabilitado/ocupado: o clique não chega a ninguém. Na fase de captura, porque os
+    // listeners comuns do mesmo elemento ((click) do template, routerLink) rodam na ordem
+    // em que foram registrados, e os deles vêm antes do HostListener desta diretiva.
+    const host = this.el.nativeElement;
+    const block = (e: Event) => {
+      if (this.disabled() || this.busy()) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    };
+    host.addEventListener('click', block, { capture: true });
+    inject(DestroyRef).onDestroy(() => host.removeEventListener('click', block, { capture: true }));
+  }
 
   private get isButton() {
     return this.el.nativeElement.tagName.toLowerCase() === 'button';
@@ -46,14 +61,6 @@ export class ButtonDirective {
   }
   @HostBinding('attr.tabindex') get tabIndex() {
     return !this.isButton && (this.disabled() || this.busy()) ? -1 : null;
-  }
-
-  @HostListener('click', ['$event'])
-  onClick(e: Event) {
-    if (this.disabled() || this.busy()) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
   }
 
   // ===== classes =====
