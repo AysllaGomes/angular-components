@@ -84,9 +84,17 @@ export class MenuComponent implements OnDestroy {
   }
 
   private readonly onViewportChange = () => this.position();
+  /** clique em andamento no botão: o foco vai para ele, mas quem fecha é o clique (toggle) */
+  private pointerOnTrigger = false;
+
   private readonly onDocPointerDown = (e: PointerEvent) => {
     const path = e.composedPath();
-    if (path.includes(this.panel().nativeElement) || (this.trigger && path.includes(this.trigger.el))) return;
+    if (this.trigger && path.includes(this.trigger.el)) {
+      this.pointerOnTrigger = true;
+      setTimeout(() => (this.pointerOnTrigger = false));
+      return;
+    }
+    if (path.includes(this.panel().nativeElement)) return;
     this.close(false);
   };
 
@@ -141,8 +149,9 @@ export class MenuComponent implements OnDestroy {
         e.stopPropagation();
         return this.close();
       case 'Tab':
-        // o foco segue para o próximo campo; o focusout fecha o menu
-        return;
+        // Tab e Shift+Tab: fecha e deixa o navegador levar o foco ao próximo/anterior
+        // (no Shift+Tab, quase sempre o próprio botão)
+        return this.close(false);
       case ' ':
         // link não age com Espaço (só com Enter): no menu, os dois escolhem
         if (this.doc.activeElement instanceof HTMLAnchorElement) {
@@ -154,11 +163,15 @@ export class MenuComponent implements OnDestroy {
     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) this.typeahead(e.key, current);
   }
 
-  /** o foco saiu do menu (Tab, clique em outro lugar): fecha, sem puxar o foco de volta */
+  /**
+   * O foco saiu do menu (Tab, clique em outro lugar): fecha, sem puxar o foco de volta.
+   * Voltar ao botão também fecha, a não ser num clique nele: aí o clique fecha (toggle),
+   * e fechar aqui faria o clique reabrir.
+   */
   onFocusOut(e: FocusEvent) {
     const next = e.relatedTarget as Node | null;
-    if (!next) return;
-    if (this.panel().nativeElement.contains(next) || this.trigger?.el.contains(next)) return;
+    if (!next || this.panel().nativeElement.contains(next)) return;
+    if (this.trigger?.el.contains(next) && this.pointerOnTrigger) return;
     this.close(false);
   }
 

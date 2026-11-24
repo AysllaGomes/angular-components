@@ -22,7 +22,7 @@ To use the Menu in another Angular project, copy into a `shared/` folder **keepi
 |---|---|
 | The component | `components/menu/` |
 
-Depends only on `@angular/core`. In total: 7 files, ~454 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 7 files, ~473 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Why it exists
@@ -108,8 +108,8 @@ import { MENU_IMPORTS } from './shared/components/menu';
 | `↓` / `↑` | Opens on the first / last item | Next / previous (wraps) |
 | `Home` / `End` | — | First / last item |
 | Letters | — | Next item starting with the text (accent/case-insensitive) |
-| `Esc` | — | Closes and goes back to the button (a Dialog behind does not close too) |
-| `Tab` | — | Closes and moves on to the next field |
+| `Esc` | Closes the menu, if open | Closes and goes back to the button (a Dialog behind does not close too) |
+| `Tab` / `Shift+Tab` | — | Closes and moves on to the next / previous (with `Shift+Tab`, usually the button itself) |
 
 - The button has `aria-haspopup="menu"`, `aria-expanded` and `aria-controls` (while open).
 - `role="menu"` with a name (`label`, or the button text); `role="menuitem"` items out of the Tab order (the menu moves focus).

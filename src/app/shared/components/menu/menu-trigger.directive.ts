@@ -38,5 +38,11 @@ export class MenuTriggerDirective {
     // Enter/Espaço no <button> já viram clique (toggle); aqui só as setas
     if (e.key === 'ArrowDown') { e.preventDefault(); this.menu().open(this.ref, 'first'); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); this.menu().open(this.ref, 'last'); }
+    else if (e.key === 'Escape' && this.menu().isOpen()) {
+      // menu aberto com o foco no botão: Esc fecha (e não chega a um Dialog por trás)
+      e.preventDefault();
+      e.stopPropagation();
+      this.menu().close();
+    }
   }
 }

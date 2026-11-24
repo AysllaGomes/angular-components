@@ -22,7 +22,7 @@ Para usar o Menu em outro projeto Angular, copie para dentro de uma pasta `share
 |---|---|
 | O componente | `components/menu/` |
 
-Depende só de `@angular/core`. Ao todo: 7 arquivos, ~454 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 7 arquivos, ~473 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Por que existe
@@ -108,8 +108,8 @@ import { MENU_IMPORTS } from './shared/components/menu';
 | `↓` / `↑` | Abre no primeiro / último item | Próximo / anterior (dá a volta) |
 | `Home` / `End` | — | Primeiro / último item |
 | Letras | — | Próximo item que começa com o texto (sem acento nem caixa) |
-| `Esc` | — | Fecha e volta ao botão (um Dialog por trás não fecha junto) |
-| `Tab` | — | Fecha e segue para o próximo campo |
+| `Esc` | Fecha o menu, se estiver aberto | Fecha e volta ao botão (um Dialog por trás não fecha junto) |
+| `Tab` / `Shift+Tab` | — | Fecha e segue para o próximo / anterior (no `Shift+Tab`, normalmente o próprio botão) |
 
 - O botão tem `aria-haspopup="menu"`, `aria-expanded` e `aria-controls` (enquanto aberto).
 - `role="menu"` com nome (`label`, ou o texto do botão); itens `role="menuitem"` fora da ordem do Tab (o menu move o foco).

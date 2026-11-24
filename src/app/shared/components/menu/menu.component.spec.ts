@@ -160,6 +160,45 @@ describe('MenuComponent', () => {
     expect(panel().hidden).toBe(false);
   });
 
+  it('Tab and Shift+Tab close it and let the browser move focus (even back to the trigger)', async () => {
+    for (const shiftKey of [false, true]) {
+      await open();
+      const e = await key(document.activeElement!, 'Tab', { shiftKey });
+      expect(e.defaultPrevented, `shift=${shiftKey}`).toBe(false); // o foco segue o caminho natural
+      expect(panel().hidden, `shift=${shiftKey}`).toBe(true);
+      expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    }
+  });
+
+  it('focus moving from an item back to the trigger (Shift+Tab) closes it', async () => {
+    await open();
+    trigger().focus(); // o que o navegador faz no Shift+Tab: o botão é o focável anterior
+    await settle();
+    expect(panel().hidden).toBe(true);
+    expect(document.activeElement).toBe(trigger());
+  });
+
+  it('Esc on the trigger closes an open menu (and does not reach a Dialog behind)', async () => {
+    await open();
+    const outer = vi.fn();
+    document.addEventListener('keydown', outer);
+    const e = await key(trigger(), 'Escape');
+    document.removeEventListener('keydown', outer);
+    expect(panel().hidden).toBe(true);
+    expect(e.defaultPrevented).toBe(true);
+    expect(outer).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(trigger());
+  });
+
+  it('clicking the trigger of an open menu closes it (does not close and reopen)', async () => {
+    await open();
+    trigger().dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, composed: true }));
+    trigger().focus(); // o mousedown no botão tira o foco do item
+    trigger().click();
+    await settle();
+    expect(panel().hidden).toBe(true);
+  });
+
   it('focus leaving the menu (Tab, another field) closes it without taking focus back', async () => {
     await open();
     el.querySelector<HTMLButtonElement>('#after')!.focus();
