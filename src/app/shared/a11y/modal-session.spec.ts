@@ -79,6 +79,35 @@ describe('Modais empilhados (ModalSession)', () => {
     expect(bar.closest('[inert]')).toBeNull();
   });
 
+  it('closing both at once (confirm) unlocks scrolling and returns focus to the first opener', async () => {
+    document.body.style.overflow = 'auto'; // valor da página antes de qualquer modal
+    await openBoth();
+    expect(document.body.style.overflow).toBe('hidden');
+
+    // como o "Excluir" da confirmação: os dois fecham na mesma atualização
+    host.dlg.set(false);
+    host.bar.set(false);
+    await settle();
+    expect(document.body.style.overflow).toBe('auto');
+    expect(document.activeElement?.id).toBe('opener');
+    expect(document.querySelectorAll('[inert]').length).toBe(0);
+    document.body.style.overflow = '';
+  });
+
+  it('the one below closing first (any order) still ends unlocked, focus on the first opener', async () => {
+    await openBoth();
+    host.bar.set(false);
+    await settle();
+    // o de cima continua aberto: rolagem ainda travada e foco não vai para o fundo inerte
+    expect(document.body.style.overflow).toBe('hidden');
+    expect(host.dlg()).toBe(true);
+
+    host.dlg.set(false);
+    await settle();
+    expect(document.body.style.overflow).toBe('');
+    expect(document.activeElement?.id).toBe('opener');
+  });
+
   it('Esc closes only the modal on top; the next Esc closes the one below', async () => {
     await openBoth();
     await press('Escape');

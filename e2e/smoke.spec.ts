@@ -73,6 +73,7 @@ test.describe('Dialog', () => {
     await expect(dialog).toHaveCount(0);
     await expect(opener).toBeFocused();
     await expect(page.locator('[inert]')).toHaveCount(0);
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
   });
 });
 
@@ -105,16 +106,21 @@ test.describe('modal sobre modal (ActionBar + Dialog)', () => {
     await expect(panel).toHaveCount(0);
     await expect(opener).toBeFocused();
     await expect(page.locator('[inert]')).toHaveCount(0);
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
   });
 
-  test('confirmar no Dialog fecha os dois e avisa', async ({ page }) => {
+  test('confirmar no Dialog fecha os dois, avisa e devolve a página como estava', async ({ page }) => {
     await page.goto('demo/');
-    await page.getByRole('button', { name: 'Ver pedido #1042' }).click();
+    const opener = page.getByRole('button', { name: 'Ver pedido #1042' });
+    await opener.click();
     await page.getByRole('button', { name: 'Excluir pedido' }).click();
     await page.getByRole('dialog', { name: 'Excluir o pedido #1042?' }).getByRole('button', { name: 'Excluir', exact: true }).click();
 
     await expect(page.getByRole('dialog')).toHaveCount(0);
     await expect(page.locator('.toast-stack')).toContainText('Pedido #1042 excluído.');
     await expect(page.locator('[inert]')).toHaveCount(0);
+    // os dois fecham na mesma atualização: a rolagem volta e o foco termina em quem começou
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+    await expect(opener).toBeFocused();
   });
 });

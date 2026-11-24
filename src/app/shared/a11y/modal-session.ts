@@ -3,7 +3,8 @@
  *
  * - **foco**: guarda o elemento focado ao abrir e o devolve ao fechar
  *   (se ainda estiver na página);
- * - **scroll**: trava a rolagem do `<body>` enquanto aberto;
+ * - **scroll**: trava a rolagem do `<body>` enquanto houver algum modal aberto (a pilha
+ *   guarda o valor original no primeiro e o devolve quando o último fecha);
  * - **fundo inerte**: marca com `inert` os irmãos do host e de cada ancestral até
  *   o `<body>`, então o resto da página não recebe foco, clique nem leitor de tela;
  * - **teclado** (`handleKeydown`): Esc fecha e Tab circula dentro do painel. Com um
@@ -20,10 +21,11 @@
 export class ModalSession {
   /** modais abertos, do mais antigo ao mais recente: o último é o de cima */
   private static readonly stack: ModalSession[] = [];
+  /** `overflow` do body antes do primeiro modal da pilha */
+  private static bodyOverflow = '';
 
   private active = false;
   private returnFocusTo: HTMLElement | null = null;
-  private prevOverflow = '';
   private inerted: HTMLElement[] = [];
   /** o host (ou um ancestral) que um modal de baixo tinha deixado inerte: reativado enquanto este estiver aberto */
   private revived: HTMLElement[] = [];
@@ -50,13 +52,14 @@ export class ModalSession {
         }
       }
     }
+    if (ModalSession.stack.length === 0) {
+      ModalSession.bodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+    }
     ModalSession.stack.push(this);
 
     const focused = document.activeElement;
     this.returnFocusTo = focused instanceof HTMLElement && focused !== document.body ? focused : null;
-
-    this.prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
 
     this.makeBackgroundInert();
   }
@@ -66,9 +69,11 @@ export class ModalSession {
     if (!this.active) return;
     this.active = false;
     const i = ModalSession.stack.indexOf(this);
+    const above = i >= 0 ? ModalSession.stack.slice(i + 1) : [];
     if (i >= 0) ModalSession.stack.splice(i, 1);
 
-    document.body.style.overflow = this.prevOverflow;
+    // o último a fechar devolve a rolagem (fechar vários juntos, em qualquer ordem, não trava a página)
+    if (ModalSession.stack.length === 0) document.body.style.overflow = ModalSession.bodyOverflow;
 
     for (const el of this.inerted) el.removeAttribute('inert');
     this.inerted = [];
@@ -81,6 +86,15 @@ export class ModalSession {
 
     const el = this.returnFocusTo;
     this.returnFocusTo = null;
+    if (above.length) {
+      // fechou com outro modal ainda por cima (ex.: confirmar fecha o painel e o Dialog
+      // juntos): o foco não vai para o fundo agora; quem abriu o de cima de dentro deste
+      // painel herda o destino deste, para o foco terminar onde a sequência começou
+      for (const s of above) {
+        if (s.returnFocusTo && this.host.contains(s.returnFocusTo)) s.returnFocusTo = el;
+      }
+      return;
+    }
     if (restoreFocus && el?.isConnected) el.focus();
   }
 
