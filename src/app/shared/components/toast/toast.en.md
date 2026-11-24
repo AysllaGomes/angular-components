@@ -43,7 +43,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/common`, `@angular/core`. In total: 10 files, ~715 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 10 files, ~843 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Files
@@ -68,7 +68,7 @@ export interface Toast {
   id: number;
   kind: ToastKind;
   message: string;
-  duration?: number;          // ms (0 = do not auto-dismiss)
+  duration?: number;          // ms; 0 = never closes on its own (default: 4000, or 0 with actionLabel)
   dismissible?: boolean;      // default: true
   actionLabel?: string;
   onAction?: () => void;
@@ -78,18 +78,20 @@ export interface Toast {
 ### Service (`ToastService`)
 | Method | Returns | Description |
 |---|---|---|
-| `show(message, kind?, options?)` | `number` (id) | Shows a toast. `kind` defaults to `'info'`; `options` are the optional `Toast` fields (`duration` defaults to `4000` ms, `0` never closes on its own). |
+| `show(message, kind?, options?)` | `number` (id) | Shows a toast. `kind` defaults to `'info'`; `options` are the optional `Toast` fields (`duration` defaults to `4000` ms, `0` never closes on its own; **with `actionLabel` the default is `0`**, so the action does not vanish before the person reaches it). |
 | `success(message, options?)` | `number` | Shortcut for `show(message, 'success', options)`. |
 | `error(message, options?)` | `number` | Shortcut for `show(message, 'error', options)`; announced with `role="alert"`. |
 | `info(message, options?)` | `number` | Shortcut for `show(message, 'info', options)`. |
 | `warning(message, options?)` | `number` | Shortcut for `show(message, 'warning', options)`. |
 | `dismiss(id)` | `void` | Closes one toast by id. |
 | `clear()` | `void` | Closes all of them. |
+| `pause()` / `resume()` | `void` | Stops / resumes the time of every toast, from where it stopped. The container already calls them (pointer over a toast, focus in the stack); use them to pause for another reason. |
+| `toasts` | `Signal<Toast[]>` | The current stack, newest first (read-only; at most 5). |
 
 > **SSR-safe:** timers are created in the browser only.
 
 ### Container (`<app-toast-container>`)  
-No `@Input()`s — reads `toast.toasts()` (signal) from the service and renders. Uses `role="status"` (polite) and `role="alert"` for errors.
+No inputs: reads `toast.toasts()` from the service and draws the stack. It also makes the screen reader announcements and pauses the time while someone reads or uses a toast (see Accessibility).
 
 ---
 
@@ -140,15 +142,18 @@ Variant colors are baked into the container Sass:
 ---
 
 ## Accessibility
-- `aria-live="polite"` on the stack; `role="alert"` for errors (assertive).
-- Close button with `aria-label="Close"`.
+- **Announcements**: two invisible live regions that exist from the first render (a region created together with its text is often not read): errors in `role="alert"` (assertive), the rest in `role="status"` (polite). Each toast is announced once; the visual stack is not a live region.
+- **Stack**: a `<section>` named `labels.notifications` only while it has toasts; not a `<nav>`, since it is not navigation.
+- **Timing** (WCAG 2.2.1): with the pointer over a toast or focus inside the stack, every timer stops and later continues from where it was. A toast with `actionLabel` does not close on its own unless you pass `duration`.
+- Close button with a name (`labels.close`, "Close" by default).
 - Visible focus styles for action/close buttons.
+- Still clickable while a Dialog is open (the rest of the page is inert).
 
 ---
 
 ## Tips
 - Keep it until closed: `{ duration: 0 }`.
-- Queue limit: service keeps a capped stack (e.g., 5 toasts).
+- Queue: at most 5 toasts; the oldest leaves when a sixth arrives.
 - Action: `actionLabel` + `onAction()`; it closes after executing.
 
 ---

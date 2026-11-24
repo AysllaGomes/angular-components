@@ -43,7 +43,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 10 arquivos, ~715 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 10 arquivos, ~843 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Arquivos
@@ -68,7 +68,7 @@ export interface Toast {
   id: number;
   kind: ToastKind;
   message: string;
-  duration?: number;          // ms (0 = não auto-fecha)
+  duration?: number;          // ms; 0 = não fecha sozinho (padrão: 4000, ou 0 com actionLabel)
   dismissible?: boolean;      // default: true
   actionLabel?: string;
   onAction?: () => void;
@@ -78,18 +78,20 @@ export interface Toast {
 ### Serviço (`ToastService`)
 | Método | Retorno | Descrição |
 |---|---|---|
-| `show(message, kind?, options?)` | `number` (id) | Mostra um toast. `kind` padrão `'info'`; `options` são os campos opcionais de `Toast` (`duration` padrão `4000` ms, `0` não fecha sozinho). |
+| `show(message, kind?, options?)` | `number` (id) | Mostra um toast. `kind` padrão `'info'`; `options` são os campos opcionais de `Toast` (`duration` padrão `4000` ms, `0` não fecha sozinho; **com `actionLabel` o padrão é `0`**, para a ação não sumir antes de a pessoa chegar nela). |
 | `success(message, options?)` | `number` | Atalho para `show(message, 'success', options)`. |
 | `error(message, options?)` | `number` | Atalho para `show(message, 'error', options)`; anunciado com `role="alert"`. |
 | `info(message, options?)` | `number` | Atalho para `show(message, 'info', options)`. |
 | `warning(message, options?)` | `number` | Atalho para `show(message, 'warning', options)`. |
 | `dismiss(id)` | `void` | Fecha um toast pelo id. |
 | `clear()` | `void` | Fecha todos. |
+| `pause()` / `resume()` | `void` | Para / retoma o tempo de todos os toasts, de onde parou. O container já chama sozinho (mouse sobre um toast, foco na pilha); use se quiser pausar por outro motivo. |
+| `toasts` | `Signal<Toast[]>` | A pilha atual, do mais novo para o mais antigo (só leitura; no máximo 5). |
 
 > **SSR-safe**: timers só são criados no browser.
 
 ### Container (`<app-toast-container>`)  
-Sem `@Input()`s — lê `toast.toasts()` (signal) do serviço e renderiza. Define `role="status"` (polite) e `role="alert"` para erros.
+Sem inputs: lê `toast.toasts()` do serviço e desenha a pilha. Também faz o anúncio para leitor de tela e pausa o tempo enquanto a pessoa lê ou usa um toast (veja Acessibilidade).
 
 ---
 
@@ -140,15 +142,18 @@ Cores por variante (já definidas no Sass do container):
 ---
 
 ## Acessibilidade
-- `aria-live="polite"` na pilha; para erro, `role="alert"` (assertivo).
-- Botão de fechar com `aria-label="Fechar"`.
+- **Anúncio**: duas regiões vivas invisíveis que existem desde o primeiro render (uma região criada junto com o texto costuma não ser lida): erros em `role="alert"` (assertivo), o resto em `role="status"` (educado). Cada toast é anunciado uma vez; a pilha visual não é região viva.
+- **Pilha**: `<section>` com nome (`labels.notifications`) só enquanto tem toasts; não usa `<nav>`, porque não é navegação.
+- **Tempo** (WCAG 2.2.1): com o mouse sobre um toast ou o foco dentro da pilha, o tempo de todos para e depois continua de onde estava. Toast com `actionLabel` não fecha sozinho, a menos que você passe `duration`.
+- Botão de fechar com nome (`labels.close`, "Close" por padrão).
 - Foco visível em botões de ação/fechar.
+- Continua clicável com um Dialog aberto (o resto da página fica inerte).
 
 ---
 
 ## Dicas
 - Manter na tela até fechar: `{ duration: 0 }`.
-- Limitar fila: o serviço mantém uma pilha com tamanho máximo configurável (ex.: 5).
+- Fila: no máximo 5 toasts; o mais antigo sai quando chega o sexto.
 - Ação custom: `actionLabel` + `onAction()` fecha após executar.
 
 ---

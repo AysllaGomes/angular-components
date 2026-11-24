@@ -1,4 +1,10 @@
-<nav class="toast-stack" [attr.aria-label]="labels().notifications" aria-live="polite" aria-relevant="additions">
+<!-- só o que se vê e se usa; o anúncio fica nas regiões vivas abaixo -->
+<section
+  #stack
+  class="toast-stack"
+  [attr.aria-label]="toast.toasts().length ? labels().notifications : null"
+  (focusin)="onFocusIn()"
+  (focusout)="onFocusOut($event)">
   @for (t of toast.toasts(); track t.id) {
     <div
       class="toast"
@@ -6,7 +12,8 @@
       [class.toast--error]="t.kind==='error'"
       [class.toast--info]="t.kind==='info'"
       [class.toast--warning]="t.kind==='warning'"
-      [attr.role]="t.kind==='error' ? 'alert' : 'status'">
+      (mouseenter)="onPointer(true)"
+      (mouseleave)="onPointer(false)">
       <span class="icon" aria-hidden="true">
         <!-- Ícones minimalistas (herdam currentColor) -->
         @if (t.kind==='success') {
@@ -34,10 +41,17 @@
           type="button"
           class="toast-close"
           [attr.aria-label]="labels().close"
-          (click)="toast.dismiss(t.id)">
+          (click)="onClose(t)">
           ×
         </button>
       }
     </div>
   }
-</nav>
+</section>
+
+<div class="sr-only" role="status">
+  @for (t of politeToasts(); track t.id) { <p>{{ t.message }}</p> }
+</div>
+<div class="sr-only" role="alert">
+  @for (t of alertToasts(); track t.id) { <p>{{ t.message }}</p> }
+</div>
