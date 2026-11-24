@@ -25,7 +25,7 @@ Para usar o Campo de texto em outro projeto Angular, copie para dentro de uma pa
 | O componente | `components/form-field/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~688 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`. Ao todo: 6 arquivos, ~708 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Por que existe

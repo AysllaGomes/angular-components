@@ -143,7 +143,10 @@ export class FormFieldComponent {
       onCleanup(() => sub?.unsubscribe());
     });
 
-    inject(DestroyRef).onDestroy(() => clearTimeout(this.announceTimer));
+    inject(DestroyRef).onDestroy(() => {
+      clearTimeout(this.announceTimer);
+      this.detach();
+    });
   }
 
   toggleReveal() {
@@ -153,19 +156,36 @@ export class FormFieldComponent {
     control.type = this.revealed() ? 'text' : 'password';
   }
 
-  /** ouve o campo uma vez (digitação e envio do formulário) */
+  /**
+   * Ouve o campo uma vez (digitação e envio do formulário). Trocou o campo, ou a moldura foi
+   * destruída: tira os listeners anteriores. O `submit` fica no <form>, que costuma viver mais
+   * que o campo (ex.: campos que aparecem e somem com @if) e prenderia instâncias antigas.
+   */
   private attach(control: TextControl) {
     if (control === this.control) return;
+    this.detach();
     this.control = control;
-    control.addEventListener('input', () => {
+
+    const onInput = () => {
       this.syncCount();
       this.scheduleAnnouncement();
-    });
+    };
     // a senha volta a ficar oculta ao enviar (gerenciadores de senha e quem olha a tela)
-    control.closest('form')?.addEventListener('submit', () => {
+    const onSubmit = () => {
       if (this.revealed()) this.toggleReveal();
-    });
+    };
+    const form = control.closest('form');
+    control.addEventListener('input', onInput);
+    form?.addEventListener('submit', onSubmit);
+    this.detach = () => {
+      control.removeEventListener('input', onInput);
+      form?.removeEventListener('submit', onSubmit);
+      this.detach = () => undefined;
+    };
   }
+
+  /** remove os listeners do campo atual (trocado por outro, ou a moldura saiu da tela) */
+  private detach: () => void = () => undefined;
 
   private syncCount() {
     const n = this.control?.value.length ?? 0;

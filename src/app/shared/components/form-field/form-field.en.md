@@ -25,7 +25,7 @@ To use the Text field in another Angular project, copy into a `shared/` folder *
 | The component | `components/form-field/` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`. In total: 6 files, ~688 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`. In total: 6 files, ~708 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Why it exists

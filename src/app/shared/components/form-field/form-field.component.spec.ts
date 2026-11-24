@@ -276,3 +276,57 @@ describe('FormFieldComponent: counter, affixes, password, autosize', () => {
     });
   });
 });
+
+// ===== campo que aparece e some (@if) num formulário que fica: sem listeners sobrando
+@Component({
+  imports: [FormFieldComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <form id="f">
+      @if (show()) {
+        <app-form-field label="Senha" passwordToggle counter><input type="password" maxlength="20"></app-form-field>
+      }
+    </form>
+  `
+})
+class ToggleHostComponent { show = signal(true); }
+
+describe('FormFieldComponent: listeners are cleaned up', () => {
+  it('a field that comes and goes (@if) does not pile up submit listeners on the form', async () => {
+    await TestBed.configureTestingModule({
+      imports: [ToggleHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+
+    const form = HTMLFormElement.prototype;
+    const live = new Set<EventListenerOrEventListenerObject>();
+    const add = vi.spyOn(form, 'addEventListener').mockImplementation(function (this: HTMLFormElement, type: string, fn: EventListenerOrEventListenerObject, opts?: boolean | AddEventListenerOptions) {
+      if (type === 'submit') live.add(fn);
+      EventTarget.prototype.addEventListener.call(this, type, fn, opts);
+    });
+    const remove = vi.spyOn(form, 'removeEventListener').mockImplementation(function (this: HTMLFormElement, type: string, fn: EventListenerOrEventListenerObject, opts?: boolean | EventListenerOptions) {
+      if (type === 'submit') live.delete(fn);
+      EventTarget.prototype.removeEventListener.call(this, type, fn, opts);
+    });
+
+    try {
+      const fixture = TestBed.createComponent(ToggleHostComponent);
+      await fixture.whenStable();
+      for (let i = 0; i < 4; i++) {
+        fixture.componentInstance.show.set(false);
+        await fixture.whenStable();
+        fixture.componentInstance.show.set(true);
+        await fixture.whenStable();
+      }
+      // um campo vivo, um listener; os dos campos destruídos foram removidos
+      expect(fixture.nativeElement.querySelectorAll('app-form-field').length).toBe(1);
+      expect(live.size).toBe(1);
+
+      fixture.destroy();
+      expect(live.size).toBe(0);
+    } finally {
+      add.mockRestore();
+      remove.mockRestore();
+    }
+  });
+});
