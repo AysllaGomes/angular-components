@@ -17,6 +17,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      # TypeScript, templates e acessibilidade nos templates (angular-eslint)
+      - run: npm run lint
       # componentes funcionam fora deste projeto: toda var(--x) com valor padrão
       - run: npm run check:css
       # "O que copiar" de cada documento bate com os imports de verdade

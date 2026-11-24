@@ -52,6 +52,7 @@ Também aceita uma função que devolve um signal, para acompanhar o idioma do s
 
 ## Qualidade
 
+- `npm run lint` ([angular-eslint](https://github.com/angular-eslint/angular-eslint) + typescript-eslint): TypeScript, templates Angular e **acessibilidade nos templates** (elemento clicável alcançável pelo teclado, rótulos, texto alternativo...). A biblioteca (`shared/`) precisa ser OnPush; as exceções ficam ao lado do código, com o motivo (`eslint-disable-next-line ... -- porquê`), e uma exceção que não se aplica mais vira erro. O CI roda primeiro.
 - `npm run test:ci` roda os testes unitários (Vitest) **e checagens automáticas de acessibilidade** ([axe-core](https://github.com/dequelabs/axe-core)) em cada componente, nos estados que importam (aberto, com erro, desabilitado...). Veja `src/app/shared/components/a11y.spec.ts`.
 - `npm run test:shuffle` roda a mesma suíte com os arquivos de teste em ordem aleatória, um de cada vez. Os specs compartilham o ambiente, então um teste que deixa algo para trás (timers falsos, listeners, elementos no `<body>`) só quebra outro em certas ordens, como pode acontecer no CI. A semente aparece no início; para repetir uma ordem que falhou: `SEED=1234 npm run test:shuffle` (PowerShell: `$env:SEED=1234; npm run test:shuffle`).
 - O CI roda tudo em cada push e pull request; o deploy só publica se passar.
