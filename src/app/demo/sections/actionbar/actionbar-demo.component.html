@@ -23,6 +23,39 @@
     <small class="muted">{{ 'actionbar.demo.tip' | t }}</small>
   </article>
 
+  <article class="card" id="actionbar-confirm">
+    <h3>{{ 'actionbar.demo.confirm.title' | t }}</h3>
+    <div class="ab-toolbar">
+      <button appButton="outline" tone="neutral" type="button" (click)="openOrder.set(true)">
+        {{ 'actionbar.demo.confirm.open' | t }}
+      </button>
+    </div>
+    <small class="muted">{{ 'actionbar.demo.confirm.tip' | t }}</small>
+  </article>
+
+  <!-- um modal sobre outro: o Dialog fica ao lado da ActionBar, não dentro dela -->
+  <app-actionbar
+    [title]="'actionbar.demo.order.title' | t"
+    size="sm"
+    [opened]="openOrder()"
+    (openedChange)="openOrder.set($event)"
+    [secondaryLabel]="'actionbar.cta.secondary' | t">
+    <p>{{ 'actionbar.demo.order.body' | t }}</p>
+    <button appButton="outline" tone="danger" type="button" (click)="confirmDelete.set(true)">
+      {{ 'actionbar.demo.order.delete' | t }}
+    </button>
+  </app-actionbar>
+  <app-dialog
+    [title]="'actionbar.demo.order.confirm' | t"
+    size="sm"
+    [opened]="confirmDelete()"
+    (openedChange)="confirmDelete.set($event)"
+    [primaryLabel]="'actionbar.demo.order.yes' | t"
+    [secondaryLabel]="'actionbar.cta.secondary' | t"
+    (primary)="deleteOrder()">
+    <p>{{ 'actionbar.demo.order.confirmBody' | t }}</p>
+  </app-dialog>
+
   <!-- sm -->
   <app-actionbar
     [title]="'actionbar.title' | t"
