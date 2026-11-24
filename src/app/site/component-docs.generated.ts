@@ -127,7 +127,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "--surface",
         "--fg",
         "--border",
-        "--accent"
+        "--accent",
+        "--accent-fill",
+        "--accent-text"
       ],
       "copy": {
         "rows": [
@@ -159,7 +161,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~984 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 10 arquivos, ~991 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.md"
     },
@@ -283,7 +285,9 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "--surface",
         "--fg",
         "--border",
-        "--accent"
+        "--accent",
+        "--accent-fill",
+        "--accent-text"
       ],
       "copy": {
         "rows": [
@@ -315,7 +319,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~984 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 10 files, ~991 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/actionbar/actionbar.en.md"
     }
@@ -394,6 +398,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "a11y": [
         "Continua sendo o <code>&lt;button&gt;</code> ou <code>&lt;a&gt;</code> nativo: Enter e Espaço, envio de formulário e navegação funcionam sem nada a mais.",
         "<code>busy</code> e <code>disabled</code> bloqueiam o clique. No <code>&lt;button&gt;</code> viram o atributo <code>disabled</code>; no <code>&lt;a&gt;</code>, que não tem <code>disabled</code>, viram <code>aria-disabled=&quot;true&quot;</code> e <code>tabindex=&quot;-1&quot;</code>. No <code>&lt;a&gt;</code> o clique é barrado antes de qualquer outro tratador do elemento: nem o seu <code>(click)</code> nem o <code>routerLink</code> rodam.",
+        "<strong>Contraste</strong> (≥ 4,5:1, também no hover): o <code>solid</code> usa texto branco sobre <code>--accent-fill</code>, <code>--neutral-fill</code> ou <code>--danger-fill</code>, que o tema escurece quando a cor de destaque é clara demais (ex.: laranja); o hover <strong>escurece</strong> o fundo. <code>outline</code>, <code>ghost</code> e <code>link</code> usam <code>--accent-text</code>, e no hover o texto se aproxima de <code>--fg</code>. Sem o tema, os valores padrão já passam.",
         "<code>busy</code> marca <code>aria-busy=&quot;true&quot;</code>; o texto do botão continua lá para o leitor de tela.",
         "Anel de foco (<code>:focus-visible</code>) na cor de destaque do tema, só no foco por teclado.",
         "Botão só com ícone (<code>iconOnly</code>) não tem texto visível: dê o nome com <code>aria-label</code> ou com o <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
@@ -411,7 +416,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 3 arquivos, ~276 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 3 arquivos, ~282 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.md"
     },
@@ -488,6 +493,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       "a11y": [
         "It is still the native <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code>: Enter and Space, form submission and navigation work with nothing extra.",
         "<code>busy</code> and <code>disabled</code> block clicks. On <code>&lt;button&gt;</code> they become the <code>disabled</code> attribute; on <code>&lt;a&gt;</code>, which has no <code>disabled</code>, they become <code>aria-disabled=&quot;true&quot;</code> and <code>tabindex=&quot;-1&quot;</code>. On <code>&lt;a&gt;</code> the click is stopped before any other handler on the element: neither your <code>(click)</code> nor <code>routerLink</code> runs.",
+        "<strong>Contrast</strong> (≥ 4.5:1, hover included): <code>solid</code> uses white text on <code>--accent-fill</code>, <code>--neutral-fill</code> or <code>--danger-fill</code>, which the theme darkens when the accent is too light (e.g. orange); hover <strong>darkens</strong> the background. <code>outline</code>, <code>ghost</code> and <code>link</code> use <code>--accent-text</code>, and on hover the text moves toward <code>--fg</code>. Without the theme, the default values already pass.",
         "<code>busy</code> sets <code>aria-busy=&quot;true&quot;</code>; the button text stays there for screen readers.",
         "Focus ring (<code>:focus-visible</code>) in the theme accent color, on keyboard focus only.",
         "An icon-only button (<code>iconOnly</code>) has no visible text: name it with <code>aria-label</code> or with the <a href=\"componentes/tooltip\">Tooltip</a> (<code>tooltipAsLabel</code>)."
@@ -505,7 +511,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 3 files, ~276 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 3 files, ~282 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/button/button.en.md"
     }
@@ -1260,6 +1266,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
       ],
       "tokens": [
         "--accent",
+        "--accent-fill",
+        "--accent-text",
         "--dlg-bg",
         "--surface",
         "--dlg-fg",
@@ -1295,7 +1303,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~716 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 7 arquivos, ~717 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.md"
     },
@@ -1460,7 +1468,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           }
         ],
         "globals": [],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~716 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 7 files, ~717 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md"
     }
@@ -1589,7 +1597,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~767 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/core</code>. Ao todo: 8 arquivos, ~773 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.md"
     },
@@ -1716,7 +1724,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~767 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/core</code>. In total: 8 files, ~773 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/pagination/pagination.en.md"
     }
@@ -3203,7 +3211,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<sua-pasta>/shared/components/button/button' as *",
           "@use '<sua-pasta>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2898 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 24 arquivos, ~2904 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.md"
     },
@@ -3552,7 +3560,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
           "@use '<your-folder>/shared/components/button/button' as *",
           "@use '<your-folder>/shared/components/tooltip/tooltip'"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2898 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 24 files, ~2904 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md"
     }
@@ -3939,7 +3947,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<sua-pasta>/shared/components/button/button' as *"
         ],
-        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~843 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
+        "summary": "Depende só de <code>@angular/common</code>, <code>@angular/core</code>. Ao todo: 10 arquivos, ~849 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.md"
     },
@@ -4052,7 +4060,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocs> = {
         "globals": [
           "@use '<your-folder>/shared/components/button/button' as *"
         ],
-        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~843 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
+        "summary": "Depends only on <code>@angular/common</code>, <code>@angular/core</code>. In total: 10 files, ~849 lines. CSS variables have defaults: the look works without this project's theme, which can still override them."
       },
       "source": "https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/toast/toast.en.md"
     }

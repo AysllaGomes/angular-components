@@ -50,12 +50,12 @@
 
 /* variante cheia (opcional) — usa o accent direto */
 .ab-toolbar .pill--accent
-  background: var(--accent)
+  background: var(--accent-fill)
   color: #fff
-  border-color: color-mix(in srgb, var(--accent) 70%, black)
+  border-color: color-mix(in srgb, var(--accent-fill) 70%, black)
 
   &:hover
-    background: color-mix(in srgb, var(--accent) 88%, black)
+    background: var(--accent-fill-hover)
 
   &:focus-visible
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent)

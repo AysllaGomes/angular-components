@@ -43,7 +43,7 @@ Estilos globais: acrescente no `styles.sass` (ou `styles.scss`) do seu projeto:
 @use '<sua-pasta>/shared/components/button/button' as *
 ```
 
-Depende só de `@angular/core`. Ao todo: 10 arquivos, ~984 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`. Ao todo: 10 arquivos, ~991 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Anatomia
@@ -113,7 +113,7 @@ Depende só de `@angular/core`. Ao todo: 10 arquivos, ~984 linhas. As variáveis
 O componente usa os tokens globais:
 
 - Fundo / texto / bordas: `--surface`, `--fg`, `--border`  
-- Acento e realces: `--accent`  
+- Acento e realces: `--accent`; ações com `--accent-fill` (fundo da principal, texto branco) e `--accent-text` (secundária), para manter 4,5:1  
 - Botões e _hover/focus_ são **accent-aware** por padrão.
 
 Não há tokens exclusivos da ActionBar; ela segue o mesmo esquema do restante do projeto.

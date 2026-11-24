@@ -39,7 +39,7 @@ Para usar o Dialog em outro projeto Angular, copie para dentro de uma pasta `sha
 | Arquivos auxiliares | `a11y/modal-session.ts` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~716 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/common`, `@angular/core`. Ao todo: 7 arquivos, ~717 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Uso
@@ -108,7 +108,7 @@ Ao fechar, o foco volta ao botão "Excluir pedido". Para textos traduzidos, pass
 
 ## Tokens (CSS Custom Properties)
 
-O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro) e respeitam o `--accent`.
+O Dialog utiliza tokens próprios; todos possuem valores por tema (claro/escuro) e respeitam o `--accent`. As ações usam `--accent-fill` (fundo da principal, com texto branco) e `--accent-text` (texto da secundária), para manter 4,5:1 com qualquer cor de destaque.
 
 ```css
 :root {

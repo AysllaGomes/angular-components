@@ -43,7 +43,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/core`. In total: 10 files, ~984 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 10 files, ~991 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Anatomy
@@ -112,7 +112,7 @@ Depends only on `@angular/core`. In total: 10 files, ~984 lines. CSS variables h
 Relies on global tokens:
 
 - Background / text / borders: `--surface`, `--fg`, `--border`  
-- Accent & highlights: `--accent`
+- Accent & highlights: `--accent`; actions use `--accent-fill` (primary background, white text) and `--accent-text` (secondary), to keep 4.5:1
 
 No ActionBar‑specific tokens are required; it integrates with the design system out of the box.
 

@@ -60,20 +60,24 @@ button[appButton], a[appButton]
   &.btn--accent
     --_tone: var(--accent, #058075)
     --_tone-text: var(--accent-text, var(--accent, #058075))
+    --_fill: var(--accent-fill, var(--accent, #058075))
   &.btn--neutral
     --_tone: var(--neutral, #64748b)
     --_tone-text: var(--_tone)
+    --_fill: var(--neutral-fill, var(--neutral, #64748b))
   &.btn--danger
-    --_tone: var(--danger, #ef4444)
+    --_tone: var(--danger, #b91c1c)
     --_tone-text: var(--_tone)
+    --_fill: var(--danger-fill, var(--danger, #b91c1c))
 
   /* ===== variantes ===== */
+  /* texto branco sobre --_fill (≥ 4,5:1); o hover escurece, não clareia */
   &.btn--solid
-    background: var(--_tone)
+    background: var(--_fill)
     color: #fff
     border-color: transparent
     &:hover
-      background: color-mix(in srgb, var(--_tone) 88%, white)
+      background: color-mix(in srgb, var(--_fill) 85%, black)
     &:focus-visible
       outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
       outline-offset: 2px
@@ -83,7 +87,8 @@ button[appButton], a[appButton]
     color: var(--_tone-text, var(--_tone))
     border-color: color-mix(in srgb, var(--_tone-text, var(--_tone)) 55%, transparent)
     &:hover
-      background: color-mix(in srgb, var(--_tone) 12%, transparent)
+      background: color-mix(in srgb, var(--_tone) 8%, transparent)
+      color: color-mix(in srgb, var(--_tone-text, var(--_tone)) 80%, var(--fg, #14171a))
     &:focus-visible
       outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
       outline-offset: 2px
@@ -93,7 +98,8 @@ button[appButton], a[appButton]
     color: var(--_tone-text, var(--_tone))
     border-color: var(--_tone-text, var(--_tone))
     &:hover
-      background: color-mix(in srgb, var(--_tone) 10%, transparent)
+      background: color-mix(in srgb, var(--_tone) 8%, transparent)
+      color: color-mix(in srgb, var(--_tone-text, var(--_tone)) 80%, var(--fg, #14171a))
     &:focus-visible
       outline: 2px solid color-mix(in srgb, var(--_tone) 55%, white)
       outline-offset: 2px
@@ -110,11 +116,11 @@ button[appButton], a[appButton]
       outline-offset: 2px
     /* se pedir "accent" no pill, vira um chip acentuado */
     &.btn--accent
-      background: var(--accent, #058075)
+      background: var(--accent-fill, var(--accent, #058075))
       color: #fff
       border-color: transparent
       &:hover
-        background: color-mix(in srgb, var(--accent, #058075) 88%, white)
+        background: color-mix(in srgb, var(--accent-fill, var(--accent, #058075)) 85%, black)
 
   &.btn--link
     background: transparent

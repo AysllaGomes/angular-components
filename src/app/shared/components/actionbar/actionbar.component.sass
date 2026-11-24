@@ -108,7 +108,7 @@
   --_ring: color-mix(in srgb, var(--accent, #058075) 55%, white)
   appearance: none
   border: 1px solid transparent
-  background: var(--accent, #058075)
+  background: var(--accent-fill, var(--accent, #058075))
   color: #fff
   padding: .65rem 1.05rem
   min-width: 120px
@@ -116,17 +116,18 @@
   font-weight: 700
   cursor: pointer
   &:hover
-    background: color-mix(in srgb, var(--accent, #058075) 88%, white)
+    background: color-mix(in srgb, var(--accent-fill, var(--accent, #058075)) 85%, black)
   &:focus-visible
     outline: 2px solid var(--_ring)
     outline-offset: 2px
 
 .btn--ghost
   background: transparent
-  color: var(--accent, #058075)
+  color: var(--accent-text, var(--accent, #058075))
   border-color: color-mix(in srgb, var(--accent, #058075) 55%, transparent)
   &:hover
-    background: color-mix(in srgb, var(--accent, #058075) 12%, transparent)
+    background: color-mix(in srgb, var(--accent, #058075) 8%, transparent)
+    color: color-mix(in srgb, var(--accent-text, var(--accent, #058075)) 80%, var(--fg, #14171a))
 
 /* Mobile: ações em coluna (botões cheios de largura) */
 @media (max-width: 480px)

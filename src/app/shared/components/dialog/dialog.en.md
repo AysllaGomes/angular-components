@@ -6,7 +6,7 @@ Accessible, lightweight modal for confirmations and small forms. Built with **An
 
 - **File:** `src/app/shared/components/dialog/dialog.component.ts`  
 - **Styles:** `src/app/shared/components/dialog/dialog.component.sass`  
-- **Theme:** uses CSS custom properties and inherits the global `--accent`.
+- **Theme:** uses CSS custom properties and inherits the global `--accent`. Actions use `--accent-fill` (primary background, white text) and `--accent-text` (secondary text), to keep 4.5:1 with any accent color.
 
 ---
 
@@ -39,7 +39,7 @@ To use the Dialog in another Angular project, copy into a `shared/` folder **kee
 | Helper files | `a11y/modal-session.ts` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~716 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/common`, `@angular/core`. In total: 7 files, ~717 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage

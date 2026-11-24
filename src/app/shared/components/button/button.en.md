@@ -38,7 +38,7 @@ Global styles: add to your project's `styles.sass` (or `styles.scss`):
 @use '<your-folder>/shared/components/button/button' as *
 ```
 
-Depends only on `@angular/core`. In total: 3 files, ~276 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`. In total: 3 files, ~282 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Usage
@@ -71,6 +71,7 @@ The variant can go in the attribute itself (`appButton="ghost"`) or in `variant`
 
 - It is still the native `<button>` or `<a>`: Enter and Space, form submission and navigation work with nothing extra.
 - `busy` and `disabled` block clicks. On `<button>` they become the `disabled` attribute; on `<a>`, which has no `disabled`, they become `aria-disabled="true"` and `tabindex="-1"`. On `<a>` the click is stopped before any other handler on the element: neither your `(click)` nor `routerLink` runs.
+- **Contrast** (≥ 4.5:1, hover included): `solid` uses white text on `--accent-fill`, `--neutral-fill` or `--danger-fill`, which the theme darkens when the accent is too light (e.g. orange); hover **darkens** the background. `outline`, `ghost` and `link` use `--accent-text`, and on hover the text moves toward `--fg`. Without the theme, the default values already pass.
 - `busy` sets `aria-busy="true"`; the button text stays there for screen readers.
 - Focus ring (`:focus-visible`) in the theme accent color, on keyboard focus only.
 - An icon-only button (`iconOnly`) has no visible text: name it with `aria-label` or with the [Tooltip](../tooltip/tooltip.en.md) (`tooltipAsLabel`).

@@ -19,6 +19,9 @@
   --accent: #058075
   /* destaque usado como TEXTO/BORDA sobre a superfície (no escuro fica mais claro p/ contraste) */
   --accent-text: var(--accent)
+  /* fundo com texto branco (botão sólido, página atual...): ≥ 4,5:1; igual ao --accent quando ele já passa */
+  --accent-fill: var(--accent)
+  --accent-fill-hover: color-mix(in srgb, var(--accent-fill) 85%, black)
 
   /* Stepper herda do accent */
   --stepper-color-active: var(--accent)
@@ -27,7 +30,7 @@
 
   /* Table/Pagination/Toast usando accent */
   --tbl-action: var(--accent-text)
-  --pg-active-bg: var(--accent)
+  --pg-active-bg: var(--accent-fill)
   --pg-active-fg: #ffffff
   --pg-page-bg: #f2f4f7
   --pg-ghost-bg: #eeeeee
@@ -138,6 +141,9 @@
   /* Button */
   --neutral: #64748b           /* slate-500 */
   --danger:  #b91c1c           /* vermelho dos erros: 6,5:1 no branco (AA) */
+  /* fundos com texto branco (botão sólido neutral/danger) */
+  --neutral-fill: var(--neutral)
+  --danger-fill: var(--danger)
 
   /* Checkbox (app-checkbox / app-checkbox-mark) */
   --cb-size: 20px
@@ -245,6 +251,9 @@
   /* Button */
   --neutral: #94a3b8           /* slate-400 em dark */
   --danger:  #f87171
+  /* no escuro o neutral/danger de texto é claro: com texto branco por cima, o fundo precisa ser outro */
+  --neutral-fill: #475569      /* 7,6:1 com branco */
+  --danger-fill: #b91c1c       /* 6,5:1 com branco */
 
   /* Checkbox (escuro) */
   --cb-border: #8a94a3
@@ -253,7 +262,7 @@
   --cb-disabled-checked-bg: #3a3f4b
 
   /* paginação (dark) */
-  --pg-active-bg: var(--accent)
+  --pg-active-bg: var(--accent-fill)
   --pg-active-fg: #ffffff
   /* se preferir mais escuro, pode usar #111 */
   --pg-page-bg: #1f2937
@@ -270,6 +279,11 @@
 
 :root[data-accent="orange"]
   --accent: #D17A30
+  /* o laranja é claro demais para texto branco (3,2:1) e para texto no fundo claro */
+  --accent-fill: #A85A17
+
+:root[data-accent="orange"]:not([data-theme="dark"])
+  --accent-text: #A85A17
 
 :root[data-accent="violet"]
   --accent: #6D5BD0

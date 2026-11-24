@@ -68,7 +68,8 @@
   color: var(--dlg-close, var(--muted, #5f6a75))
   cursor: pointer
   &:hover
-    background: color-mix(in srgb, var(--accent, #058075) 12%, transparent)
+    background: color-mix(in srgb, var(--accent, #058075) 8%, transparent)
+    color: color-mix(in srgb, var(--accent-text, var(--accent, #058075)) 80%, var(--fg, #14171a))
   &:focus-visible
     outline: 2px solid color-mix(in srgb, var(--accent, #058075) 55%, white)
     outline-offset: 2px
@@ -98,21 +99,21 @@
 .btn
   appearance: none
   border: 1px solid transparent
-  background: var(--accent, #058075)
+  background: var(--accent-fill, var(--accent, #058075))
   color: #fff
   padding: .6rem 1rem
   border-radius: .6rem
   font-weight: 700
   cursor: pointer
   &:hover
-    background: color-mix(in srgb, var(--accent, #058075) 88%, white)
+    background: color-mix(in srgb, var(--accent-fill, var(--accent, #058075)) 85%, black)
   &:focus-visible
     outline: 2px solid color-mix(in srgb, var(--accent, #058075) 55%, white)
     outline-offset: 2px
 
 .btn--ghost
   background: transparent
-  color: var(--accent, #058075)
+  color: var(--accent-text, var(--accent, #058075))
   border-color: color-mix(in srgb, var(--accent, #058075) 55%, transparent)
   border-width: 1px
   border-style: solid
