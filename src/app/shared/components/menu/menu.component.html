@@ -1,0 +1,17 @@
+<div
+  #panel
+  class="menu"
+  role="menu"
+  tabindex="-1"
+  [id]="id"
+  [hidden]="!isOpen()"
+  [attr.aria-label]="label() || null"
+  [attr.aria-labelledby]="label() ? null : trigger?.id"
+  [attr.data-placement]="actualPlacement()"
+  [style.top.px]="top()"
+  [style.left.px]="left()"
+  [style.max-height.px]="maxHeight()"
+  (keydown)="onKeydown($event)"
+  (focusout)="onFocusOut($event)">
+  <ng-content />
+</div>

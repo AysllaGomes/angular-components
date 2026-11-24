@@ -22,6 +22,7 @@ import { RadioGroupComponent } from './radio/radio-group.component';
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import { FormFieldComponent } from './form-field/form-field.component';
 import { AutosizeDirective } from './form-field/autosize.directive';
+import { MENU_IMPORTS } from './menu';
 import { MaskDirective } from '../forms/mask.directive';
 import { ActionBarComponent } from './actionbar/actionbar.component';
 import { PaginationComponent } from './pagination/pagination.component';
@@ -53,7 +54,7 @@ interface Row { id: string; nome: string; tipo: string; }
 
 @Component({
   imports: [
-    ButtonDirective, CheckboxComponent, CheckboxGroupComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, AutosizeDirective, MaskDirective, SelectComponent, TreeSelectComponent, StepperComponent,
+    ButtonDirective, CheckboxComponent, CheckboxGroupComponent, RadioGroupComponent, SwitchComponent, FormFieldComponent, AutosizeDirective, MaskDirective, ...MENU_IMPORTS, SelectComponent, TreeSelectComponent, StepperComponent,
     TableComponent, PaginationComponent, DialogComponent, ActionBarComponent, ToastContainerComponent, ...TABS_IMPORTS, TooltipDirective,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -80,6 +81,22 @@ interface Row { id: string; nome: string; tipo: string; }
         <app-form-field label="Nome" required hint="Como no documento"><input></app-form-field>
         <app-form-field label="CPF" error="CPF inválido"><input appMask="cpf"></app-form-field>
         <app-form-field label="Obs."><textarea></textarea></app-form-field>
+      </section>
+
+      <!-- Menu: botão com texto e só com ícone (nomeado), item desabilitado, separador, perigo -->
+      <section id="menu">
+        <button type="button" [appMenuTrigger]="acoes">Ações</button>
+        <app-menu #acoes>
+          <button appMenuItem>Editar</button>
+          <a appMenuItem href="#pedido">Abrir o pedido</a>
+          <button appMenuItem disabled>Mover</button>
+          <hr appMenuSeparator>
+          <button appMenuItem tone="danger">Excluir</button>
+        </app-menu>
+        <button type="button" aria-label="Mais ações do pedido 1042" [appMenuTrigger]="mais">⋮</button>
+        <app-menu #mais label="Ações do pedido 1042" placement="bottom-end">
+          <button appMenuItem>Copiar número</button>
+        </app-menu>
       </section>
 
       <!-- Campo de texto: contador, prefixo/sufixo, senha, textarea que cresce -->
@@ -234,6 +251,16 @@ describe('Acessibilidade (axe-core)', () => {
   it('Radio group (obrigatório, horizontal com erro, desabilitado)', async () => { await expectNoA11yViolations(section('radio'), { component: 'radio', state: { pt: 'obrigatório, horizontal com erro e desabilitado', en: 'required, horizontal with error and disabled' } }); });
 
   it('Switch (ligado, rótulo antes, desabilitado, só aria-label)', async () => { await expectNoA11yViolations(section('switch'), { component: 'switch', state: { pt: 'ligado, rótulo antes, desabilitado e só aria-label', en: 'on, label first, disabled and aria-label only' } }); });
+
+  it('Menu (fechado e aberto)', async () => {
+    const scope = section('menu');
+    await expectNoA11yViolations(scope, { component: 'menu', state: { pt: 'fechado', en: 'closed' } });
+    scope.querySelector<HTMLButtonElement>('button')!.click();
+    await new Promise(r => setTimeout(r));
+    await fixture.whenStable();
+    expect(scope.querySelector('[role="menu"]:not([hidden])')).not.toBeNull();
+    await expectNoA11yViolations(scope, { component: 'menu', state: { pt: 'aberto, com item desabilitado, separador e item de perigo', en: 'open, with a disabled item, a separator and a danger item' } });
+  });
 
   it('Campo de texto (prefixo/sufixo, senha visível e oculta, contador, textarea que cresce)', async () => {
     const scope = section('textfield');

@@ -47,6 +47,7 @@ export default defineConfig([
   {
     files: ['**/*.html'],
     extends: [angular.configs.templateRecommended, angular.configs.templateAccessibility],
+    linterOptions: { reportUnusedDisableDirectives: 'error' },
   },
 
   // scripts de build/CI (Node)
