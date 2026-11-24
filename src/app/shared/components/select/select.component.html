@@ -1,10 +1,11 @@
 <div class="field" [class.is-disabled]="isDisabled()" [class.is-error]="hasError()">
-  <label class="label">
+  <!-- não é <label>: o controle é um botão, nomeado pelo aria-labelledby -->
+  <div class="label">
     <span [id]="labelId">{{ label() }}</span>
     @if (required()) {
       <span class="req">{{ requiredLabel() }}</span>
     }
-  </label>
+  </div>
 
   <!-- grupo do controle + clear -->
   <div class="control-wrap">
@@ -41,10 +42,12 @@
 
   <!-- backdrop só no modo sheet -->
   @if (open() && sheet()) {
+    <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- fundo: o clique é atalho de mouse; no teclado, Esc fecha -->
     <div class="backdrop" (click)="closeAndFocus()"></div>
   }
 
   @if (open()) {
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -- contêiner: recebe as teclas do filtro e da lista, que são os focáveis -->
     <div
       #panel
       class="panel"
@@ -106,6 +109,7 @@
     <div class="sr-only" role="status">{{ noOptions() ? emptyMessage() : '' }}</div>
 
     <ng-template #optionTpl let-p>
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- opção de listbox: o foco fica na lista (aria-activedescendant), e as setas/Enter escolhem -->
       <div
         class="option"
         [id]="optionId(p.fi)"
