@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.0](https://github.com/AysllaGomes/angular-components/compare/v3.9.0...v3.10.0) (2026-11-24)
+### Features
+- **table:** o tipo das chaves da seleção agora vem do `rowKey`, sem escrever
+  genéricos: `selected`, `selectedChange`, `bulkAction` e as funções de
+  `TableBulkAction` usam o tipo da propriedade (`rowKey="id"` → `T['id']`), o
+  retorno da função de `rowKey`, ou `number` (índices) sem `rowKey`; antes eram
+  `any[]`, e um handler com tipo errado agora é erro de compilação:
+  - pode revelar erros de tipo que estavam escondidos (ex.: `signal<number[]>`
+    ligado a um `rowKey` cuja propriedade é texto);
+  - no `appBulkActions`, `keys` continua `any[]` (o template não enxerga os
+    tipos da tabela).
+- **demo:** confirmação a partir da ActionBar: "Excluir pedido" no painel abre
+  um Dialog de confirmação por cima dele.
+
+### Correções
+- **dialog, actionbar:** um modal aberto sobre outro (um Dialog de confirmação a
+  partir de uma ActionBar, ou o contrário):
+  - o de cima não podia ser usado: o de baixo deixa `inert` tudo fora dele,
+    inclusive o de cima quando é irmão, que ficava sem foco nem clique; agora
+    ele é reativado enquanto está aberto e volta a ser fundo ao fechar;
+  - um `Esc` fechava os dois; agora só o modal de cima responde a `Esc` e
+    `Tab`, um por vez, de cima para baixo;
+  - o `Esc` que fecha um Select ou TreeSelect aberto dentro de um modal não
+    fecha mais o modal junto;
+  - o `Tab` traz de volta o foco que estiver fora do modal e pula elementos
+    `inert`, `hidden` e desabilitados; o focus trap, duplicado no Dialog e na
+    ActionBar, passou para a `ModalSession`.
+
+### Interno
+- **test:** testes de navegador com Playwright (`npm run e2e`), no CI e antes
+  de cada deploy, no site servido como o GitHub Pages serve (sob
+  `/angular-components/`, e sem o app fora dele, como o GitHub faz): navegação
+  entre páginas de componente, página 404, Select sem resultado, foco e `inert`
+  do Dialog, Dialog sobre ActionBar. Conferido que falham com o bug do link da
+  3.8.1 e o de `inert` acima de volta.
+
 ## [3.9.0](https://github.com/AysllaGomes/angular-components/compare/v3.8.1...v3.9.0) (2026-11-24)
 ### Features
 - **select:** busca sem resultado agora avisa: o painel mostra `emptyMessage` e

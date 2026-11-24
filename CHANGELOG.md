@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.10.0](https://github.com/AysllaGomes/angular-components/compare/v3.9.0...v3.10.0) (2026-11-24)
+
+### Features
+
+* **table:** the type of the selection keys now comes from `rowKey`, without writing generics: `selected`, `selectedChange`, `bulkAction` and the `TableBulkAction` functions use the property type (`rowKey="id"` → `T['id']`), what the `rowKey` function returns, or `number` (indices) without `rowKey`; they used to be `any[]`, so a handler with the wrong type is now a compile error ([Key type](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/table/table.en.md#key-type)) ([42c2651](https://github.com/AysllaGomes/angular-components/commit/42c2651))
+  * may surface type errors that were hidden before (e.g. `signal<number[]>` bound to a `rowKey` whose property is a string)
+  * `appBulkActions` still gives `keys` as `any[]` (a template cannot see the table's types)
+* **demo:** confirmation from an action bar: "Delete order" in the panel opens a confirmation Dialog over it ([39537b0](https://github.com/AysllaGomes/angular-components/commit/39537b0))
+
+### Bug Fixes
+
+* **dialog, actionbar:** a modal opened over another one (a confirmation Dialog from an ActionBar, or the other way around) ([docs](https://github.com/AysllaGomes/angular-components/blob/main/src/app/shared/components/dialog/dialog.en.md)) ([2df42ee](https://github.com/AysllaGomes/angular-components/commit/2df42ee))
+  * the top one could not be used: the one below makes everything outside it `inert`, including the top one when it is a sibling, so it got no focus or clicks; it now comes back to life while it is open, and goes back to being background when it closes
+  * one `Esc` closed both; now only the top modal answers `Esc` and `Tab`, one per press, top to bottom
+  * an `Esc` that closes a Select or TreeSelect open inside a modal no longer closes the modal too
+  * `Tab` brings focus back in when it is outside the modal, and skips `inert`, `hidden` and disabled elements; the focus trap, duplicated in Dialog and ActionBar, now lives in `ModalSession`
+
+### Internal
+
+* **test:** browser tests with [Playwright](https://playwright.dev) (`npm run e2e`), in CI and before every deploy, on the site served the way GitHub Pages serves it (under `/angular-components/`, and without the app outside it, as GitHub does): navigation between component pages, 404 page, Select search with no match, Dialog focus and `inert`, Dialog over an ActionBar. Checked that they fail with the 3.8.1 link bug and the `inert` bug above put back ([1ef28f4](https://github.com/AysllaGomes/angular-components/commit/1ef28f4))
+
 ## [3.9.0](https://github.com/AysllaGomes/angular-components/compare/v3.8.1...v3.9.0) (2026-11-24)
 
 ### Features
