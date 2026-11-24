@@ -199,6 +199,13 @@ export class TreeSelectComponent<T = unknown> implements AfterViewInit, OnDestro
   readonly labelId = `${this.id}-label`;
   readonly valueId = `${this.id}-value`;
   readonly treeId = `${this.id}-tree`;
+  readonly hintId = `${this.id}-hint`;
+  readonly errorId = `${this.id}-error`;
+  /** o controle aponta para a mensagem visível: o erro, senão a dica */
+  readonly describedBy = computed(() => this.displayError() ? this.errorId : this.hint() ? this.hintId : null);
+  /** região "status": carregando/erro ao carregar ou, numa busca sem resultado, a mensagem de vazio */
+  readonly liveText = computed(() =>
+    this.liveMessage() || (this.open() && this.filter().trim() && !this.rows().length ? this.emptyMessage() : ''));
   rowId(key: string) { return `${this.id}-n-${this.index().get(key)?.num ?? key}`; }
   readonly activeId = computed(() => this.activeKey() !== null && this.activeIndex() >= 0 ? this.rowId(this.activeKey()!) : null);
 

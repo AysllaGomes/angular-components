@@ -48,7 +48,7 @@ Para usar o TreeSelect em outro projeto Angular, copie para dentro de uma pasta 
 | Componentes que ele usa | `components/checkbox/` |
 | Textos padrão | `labels/` ([Textos dos componentes](../../labels/labels.md)) |
 
-Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 12 arquivos, ~1593 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
+Depende só de `@angular/core`, `@angular/forms`, `rxjs`. Ao todo: 12 arquivos, ~1605 linhas. As variáveis CSS têm valor padrão: o visual funciona sem o tema deste projeto, que continua podendo sobrescrevê-las.
 <!-- copy:end -->
 
 ## Dados
@@ -191,6 +191,8 @@ O painel segue o **padrão WAI-ARIA de árvore** (`role="tree"`, `treeitem` com 
 - `single`: o nó escolhido tem `aria-selected="true"`. `checkbox`: cada nó tem `aria-checked` (`true`/`false`/`mixed`); a caixa visual é só decoração.
 - Os chips são lidos como lista ("Ver pedidos, Relatórios, +1").
 - Carregando filhos: `aria-busy` na linha e anúncio numa região `role="status"` (também para o erro).
+- Busca sem resultado: a mesma região anuncia `emptyMessage`, sem tirar o foco da busca.
+- Dica e erro: o campo aponta para a mensagem que está na tela (`aria-describedby`): o erro, quando há, senão a dica.
 - Clique fora fecha.
 
 ---

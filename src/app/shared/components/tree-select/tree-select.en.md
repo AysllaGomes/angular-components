@@ -48,7 +48,7 @@ To use the TreeSelect in another Angular project, copy into a `shared/` folder *
 | Components it uses | `components/checkbox/` |
 | Default texts | `labels/` ([Component texts](../../labels/labels.en.md)) |
 
-Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 12 files, ~1593 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
+Depends only on `@angular/core`, `@angular/forms`, `rxjs`. In total: 12 files, ~1605 lines. CSS variables have defaults: the look works without this project's theme, which can still override them.
 <!-- copy:end -->
 
 ## Data
@@ -191,6 +191,8 @@ The panel follows the **WAI-ARIA tree pattern** (`role="tree"`, `treeitem` with 
 - `single`: the picked node has `aria-selected="true"`. `checkbox`: each node has `aria-checked` (`true`/`false`/`mixed`); the visual box is decoration only.
 - Chips are read as a list ("View orders, Reports, +1").
 - Loading children: `aria-busy` on the row and an announcement in a `role="status"` region (also for errors).
+- Search with no match: the same region announces `emptyMessage`, without moving focus from the search.
+- Hint and error: the field points to the message on screen (`aria-describedby`): the error when there is one, otherwise the hint.
 - Clicking outside closes it.
 
 ---

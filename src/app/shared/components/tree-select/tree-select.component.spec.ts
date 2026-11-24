@@ -329,3 +329,73 @@ describe('TreeSelectComponent with forms', () => {
     expect(el.querySelector<HTMLButtonElement>('button.control')!.disabled).toBe(true);
   });
 });
+
+@Component({
+  imports: [TreeSelectComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <app-tree-select label="Local" responsive="menu" [filterable]="true" [nodes]="nodes"
+      [hint]="hint()" [error]="error()" />
+  `
+})
+class MessagesHostComponent {
+  nodes = TREE;
+  hint = signal<string | null>('Cidade ou estado');
+  error = signal<string | null>(null);
+}
+
+describe('TreeSelectComponent: messages for assistive technology', () => {
+  let fixture: ComponentFixture<MessagesHostComponent>;
+  let host: MessagesHostComponent;
+  let el: HTMLElement;
+  const control = () => el.querySelector<HTMLButtonElement>('button.control')!;
+  const describedText = () => {
+    const id = control().getAttribute('aria-describedby');
+    return id ? el.querySelector('#' + id)?.textContent?.trim() : null;
+  };
+  const status = () => el.querySelector('[role="status"]')!.textContent!.trim();
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MessagesHostComponent],
+      providers: [provideZonelessChangeDetection(), provideUiLabels(UI_LABELS_PT)]
+    }).compileComponents();
+    fixture = TestBed.createComponent(MessagesHostComponent);
+    host = fixture.componentInstance;
+    el = fixture.nativeElement;
+    await fixture.whenStable();
+  });
+
+  it('the control is described by the message on screen: the hint, then the error instead', async () => {
+    expect(describedText()).toBe('Cidade ou estado');
+
+    host.error.set('Escolha um local');
+    await fixture.whenStable();
+    expect(describedText()).toBe('Escolha um local');
+
+    host.error.set(null);
+    host.hint.set(null);
+    await fixture.whenStable();
+    expect(control().hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('a search with no match is announced in the status region', async () => {
+    control().click();
+    await new Promise(r => setTimeout(r));
+    await fixture.whenStable();
+    const input = el.querySelector<HTMLInputElement>('.filter input')!;
+    const search = async (q: string) => {
+      input.value = q;
+      input.dispatchEvent(new Event('input'));
+      await fixture.whenStable();
+    };
+
+    await search('Tóquio');
+    expect(el.querySelectorAll('[role="treeitem"]').length).toBe(0);
+    expect(status()).toBe(el.querySelector('.tree .empty')!.textContent!.trim());
+    expect(status()).not.toBe('');
+
+    await search('Santos');
+    expect(status()).toBe('');
+  });
+});

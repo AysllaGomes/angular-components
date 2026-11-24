@@ -19,6 +19,7 @@
       [attr.aria-labelledby]="labelId + ' ' + valueId"
       [attr.aria-invalid]="hasError() || null"
       [attr.aria-required]="required() || null"
+      [attr.aria-describedby]="describedBy()"
       [disabled]="isDisabled()"
       (click)="toggle()"
       (keydown)="onButtonKeydown($event)"
@@ -125,13 +126,13 @@
   }
 
   </div>
-  <!-- carregando / erro ao carregar, para leitor de tela -->
-  <div class="sr-only" role="status" aria-live="polite">{{ liveMessage() }}</div>
+  <!-- carregando / erro ao carregar / busca sem resultado, para leitor de tela -->
+  <div class="sr-only" role="status" aria-live="polite">{{ liveText() }}</div>
 
   @if (!displayError() && hint()) {
-    <div class="hint">{{ hint() }}</div>
+    <div class="hint" [id]="hintId">{{ hint() }}</div>
   }
   @if (displayError()) {
-    <div class="error">{{ displayError() }}</div>
+    <div class="error" [id]="errorId">{{ displayError() }}</div>
   }
 </div>
